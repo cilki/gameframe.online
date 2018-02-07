@@ -1,3 +1,5 @@
 
 # Don't track node_modules
 node_modules/
+
+static/bundle.js
