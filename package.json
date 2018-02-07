@@ -4,6 +4,9 @@
   "private": true,
   "description": "CS373 IDB Project",
   "main": "index.js",
+  "scripts": {
+    "build": "webpack --progress --colors"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/cilki/gameframe.online.git"
@@ -17,9 +20,13 @@
   },
   "homepage": "https://github.com/cilki/gameframe.online#readme",
   "devDependencies": {
+    "babel-core": "^6.26.0",
+    "babel-loader": "^7.1.2",
     "webpack": "^3.10.0"
   },
   "dependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-preset-react": "^6.24.1",
     "react": "^16.2.0",
     "react-dom": "^16.2.0"
   }
