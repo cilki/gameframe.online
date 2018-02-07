@@ -15,5 +15,12 @@
   "bugs": {
     "url": "https://github.com/cilki/gameframe.online/issues"
   },
-  "homepage": "https://github.com/cilki/gameframe.online#readme"
+  "homepage": "https://github.com/cilki/gameframe.online#readme",
+  "devDependencies": {
+    "webpack": "^3.10.0"
+  },
+  "dependencies": {
+    "react": "^16.2.0",
+    "react-dom": "^16.2.0"
+  }
 }
