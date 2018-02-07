@@ -1,0 +1,19 @@
+{
+  "name": "gameframe.online",
+  "version": "1.0.0",
+  "private": true,
+  "description": "CS373 IDB Project",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cilki/gameframe.online.git"
+  },
+  "keywords": [
+    "flask"
+  ],
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/cilki/gameframe.online/issues"
+  },
+  "homepage": "https://github.com/cilki/gameframe.online#readme"
+}
