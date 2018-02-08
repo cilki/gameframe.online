@@ -29,6 +29,7 @@
     "babel-cli": "^6.26.0",
     "babel-preset-react": "^6.24.1",
     "react": "^16.2.0",
+    "react-bootstrap": "^0.32.1",
     "react-dom": "^16.2.0"
   }
 }

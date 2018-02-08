@@ -2,9 +2,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-import Splash from './components/Splash.js';
+import App from './components/App.js';
 
 ReactDOM.render(
-  Splash,
+  <App />,
   document.getElementById('root')
 );
