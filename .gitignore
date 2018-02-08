@@ -3,3 +3,4 @@
 node_modules/
 
 static/bundle.js
+__pycache__
