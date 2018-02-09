@@ -119,7 +119,7 @@ class Video(db.Model):
     games = db.relationship('Game', secondary = game_video, back_populates = "videos")
 
     def __repr__(self):
-        return '<Tweet %r>' % self.name
+        return '<Video %r>' % self.name
 
 class Stream(db.Model):
     stream_id = db.Column(db.Integer, primary_key = True)
@@ -129,4 +129,4 @@ class Stream(db.Model):
     games = db.relationship('Game', secondary = game_stream, back_populates = "streams")
 
     def __repr__(self):
-        return '<Tweet %r>' % self.channel
+        return '<Stream %r>' % self.channel
