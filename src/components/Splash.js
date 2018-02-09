@@ -4,34 +4,76 @@ import React from 'react';
 
 import { Carousel, Image } from 'react-bootstrap'; 
 
+import CarouselItem from './CarouselItem';
+
+const games = [
+	'/static/data/games/PLAYERUNKNOWN\'S BATTLEGROUNDS.json',
+	'/static/data/games/Portal 2.json',
+	'/static/data/games/Rocket League.json',
+	'/static/data/games/TheForest.json'
+];
+
 class SplashPage extends React.Component {
+	constructor() {
+		super();
+
+		this.state = {
+			items: []
+		};
+	}
+
+	componentDidMount() {
+		this.setState({
+			items: games
+		});
+	}
 
 	render() {
 
+		let childComponents = [];
+
+		if (this.state.items) {
+			childComponents = this.state.items.map((url, index) => {
+				return (<CarouselItem url={url} key={index} />);
+			});
+		}
+
 		return (
-			<Carousel>
-			  <Carousel.Item>
-			    <img width={900} height={500} alt="900x500" src="/carousel.png" />
-			    <Carousel.Caption>
-			      <h3>First slide label</h3>
-			      <p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p>
-			    </Carousel.Caption>
-			  </Carousel.Item>
-			  <Carousel.Item>
-			    <img width={900} height={500} alt="900x500" src="/carousel.png" />
-			    <Carousel.Caption>
-			      <h3>Second slide label</h3>
-			      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-			    </Carousel.Caption>
-			  </Carousel.Item>
-			  <Carousel.Item>
-			    <img width={900} height={500} alt="900x500" src="/carousel.png" />
-			    <Carousel.Caption>
-			      <h3>Third slide label</h3>
-			      <p>Praesent commodo cursus magna, vel scelerisque nisl consectetur.</p>
-			    </Carousel.Caption>
-			  </Carousel.Item>
-			</Carousel>
+			<div
+			>
+				<Carousel>
+				  {/*childComponents*/}
+				  <Carousel.Item>
+				    <img width={900} height={500} alt="900x500" src="http:\/\/cdn.akamai.steamstatic.com\/steam\/apps\/578080\/header.jpg?t=1516879634" />
+				    <Carousel.Caption>
+				      <h3>{this.state.name}</h3>
+				      <p>{this.state.short_description}</p>
+				    </Carousel.Caption>
+				  </Carousel.Item>
+				  <Carousel.Item>
+				    <img width={900} height={500} alt="900x500" src="http:\/\/cdn.akamai.steamstatic.com\/steam\/apps\/620\/header.jpg?t=1512411524" />
+				    <Carousel.Caption>
+				      <h3>{this.state.name}</h3>
+				      <p>{this.state.short_description}</p>
+				    </Carousel.Caption>
+				  </Carousel.Item>
+				  <Carousel.Item>
+				    <img width={900} height={500} alt="900x500" src="http://cdn.akamai.steamstatic.com/steam/apps/252950/header.jpg?t=1512003663" />
+				    <Carousel.Caption>
+				      <h3>{this.state.name}</h3>
+				      <p>{this.state.short_description}</p>
+				    </Carousel.Caption>
+				  </Carousel.Item>
+				  <Carousel.Item>
+				    <img width={900} height={500} alt="900x500" src="http:\/\/cdn.akamai.steamstatic.com\/steam\/apps\/242760\/header.jpg?t=1478631950" />
+				    <Carousel.Caption>
+				      <h3>{this.state.name}</h3>
+				      <p>{this.state.short_description}</p>
+				    </Carousel.Caption>
+				  </Carousel.Item>
+				</Carousel>
+
+			</div>
 		);
 	}
 }

@@ -20,13 +20,23 @@ class App extends React.Component {
 	render() {
 		return (
 			<Router>
-				<div>
+				<div style={{
+					display: 'flex'
+				}}>
 					<Banner />
 					<Navbar />
 
-					<div>
+					<div style={{
+						flex: 1,
+						flexDirection: 'vertical'
+					}}>
 						<Route path="/" exact component={Splash} />
+
+						{/* <Route path="/games" component={GameGrid} /> */}
+
 					</div>
+
+				{/* <Footer /> */}
 				</div>
 			</Router>
 		);
