@@ -1,7 +1,4 @@
-"""
-All of the model declarations for Flask-SQL-Alchemy.
-Defines the schema for the SQL Database
-"""
+# This file contains the database schema
 
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
