@@ -14,6 +14,7 @@ import {
 import Navbar from './Navbar';
 import Banner from './Banner';
 import Splash from './Splash';
+import InstanceGrid from './InstanceGrid';
 
 class App extends React.Component {
 
@@ -32,7 +33,7 @@ class App extends React.Component {
 					}}>
 						<Route path="/" exact component={Splash} />
 
-						{/* <Route path="/games" component={GameGrid} /> */}
+						{<Route path="/games" component={InstanceGrid} />}
 
 					</div>
 
