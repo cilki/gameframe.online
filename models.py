@@ -51,6 +51,7 @@ class Game(db.Model):
     release = db.Column(db.Integer, nullable = False)
     image = db.Column(db.Text, nullable = False)
     genre = db.Column(db.String(80), nullable = False)
+    game_link = db.Column(db.Text, nullable = False)
 	
     tweets = db.relationship('Tweet', secondary = game_tweet, back_populates = "games")
     videos = db.relationship('YouTube Video', secondary = game_video, back_populates = "games")
@@ -67,7 +68,9 @@ class Article(db.Model):
     outlet = db.Column(db.String(120), nullable = False)
     author = db.Column(db.String(120), nullable = False)
     timestamp = db.Column(db.DateTime, nullable = False)
+    introduction = db.Column(db.Text, nullable = False)
     image = db.Column(db.Text, nullable = False)
+    article_link = db.Column(db.Text, nullable = False)
 
     games = db.relationship('Game', secondary = game_article, back_populates = "articles")
     developers = db.relationship('Developer', secondary = article_developer, back_populates = "articles")
@@ -82,6 +85,7 @@ class Developer(db.Model):
     country = db.Column(db.String(120), nullable = False)
     logo = db.Column(db.Text, nullable = False)
     foundation = db.Column(db.Integer, nullable = False)
+    developer_link = db.Column(db.Text, nullable = False)
     
     games = db.relationship('Game', secondary = game_developer, back_populates = "developers")
     articles = db.relationship('Article', secondary = article_developer, back_populates = "developers")
@@ -93,9 +97,10 @@ class Developer(db.Model):
 class Tweet(db.Model):
     tweet_id_id = db.Column(db.Integer, primary_key = True)
     twitter_id = db.Column(db.Integer, nullable = False)
-    content = db.Column(db.String(280), nullable = False)
+    content = db.Column(db.Text, nullable = False)
     user = db.Column(db.String(80), nullable = False)
     timestamp = db.Column(db.DateTime, nullable = False)
+    tweet_link = db.Column(db.Text, nullable = False)
 
     games = db.relationship('Game', secondary = game_tweet, back_populates = "tweets")
     developers = db.relationship('Developer', secondary = article_tweet, back_populates = "tweets")
@@ -109,6 +114,7 @@ class Video(db.Model):
     name = db.Column(db.String(120), nullable = False)
     channel = db.Column(db.String(120), nullable = False)
     timestamp = db.Column(db.DateTime, nullable = False)
+    video_link = db.Column(db.Text, nullable = False)
 
     games = db.relationship('Game', secondary = game_video, back_populates = "videos")
 
@@ -118,6 +124,7 @@ class Video(db.Model):
 class Stream(db.Model):
     stream_id = db.Column(db.Integer, primary_key = True)
     channel = db.Column(db.String(120), nullable = False)
+    stream_link = db.Column(db.Text, nullable = False)
 
     games = db.relationship('Game', secondary = game_stream, back_populates = "streams")
 
