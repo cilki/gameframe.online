@@ -4,7 +4,7 @@ import React from 'react';
 
 import { Carousel, Image } from 'react-bootstrap'; 
 
-import CarouselItem from './CarouselItem';
+// import CarouselItem from './CarouselItem';
 
 const games = [
 	'/static/data/games/PLAYERUNKNOWN\'S BATTLEGROUNDS.json',
@@ -29,14 +29,6 @@ class SplashPage extends React.Component {
 	}
 
 	render() {
-
-		let childComponents = [];
-
-		if (this.state.items) {
-			childComponents = this.state.items.map((url, index) => {
-				return (<CarouselItem url={url} key={index} />);
-			});
-		}
 
 		return (
 			<div
