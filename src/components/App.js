@@ -14,8 +14,8 @@ import {
 import Navbar from './Navbar';
 import Banner from './Banner';
 import Splash from './Splash';
-// import InstanceGrid from './InstanceGrid';
-import Footer from './Footer';
+import InstanceGrid from './InstanceGrid';
+//import Footer from './Footer';
 
 class App extends React.Component {
 
@@ -35,12 +35,17 @@ class App extends React.Component {
 						flex: 1
 					}}>
 						<Route path="/" exact component={Splash} />
+					</div>
 
-						{/* <Route path="/games" component={InstanceGrid} /> */}
+					<div style={{
+						display: 'flex',
+						flexDirection: 'vertical'
+					}}>
+						<Route path="/games" component={InstanceGrid} />
 
 					</div>
 
-				<Footer />
+			{/*<Footer />*/}
 				</div>
 			</Router>
 		);
