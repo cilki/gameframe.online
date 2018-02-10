@@ -1,45 +1,9 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
-from sqlalchemy import CheckConstraint
 
 """
 This module defines the model mapping for primary and supporting models.
 """
-
-game_article = db.Table('game_article',
-    db.Column('game_id', db.Integer, db.ForeignKey('game_id'), primary_key = True),
-    db.Column('article_id', db.Integer, db.ForeignKey('article_id'), primary_key = True)
-)
-
-game_developer = db.Table('game_developer',
-    db.Column('game_id', db.Integer, db.ForeignKey('game_id'), primary_key = True),
-    db.Column('developer_id', db.Integer, db.ForeignKey('developer_id'), primary_key = True)
-)
-
-game_tweet = db.Table('game_tweet',
-    db.Column('game_id', db.Integer, db.ForeignKey('game_id'), primary_key = True),
-    db.Column('tweet_id', db.Integer, db.ForeignKey('tweet_id'), primary_key = True)
-)
-
-game_video = db.Table('game_video',
-    db.Column('game_id', db.Integer, db.ForeignKey('game_id'), primary_key = True),
-    db.Column('video_id', db.Integer, db.ForeignKey('video_id'), primary_key = True)
-)
-
-game_stream = db.Table('game_stream',
-    db.Column('game_id', db.Integer, db.ForeignKey('game_id'), primary_key = True),
-    db.Column('stream_id', db.Integer, db.ForeignKey('stream_id'), primary_key = True)
-)
-
-article_developer = db.Table('article_developer',
-    db.Column('article_id', db.Integer, db.ForeignKey('article_id'), primary_key = True),
-    db.Column('developer_id', db.Integer, db.ForeignKey('developer_id'), primary_key = True)
-)
-
-developer_tweet = db.Table('developer_tweet',
-    db.Column('developer_id', db.Integer, db.ForeignKey('developer_id'), primary_key = True)
-    db.Column('tweet_id', db.Integer, db.ForeignKey('tweet_id'), primary_key = True)
-)
 
 class Game(db.Model):
     """
@@ -155,3 +119,40 @@ class Stream(db.Model):
 
     def __repr__(self):
         return '<Stream %r>' % self.channel
+
+# Join tables
+# TODO: investigate: this may be automatic in SQLAlchemy
+game_article = db.Table('game_article',
+    db.Column('game_id', db.Integer, db.ForeignKey('game_id'), primary_key = True),
+    db.Column('article_id', db.Integer, db.ForeignKey('article_id'), primary_key = True)
+)
+
+game_developer = db.Table('game_developer',
+    db.Column('game_id', db.Integer, db.ForeignKey('game_id'), primary_key = True),
+    db.Column('developer_id', db.Integer, db.ForeignKey('developer_id'), primary_key = True)
+)
+
+game_tweet = db.Table('game_tweet',
+    db.Column('game_id', db.Integer, db.ForeignKey('game_id'), primary_key = True),
+    db.Column('tweet_id', db.Integer, db.ForeignKey('tweet_id'), primary_key = True)
+)
+
+game_video = db.Table('game_video',
+    db.Column('game_id', db.Integer, db.ForeignKey('game_id'), primary_key = True),
+    db.Column('video_id', db.Integer, db.ForeignKey('video_id'), primary_key = True)
+)
+
+game_stream = db.Table('game_stream',
+    db.Column('game_id', db.Integer, db.ForeignKey('game_id'), primary_key = True),
+    db.Column('stream_id', db.Integer, db.ForeignKey('stream_id'), primary_key = True)
+)
+
+article_developer = db.Table('article_developer',
+    db.Column('article_id', db.Integer, db.ForeignKey('article_id'), primary_key = True),
+    db.Column('developer_id', db.Integer, db.ForeignKey('developer_id'), primary_key = True)
+)
+
+developer_tweet = db.Table('developer_tweet',
+    db.Column('developer_id', db.Integer, db.ForeignKey('developer_id'), primary_key = True)
+    db.Column('tweet_id', db.Integer, db.ForeignKey('tweet_id'), primary_key = True)
+)
