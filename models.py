@@ -1,8 +1,10 @@
-# This file contains the database schema
-
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import CheckConstraint
+
+"""
+This module defines the model mapping for primary and supporting models.
+"""
 
 db = SQLAlchemy()
 
@@ -42,14 +44,18 @@ developer_tweet = db.Table('developer_tweet',
 )
 
 class Game(db.Model):
+    """
+    One of the three primary models, Game represents a video game.
+    """
+    
     game_id = db.Column(db.Integer, primary_key = True)
     steam_id = db(db.Integer)
-    name = db.Column(db.String(120), unique = True, nullable = False)
+    name = db.Column(db.String(120), nullable = False)
     release = db.Column(db.Integer, nullable = False)
     image = db.Column(db.Text, nullable = False)
     genre = db.Column(db.String(80), nullable = False)
     game_link = db.Column(db.Text, nullable = False)
-	
+
     tweets = db.relationship('Tweet', secondary = game_tweet, back_populates = "games")
     videos = db.relationship('YouTube Video', secondary = game_video, back_populates = "games")
     streams = db.relationship('Twitch Channel', secondary = game_stream, back_populates = "games")
@@ -60,6 +66,11 @@ class Game(db.Model):
         return '<Game %r>' % self.name
 
 class Article(db.Model):
+    """
+    One of the three primary models, Article represents an article related to a
+    Game or Developer.
+    """
+
     article_id = db.Column(db.Integer, primary_key = True)
     title = db.Column(db.String(120), nullable = False)
     outlet = db.Column(db.String(120), nullable = False)
@@ -76,6 +87,10 @@ class Article(db.Model):
         return '<Article %r>' % self.title
 
 class Developer(db.Model):
+    """
+    One of the three primary models, Developer represents a developer/publisher
+    of a Game.
+    """
 
     developer_id = db.Column(db.Integer, primary_key = True)
     name = db.Column(db.String(120), unique = True, nullable = False)
@@ -83,15 +98,20 @@ class Developer(db.Model):
     logo = db.Column(db.Text, nullable = False)
     foundation = db.Column(db.Integer, nullable = False)
     developer_link = db.Column(db.Text, nullable = False)
-    
+
     games = db.relationship('Game', secondary = game_developer, back_populates = "developers")
     articles = db.relationship('Article', secondary = article_developer, back_populates = "developers")
     tweets = db.relationship('Tweet', secondary = developer_tweet, back_populates = "developers")
 
     def __repr__(self):
         return '<Developer %r>' % self.name
-		
+
 class Tweet(db.Model):
+    """
+    One of the supporting models, Tweet represents a tweet related to a Game or
+    Developer.
+    """
+
     tweet_id_id = db.Column(db.Integer, primary_key = True)
     twitter_id = db.Column(db.Integer, nullable = False)
     content = db.Column(db.Text, nullable = False)
@@ -106,6 +126,11 @@ class Tweet(db.Model):
         return '<Tweet %r>' % self.content
 
 class Video(db.Model):
+    """
+    One of the supporting models, Video represents a Youtube video related to a
+    Game or Developer.
+    """
+
     video_id = db.Column(db.Integer, primary_key = True)
     youtube_id = db.Column(db.Integer, nullable = False)
     name = db.Column(db.String(120), nullable = False)
@@ -119,6 +144,11 @@ class Video(db.Model):
         return '<Video %r>' % self.name
 
 class Stream(db.Model):
+    """
+    One of the supporting models, Stream represents a Twitch stream related to a
+    Game or Developer.
+    """
+
     stream_id = db.Column(db.Integer, primary_key = True)
     channel = db.Column(db.String(120), nullable = False)
     stream_link = db.Column(db.Text, nullable = False)
