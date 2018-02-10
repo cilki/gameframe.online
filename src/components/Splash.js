@@ -32,6 +32,10 @@ class SplashPage extends React.Component {
 
 		return (
 			<div
+				style={{
+					height: 'auto',
+					minHeight: '100%'
+				}}
 			>
 				<Carousel>
 				  {/*childComponents*/}
