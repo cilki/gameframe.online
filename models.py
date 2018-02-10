@@ -6,8 +6,6 @@ from sqlalchemy import CheckConstraint
 This module defines the model mapping for primary and supporting models.
 """
 
-db = SQLAlchemy()
-
 game_article = db.Table('game_article',
     db.Column('game_id', db.Integer, db.ForeignKey('game_id'), primary_key = True),
     db.Column('article_id', db.Integer, db.ForeignKey('article_id'), primary_key = True)
@@ -47,9 +45,9 @@ class Game(db.Model):
     """
     One of the three primary models, Game represents a video game.
     """
-    
+
     game_id = db.Column(db.Integer, primary_key = True)
-    steam_id = db(db.Integer)
+    steam_id = db.Column(db.Integer)
     name = db.Column(db.String(120), nullable = False)
     release = db.Column(db.Integer, nullable = False)
     image = db.Column(db.Text, nullable = False)
