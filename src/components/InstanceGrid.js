@@ -39,22 +39,37 @@ class InstanceCard extends React.Component {
     function renderGameCard (coverURL, developer, year, hover) {
       console.log(hover);
       return(
-        <div>
-          <img style={{
-            borderRadius: "10px",
-            maxWidth: "100%",
-            opacity: (hover ? '1.0' : '1.0'),
-            transition: (hover ? 'transform 0.4s' : 'transform 0.4s'),
-            transform: (hover ? 'scale(0.99)' : 'scale(1.0)')
-          }} src={coverURL} />
+        <div style={{
+            overflow: 'hidden',
+            borderRadius: '10px',
+            backgroundColor: 'darkgray',
+            /* For the two ternary statements, the first one applies when the
+             * mouse cursor is over the card, and the second applies when the
+             * mouse moves off of the card. */
+            transition: (hover ? 'transform 0.2s' : 'transform 0.2s'),
+            transform: (hover ? 'scale(0.98)' : 'scale(1.0)')
+        }}>
+          <div style={{
+            overflow: 'hidden'
+          }}>
+            <img style={{
+              maxWidth: "100%",
+              opacity: (hover ? '1.0' : '1.0'),
+              /* For the two ternary statements, the first one applies when the
+               * mouse cursor is over the image, and the second applies when
+               * the mouse moves off of the image. */
+              transition: (hover ? 'transform 1.0s' : 'transform 0.2s'),
+              transform: (hover ? 'scale(1.05)' : 'scale(1.0)')
+            }} src={coverURL} />
+          </div>
           <div style={{
             display: 'flex',
             flexDirection: 'row',
             justifyContent: 'space-around',
-            padding: "0px 10px 0px 0px"
+            padding: "2% 5% 2% 0%"
           }}>
             <div style={{
-              width: '75%',
+              width: '65%',
               postion: 'relative',
               whiteSpace: 'nowrap',
               overflow: 'hidden',
