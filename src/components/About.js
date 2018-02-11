@@ -49,8 +49,8 @@ class AboutPage extends React.Component {
                                 <div style={{
                                     textAlign: 'left'
                                 }}>
-                                    <p><strong>Bio:</strong> </p>
-                                    <p><strong>Responsibilities:</strong> </p>
+                                    <p><strong>Bio:</strong> I&#39;m a 4th year CS/Math major with a passion for server technology, virtualization, and security.</p>
+                                    <p><strong>Responsibilities:</strong> API design, server management, database design, backend programming.</p>
                                     <p><strong>Commits: </strong>{this.state['cilki'][0]}</p>
                                     <p><strong>Issues: </strong>{this.state['cilki'][1]}</p>
                                     <p><strong>Unit Tests: </strong>{this.state['cilki'][2]}</p>
