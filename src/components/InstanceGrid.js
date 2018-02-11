@@ -7,6 +7,69 @@ import {
   Label,
 } from 'react-bootstrap';
 
+class InstanceCard extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      cover: null,
+      title: null,
+      company: null,
+      year: null
+    };
+  }
+
+  render() {
+    /* Produce a 'card' containing a game's cover image and a caption indicating
+     * the developer and publication year. */
+    function renderGameCard (coverURL, developer, year) {
+      return(
+        <div>
+          <img style={{
+            borderRadius: "10px",
+            maxWidth: "100%",
+          }} src={coverURL} />
+          <div style={{
+            display: 'flex',
+            flexDirection: 'row',
+            justifyContent: 'space-around',
+            padding: "0px 10px 0px 0px"
+          }}>
+            <div style={{
+              width: '75%',
+              postion: 'relative',
+              whiteSpace: 'nowrap',
+              overflow: 'hidden',
+              textOverflow: 'ellipsis',
+            }}>
+              <Label>
+                {developer}
+              </Label>
+            </div>
+            <div style={{
+              width: '15%',
+            }}>
+              <Badge>
+                {year}
+              </Badge>
+            </div>
+          </div>
+        </div>
+      );
+    }
+
+    return (
+      <div style={{
+        padding: '10px 10px 10px 10px',
+        /* The below maxWidth property controls how small the card is allowed
+         * to shrink. */
+        maxWidth: '40%'
+      }}>
+        {renderGameCard(this.props.cover, this.props.company, this.props.year)}
+      </div>
+    )
+  }
+}
+
 class InstanceGrid extends React.Component {
 
   render() {
@@ -44,57 +107,6 @@ class InstanceGrid extends React.Component {
     }
     /* END attempt to extract info from JSON files. */
 
-    /* Produce a 'card' containing a game's cover image and a caption indicating
-     * the developer and publication year. */
-    function renderGameCard (coverURL, developer, year) {
-      return(
-        <div  style={{
-          padding: "10px 10px 10px 10px",
-          display: 'block',
-          maxWidth: '40%'
-        }}>
-          <div style={{
-            maxWidth: "100%",
-          }}>
-            <img style={{
-              borderRadius: "10px",
-              maxWidth: "100%",
-              maxHeight: "100%"
-            }} width="100%" src={coverURL} />
-          </div>
-          <div>
-            <div style={{
-              display: 'flex',
-              flexDirection: 'row',
-              justifyContent: 'space-around',
-              padding: "0px 10px 0px 0px"
-            }}>
-              <div style={{
-                width: '75%',
-                postion: 'relative',
-                whiteSpace: 'nowrap',
-                overflow: 'hidden',
-                textOverflow: 'ellipsis',
-              }}>
-                <Label>
-                  {developer}
-                </Label>
-              </div>
-              <div style={{
-                width: '15%',
-              }}>
-                <Badge>
-                  {year}
-                </Badge>
-              </div>
-            </div>
-          </div>
-        </div>
-      );
-    }
-
-
-
     return (
       <div>
         <div  style={{
@@ -103,12 +115,12 @@ class InstanceGrid extends React.Component {
           flexWrap: 'wrap',
           position: 'relative',
           justifyContent: 'space-around',
+          maxWidth: '100%'
         }}>
-
-          {renderGameCard("https:\/\/images.igdb.com\/igdb\/image\/upload\/t_cover_big\/w6kusdugzlssi3yqcbwl.jpg", "Valve Software", "2011") }
-          {renderGameCard("https:\/\/images.igdb.com\/igdb\/image\/upload\/t_cover_big\/lvoic2oakbklg2dytgpa.jpg", "PUBG Corp", "2017") }
-          {renderGameCard("https:\/\/images.igdb.com\/igdb\/image\/upload\/t_cover_big\/taf1unbzsejvvjiicaqk.jpg", "Endnight Games Ltd", "2014") }
-          {renderGameCard("https:\/\/images.igdb.com\/igdb\/image\/upload\/t_cover_big\/edkpgyqgfsxyiby9pyj5.jpg", "Psyonix", "2015") }
+          <InstanceCard cover="https:\/\/images.igdb.com\/igdb\/image\/upload\/t_cover_big\/w6kusdugzlssi3yqcbwl.jpg" company="Valve Software"  year="2011" />
+          <InstanceCard cover="https:\/\/images.igdb.com\/igdb\/image\/upload\/t_cover_big\/lvoic2oakbklg2dytgpa.jpg" company="PUBG Corp" year="2017" />
+          <InstanceCard cover="https:\/\/images.igdb.com\/igdb\/image\/upload\/t_cover_big\/taf1unbzsejvvjiicaqk.jpg" company="Endnight Games Ltd" year="2014" />
+          <InstanceCard cover="https:\/\/images.igdb.com\/igdb\/image\/upload\/t_cover_big\/edkpgyqgfsxyiby9pyj5.jpg" company="Psyonix" year="2015" />
         </div>
       </div>
     );
