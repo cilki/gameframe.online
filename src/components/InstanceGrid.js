@@ -10,23 +10,42 @@ import {
 class InstanceCard extends React.Component {
   constructor(props) {
     super(props);
+    this.mouseEntry = this.mouseEntry.bind(this);
+    this.mouseLeave = this.mouseLeave.bind(this);
     this.state = {
       cover: null,
       title: null,
       company: null,
-      year: null
+      year: null,
+      hover: false
     };
   }
+
+    mouseEntry() {
+      console.log("Hello, ");
+      this.setState({hover: true});
+      console.log(this.state.hover);
+    }
+
+    mouseLeave() {
+      console.log("and goodbye.");
+      this.setState({hover: false});
+      console.log(this.state.hover);
+    }
 
   render() {
     /* Produce a 'card' containing a game's cover image and a caption indicating
      * the developer and publication year. */
-    function renderGameCard (coverURL, developer, year) {
+    function renderGameCard (coverURL, developer, year, hover) {
+      console.log(hover);
       return(
         <div>
           <img style={{
             borderRadius: "10px",
             maxWidth: "100%",
+            opacity: (hover ? '1.0' : '1.0'),
+            transition: (hover ? 'transform 0.4s' : 'transform 0.4s'),
+            transform: (hover ? 'scale(0.99)' : 'scale(1.0)')
           }} src={coverURL} />
           <div style={{
             display: 'flex',
@@ -58,13 +77,13 @@ class InstanceCard extends React.Component {
     }
 
     return (
-      <div style={{
+      <div onMouseEnter={this.mouseEntry} onMouseLeave={this.mouseLeave} style={{
         padding: '10px 10px 10px 10px',
         /* The below maxWidth property controls how small the card is allowed
          * to shrink. */
         maxWidth: '40%'
       }}>
-        {renderGameCard(this.props.cover, this.props.company, this.props.year)}
+        {renderGameCard(this.props.cover, this.props.company, this.props.year, this.state.hover)}
       </div>
     )
   }
