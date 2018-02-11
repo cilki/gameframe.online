@@ -17,7 +17,7 @@ import Splash from './Splash';
 import InstanceGrid from './InstanceGrid';
 import Developers from './Developers';
 import Articles from './Articles';
-//import About from './About';
+import AboutPage from './About';
 //import Footer from './Footer';
 
 class App extends React.Component {
@@ -28,7 +28,6 @@ class App extends React.Component {
 				<div style={{
 					display: 'flex',
 					minHeight: '100%',
-
 					flexDirection: 'column'
 				}}>
 					<Banner />
@@ -39,6 +38,8 @@ class App extends React.Component {
 					}}>
 						<Route path="/" exact component={Splash} />
 					</div>
+
+					<Route path="/about" component={AboutPage} />
 
 					<div style={{
 						display: 'flex',
