@@ -18,7 +18,7 @@ import InstanceGrid from './InstanceGrid';
 import Developers from './Developers';
 import Articles from './Articles';
 import AboutPage from './About';
-//import Footer from './Footer';
+import Footer from './Footer';
 
 class App extends React.Component {
 
@@ -62,7 +62,7 @@ class App extends React.Component {
 						<Route path="/articles" exact component={Articles} />
 					</div>
 
-			{/*<Footer />*/}
+					<Footer />
 				</div>
 			</Router>
 		);
