@@ -68,10 +68,10 @@ class Developers extends React.Component {
           justifyContent: 'space-around',
         }}>
 
-          {renderDeveloperCard("https:\/\/images.igdb.com\/igdb\/image\/upload\/t_cover_big\/w6kusdugzlssi3yqcbwl.jpg", "Valve Software", "2011") }
-          {renderDeveloperCard("https:\/\/images.igdb.com\/igdb\/image\/upload\/t_cover_big\/lvoic2oakbklg2dytgpa.jpg", "PUBG Corp", "2017") }
-          {renderDeveloperCard("https:\/\/images.igdb.com\/igdb\/image\/upload\/t_cover_big\/taf1unbzsejvvjiicaqk.jpg", "Endnight Games Ltd", "2014") }
-          {renderDeveloperCard("https:\/\/images.igdb.com\/igdb\/image\/upload\/t_cover_big\/edkpgyqgfsxyiby9pyj5.jpg", "Psyonix", "2015") }
+          {renderDeveloperCard("https://images.igdb.com/igdb/image/upload/t_logo_med/npiqdrnewkgshegnkca4.png", "Valve Corporation", "1996") }
+          {renderDeveloperCard("https://images.igdb.com/igdb/image/upload/t_logo_med/j6prddiusdbjqdktjzgu.png", "PUBG Corp", "2017") }
+          {renderDeveloperCard("https://www.giantbomb.com/images/1300-2569978", "Endnight Games Ltd", "2014") }
+          {renderDeveloperCard("https://images.igdb.com/igdb/image/upload/t_logo_med/iosg1iatkemmtzdlu3zf.png", "Psyonix", "2000") }
         </div>
       </div>
     );
