@@ -12,12 +12,14 @@ class InstanceCard extends React.Component {
     super(props);
     this.mouseEntry = this.mouseEntry.bind(this);
     this.mouseLeave = this.mouseLeave.bind(this);
+    this.moreInfoTrigger = this.moreInfoTrigger.bind(this);
     this.state = {
       cover: null,
       title: null,
       company: null,
       year: null,
-      hover: false
+      hover: false,
+      clicked: false
     };
   }
 
@@ -29,17 +31,29 @@ class InstanceCard extends React.Component {
       this.setState({hover: false});
     }
 
+    moreInfoTrigger() {
+      /* This is a placeholder for where the logic would probably go for moving
+       * from the current card to its corresponding info page. Right now it
+       * just prints an aleart message with the state information. */
+      this.state.clicked ? this.setState({clicked: false}) :
+                           this.setState({clicked: true});
+      console.log('Placeholder for more information.' + '\nCover = ' +
+            this.props.cover + '\nTitle = ' + this.props.title + '\nCompany = '
+            + this.props.company + '\nYear = ' + this.props.year);
+    }
+
   render() {
-    /* Produce a 'card' containing a game's cover image and a caption indicating
-     * the developer and publication year. */
-    function renderGameCard (coverURL, developer, year, hover) {
+    /* Produce a 'card' containing a game's cover image and a caption
+     * indicating the developer and publication year. */
+    function renderGameCard (coverURL, developer, year, hover, clicked) {
       return(
         <div style={{
             overflow: 'hidden',
             borderRadius: '10px',
             backgroundColor: 'darkgray',
-            transition: (hover ? 'transform 0.2s' : 'transform 0.2s'),
-            transform: (hover ? 'scale(0.98)' : 'scale(1.0)')
+            transition: (hover ? 'transform 0.2s, filter 0.2s' : 'transform 0.2s, filter 0.1s'),
+            transform: (hover ? 'scale(0.98)' : 'scale(1.0)'),
+            filter: (clicked ? 'brightness(0.5) hue-rotate(360deg)' : 'none')
         }}>
           <div style={{
             overflow: 'hidden',
@@ -52,8 +66,8 @@ class InstanceCard extends React.Component {
             <img style={{
               maxWidth: "100%",
               borderRadius: '10px',
-              transition: (hover ? 'transform 1.0s' : 'transform 0.2s'),
-              transform: (hover ? 'scale(1.05)' : 'scale(1.0)')
+              transition: (hover ? 'transform 1.0s, filter 0.2s' : 'transform 0.2s, filter 0.2s'),
+              transform: (hover ? 'scale(1.05)' : 'scale(1.0)'),
             }} src={coverURL} />
           </div>
           <div style={{
@@ -85,14 +99,19 @@ class InstanceCard extends React.Component {
       );
     }
 
+
     return (
-      <div onMouseEnter={this.mouseEntry} onMouseLeave={this.mouseLeave} style={{
-        padding: '10px 10px 10px 10px',
-        /* The below maxWidth property controls how small the card is allowed
-         * to shrink. */
-        maxWidth: '40%'
+      <div onMouseEnter={this.mouseEntry} onMouseLeave={this.mouseLeave}
+           onClick={this.moreInfoTrigger}
+           style={{
+             padding: '10px 10px 10px 10px',
+             /* The below maxWidth property controls how small the card is
+              * allowed to shrink. */
+             maxWidth: '40%'
       }}>
-        {renderGameCard(this.props.cover, this.props.company, this.props.year, this.state.hover)}
+        {renderGameCard(this.props.cover, this.props.company, this.props.year,
+          this.state.hover, this.state.clicked)
+        }
       </div>
     )
   }
@@ -145,10 +164,10 @@ class InstanceGrid extends React.Component {
           justifyContent: 'space-around',
           maxWidth: '100%'
         }}>
-          <InstanceCard cover="https:\/\/images.igdb.com\/igdb\/image\/upload\/t_cover_big\/w6kusdugzlssi3yqcbwl.jpg" company="Valve Software"  year="2011" />
-          <InstanceCard cover="https:\/\/images.igdb.com\/igdb\/image\/upload\/t_cover_big\/lvoic2oakbklg2dytgpa.jpg" company="PUBG Corp" year="2017" />
-          <InstanceCard cover="https:\/\/images.igdb.com\/igdb\/image\/upload\/t_cover_big\/taf1unbzsejvvjiicaqk.jpg" company="Endnight Games Ltd" year="2014" />
-          <InstanceCard cover="https:\/\/images.igdb.com\/igdb\/image\/upload\/t_cover_big\/edkpgyqgfsxyiby9pyj5.jpg" company="Psyonix" year="2015" />
+          <InstanceCard cover='https:\/\/images.igdb.com\/igdb\/image\/upload\/t_cover_big\/w6kusdugzlssi3yqcbwl.jpg' company='Valve Software'  year='2011' title='Portal 2'/>
+          <InstanceCard cover='https:\/\/images.igdb.com\/igdb\/image\/upload\/t_cover_big\/lvoic2oakbklg2dytgpa.jpg' company='PUBG Corp' year='2017' title='PLAYERUNKNOWN&#39;S BATTLEGROUNDS' />
+          <InstanceCard cover='https:\/\/images.igdb.com\/igdb\/image\/upload\/t_cover_big\/taf1unbzsejvvjiicaqk.jpg' company='Endnight Games Ltd' year='2014' title='The Forest'/>
+          <InstanceCard cover='https:\/\/images.igdb.com\/igdb\/image\/upload\/t_cover_big\/edkpgyqgfsxyiby9pyj5.jpg' company='Psyonix' year='2015' title='Rocket League' />
         </div>
       </div>
     );
