@@ -33,7 +33,7 @@ class AboutPage extends React.Component {
                 textAlign: 'center'
             }}>
                 {/*Team Name*/}
-                <PageHeader>GameFrame LLC </PageHeader>
+                <h1>GameFrame LLC </h1>
                 <hr/>
                 {/*Description and/or Explanation*/}
                 <p>
@@ -116,7 +116,7 @@ class AboutPage extends React.Component {
                             </Thumbnail>
                         </Col>
                         <Col md={4}>
-                            <Thumbnail src="">
+                            <Thumbnail src="https://avatars3.githubusercontent.com/u/16373610?s=460&v=4">
                                 <h3>Ekin Soysal</h3>
                                 <div style={{
                                     textAlign: 'left'
@@ -130,17 +130,25 @@ class AboutPage extends React.Component {
                             </Thumbnail>
                         </Col>
                     </Row>
+                    <Row>
+                        {/*Total Stats*/}
+                        <Col md={6}>
+                            <h2><strong>Team Stats</strong></h2>
+                            <p><strong>Commits: </strong>{this.state.total[0]}</p>
+                            <p><strong>Issues: </strong>{this.state.total[1]}</p>
+                            <p><strong>Unit Tests: </strong>{this.state.total[2]}</p>
+                        </Col>
+                        {/*GitHub and GitBook*/}
+                        <Col md={6}>
+                            <h2><strong>Documentation</strong></h2>
+                            <a href="https://github.com/cilki/gameframe.online"><h3>GitHub</h3></a>
+                            <a href="https://www.gitbook.com/book/cilki/technical-report/welcome"><h3>GitBook</h3></a>
+                        </Col>
+                    </Row>
                 </Grid>
                 <hr/>
-                {/*Total Stats*/}
-                <h3><strong>Team Stats</strong></h3>
-                <p><strong>Commits: </strong>{this.state.total[0]}</p>
-                <p><strong>Issues: </strong>{this.state.total[1]}</p>
-                <p><strong>Unit Tests: </strong>{this.state.total[2]}</p>
                 {/*Data*/}
                 {/*Tools*/}
-                {/*GitBook*/}
-                {/*GitHub*/}
             </div>
         );
     }
