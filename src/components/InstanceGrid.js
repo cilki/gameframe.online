@@ -22,42 +22,36 @@ class InstanceCard extends React.Component {
   }
 
     mouseEntry() {
-      console.log("Hello, ");
       this.setState({hover: true});
-      console.log(this.state.hover);
     }
 
     mouseLeave() {
-      console.log("and goodbye.");
       this.setState({hover: false});
-      console.log(this.state.hover);
     }
 
   render() {
     /* Produce a 'card' containing a game's cover image and a caption indicating
      * the developer and publication year. */
     function renderGameCard (coverURL, developer, year, hover) {
-      console.log(hover);
       return(
         <div style={{
             overflow: 'hidden',
             borderRadius: '10px',
             backgroundColor: 'darkgray',
-            /* For the two ternary statements, the first one applies when the
-             * mouse cursor is over the card, and the second applies when the
-             * mouse moves off of the card. */
             transition: (hover ? 'transform 0.2s' : 'transform 0.2s'),
             transform: (hover ? 'scale(0.98)' : 'scale(1.0)')
         }}>
           <div style={{
-            overflow: 'hidden'
+            overflow: 'hidden',
+            borderRadius: '10px',
+            transition: (hover ? 'transform 0.2s' : 'transform 0.2s'),
+            transform: (hover ? 'scale(0.995)' : 'scale(1.0)'),
+            backgroundColor: (hover ? 'gray' : 'darkgray'),
+            margin: 'auto'
           }}>
             <img style={{
               maxWidth: "100%",
-              opacity: (hover ? '1.0' : '1.0'),
-              /* For the two ternary statements, the first one applies when the
-               * mouse cursor is over the image, and the second applies when
-               * the mouse moves off of the image. */
+              borderRadius: '10px',
               transition: (hover ? 'transform 1.0s' : 'transform 0.2s'),
               transform: (hover ? 'scale(1.05)' : 'scale(1.0)')
             }} src={coverURL} />
