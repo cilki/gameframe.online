@@ -1,5 +1,15 @@
+import os
 from flask import Flask, render_template
+
+# Setup Flask
 app = Flask(__name__)
+
+# Configure SQLAlchemy
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ['SQLALCHEMY_URI']
+
+# Initialize database
+from app.orm import db
+db.init_app(app)
 
 @app.route("/")
 def index():
