@@ -88,13 +88,21 @@ class AboutPage extends React.Component {
                     </Row>
                     <Row>
                         <Col md={4}>
-                            <Thumbnail src="">
+                            <Thumbnail src="https://avatars3.githubusercontent.com/u/31491237?s=400&amp;u=62ece19c518a245346f2c939bde8e682654a8cd3&amp;v=4">
                                 <h3>Mitchell Marshe</h3>
                                 <div style={{
                                     textAlign: 'left'
                                 }}>
-                                    <p><strong>Bio:</strong> </p>
-                                    <p><strong>Responsibilities:</strong> </p>
+                                    <p><strong>Bio:</strong> Born in Sparks, Nevada, on August 20, 1993. I moved to Austin, Texas with my family in 2005. 
+									                         For most of my high school career, I focused on the studies of architecture. In 2012, I 
+															 graduated from Stony Point High School and enrolled to Austin Community College where I 
+															 obtained an Associate of General Education in Applied Sciences. Soon after, I enrolled to 
+															 the University of Texas at Austin, where I am currently a Student of Computer Science, Software 
+															 Engineering under Electrical Engineering, and Architectural History. Today, I work hard in my 
+															 endeavors and I am well supported by my family, friends, and colleagues. I give much thanks to 
+															 my loving wife, Kaidence, and our two cats, Socks & Buttercup for their love, encouragement, 
+															 and understanding. </p>
+                                    <p><strong>Responsibilities:</strong> Frontend Developer </p>
                                     <p><strong>Commits: </strong>{this.state['mitchellmarshe'][0]}</p>
                                     <p><strong>Issues: </strong>{this.state['mitchellmarshe'][1]}</p>
                                     <p><strong>Unit Tests: </strong>{this.state['mitchellmarshe'][2]}</p>
