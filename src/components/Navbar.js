@@ -21,13 +21,13 @@ class NavBar extends React.Component {
 			      <NavItem eventKey={1} href="/games">
 			        Games
 			      </NavItem>
-			      <NavItem eventKey={2} href="#">
+			      <NavItem eventKey={2} href="/developers">
 			        Developers
 			      </NavItem>
-				  <NavItem eventKey={3} href="#">
+				  <NavItem eventKey={3} href="/articles">
 			        Articles
 			      </NavItem>
-				  <NavItem eventKey={4} href="#">
+				  <NavItem eventKey={4} href="">
 			        About
 			      </NavItem>
 				</Nav>

@@ -15,6 +15,9 @@ import Navbar from './Navbar';
 import Banner from './Banner';
 import Splash from './Splash';
 import InstanceGrid from './InstanceGrid';
+import Developers from './Developers';
+import Articles from './Articles';
+//import About from './About';
 //import Footer from './Footer';
 
 class App extends React.Component {
@@ -41,8 +44,21 @@ class App extends React.Component {
 						display: 'flex',
 						flexDirection: 'vertical'
 					}}>
-						<Route path="/games" component={InstanceGrid} />
-
+						<Route path="/games" exact component={InstanceGrid} />
+					</div>
+					
+					<div style={{
+						display: 'flex',
+						flexDirection: 'vertical'
+					}}>
+						<Route path="/developers" exact component={Developers} />
+					</div>
+					
+					<div style={{
+						display: 'flex',
+						flexDirection: 'vertical'
+					}}>
+						<Route path="/articles" exact component={Articles} />
 					</div>
 
 			{/*<Footer />*/}
