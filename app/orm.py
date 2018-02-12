@@ -17,7 +17,7 @@ class Game(db.Model):
     release = db.Column(db.Integer)
     image = db.Column(db.Text)
     genre = db.Column(db.String(80))
-	players = db.Column(db.Integer)
+    players = db.Column(db.Integer)
     game_link = db.Column(db.Text)
 
     tweets = db.relationship('Tweet', secondary = 'game_tweet', back_populates = "games")
@@ -61,7 +61,7 @@ class Developer(db.Model):
 
     articles = db.relationship('Article', secondary = 'article_developer', back_populates = "developers")
 
-	games = db.relationship('Game')
+    games = db.relationship('Game')
     tweets = db.relationship('Tweet')
 	
 class Tweet(db.Model):
@@ -79,7 +79,7 @@ class Tweet(db.Model):
 
     games = db.relationship('Game', secondary = 'game_tweet', back_populates = "tweets")
 
-	developer_id = db.Column(Integer, ForeignKey('developer.developer_id'))
+    developer_id = db.Column(Integer, ForeignKey('developer.developer_id'))
 
 class Video(db.Model):
     """
