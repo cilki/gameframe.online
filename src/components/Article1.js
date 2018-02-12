@@ -29,8 +29,8 @@ class Article1 extends React.Component {
 								  the whole thing degenerates into people making nothing but cake-related joke levels, Ill stop again. 
 								  But the time in-between should be fantastic.'
 						 articleURL='https://www.giantbomb.com/articles/portal-2s-perpetual-testing-initiative-launching-m/1100-4107/' article='Click Here!'
-						 gameURL='' game=''
-						 developerURL='' developer=''
+						 gameURL='/Portal2' game='Portal 2'
+						 developerURL='/ValveCorporation' developer='Valve Software'
 				/>
 			</div>
 		);
