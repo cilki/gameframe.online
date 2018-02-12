@@ -15,7 +15,7 @@ import Navbar from './Navbar';
 import Splash from './Splash';
 import Footer from './Footer';
 
-import InstanceGrid from './InstanceGrid';
+import Games from './Games';
 import Portal2 from './Portal2';
 import PLAYERUNKNOWNSBATTLEGROUNDS from './PLAYERUNKNOWNSBATTLEGROUNDS';
 import RocketLeague from './RocketLeague';
@@ -57,7 +57,7 @@ class App extends React.Component {
 						display: 'flex',
 						flexDirection: 'vertical'
 					}}>
-						<Route path="/games" exact component={InstanceGrid} />
+						<Route path="/games" exact component={Games} />
 					</div>
 					
 					<Route path="/Portal2" exact component={Portal2} />

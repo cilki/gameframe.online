@@ -1,24 +1,13 @@
-
 /**
- * Encapsulates a grid component for each model instance page
- * i.e., "/games" or "/developers"
+ * Games page with a grid layout of cards.
  */
 
-var instanceData = require('../../static/data/games/Portal 2.json');
+//var instanceData = require('../../static/data/games/Portal 2.json');
 
 import React from 'react';
-import {
-  Image,
-  Badge,
-  Label,
-} from 'react-bootstrap';
+import Card from './Card';
 
-import InstanceCard from './Card';
-
-/**
- * Grid for keeping together all of the instances of each model
- */
-class InstanceGrid extends React.Component {
+class Games extends React.Component {
 
   render() {
 
@@ -64,14 +53,14 @@ class InstanceGrid extends React.Component {
           justifyContent: 'space-around',
           maxWidth: '100%'
         }}>
-          <InstanceCard url='/Portal2' cover='https:\/\/images.igdb.com\/igdb\/image\/upload\/t_cover_big\/w6kusdugzlssi3yqcbwl.jpg' company='Valve Software'  year='2011' title='Portal 2'/>
-          <InstanceCard url='/PLAYERUNKNOWNSBATTLEGROUNDS' cover='https:\/\/images.igdb.com\/igdb\/image\/upload\/t_cover_big\/lvoic2oakbklg2dytgpa.jpg' company='PUBG Corp' year='2017' title='PLAYERUNKNOWN&#39;S BATTLEGROUNDS' />
-          <InstanceCard url='/TheForest' cover='https:\/\/images.igdb.com\/igdb\/image\/upload\/t_cover_big\/taf1unbzsejvvjiicaqk.jpg' company='Endnight Games Ltd' year='2014' title='The Forest'/>
-          <InstanceCard url='/RocketLeague' cover='https:\/\/images.igdb.com\/igdb\/image\/upload\/t_cover_big\/edkpgyqgfsxyiby9pyj5.jpg' company='Psyonix' year='2015' title='Rocket League' />
+          <Card url='/Portal2' cover='https://images.igdb.com/igdb/image/upload/t_cover_big/w6kusdugzlssi3yqcbwl.jpg' company='Valve Software'  year='2011' title='Portal 2'/>
+          <Card url='/PLAYERUNKNOWNSBATTLEGROUNDS' cover='https://images.igdb.com/igdb/image/upload/t_cover_big/lvoic2oakbklg2dytgpa.jpg' company='PUBG Corp' year='2017' title='PLAYERUNKNOWN&#39;S BATTLEGROUNDS' />
+          <Card url='/TheForest' cover='https://images.igdb.com/igdb/image/upload/t_cover_big/taf1unbzsejvvjiicaqk.jpg' company='Endnight Games Ltd' year='2014' title='The Forest'/>
+          <Card url='/RocketLeague' cover='https://images.igdb.com/igdb/image/upload/t_cover_big/edkpgyqgfsxyiby9pyj5.jpg' company='Psyonix' year='2015' title='Rocket League' />
         </div>
       </div>
     );
   }
 }
 
-export default InstanceGrid;
+export default Games;
