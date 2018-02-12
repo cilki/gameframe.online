@@ -18,7 +18,10 @@ import Footer from './Footer';
 import InstanceGrid from './InstanceGrid';
 
 import Developers from './Developers';
-import ValveCorporation from './ValveCorporation'
+import ValveCorporation from './ValveCorporation';
+import PUBGCorp from './PUBGCorp';
+import Psyonix from './Psyonix';
+import EndnightGamesLtd from './EndnightGamesLtd';
 
 import Articles from './Articles';
 import AboutPage from './About';
@@ -59,6 +62,9 @@ class App extends React.Component {
 					</div>
 					
 					<Route path="/ValveCorporation" exact component={ValveCorporation} />
+					<Route path="/PUBGCorp" exact component={PUBGCorp} />
+					<Route path="/Psyonix" exact component={Psyonix} />
+					<Route path="/EndnightGamesLtd" exact component={EndnightGamesLtd} />
 					
 					<div style={{
 						display: 'flex',

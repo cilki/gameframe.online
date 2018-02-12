@@ -1,23 +1,25 @@
 /**
  * Valve Corporation Page.
+ *
+ * Some information taken from:
+ * https://www.igdb.com/companies/valve-corporation
  */
 
 import React from 'react';
-import Page from './Page';
+import Developer from './Developer';
 
 class ValveCorporation extends React.Component {
 	render() {
 		return (
 			<div>
-				<Page titleField='Developer: ' title='Valve Corporation' 
-					  imageURL='https://images.igdb.com/igdb/image/upload/t_logo_med/npiqdrnewkgshegnkca4.png'
-				      dateField='Established: ' date='1996'
-					  specialField='Country: ' special='USA' 
-					  descriptionField='Description: ' 
-					  description='Not Available.'
-					  modelAField='Games: ' modelAURL='' modelA=''
-					  modelBField='Articles: ' modelBURL='' modelB=''
-					  mediaField='Twitter: ' mediaURL='' media=''
+				<Developer developer='Valve Corporation' 
+					       logoURL='https://images.igdb.com/igdb/image/upload/t_logo_med/npiqdrnewkgshegnkca4.png'
+				           year='1996'
+					       loc='Washington, United States' 
+					       about='Not Available.'
+					       gameURL='' game=''
+					       articleURL='' article=''
+					       twitterURL='' twitter=''
 				/>
 			</div>
 		);

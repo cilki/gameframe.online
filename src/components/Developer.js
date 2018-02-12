@@ -1,46 +1,66 @@
 /**
- * Page is a generic template to show an instance of a model.
+ * Developer is a generic page template for Developers.
  */
 
 import React from 'react';
-import Page from './Page';
 
-class ValveCorporation extends React.Component {
+class Developer extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			titleField: null,       /* Text: */
-				title: null,        /* Text */
-			imageURL: null,         /* http:// */
-			dateField: null,        /* Text: */
-				date: null,         /* #### */
-			specialField: null,     /* Text: */
-				special: null,      /* Text */
-			descriptionField: null, /* Text: */
-				description: null,  /* Text */
-			modelAField: null,      /* Text: */
-				modelAURL: null,    /* http:// */
-			modelBField: null,      /* Text: */
-				modelBURL: null,    /* http:// */
-			mediaField: null,       /* Text: */
-				mediaURL: null      /* http:// */
+			developer: null,  /* Text */
+			logoURL: null,    /* http:// */
+			year: null,       /* Text: */
+			loc: null,    /* Text */
+			about: null,      /* Text */
+			gameURL: null,    /* http:// */
+			game: null,       /* Text */
+			articleURL: null, /* http:// */
+			article: null,    /* Text */
+			twitterURL: null, /* http:// */
+			twitter: null     /* Text */
 		};
 	}
   
 	render() {
+		function renderPage (developer, logoURL, year, loc, about, gameURL, 
+		                     game, articleURL, article, twitterURL, twitter) {
 			return (
-				{renderPage (this.props.titleField, this.props.title, this.props.imageURL, 
-				             this.props.dateField, this.props.date, this.props.specialField, 
-							 this.props.special, this.props.descriptionField, this.props.description,
-							 this.props.modelAField, this.props.modelAURL, this.props.modelA,
-							 this.props.modelBField, this.props.modelBURL, this.props.modelB,
-							 this.props.mediaField, this.props.mediaURL, this.props.media)}
+				<div>
+					<h1> Developer: {developer} </h1>
+					<div>
+						<img src={logoURL} />
+						<div>
+							<h2> Established: {year} </h2>
+							<h2> Location: {loc} </h2>
+							<div>
+								<h2>About: </h2>
+								<p> {about} </p>
+								<div>
+									<h2>Games: </h2>
+									<a href={gameURL}><h3>{game}</h3></a>
+									<div>
+										<h2>Articles: </h2>
+										<a href={articleURL}><h3>{article}</h3></a>
+										<div>
+											<h2>Twitter: </h2>
+											<a href={twitterURL}><h3>{twitter}</h3></a>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
 			);
 		}
 		
 		return (
 			<div>
-				{renderDeveloper ('Developer: ', 'Valve Corporation', 'https://images.igdb.com/igdb/image/upload/t_logo_med/npiqdrnewkgshegnkca4.png', 1996, 'USA', '', 'https://github.com/cilki/gameframe.online')}
+				{renderPage (this.props.developer, this.props.logoURL, this.props.year, 
+				             this.props.loc, this.props.about, this.props.gameURL, 
+							 this.props.game, this.props.articleURL, this.props.article,
+							 this.props.twitterURL, this.props.twitter)}
 			</div>
 		);
 	}
