@@ -18,22 +18,21 @@ import { Card as CardStyles } from '../inline-styles/CardStyles';
  * @param {Bool} clicked - whether this component is in a 'clicked' state
  * @returns {React.Component}
  */
-function renderCard (coverURL, developer, year, hover, clicked) {
+function renderCard (coverURL, developer, year, hover) {
   return(
     <div style={[
       CardStyles.card,
-      hover && CardStyles.card.hover,
-      clicked && CardStyles.card.clicked
-      ]}>
+      hover && CardStyles.card.hover      
+    ]}>
       <div style={[
           CardStyles.imageContainer,
-          hover ? CardStyles.imageContainer.hover : null
+          hover && CardStyles.imageContainer.hover
         ]}
       >
         <img 
           style={[
             CardStyles.image, 
-            hover ? CardStyles.image.hover : null
+            hover && CardStyles.image.hover
           ]} 
           src={coverURL} 
         />
@@ -69,8 +68,7 @@ class Card extends React.Component {
       title: null,
       company: null,
       year: null,
-      hover: false,
-      clicked: false
+      hover: false
     };
   }
 
@@ -80,7 +78,6 @@ class Card extends React.Component {
   componentWillMount() {
     this.mouseEntry = this.mouseEntry.bind(this);
     this.mouseLeave = this.mouseLeave.bind(this);
-    this.moreInfoTrigger = this.moreInfoTrigger.bind(this);
   }
 
   /**
@@ -95,17 +92,6 @@ class Card extends React.Component {
    */
   mouseLeave(e) {
     this.setState({hover: false});
-  }
-
-  moreInfoTrigger() {
-    /* This is a placeholder for where the logic would probably go for moving
-     * from the current card to its corresponding info page. Right now it
-     * just prints an aleart message with the state information. */
-    this.setState({clicked: !this.state.clicked});
-
-    console.log('Placeholder for more information.' + '\nCover = ' +
-          this.props.cover + '\nTitle = ' + this.props.title + '\nCompany = '
-          + this.props.company + '\nYear = ' + this.props.year);
   }
 
   render() {
