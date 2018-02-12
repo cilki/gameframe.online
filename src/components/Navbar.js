@@ -13,13 +13,14 @@ import { LinkContainer } from 'react-router-bootstrap';
  * @description - Function that generates a LinkContainer for the Navbar
  * @param {String} href - the location to redirect
  * @param {String} label - the text to display to the user. Eventually
- * we'll probably pass in a component here that will accept some extra styling
- * in order to customize what each NavItem looks like depending on the current 
- * router
- * @param {Object} linkProps - extra props (such as key) that would need to be given to the
- * outlying LinkContainer component
- * @param {Object} navProps - Extra props (such as eventKey) that need to be placed within the 
- * NavItem
+ * 	we'll probably pass in a component here that will accept some extra styling
+ * 	in order to customize what each NavItem looks like depending on the current 
+ * 	router
+ * @param {Object} linkProps - extra props (such as key) that would need to be 
+ * 	given to the
+ * 	outlying LinkContainer component
+ * @param {Object} navProps - Extra props (such as eventKey) that need to be 
+ * 	placed within the NavItem
  * @returns {React.Component}
  */
 function createLinkContainerNavItem(href, label, linkProps, navProps) {
@@ -51,6 +52,9 @@ const pages = [
 	}
 ];
 
+/**
+ * NavBar class that contains our react-bootstrap navbar with react-router links
+ */
 class NavBar extends React.Component {
 	render() {
 		return (
@@ -63,6 +67,8 @@ class NavBar extends React.Component {
 			  </Navbar.Header>
 			  <Navbar.Collapse>
 			    <Nav>
+			    	{/* This dynamically creates all of the NavItems for us depending on 
+			    		the objects in `pages` */}
 			    	{pages.map((page, index) => {
 			    		return createLinkContainerNavItem(page.href, page.label,
 			    			{key: index},
