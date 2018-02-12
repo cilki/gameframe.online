@@ -52,46 +52,27 @@ class App extends React.Component {
 						flex: 1
 					}}>
 						<Route path="/" exact component={Splash} />
-					</div>
-
-					<Route path="/about" component={AboutPage} />
-
-					<div style={{
-						display: 'flex',
-						flexDirection: 'vertical'
-					}}>
+						<Route path="/about" component={AboutPage} />
 						<Route path="/games" exact component={Games} />
-					</div>
-					
-					<Route path="/Portal2" exact component={Portal2} />
-					<Route path="/PLAYERUNKNOWNSBATTLEGROUNDS" exact component={PLAYERUNKNOWNSBATTLEGROUNDS} />
-					<Route path="/RocketLeague" exact component={RocketLeague} />
-					<Route path="/TheForest" exact component={TheForest} />
-					
-					<div style={{
-						display: 'flex',
-						flexDirection: 'vertical'
-					}}>
 						<Route path="/developers" exact component={Developers} />
-					</div>
-					
-					<Route path="/ValveCorporation" exact component={ValveCorporation} />
-					<Route path="/PUBGCorp" exact component={PUBGCorp} />
-					<Route path="/Psyonix" exact component={Psyonix} />
-					<Route path="/EndnightGamesLtd" exact component={EndnightGamesLtd} />
-					
-					<div style={{
-						display: 'flex',
-						flexDirection: 'vertical'
-					}}>
 						<Route path="/articles" exact component={Articles} />
+
+						<Route path="/Portal2" exact component={Portal2} />
+						<Route path="/PLAYERUNKNOWNSBATTLEGROUNDS" component={PLAYERUNKNOWNSBATTLEGROUNDS} />
+						<Route path="/RocketLeague" component={RocketLeague} />
+						<Route path="/TheForest" component={TheForest} />
+
+						<Route path="/ValveCorporation" exact component={ValveCorporation} />
+						<Route path="/PUBGCorp" exact component={PUBGCorp} />
+						<Route path="/Psyonix" exact component={Psyonix} />
+						<Route path="/EndnightGamesLtd" exact component={EndnightGamesLtd} />
+
+						<Route path="/Article1" exact component={Article1} />
+						<Route path="/Article2" exact component={Article2} />
+						<Route path="/Article3" exact component={Article3} />
+						<Route path="/Article4" exact component={Article4} />
 					</div>
 					
-					<Route path="/Article1" exact component={Article1} />
-					<Route path="/Article2" exact component={Article2} />
-					<Route path="/Article3" exact component={Article3} />
-					<Route path="/Article4" exact component={Article4} />
-
 					<Footer />
 				</div>
 			</Router>
