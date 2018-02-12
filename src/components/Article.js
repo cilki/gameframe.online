@@ -43,7 +43,7 @@ class Article extends React.Component {
 									<a href={gameURL}><h3>{game}</h3></a>
 									<div>
 										<h2>Developer: </h2>
-										<a href={DeveloperURL}><h3>{Developer}</h3></a>
+										<a href={developerURL}><h3>{developer}</h3></a>
 									</div>
 								</div>
 							</div>

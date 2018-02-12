@@ -28,7 +28,10 @@ import Psyonix from './Psyonix';
 import EndnightGamesLtd from './EndnightGamesLtd';
 
 import Articles from './Articles';
-
+import Article1 from './Article1';
+import Article2 from './Article2';
+import Article3 from './Article3';
+import Article4 from './Article4';
 
 import AboutPage from './About';
 
@@ -83,6 +86,11 @@ class App extends React.Component {
 					}}>
 						<Route path="/articles" exact component={Articles} />
 					</div>
+					
+					<Route path="/Article1" exact component={Article1} />
+					<Route path="/Article2" exact component={Article2} />
+					<Route path="/Article3" exact component={Article3} />
+					<Route path="/Article4" exact component={Article4} />
 
 					<Footer />
 				</div>
