@@ -9,8 +9,8 @@ import { Link } from 'react-router-dom';
 
 import { Card as CardStyles } from '../inline-styles/CardStyles';
 
-/* @description - Produces a 'card' containing a game's cover image and a caption
- *  indicating the developer and publication year.
+/* @description - Produces a 'card' containing a game's cover image and a
+ * caption indicating the developer and publication year.
  * @param {String} coverURL - url to go to when clicked
  * @param {String} developer - the developer of the associated game
  * @param {String} year - the year the game was made in a string
@@ -22,20 +22,16 @@ function renderCard (coverURL, developer, year, hover) {
   return(
     <div style={[
       CardStyles.card,
-      hover && CardStyles.card.hover      
+      hover && CardStyles.card.hover,
     ]}>
       <div style={[
-          CardStyles.imageContainer,
-          hover && CardStyles.imageContainer.hover
-        ]}
-      >
-        <img 
-          style={[
-            CardStyles.image, 
-            hover && CardStyles.image.hover
-          ]} 
-          src={coverURL} 
-        />
+        CardStyles.imageContainer,
+        hover && CardStyles.imageContainer.hover
+      ]}>
+        <img style={[
+          CardStyles.image,
+          hover && CardStyles.image.hover
+        ]} src={coverURL} />
       </div>
       <div style={[CardStyles.captionContainer]}>
         <div style={[CardStyles.caption]}>
@@ -73,7 +69,8 @@ class Card extends React.Component {
   }
 
   /**
-   * @description - React lifecycle method that is called whenever the component will mount to the DOM
+   * @description - React lifecycle method that is called whenever the
+   * component will mount to the DOM
    */
   componentWillMount() {
     this.mouseEntry = this.mouseEntry.bind(this);
@@ -97,17 +94,18 @@ class Card extends React.Component {
   render() {
 
     return (
-      <Link to={this.props.url} style={{textDecoration: 'none'}}>
-        <div
-          onMouseEnter={this.mouseEntry} 
-          onMouseLeave={this.mouseLeave}
-          style={[CardStyles.main]}
-        >
-          {renderCard(this.props.cover, this.props.company, this.props.year,
-            this.state.hover, this.state.clicked)
-          }
-        </div>
-      </Link>
+      <div style={[CardStyles.main]}>
+        <Link to={this.props.url} style={{textDecoration: 'none'}}>
+          <div
+            onMouseEnter={this.mouseEntry}
+            onMouseLeave={this.mouseLeave}
+          >
+            {renderCard(this.props.cover, this.props.company, this.props.year,
+              this.state.hover, this.state.clicked)
+            }
+          </div>
+        </Link>
+      </div>
     )
   }
 }

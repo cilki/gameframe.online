@@ -2,47 +2,12 @@
  * Games page with a grid layout of cards.
  */
 
-//var instanceData = require('../../static/data/games/Portal 2.json');
-
 import React from 'react';
 import Card from './Card';
 
 class Games extends React.Component {
 
   render() {
-
-    // /* START my attempt to extract info from JSON files. Currently the response
-    //  * text on line 33 corresponds to the content of the JSON file, but the data
-    //  * variable is undefined everywhere else for some reason. */
-    //   var data = null;
-    //   function readJSON(jsonFile) {
-    //     var jsonObject = new XMLHttpRequest();
-    //     jsonObject.overrideMimeType("application/json");
-    //     jsonObject.open('GET', '../../static/data/games/Portal 2.json', true);
-    //     jsonObject.onreadystatechange = function () {
-    //     if (jsonObject.readyState == 4 && jsonObject.status == "200") {
-    //       this.data = jsonObject.responseText;
-    //       /*console.log(this.data);*/
-    //       return "http:\/\/cdn.akamai.steamstatic.com\/steam\/apps\/620\/header.jpg?t=1512411524"
-    //     }
-    //   }
-    //   jsonObject.send(null);
-    // }
-
-    // function checkVariable() {
-    //   if(data != null) {
-    //     console.log(data);
-    //   }
-    // }
-
-    // setTimeout(checkVariable, 1000);
-    // readJSON(instanceData);
-
-    // function extractGameHeader(jsonFile) {
-    //   return jsonFile["620"]["data"]["header_image"]
-    // }
-    /* END attempt to extract info from JSON files. */
-
     return (
       <div>
         <div  style={{
