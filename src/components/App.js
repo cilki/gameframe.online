@@ -16,6 +16,10 @@ import Splash from './Splash';
 import Footer from './Footer';
 
 import InstanceGrid from './InstanceGrid';
+import Portal2 from './Portal2';
+import PLAYERUNKNOWNSBATTLEGROUNDS from './PLAYERUNKNOWNSBATTLEGROUNDS';
+import RocketLeague from './RocketLeague';
+import TheForest from './TheForest';
 
 import Developers from './Developers';
 import ValveCorporation from './ValveCorporation';
@@ -24,6 +28,8 @@ import Psyonix from './Psyonix';
 import EndnightGamesLtd from './EndnightGamesLtd';
 
 import Articles from './Articles';
+
+
 import AboutPage from './About';
 
 class App extends React.Component {
@@ -53,6 +59,11 @@ class App extends React.Component {
 					}}>
 						<Route path="/games" exact component={InstanceGrid} />
 					</div>
+					
+					<Route path="/Portal2" exact component={Portal2} />
+					<Route path="/PLAYERUNKNOWNSBATTLEGROUNDS" exact component={PLAYERUNKNOWNSBATTLEGROUNDS} />
+					<Route path="/RocketLeague" exact component={RocketLeague} />
+					<Route path="/TheForest" exact component={TheForest} />
 					
 					<div style={{
 						display: 'flex',
