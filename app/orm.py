@@ -17,14 +17,15 @@ class Game(db.Model):
     release = db.Column(db.Integer)
     image = db.Column(db.Text)
     genre = db.Column(db.String(80))
+	players = db.Column(db.Integer)
     game_link = db.Column(db.Text)
 
     tweets = db.relationship('Tweet', secondary = 'game_tweet', back_populates = "games")
     videos = db.relationship('Video', secondary = 'game_video', back_populates = "games")
     streams = db.relationship('Stream', secondary = 'game_stream', back_populates = "games")
     articles = db.relationship('Article',  secondary = 'game_article', back_populates = "games")
-    developers = db.relationship('Developer', secondary = 'game_developer', back_populates = "games")
 
+    developer_id = db.Column(Integer, ForeignKey('developer.developer_id'))
 
 class Article(db.Model):
     """
@@ -58,11 +59,11 @@ class Developer(db.Model):
     foundation = db.Column(db.Integer, nullable = False)
     developer_link = db.Column(db.Text, nullable = False)
 
-    games = db.relationship('Game', secondary = 'game_developer', back_populates = "developers")
     articles = db.relationship('Article', secondary = 'article_developer', back_populates = "developers")
-    tweets = db.relationship('Tweet', secondary = 'developer_tweet', back_populates = "developers")
 
-
+	games = db.relationship('Game')
+    tweets = db.relationship('Tweet')
+	
 class Tweet(db.Model):
     """
     One of the supporting models, Tweet represents a tweet related to a Game or
@@ -77,8 +78,8 @@ class Tweet(db.Model):
     tweet_link = db.Column(db.Text, nullable = False)
 
     games = db.relationship('Game', secondary = 'game_tweet', back_populates = "tweets")
-    developers = db.relationship('Developer', secondary = 'developer_tweet', back_populates = "tweets")
 
+	developer_id = db.Column(Integer, ForeignKey('developer.developer_id'))
 
 class Video(db.Model):
     """
@@ -115,11 +116,6 @@ game_article = db.Table('game_article',
     db.Column('article_id', db.Integer, db.ForeignKey('article.article_id'))
 )
 
-game_developer = db.Table('game_developer',
-    db.Column('game_id', db.Integer, db.ForeignKey('game.game_id')),
-    db.Column('developer_id', db.Integer, db.ForeignKey('developer.developer_id'))
-)
-
 game_tweet = db.Table('game_tweet',
     db.Column('game_id', db.Integer, db.ForeignKey('game.game_id')),
     db.Column('tweet_id', db.Integer, db.ForeignKey('tweet.tweet_id'))
@@ -138,9 +134,4 @@ game_stream = db.Table('game_stream',
 article_developer = db.Table('article_developer',
     db.Column('article_id', db.Integer, db.ForeignKey('article.article_id')),
     db.Column('developer_id', db.Integer, db.ForeignKey('developer.developer_id'))
-)
-
-developer_tweet = db.Table('developer_tweet',
-    db.Column('developer_id', db.Integer, db.ForeignKey('developer.developer_id')),
-    db.Column('tweet_id', db.Integer, db.ForeignKey('tweet.tweet_id'))
 )
