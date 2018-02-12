@@ -24,6 +24,16 @@ class AboutPage extends React.Component {
                 }
                 this.setState(this.state);
             });
+        fetch('https://api.github.com/repos/cilki/gameframe.online/issues', {method: 'GET'})
+            .then(response => response.json())
+            .then(json => {
+                for(var i = 0; i < json.length; i++){
+                    console.log("json looping")
+                    this.state[json[i]['user']['login']][1] += 1;
+                    this.state.total[1] += 1;
+                }
+                this.setState(this.state);
+            });
     }
 
     render() {
@@ -148,9 +158,10 @@ class AboutPage extends React.Component {
                         </Col>
                         {/*GitHub and GitBook*/}
                         <Col md={6}>
-                            <h2><strong>Documentation</strong></h2>
-                            <a href="https://github.com/cilki/gameframe.online"><h3>GitHub</h3></a>
-                            <a href="https://www.gitbook.com/book/cilki/technical-report/welcome"><h3>GitBook</h3></a>
+                            <h2><strong>Source and Documentation</strong></h2>
+                            <a href="https://github.com/cilki/gameframe.online"><p>GitHub</p></a>
+                            <a href="https://www.gitbook.com/book/cilki/technical-report/welcome"><p>Technical Report</p></a>
+                            <a href="https://cilki.gitbooks.io/api/"><p>API Documentation</p></a>
                         </Col>
                     </Row>
                 </Grid>
