@@ -28,7 +28,6 @@ class AboutPage extends React.Component {
             .then(response => response.json())
             .then(json => {
                 for(var i = 0; i < json.length; i++){
-                    console.log("json looping")
                     this.state[json[i]['user']['login']][1] += 1;
                     this.state.total[1] += 1;
                 }
@@ -44,7 +43,6 @@ class AboutPage extends React.Component {
             }}>
                 {/*Team Name*/}
                 <h1>GameFrame LLC </h1>
-                <hr/>
                 {/*Description and/or Explanation*/}
                 <p>
                     This project was born out of all of our love of video games. TODO add stuff here. 
@@ -52,6 +50,9 @@ class AboutPage extends React.Component {
                 <hr/>
                 {/*Group Members*/}
                 <Grid>
+                    <Row>
+                        <h2><strong>Group Members</strong></h2>
+                    </Row>
                     <Row>
                         <Col md={4}>
                             <Thumbnail src="https://avatars3.githubusercontent.com/u/10459406?s=460&v=4">
@@ -149,24 +150,37 @@ class AboutPage extends React.Component {
                         </Col>
                     </Row>
                     <Row>
+                        <hr/>
+                    </Row>
+                    <Row>
                         {/*Total Stats*/}
-                        <Col md={6}>
+                        <Col md={4}>
                             <h2><strong>Team Stats</strong></h2>
                             <p><strong>Commits: </strong>{this.state.total[0]}</p>
                             <p><strong>Issues: </strong>{this.state.total[1]}</p>
                             <p><strong>Unit Tests: </strong>{this.state.total[2]}</p>
                         </Col>
                         {/*GitHub and GitBook*/}
-                        <Col md={6}>
+                        <Col md={4}>
                             <h2><strong>Source and Documentation</strong></h2>
                             <a href="https://github.com/cilki/gameframe.online"><p>GitHub</p></a>
                             <a href="https://www.gitbook.com/book/cilki/technical-report/welcome"><p>Technical Report</p></a>
                             <a href="https://cilki.gitbooks.io/api/"><p>API Documentation</p></a>
                         </Col>
+                        {/*Data*/}
+                        <Col md={4}>
+                            <h2><strong>Data Sources</strong></h2>
+                            <p><a href='https://developer.valvesoftware.com/wiki/Steam_Web_API'>Steam Web API</a></p>
+                            <p><a href='https://www.igdb.com/api'>IGDB</a></p>
+                            <p><a href='https://www.giantbomb.com/api/'>Giant Bomb</a></p>
+                            <p><a href='https://developer.twitter.com/en/docs'>Twitter</a></p>
+                            <p><p>Each data source was manually scraped for this phase of the project.</p></p>
+                        </Col>
+                    </Row>
+                    <Row>
+                        <h2><strong>Tools</strong></h2>
                     </Row>
                 </Grid>
-                <hr/>
-                {/*Data*/}
                 {/*Tools*/}
             </div>
         );
