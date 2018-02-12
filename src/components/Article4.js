@@ -1,8 +1,8 @@
 /**
- * Portal 2s Perpetual Testing Initiative Launching Page.
+ * Rocket League Roadmap: Spring 2018 Page.
  *
  * Some information taken from:
- * https://www.giantbomb.com/articles/portal-2s-perpetual-testing-initiative-launching-m/1100-4107/
+ * http://steamcommunity.com/games/252950/announcements/detail/1675771900733255728
  */
 
 import React from 'react';
@@ -12,25 +12,16 @@ class Article4 extends React.Component {
 	render() {
 		return (
 			<div>
-				<Article title='Portal 2s Perpetual Testing Initiative Launching' 
-					     author='Alex Navarro'
-						 publish='April 26, 2012'
-						 thumbnailURL=''
-						 summary='For those not content with simply playing through the various puzzles in Portal 2 crafted by Valve, 
-						          youre about to get a piece of news that should make you squeal with girlish glee.
-                                  Valve today announced a new piece of DLC coming to Portal 2 on May 8, one designed to let players 
-								  craft their own puzzles. The Perpetual Testing Initiative is a simplified puzzle maker that allows 
-								  players to create their own puzzles and directly publish them to the Steam Workshop, where other 
-								  players can download and rate them.
-                                  The DLC will be a free download for PC and Mac users. Unfortunately, it doesnt look as though console 
-								  players will be getting this content, though based on previous history, thats not too surprising.
-                                  While I havent touched Portal 2 since the last DLC came and went, I have to admit the possibility of 
-								  downloading some new user-made puzzles has me itching to fire the game back up again. And Im sure once 
-								  the whole thing degenerates into people making nothing but cake-related joke levels, Ill stop again. 
-								  But the time in-between should be fantastic.'
-						 articleURL='https://www.giantbomb.com/articles/portal-2s-perpetual-testing-initiative-launching-m/1100-4107/' article='Click Here!'
-						 gameURL='' game=''
-						 developerURL='' developer=''
+				<Article title='Rocket League Roadmap: Spring 2018' 
+					     author='DIRKENED'
+						 publish='January 31, 2017'
+						 thumbnailURL='https://i.imgur.com/bR8e9SE.jpg'
+						 summary='Hi everybody! With our next update fast approaching, we wanted to share with you some of our plans for the first few months of 2018. 
+						          Were testing out a new update schedule this year that alternates Content Updates - which include things like new Competitive Seasons 
+								  (and rewards), Maps, Events, and DLC - with Feature Updates that focus on new functionality like Tournaments or Cross-Platform Parties.'
+						 articleURL='http://steamcommunity.com/games/252950/announcements/detail/1675771900733255728' article='Click Here!'
+						 gameURL='/RocketLeague' game='Rocket League'
+						 developerURL='/Psyonix' developer='Psyonix'
 				/>
 			</div>
 		);

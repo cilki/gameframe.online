@@ -3,6 +3,7 @@
  */
 
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 class Article extends React.Component {
 	constructor(props) {
@@ -31,19 +32,19 @@ class Article extends React.Component {
 					<h2> Author: {author} </h2>
 					<h2> Published: {publish} </h2>
 					<div>
-						<img src={thumbnailURL} />
+						<img width={300} height={300} src={thumbnailURL} />
 						<div>
 							<h2>Summary: </h2>
 							<p> {summary} </p>
 							<div>
 								<h2>Read More: </h2>
-								<a href={articleURL}><h3>{article}</h3></a>
+								<a href={articleURL} target='_blank'><h3>{article}</h3></a>
 								<div>
 									<h2>Games: </h2>
-									<a href={gameURL}><h3>{game}</h3></a>
+									<Link to={gameURL}> {game} </Link>
 									<div>
 										<h2>Developer: </h2>
-										<a href={developerURL}><h3>{developer}</h3></a>
+										<Link to={developerURL}> {developer} </Link>
 									</div>
 								</div>
 							</div>
