@@ -36,9 +36,9 @@ class Game extends React.Component {
 				<div>
 					<h1> Game: {game} </h1>
 					<div>
-						<img src={image1URL} />
-						<img src={image2URL} />
-						<img src={image3URL} />
+						<img width={300} height={300} src={image1URL} />
+						<img width={300} height={300} src={image2URL} />
+						<img width={300} height={300} src={image3URL} />
 						<div>
 							<h2> Released: {release} </h2>
 							<h2> Genre: {genre} </h2>
