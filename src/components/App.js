@@ -1,4 +1,3 @@
-
 /**
  * Top level component for the entire application. Uses react router to 
  * provide static/dynamic routing
@@ -11,14 +10,18 @@ import {
 	Link
 } from 'react-router-dom';
 
-import Navbar from './Navbar';
 import Banner from './Banner';
+import Navbar from './Navbar';
 import Splash from './Splash';
+import Footer from './Footer';
+
 import InstanceGrid from './InstanceGrid';
+
 import Developers from './Developers';
+import ValveCorporation from './ValveCorporation'
+
 import Articles from './Articles';
 import AboutPage from './About';
-import Footer from './Footer';
 
 class App extends React.Component {
 
@@ -54,6 +57,8 @@ class App extends React.Component {
 					}}>
 						<Route path="/developers" exact component={Developers} />
 					</div>
+					
+					<Route path="/ValveCorporation" exact component={ValveCorporation} />
 					
 					<div style={{
 						display: 'flex',
