@@ -18,7 +18,8 @@ import { Card as CardStyles } from '../inline-styles/CardStyles';
  * @param {Bool} clicked - whether this component is in a 'clicked' state
  * @returns {React.Component}
  */
-function renderCard (coverURL, developer, year, hover) {
+function renderCard (coverURL, developer, year, hover, companyURL) {
+console.log(companyURL);
   return(
     <div style={[
       CardStyles.card,
@@ -35,9 +36,9 @@ function renderCard (coverURL, developer, year, hover) {
       </div>
       <div style={[CardStyles.captionContainer]}>
         <div style={[CardStyles.caption]}>
-          <Label>
+          <Link to={companyURL} style={{textDecoration: 'none'}}><Label>
             {developer}
-          </Label>
+          </Label></Link>
         </div>
         <div style={[CardStyles.badgeContainer]}>
           <Badge>
@@ -92,7 +93,7 @@ class Card extends React.Component {
   }
 
   render() {
-
+	console.log(this.props);
     return (
       <div style={[CardStyles.main]}>
         <Link to={this.props.url} style={{textDecoration: 'none'}}>
@@ -101,7 +102,7 @@ class Card extends React.Component {
             onMouseLeave={this.mouseLeave}
           >
             {renderCard(this.props.cover, this.props.company, this.props.year,
-              this.state.hover, this.state.clicked)
+              this.state.hover, this.props.companyURL)
             }
           </div>
         </Link>

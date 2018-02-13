@@ -24,7 +24,7 @@ class RocketLeague extends React.Component {
 								 across multiple, highly-detailed arenas. Using an advanced physics system to simulate realistic 
 								 interactions, Rocket League® relies on mass and momentum to give players a complete sense of intuitive 
 								 control in this unbelievable, high-octane re-imagining of association football.'
-					  developerURL='' developer='Psyonix'
+					  developerURL='/Psyonix' developer='Psyonix'
 					  articleURL='' article=''
 					  twitterURL='' twitter=''
 					  youtubeURL='' youtube=''

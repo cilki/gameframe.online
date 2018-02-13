@@ -4,81 +4,108 @@
 
 import React from 'react';
 
+import {Jumbotron, Label, Image, Badge} from 'react-bootstrap';
+import { Link } from 'react-router-dom';
+
 class Game extends React.Component {
-	constructor(props) {
-		super(props);
-		this.state = {
-			game: null,         /* Text */
-			image1URL: null,    /* http:// */
-			image2URL: null,    /* http:// */
-			image3URL: null,    /* http:// */
-			release: null,      /* Text: */
-			genre: null,        /* Text */
-			synoposis: null,    /* Text */
-			developerURL: null, /* http:// */
-			developer: null,    /* Text */
-			articleURL: null,   /* http:// */
-			article: null,      /* Text */
-			twitterURL: null,   /* http:// */
-			twitter: null,      /* Text */
-			youtubeURL: null,   /* http:// */
-			youtube: null,      /* Text */
-			twitchURL: null,    /* http:// */
-			twitch: null        /* Text */
-		};
-	}
-  
-	render() {
-		function renderPage (game, image1URL, image2URL, image3URL, release, genre, 
-		                     synoposis, developerURL, developer, articleURL, article, 
-							 twitterURL, twitter, youtubeURL, youtube, twitchURL, twitch) {
-			return (
-				<div>
-					<h1> Game: {game} </h1>
-					<div>
-						<img width={300} height={300} src={image1URL} />
-						<img width={300} height={300} src={image2URL} />
-						<img width={300} height={300} src={image3URL} />
-						<div>
-							<h2> Released: {release} </h2>
-							<h2> Genre: {genre} </h2>
-							<div>
-								<h2>Synoposis: </h2>
-								<p> {synoposis} </p>
-								<div>
-									<h2>Developer: </h2>
-									<a href={developerURL}><h3>{developer}</h3></a>
-									<div>
-										<h2>Articles: </h2>
-										<a href={articleURL}><h3>{article}</h3></a>
-										<div>
-											<h2>Twitter: </h2>
-											<a href={twitterURL}><h3>{twitter}</h3></a>
-											<h2>YouTube: </h2>
-											<a href={youtubeURL}><h3>{youtube}</h3></a>
-											<h2>Twitch: </h2>
-											<a href={twitchURL}><h3>{twitch}</h3></a>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			);
-		}
-		
-		return (
-			<div>
-				{renderPage (this.props.game, this.props.image1URL, this.props.image2URL, 
-				             this.props.image3URL, this.props.release, this.props.genre, 
-							 this.props.synoposis, this.props.developerURL, this.props.developer,
-							 this.props.articleURL, this.props.article, this.props.twitterURL,
-							 this.props.twitter, this.props.youtubeURL, this.props.twitchURL,
-							 this.props.twitch)}
-			</div>
-		);
-	}
+  constructor(props) {
+    super(props);
+    this.state = {
+      game: null,         /* Text */
+      image1URL: null,    /* http:// */
+      image2URL: null,    /* http:// */
+      image3URL: null,    /* http:// */
+      release: null,      /* Text: */
+      genre: null,        /* Text */
+      synoposis: null,    /* Text */
+      developer: null,    /* Text */
+      articleURL: null,   /* http:// */
+      article: null,      /* Text */
+      twitterURL: null,   /* http:// */
+      twitter: null,      /* Text */
+      youtubeURL: null,   /* http:// */
+      youtube: null,      /* Text */
+      twitchURL: null,    /* http:// */
+      twitch: null        /* Text */
+    };
+  }
+
+  render() {
+    return (
+      <div style ={{padding: '0px 20px 20px 20px'}}>
+        <Jumbotron style={{
+          borderRadius: '10px',
+          display: 'flex',
+          flexDirection: 'column',
+        }}>
+          <h1 style={{paddingLeft: '5%'}}>{this.props.game}</h1>
+          <div style={{
+            display: 'flex', justifyContent: 'space-around'
+          }}>
+            <p>Released: {this.props.release} </p>
+            <p>Genre: <Label>{this.props.genre}</Label></p>
+          </div>
+
+          <div style={{
+            display:'flex',
+            maxWidth: '100%',
+            height: '100%',
+            overflow: 'hidden',
+          }}>
+            <div style={{
+              maxWidth: '33.333333%',
+              overflow: 'hidden'
+            }}>
+              <img style={{maxWidth: '100%', maxHeight: '100%', transform: 'scale(1.2)' }} src={this.props.image1URL} />
+            </div>
+            <div style={{
+              maxWidth: '33.333333%',
+              overflow: 'hidden'
+            }}>
+              <img style={{maxWidth: '100%', maxHeight: '100%', transform: 'scale(1.2)' }} src={this.props.image2URL} />
+            </div>
+            <div style={{
+              maxWidth: '33.333333%',
+              overflow: 'hidden'
+            }}>
+              <img style={{maxWidth: '100%', maxHeight: '100%', transform: 'scale(2.0)' }} src={this.props.image3URL} />
+            </div>
+          </div>
+          <div style={{
+            padding: '20px 2% 20px 2%'
+          }}>
+            <p>{this.props.synoposis}</p>
+          </div>
+          <div style={{
+            display: 'flex',
+            justifyContent: 'space-around'
+          }}>
+            <p>Developer: <Link to={this.props.developerURL} style={{textDecoration: 'none'}}><Label style={{}}>{this.props.developer}</Label> </Link></p>
+          </div>
+          <div style={{
+            paddingLeft: '2%'
+          }}>
+            <h3>Articles:</h3>
+          </div>
+          <div style={{
+            paddingLeft: '2%'
+          }}>
+            <h3>Twitter:</h3>
+          </div>
+          <div style={{
+            paddingLeft: '2%'
+          }}>
+            <h3>YouTube:</h3>
+          </div>
+          <div style={{
+            paddingLeft: '2%'
+          }}>
+            <h3>Twitch:</h3>
+          </div>
+        </Jumbotron>
+      </div>
+    );
+  }
 }
 
 export default Game;

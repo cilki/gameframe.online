@@ -21,7 +21,7 @@ class TheForest extends React.Component {
 					  synoposis='As the lone survivor of a passenger jet crash, you find yourself in a mysterious forest battling 
 					             to stay alive against a society of cannibalistic mutants. Build, explore, survive in this 
 								 terrifying first person survival horror simulator.'
-					  developerURL='' developer='Endnight Games Ltd.'
+					  developerURL='/EndnightGamesLtd' developer='Endnight Games Ltd.'
 					  articleURL='' article=''
 					  twitterURL='' twitter=''
 					  youtubeURL='' youtube=''

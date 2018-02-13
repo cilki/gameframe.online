@@ -26,7 +26,7 @@ class Portal2 extends React.Component {
                                  cooperative mode features its own entirely separate campaign with a unique story, test chambers, and two new player 
                                  characters. This new mode forces players to reconsider everything they thought they knew about portals. Success will 
                                  require them to not just act cooperatively, but to think cooperatively.'
-					  developerURL='' developer='Valve Software'
+					  developerURL='/ValveCorporation' developer='Valve Software'
 					  articleURL='' article=''
 					  twitterURL='' twitter=''
 					  youtubeURL='' youtube=''
