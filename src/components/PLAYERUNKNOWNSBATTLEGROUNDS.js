@@ -25,7 +25,7 @@ class PLAYERUNKNOWNSBATTLEGROUNDS extends React.Component {
 								 Battle Royale genre. As the creator of the Battle Royale game-mode found in the ARMA series and H1Z1 
 								 : King of the Kill, Greene is co-developing the game with veteran team at Bluehole to create the most 
 								 diverse and robust Battle Royale experience to date. Not Just a Game. This is BATTLE ROYALE!'
-					  developerURL='' developer='PUBG Corp'
+					  developerURL='/PUBGCorp' developer='PUBG Corp'
 					  articleURL='' article=''
 					  twitterURL='' twitter=''
 					  youtubeURL='' youtube=''
