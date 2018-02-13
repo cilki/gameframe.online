@@ -22,8 +22,8 @@ class PUBGCorp extends React.Component {
 								  potential in the esports sector and the growth of PUBG as a true global IP franchise. 
 								  As well as the continued development and maintenance of Playerunknown’s Battleground 
 								  (PUBG).'
-					       gameURL='' game=''
-					       articleURL='' article=''
+					       gameURL='/PLAYERUNKNOWNSBATTLEGROUNDS' game='PLAYERUNKNOWNS BATTLEGROUNDS'
+					       articleURL='/Article2' article='Will Smiths Top 7 Games of 2017'
 					       twitterURL='' twitter=''
 				/>
 			</div>

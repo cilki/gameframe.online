@@ -17,8 +17,8 @@ class EndnightGamesLtd extends React.Component {
 				           year='2014'
 					       loc='Not Available.' 
 					       about='Not Available.'
-					       gameURL='' game=''
-					       articleURL='' article=''
+					       gameURL='/TheForest' game='The Forest'
+					       articleURL='/Article3' article='V0.73 and release plans'
 					       twitterURL='' twitter=''
 				/>
 			</div>

@@ -17,8 +17,8 @@ class ValveCorporation extends React.Component {
 				           year='1996'
 					       loc='Washington, United States' 
 					       about='Not Available.'
-					       gameURL='' game=''
-					       articleURL='' article=''
+					       gameURL='/Portal2' game='Portal 2'
+					       articleURL='/Article1' article='Portal 2s Perpetual Testing Initiative Launching'
 					       twitterURL='' twitter=''
 				/>
 			</div>

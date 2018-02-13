@@ -21,8 +21,8 @@ class Psyonix extends React.Component {
 								  and publishers utilizing the Unreal Engine. Psyonix was founded in the year 2000 by Dave 
 								  Hagewood, after developing Internet and multimedia software under the name WebSite 
 								  Machines. Its first game project was Proteus.'
-					       gameURL='' game=''
-					       articleURL='' article=''
+					       gameURL='/RocketLeague' game='Rocket League'
+					       articleURL='/Article3' article='Rocket League Roadmap: Spring 2018'
 					       twitterURL='' twitter=''
 				/>
 			</div>
