@@ -19,7 +19,6 @@ import { Card as CardStyles } from '../inline-styles/CardStyles';
  * @returns {React.Component}
  */
 function renderCard (coverURL, developer, year, hover, companyURL) {
-console.log(companyURL);
   return(
     <div style={[
       CardStyles.card,
@@ -36,9 +35,9 @@ console.log(companyURL);
       </div>
       <div style={[CardStyles.captionContainer]}>
         <div style={[CardStyles.caption]}>
-          <Link to={companyURL} style={{textDecoration: 'none'}}><Label>
+          <Label>
             {developer}
-          </Label></Link>
+          </Label>
         </div>
         <div style={[CardStyles.badgeContainer]}>
           <Badge>
@@ -93,7 +92,6 @@ class Card extends React.Component {
   }
 
   render() {
-	console.log(this.props);
     return (
       <div style={[CardStyles.main]}>
         <Link to={this.props.url} style={{textDecoration: 'none'}}>

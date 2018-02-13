@@ -3,9 +3,10 @@
  */
 
 import React from 'react';
-
-import {Jumbotron, Label, Image, Badge} from 'react-bootstrap';
+import Radium from 'radium';
+import {Jumbotron, Label, Badge} from 'react-bootstrap';
 import { Link } from 'react-router-dom';
+import { Game as GameStyles } from '../inline-styles/GameStyles';
 
 class Game extends React.Component {
   constructor(props) {
@@ -26,80 +27,122 @@ class Game extends React.Component {
       youtubeURL: null,   /* http:// */
       youtube: null,      /* Text */
       twitchURL: null,    /* http:// */
-      twitch: null        /* Text */
+      twitch: null,        /* Text */
+      hover1: false,
+      hover2: false,
+      hover3: false,
+      hover4: false
     };
+  }
+
+  componentWillMount() {
+    this.mouseEntry1 = this.mouseEntry1.bind(this);
+    this.mouseLeave1 = this.mouseLeave1.bind(this);
+    this.mouseEntry2 = this.mouseEntry2.bind(this);
+    this.mouseLeave2 = this.mouseLeave2.bind(this);
+    this.mouseEntry3 = this.mouseEntry3.bind(this);
+    this.mouseLeave3 = this.mouseLeave3.bind(this);
+  }
+
+  mouseEntry1(e) {
+    this.setState({hover1: true});
+  }
+
+  mouseLeave1(e) {
+    this.setState({hover1: false});
+  }
+
+  mouseEntry2(e) {
+    this.setState({hover2: true});
+  }
+
+  mouseLeave2(e) {
+    this.setState({hover2: false});
+  }
+
+  mouseEntry3(e) {
+    this.setState({hover3: true});
+  }
+
+  mouseLeave3(e) {
+    this.setState({hover3: false});
+  }
+
+  mouseEntry4(e) {
+    this.setState({hover4: true});
+  }
+
+  mouseLeave4(e) {
+    this.setState({hover4: false});
   }
 
   render() {
     return (
-      <div style ={{padding: '0px 20px 20px 20px'}}>
-        <Jumbotron style={{
-          borderRadius: '10px',
-          display: 'flex',
-          flexDirection: 'column',
-        }}>
-          <h1 style={{paddingLeft: '5%'}}>{this.props.game}</h1>
-          <div style={{
-            display: 'flex', justifyContent: 'space-around'
-          }}>
+      <div style ={[GameStyles.border]}>
+        <Jumbotron style={[GameStyles.jumboTron]}>
+          <h1 style={[GameStyles.jumboTron.name]}>{this.props.game}</h1>
+          <div style={[GameStyles.jumboTron.secondaryInfo]}>
             <p>Released: {this.props.release} </p>
             <p>Genre: <Label>{this.props.genre}</Label></p>
           </div>
 
-          <div style={{
-            display:'flex',
-            maxWidth: '100%',
-            height: '100%',
-            overflow: 'hidden',
-          }}>
-            <div style={{
-              maxWidth: '33.333333%',
-              overflow: 'hidden'
-            }}>
-              <img style={{maxWidth: '100%', maxHeight: '100%', transform: 'scale(1.2)' }} src={this.props.image1URL} />
+          <div style={[GameStyles.jumboTron.imageGallery]}>
+            <div style={[
+              GameStyles.jumboTron.imageGallery.imageContainer,
+              this.state.hover1 && GameStyles.jumboTron.imageGallery.imageContainer.hover
+            ]}>
+              <div onMouseEnter={this.mouseEntry1} onMouseLeave={this.mouseLeave1}>
+                <a href={this.props.image1URL}>
+                  <img style={[
+                    GameStyles.jumboTron.imageGallery.image,
+                    this.state.hover1 && GameStyles.jumboTron.imageGallery.image.hover
+                  ]} src={this.props.image1URL} />
+                </a>
+              </div>
             </div>
-            <div style={{
-              maxWidth: '33.333333%',
-              overflow: 'hidden'
-            }}>
-              <img style={{maxWidth: '100%', maxHeight: '100%', transform: 'scale(1.2)' }} src={this.props.image2URL} />
+            <div style={[
+              GameStyles.jumboTron.imageGallery.imageContainer,
+              this.state.hover2 && GameStyles.jumboTron.imageGallery.imageContainer.hover
+            ]}>
+              <div onMouseEnter={this.mouseEntry2} onMouseLeave={this.mouseLeave2}>
+                <a href={this.props.image2URL}>
+                  <img style={[
+                    GameStyles.jumboTron.imageGallery.image,
+                    this.state.hover2 && GameStyles.jumboTron.imageGallery.image.hover
+                  ]} src={this.props.image2URL} />
+                </a>
+              </div>
             </div>
-            <div style={{
-              maxWidth: '33.333333%',
-              overflow: 'hidden'
-            }}>
-              <img style={{maxWidth: '100%', maxHeight: '100%', transform: 'scale(2.0)' }} src={this.props.image3URL} />
+            <div style={[
+              GameStyles.jumboTron.imageGallery.imageContainer,
+              this.state.hover3 && GameStyles.jumboTron.imageGallery.imageContainer.hover
+            ]}>
+              <div onMouseEnter={this.mouseEntry3} onMouseLeave={this.mouseLeave3}>
+                <a href={this.props.image3URL}>
+                  <img style={[
+                    GameStyles.jumboTron.imageGallery.image,
+                    this.state.hover3 && GameStyles.jumboTron.imageGallery.image.hover
+                  ]} src={this.props.image3URL} />
+                </a>
+              </div>
             </div>
           </div>
-          <div style={{
-            padding: '20px 2% 20px 2%'
-          }}>
+          <div style={[GameStyles.jumboTron.synoposis]}>
             <p>{this.props.synoposis}</p>
           </div>
-          <div style={{
-            display: 'flex',
-            justifyContent: 'space-around'
-          }}>
-            <p>Developer: <Link to={this.props.developerURL} style={{textDecoration: 'none'}}><Label style={{}}>{this.props.developer}</Label> </Link></p>
+          <div style={[GameStyles.jumboTron.developer]}>
+            <p>Developer: <Link to={this.props.developerURL} style={{textDecoration: 'none'}}><Label>{this.props.developer}</Label></Link></p>
           </div>
-          <div style={{
-            paddingLeft: '2%'
-          }}>
+          <div style={[GameStyles.jumboTron.articles]}>
             <h3>Articles:</h3>
           </div>
-          <div style={{
-            paddingLeft: '2%'
-          }}>
+          <div style={[GameStyles.jumboTron.twitter]}>
             <h3>Twitter:</h3>
           </div>
-          <div style={{
-            paddingLeft: '2%'
-          }}>
+          <div style={[GameStyles.jumboTron.youtube]}>
             <h3>YouTube:</h3>
           </div>
-          <div style={{
-            paddingLeft: '2%'
-          }}>
+          <div style={[GameStyles.jumboTron.twitch]}>
             <h3>Twitch:</h3>
           </div>
         </Jumbotron>
@@ -108,4 +151,4 @@ class Game extends React.Component {
   }
 }
 
-export default Game;
+export default Radium(Game);
