@@ -79,70 +79,70 @@ class Game extends React.Component {
   render() {
     return (
       <div style ={[GameStyles.border]}>
-        <Jumbotron style={[GameStyles.jumboTron]}>
-          <h1 style={[GameStyles.jumboTron.name]}>{this.props.game}</h1>
-          <div style={[GameStyles.jumboTron.secondaryInfo]}>
+        <Jumbotron style={[GameStyles.jumboTron], {borderRadius: '10px'}}>
+          <h1 style={[GameStyles.name]}>{this.props.game}</h1>
+          <div style={[GameStyles.secondaryInfo]}>
             <p>Released: {this.props.release} </p>
             <p>Genre: <Label>{this.props.genre}</Label></p>
           </div>
 
-          <div style={[GameStyles.jumboTron.imageGallery]}>
+          <div style={[GameStyles.imageGallery]}>
             <div style={[
-              GameStyles.jumboTron.imageGallery.imageContainer,
-              this.state.hover1 && GameStyles.jumboTron.imageGallery.imageContainer.hover
+              GameStyles.imageContainer,
+              this.state.hover1 && GameStyles.imageContainerHover
             ]}>
               <div onMouseEnter={this.mouseEntry1} onMouseLeave={this.mouseLeave1}>
                 <a href={this.props.image1URL}>
                   <img style={[
-                    GameStyles.jumboTron.imageGallery.image,
-                    this.state.hover1 && GameStyles.jumboTron.imageGallery.image.hover
+                    GameStyles.image,
+                    this.state.hover1 && GameStyles.imageHover
                   ]} src={this.props.image1URL} />
                 </a>
               </div>
             </div>
             <div style={[
-              GameStyles.jumboTron.imageGallery.imageContainer,
-              this.state.hover2 && GameStyles.jumboTron.imageGallery.imageContainer.hover
+              GameStyles.imageContainer,
+              this.state.hover2 && GameStyles.imageContainerHover
             ]}>
               <div onMouseEnter={this.mouseEntry2} onMouseLeave={this.mouseLeave2}>
                 <a href={this.props.image2URL}>
                   <img style={[
-                    GameStyles.jumboTron.imageGallery.image,
-                    this.state.hover2 && GameStyles.jumboTron.imageGallery.image.hover
+                    GameStyles.image,
+                    this.state.hover2 && GameStyles.imageHover
                   ]} src={this.props.image2URL} />
                 </a>
               </div>
             </div>
             <div style={[
-              GameStyles.jumboTron.imageGallery.imageContainer,
-              this.state.hover3 && GameStyles.jumboTron.imageGallery.imageContainer.hover
+              GameStyles.imageContainer,
+              this.state.hover3 && GameStyles.imageContainerHover
             ]}>
               <div onMouseEnter={this.mouseEntry3} onMouseLeave={this.mouseLeave3}>
                 <a href={this.props.image3URL}>
                   <img style={[
-                    GameStyles.jumboTron.imageGallery.image,
-                    this.state.hover3 && GameStyles.jumboTron.imageGallery.image.hover
+                    GameStyles.image,
+                    this.state.hover3 && GameStyles.imageHover
                   ]} src={this.props.image3URL} />
                 </a>
               </div>
             </div>
           </div>
-          <div style={[GameStyles.jumboTron.synoposis]}>
+          <div style={[GameStyles.synoposis]}>
             <p>{this.props.synoposis}</p>
           </div>
-          <div style={[GameStyles.jumboTron.developer]}>
+          <div style={[GameStyles.developer]}>
             <p>Developer: <Link to={this.props.developerURL} style={{textDecoration: 'none'}}><Label>{this.props.developer}</Label></Link></p>
           </div>
-          <div style={[GameStyles.jumboTron.articles]}>
+          <div style={[GameStyles.articles]}>
             <h3>Articles:</h3>
           </div>
-          <div style={[GameStyles.jumboTron.twitter]}>
+          <div style={[GameStyles.twitter]}>
             <h3>Twitter:</h3>
           </div>
-          <div style={[GameStyles.jumboTron.youtube]}>
+          <div style={[GameStyles.youtube]}>
             <h3>YouTube:</h3>
           </div>
-          <div style={[GameStyles.jumboTron.twitch]}>
+          <div style={[GameStyles.twitch]}>
             <h3>Twitch:</h3>
           </div>
         </Jumbotron>
