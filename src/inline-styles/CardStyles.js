@@ -56,7 +56,7 @@ const Card = {
   },
 
   caption: {
-    width: '65%',
+    maxWidth: '65%',
     postion: 'relative',
     whiteSpace: 'nowrap',
     overflow: 'hidden',
@@ -64,7 +64,7 @@ const Card = {
   },
 
   badgeContainer: {
-    width: '15%'
+    maxWidth: '35%'
   }
 };
 
