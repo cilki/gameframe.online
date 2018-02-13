@@ -43,9 +43,13 @@ class AboutPage extends React.Component {
             }}>
                 {/*Team Name*/}
                 <h1>GameFrame LLC </h1>
-                {/*Description and/or Explanation*/}
+                {/*Description*/}
                 <p>
-                    This project was born out of all of our love of video games. TODO add stuff here. 
+                    This project was born out of all of our love of video games. It connects games to their developers and news articles to both games and developers. The purpose is to get as much data as possible about a game in the same place. We hope the site will be used by others like us with the same love of gaming and thirst for knowledge.
+                </p>
+                {/*Explanation*/}
+                <p>
+                    By choosing these three models, we will eventually (in later phases) be able to connect news articles about video games to articles about similar games by the tags and genres about the games as well as games made by the same developer. This will facilitate the learning and appreciation of new or lesser known games. 
                 </p>
                 <hr/>
                 {/*Group Members*/}
@@ -180,27 +184,32 @@ class AboutPage extends React.Component {
                     {/*Tools*/}
                     <Row>
                         <h2><strong>Tools</strong></h2>
+                        <br/>
                     </Row>
                     <Row>
                         <Col md={3} sm={3}>
-                            <Image src="https://a0.awsstatic.com/main/images/logos/aws_logo_smile_1200x630.png"/>
+                            <Thumbnail src="https://a0.awsstatic.com/main/images/logos/aws_logo_smile_1200x630.png">
                             <h3>AWS</h3>
                             <p></p>
+                            </Thumbnail>
                         </Col>
                         <Col md={3} sm={3}>
-                            <Image src="https://d33wubrfki0l68.cloudfront.net/f35d49d959deb5bfd7deb80c2668128367e2917c/eb35e/images/logo.svg"/>
+                            <Thumbnail src="https://d33wubrfki0l68.cloudfront.net/f35d49d959deb5bfd7deb80c2668128367e2917c/eb35e/images/logo.svg">
                             <h3>Babel</h3>
                             <p></p>
+                            </Thumbnail>
                         </Col>
                         <Col md={3} sm={3}>
-                            <Image src="https://i.lensdump.com/i/TDYNA.png"/>
+                            <Thumbnail src="https://i.lensdump.com/i/TDYNA.png">
                             <h3>Flask</h3>
                             <p></p>
+                            </Thumbnail>
                         </Col>
                         <Col md={3} sm={3}>
-                            <Image src="http://cdn.gbraad.nl/images/portfolio/gitbook-logo.png"/>
+                            <Thumbnail src="http://cdn.gbraad.nl/images/portfolio/gitbook-logo.png">
                             <h3>GitBook</h3>
                             <p></p>
+                            </Thumbnail>
                         </Col>
                     </Row>
                     <Row>
