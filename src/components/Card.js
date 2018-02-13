@@ -18,36 +18,6 @@ import { Card as CardStyles } from '../inline-styles/CardStyles';
  * @param {Bool} clicked - whether this component is in a 'clicked' state
  * @returns {React.Component}
  */
-function renderCard (coverURL, developer, year, hover, companyURL) {
-  return(
-    <div style={[
-      CardStyles.card,
-      hover && CardStyles.card.hover,
-    ]}>
-      <div style={[
-        CardStyles.imageContainer,
-        hover && CardStyles.imageContainer.hover
-      ]}>
-        <img style={[
-          CardStyles.image,
-          hover && CardStyles.image.hover
-        ]} src={coverURL} />
-      </div>
-      <div style={[CardStyles.captionContainer]}>
-        <div style={[CardStyles.caption]}>
-          <Label>
-            {developer}
-          </Label>
-        </div>
-        <div style={[CardStyles.badgeContainer]}>
-          <Badge>
-            {year}
-          </Badge>
-        </div>
-      </div>
-    </div>
-  );
-}
 
 /**
  * A single card instance within the InstanceGrid
@@ -60,7 +30,7 @@ class Card extends React.Component {
     super(props);
 
     this.state = {
-      cover: null,
+      cover: this.props.cover,
       title: null,
       company: null,
       year: null,
@@ -99,9 +69,34 @@ class Card extends React.Component {
             onMouseEnter={this.mouseEntry}
             onMouseLeave={this.mouseLeave}
           >
-            {renderCard(this.props.cover, this.props.company, this.props.year,
-              this.state.hover, this.props.companyURL)
-            }
+            <div style={[
+              CardStyles.card,
+              this.state.hover && CardStyles.card.hover,
+            ]}>
+              <div style={[
+                CardStyles.imageContainer,
+                this.state.hover && CardStyles.imageContainer.hover
+              ]}>
+                <img style={[
+                  CardStyles.image,
+                  this.state.hover && CardStyles.image.hover
+                ]} src={this.props.cover} ref={img => this.img = img} onError={
+                  () => this.img.src = '../../static/images/noImage.png'
+                }/>
+              </div>
+              <div style={[CardStyles.captionContainer]}>
+                <div style={[CardStyles.caption]}>
+                  <Label>
+                    {this.props.company}
+                  </Label>
+                </div>
+                <div style={[CardStyles.badgeContainer]}>
+                  <Badge>
+                    {this.props.year}
+                  </Badge>
+                </div>
+              </div>
+            </div>
           </div>
         </Link>
       </div>
