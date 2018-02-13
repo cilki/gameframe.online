@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {PageHeader, Grid, Row, Col, Thumbnail} from 'react-bootstrap'
+import {PageHeader, Grid, Row, Col, Thumbnail, Image} from 'react-bootstrap'
 
 class AboutPage extends React.Component {
 
@@ -54,7 +54,7 @@ class AboutPage extends React.Component {
                         <h2><strong>Group Members</strong></h2>
                     </Row>
                     <Row>
-                        <Col md={4}>
+                        <Col md={4} sm={4}>
                             <Thumbnail src="https://avatars3.githubusercontent.com/u/10459406?s=460&v=4">
                                 <h3>Tyler Cook</h3>
                                 <div style={{
@@ -68,7 +68,7 @@ class AboutPage extends React.Component {
                                 </div>
                             </Thumbnail>
                         </Col>
-                        <Col md={4}>
+                        <Col md={4} sm={4}>
                             <Thumbnail src="https://avatars0.githubusercontent.com/u/16629308?s=460&v=4">
                                 <h3>Devin Drawhorn</h3>
                                 <div style={{
@@ -82,7 +82,7 @@ class AboutPage extends React.Component {
                                 </div>
                             </Thumbnail>
                         </Col>
-                        <Col md={4}>
+                        <Col md={4} sm={4}>
                             <Thumbnail src="https://avatars2.githubusercontent.com/u/11801943?s=460&v=4">
                                 <h3>Sam Faulkner</h3>
                                 <div style={{
@@ -98,7 +98,7 @@ class AboutPage extends React.Component {
                         </Col>
                     </Row>
                     <Row>
-                        <Col md={4}>
+                        <Col md={4} sm={4}>
                             <Thumbnail src="https://avatars0.githubusercontent.com/u/31491237?s=460&v=4">
                                 <h3>Mitchell Marshe</h3>
                                 <div style={{
@@ -120,7 +120,7 @@ class AboutPage extends React.Component {
                                 </div>
                             </Thumbnail>
                         </Col>
-                        <Col md={4}>
+                        <Col md={4} sm={4}>
                             <Thumbnail src="https://avatars0.githubusercontent.com/u/21695410?s=460&v=4">
                                 <h3>Andrew Rieder</h3>
                                 <div style={{
@@ -134,7 +134,7 @@ class AboutPage extends React.Component {
                                 </div>
                             </Thumbnail>
                         </Col>
-                        <Col md={4}>
+                        <Col md={4} sm={4}>
                             <Thumbnail src="https://avatars3.githubusercontent.com/u/16373610?s=460&v=4">
                                 <h3>Ekin Soysal</h3>
                                 <div style={{
@@ -154,34 +154,102 @@ class AboutPage extends React.Component {
                     </Row>
                     <Row>
                         {/*Total Stats*/}
-                        <Col md={4}>
+                        <Col md={4} sm={4}>
                             <h2><strong>Team Stats</strong></h2>
                             <p><strong>Commits: </strong>{this.state.total[0]}</p>
                             <p><strong>Issues: </strong>{this.state.total[1]}</p>
                             <p><strong>Unit Tests: </strong>{this.state.total[2]}</p>
                         </Col>
                         {/*GitHub and GitBook*/}
-                        <Col md={4}>
+                        <Col md={4} sm={4}>
                             <h2><strong>Source and Documentation</strong></h2>
                             <a href="https://github.com/cilki/gameframe.online"><p>GitHub</p></a>
-                            <a href="https://www.gitbook.com/book/cilki/technical-report/welcome"><p>Technical Report</p></a>
+                            <a href="https://www.gitbook.com/book/cilki/report/details"><p>Technical Report</p></a>
                             <a href="https://cilki.gitbooks.io/api/"><p>API Documentation</p></a>
                         </Col>
                         {/*Data*/}
-                        <Col md={4}>
+                        <Col md={4} sm={4}>
                             <h2><strong>Data Sources</strong></h2>
                             <p><a href='https://developer.valvesoftware.com/wiki/Steam_Web_API'>Steam Web API</a></p>
                             <p><a href='https://www.igdb.com/api'>IGDB</a></p>
                             <p><a href='https://www.giantbomb.com/api/'>Giant Bomb</a></p>
                             <p><a href='https://developer.twitter.com/en/docs'>Twitter</a></p>
-                            <p><p>Each data source was manually scraped for this phase of the project.</p></p>
+                            <p>Each data source was manually scraped for this phase of the project.</p>
                         </Col>
                     </Row>
+                    {/*Tools*/}
                     <Row>
                         <h2><strong>Tools</strong></h2>
                     </Row>
+                    <Row>
+                        <Col md={3} sm={3}>
+                            <Image src="https://a0.awsstatic.com/main/images/logos/aws_logo_smile_1200x630.png"/>
+                            <h3>AWS</h3>
+                            <p></p>
+                        </Col>
+                        <Col md={3} sm={3}>
+                            <Image src="https://d33wubrfki0l68.cloudfront.net/f35d49d959deb5bfd7deb80c2668128367e2917c/eb35e/images/logo.svg"/>
+                            <h3>Babel</h3>
+                            <p></p>
+                        </Col>
+                        <Col md={3} sm={3}>
+                            <Image src="https://i.lensdump.com/i/TDYNA.png"/>
+                            <h3>Flask</h3>
+                            <p></p>
+                        </Col>
+                        <Col md={3} sm={3}>
+                            <Image src="http://cdn.gbraad.nl/images/portfolio/gitbook-logo.png"/>
+                            <h3>GitBook</h3>
+                            <p></p>
+                        </Col>
+                    </Row>
+                    <Row>
+                        <Col md={3} sm={3}>
+                            <Thumbnail src="https://i.lensdump.com/i/TD3gC.md.png">
+                                <h3>GitHub</h3>
+                                <p></p>
+                            </Thumbnail>
+                        </Col>
+                        <Col md={3} sm={3}>
+                            <Thumbnail src="https://i.lensdump.com/i/TD7WT.md.png">
+                                <h3>Namecheap</h3>
+                                <p></p>
+                            </Thumbnail>
+                        </Col>
+                        <Col md={3} sm={3}>
+                            <Thumbnail src="https://tse1.mm.bing.net/th?id=OIP.PhCTTNKigiR-TKmKdXCSUAHaHB&w=136&h=129&c=7&o=5&dpr=1.1&pid=1.7">
+                                <h3>React-Bootstrap</h3>
+                                <p></p>
+                            </Thumbnail>
+                        </Col>
+                        <Col md={3} sm={3}>
+                            <Thumbnail src="https://i.lensdump.com/i/TDuWM.png">
+                                <h3>React Router</h3>
+                                <p></p>
+                            </Thumbnail>
+                        </Col>
+                    </Row>
+                    <Row>
+                        <Col md={3} sm={3}>
+                            <Thumbnail src="https://i.lensdump.com/i/TDeH3.md.png">
+                                <h3>ReactJS</h3>
+                                <p></p>
+                            </Thumbnail>
+                        </Col>
+                        <Col md={3} sm={3}>
+                            <Thumbnail src="https://i.lensdump.com/i/TDLgD.md.png">
+                                <h3>Slack</h3>
+                                <p></p>
+                            </Thumbnail>
+                        </Col>
+                        <Col md={3} sm={3}>
+                            <Thumbnail src="https://tse4.mm.bing.net/th?id=OIP.gFZhldMJQCiCQylrx6oU2AHaFG&w=222&h=160&c=7&o=5&dpr=1.1&pid=1.7">
+                                <h3>Webpack</h3>
+                                <p></p>
+                            </Thumbnail>
+                        </Col>
+                    </Row>
                 </Grid>
-                {/*Tools*/}
             </div>
         );
     }
