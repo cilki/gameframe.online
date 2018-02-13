@@ -49,7 +49,8 @@ class App extends React.Component {
 					<Navbar />
 
 					<div style={{
-						flex: 1
+						flex: 1,
+						verticalAlign: 'top'
 					}}>
 						<Route path="/" exact component={Splash} />
 						<Route path="/about" component={AboutPage} />

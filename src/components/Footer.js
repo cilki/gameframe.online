@@ -6,6 +6,7 @@
 
 
 import React from 'react';
+import {Panel} from 'react-bootstrap';
 
 class Footer extends React.Component {
 	
@@ -14,7 +15,9 @@ class Footer extends React.Component {
 			<div style={{
 				textAlign: 'center'
 			}}>
-				{'Copyright gameframe.online'}
+			<Panel.Footer style={{position: 'relative', bottom: '0', width: '100%'}}>
+				Copyright © 2018 GameFrame.online. All rights reserved.
+			</Panel.Footer>
 			</div>
 		);
 	}

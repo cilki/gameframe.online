@@ -58,7 +58,7 @@ const pages = [
 class NavBar extends React.Component {
 	render() {
 		return (
-			<Navbar inverse collapseOnSelect>
+			<Navbar inverse collapseOnSelect style={{borderRadius: '0'}}>
 			  <Navbar.Header>
 			    <Navbar.Brand>
 			      <Link to="/">GameFrame.Online</Link>
@@ -76,12 +76,12 @@ class NavBar extends React.Component {
 		    			);
 			    	})}
 					</Nav>
-					<Navbar.Form pullRight>
-					  <FormGroup>
-					    <FormControl type="text" placeholder="Search" />
+					<Navbar.Form pullRight style={{display: 'flex', maxWidth: '33%'}}>
+					  <FormGroup style={{}}>
+					    <FormControl type="text" placeholder="Search" style={{flex: 1, maxWidth: '100%'}}/>
 			      </FormGroup>
 			      {' '}
-			      <Button type="submit">Submit</Button>
+			      <Button type="submit" style={{}}>Submit</Button>
 					</Navbar.Form>
 			  </Navbar.Collapse>
 			</Navbar>
