@@ -43,14 +43,19 @@ class AboutPage extends React.Component {
             }}>
                 {/*Team Name*/}
                 <h1>GameFrame LLC </h1>
-                {/*Description*/}
-                <p>
-                    This project was born out of all of our love of video games. It connects games to their developers and news articles to both games and developers. The purpose is to get as much data as possible about a game in the same place. We hope the site will be used by others like us with the same love of gaming and thirst for knowledge.
-                </p>
-                {/*Explanation*/}
-                <p>
-                    By choosing these three models, we will eventually (in later phases) be able to connect news articles about video games to articles about similar games by the tags and genres about the games as well as games made by the same developer. This will facilitate the learning and appreciation of new or lesser known games. 
-                </p>
+                <div style={{
+                    width: '75%',
+                    marginLeft: '12.5%'
+                }}>
+                    {/*Description*/}
+                    <p>
+                        This project was born out of all of our love of video games. It connects games to their developers and news articles to both games and developers. The purpose is to get as much data as possible about a game in the same place. We hope the site will be used by others like us with the same love of gaming and thirst for knowledge.
+                    </p>
+                    {/*Explanation*/}
+                    <p>
+                        By choosing these three models, we will eventually (in later phases) be able to connect news articles about video games to articles about similar games by the tags and genres about the games as well as games made by the same developer. This will facilitate the learning and appreciation of new or lesser known games. 
+                    </p>
+                </div>
                 <hr/>
                 {/*Group Members*/}
                 <Grid>
