@@ -12,25 +12,15 @@ class Article1 extends React.Component {
 	render() {
 		return (
 			<div>
-				<Article title='Portal 2s Perpetual Testing Initiative Launching' 
-					     author='Alex Navarro'
-						 publish='April 26, 2012'
+				<Article title='Bridge Constructor Portal isnt a rollercoaster of laughs, but its still good'
+					     author='Brendan Caldwell'
+						 publish='January 10, 2018'
 						 thumbnailURL=''
-						 summary='For those not content with simply playing through the various puzzles in Portal 2 crafted by Valve, 
-						          youre about to get a piece of news that should make you squeal with girlish glee.
-                                  Valve today announced a new piece of DLC coming to Portal 2 on May 8, one designed to let players 
-								  craft their own puzzles. The Perpetual Testing Initiative is a simplified puzzle maker that allows 
-								  players to create their own puzzles and directly publish them to the Steam Workshop, where other 
-								  players can download and rate them.
-                                  The DLC will be a free download for PC and Mac users. Unfortunately, it doesnt look as though console 
-								  players will be getting this content, though based on previous history, thats not too surprising.
-                                  While I havent touched Portal 2 since the last DLC came and went, I have to admit the possibility of 
-								  downloading some new user-made puzzles has me itching to fire the game back up again. And Im sure once 
-								  the whole thing degenerates into people making nothing but cake-related joke levels, Ill stop again. 
-								  But the time in-between should be fantastic.'
+						summary={["<p></p>\n<p>It&#8217;s not the <a href=\"https://www.rockpapershotgun.com/tag/portal/\">Portal</a> follow-up we were expecting, but it&#8217;s the one we got. <a href=\"https://www.rockpapershotgun.com/tag/bridge-constructor-portal/\">Bridge Constructor Portal</a> is a crossover between Valve   s comedy science puzzler and the strut-straddling engineering of the Bridge Constructor series. You   re still making bridges that wobble from A to B, and sending small vehicles across your creations. However, you also have the distraction of portals, turrets, proulsion gel and catapults, as well as a passive aggressive computer that passes judgement on your techniques. It feels fruitless to review such a straightforward cocktail &#8211; it&#8217;s two flavours you may already know so let&#8217;s just see how they blend together. And the opening chapters are reassuring. This is a decent wee nugget of a puzzler. <a href=\"https://www.rockpapershotgun.com/2018/01/10/bridge-constructor-portal-review/#more-507017\" class=\"more-link\">(more&hellip;)</a></p>\n"]}
 						 articleURL='https://www.giantbomb.com/articles/portal-2s-perpetual-testing-initiative-launching-m/1100-4107/' article='Click Here!'
 						 gameURL='/Portal2' game='Portal 2'
 						 developerURL='/ValveCorporation' developer='Valve Software'
+						image='https://assets.rockpapershotgun.com/images//2018/01/portal-bridge-2-620x300.jpg'
 				/>
 			</div>
 		);

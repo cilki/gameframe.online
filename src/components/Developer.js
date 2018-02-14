@@ -44,7 +44,7 @@ class Developer extends React.Component {
             <h3>Games:</h3><p><Link to={this.props.gameURL} style={{textDecoration: 'none'}}><Label>{this.props.game}</Label></Link></p>
           </div>
           <div style={[DeveloperStyles.articles]}>
-            <h3>Articles:</h3>
+            <h3>Articles:</h3><p><Link to={this.props.articleURL} style={{textDecoration: 'none'}}><Label>{this.props.article}</Label></Link></p>
           </div>
           <div style={[DeveloperStyles.twitter]}>
             <h3>Twitter:</h3>

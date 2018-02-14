@@ -17,7 +17,7 @@ class PLAYERUNKNOWNSBATTLEGROUNDS extends React.Component {
 					  image2URL='http://cdn.akamai.steamstatic.com/steam/apps/578080/ss_2c79b3b590b186b10bf082d37674621f204a3497.1920x1080.jpg?t=1516879634'
 					  image3URL='http://cdn.akamai.steamstatic.com/steam/apps/578080/ss_e7e79847eff0933de92192bb62b8bc7068d611da.1920x1080.jpg?t=1516879634'
 				      release='Dec 21, 2017'
-					  genre='Violent, Action, Adventure, & Massively Multiplayer' 
+					  genre='Violent, Action, Adventure, Massively Multiplayer' 
 					  synoposis='PLAYERUNKNOWNS BATTLEGROUNDS is a last-man-standing shooter being developed with community feedback. 
 					             Starting with nothing, players must fight to locate weapons and supplies in a battle to be the lone 
 								 survivor. This realistic, high tension game is set on a massive 8x8 km island with a level of detail 

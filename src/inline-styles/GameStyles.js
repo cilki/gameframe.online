@@ -1,5 +1,17 @@
 
 const Game = {
+  background: {
+    backgroundSize: 'cover',
+    position: 'fixed',
+    left: '0',
+    right: '0',
+    top: '0',
+    bottom: '0',
+    filter: 'blur(64px)',
+    zIndex: '-100',
+    display: 'block',
+    transform: 'scale(1.4)'
+  },
   border: {
     padding: '0 2% 2% 2%',
   },

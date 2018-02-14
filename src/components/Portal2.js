@@ -28,7 +28,7 @@ class Portal2 extends React.Component {
                                  characters. This new mode forces players to reconsider everything they thought they knew about portals. Success will 
                                  require them to not just act cooperatively, but to think cooperatively.'
 					  developerURL='/ValveCorporation' developer='Valve Corporation'
-					  articleURL='' article=''
+					  articleURL='/Article1' article='Bridge Constructor Portal isnt a rollercoaster of laughs, but its still good'
 					  twitterURL='' twitter=''
 					  youtubeURL='' youtube=''
 					  twitchURL='' twitch=''
