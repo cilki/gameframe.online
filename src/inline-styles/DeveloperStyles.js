@@ -6,6 +6,13 @@ const Developer = {
   name: {
     paddingLeft: '5%'
   },
+  logo: {
+    display: 'inline',
+    float: 'right',
+    paddingRight: '2%',
+    maxWidth: '25%',
+    maxHeight: '25%'
+  },
   secondaryInfo: {
     display: 'flex',
     justifyContent: 'space-around'
