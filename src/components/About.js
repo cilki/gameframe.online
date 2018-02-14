@@ -203,25 +203,25 @@ class AboutPage extends React.Component {
                         <Col md={3} sm={3}>
                             <Thumbnail src="https://a0.awsstatic.com/main/images/logos/aws_logo_smile_1200x630.png">
                             <h3>AWS</h3>
-                            <p></p>
+                            <p>Amazon Web Services (AWS) hosts our website.</p>
                             </Thumbnail>
                         </Col>
                         <Col md={3} sm={3}>
                             <Thumbnail src="https://d33wubrfki0l68.cloudfront.net/f35d49d959deb5bfd7deb80c2668128367e2917c/eb35e/images/logo.svg">
                             <h3>Babel</h3>
-                            <p></p>
+                            <p>Babel converts our JSX into browser compatible JS.</p>
                             </Thumbnail>
                         </Col>
                         <Col md={3} sm={3}>
                             <Thumbnail src="https://i.lensdump.com/i/TDYNA.png">
                             <h3>Flask</h3>
-                            <p></p>
+                            <p>Flask is our framework for python based web application development.</p>
                             </Thumbnail>
                         </Col>
                         <Col md={3} sm={3}>
                             <Thumbnail src="http://cdn.gbraad.nl/images/portfolio/gitbook-logo.png">
                             <h3>GitBook</h3>
-                            <p></p>
+                            <p>GitBook is where we document our website development.</p>
                             </Thumbnail>
                         </Col>
                     </Row>
@@ -229,25 +229,25 @@ class AboutPage extends React.Component {
                         <Col md={3} sm={3}>
                             <Thumbnail src="https://i.lensdump.com/i/TD3gC.md.png">
                                 <h3>GitHub</h3>
-                                <p></p>
+                                <p>GitHub is where we collaborate on code.</p>
                             </Thumbnail>
                         </Col>
                         <Col md={3} sm={3}>
                             <Thumbnail src="https://i.lensdump.com/i/TD7WT.md.png">
                                 <h3>Namecheap</h3>
-                                <p></p>
+                                <p>Namecheap allowed us this cool domain name, gameframe.online.</p>
                             </Thumbnail>
                         </Col>
                         <Col md={3} sm={3}>
                             <Thumbnail src="https://tse1.mm.bing.net/th?id=OIP.PhCTTNKigiR-TKmKdXCSUAHaHB&w=136&h=129&c=7&o=5&dpr=1.1&pid=1.7">
                                 <h3>React-Bootstrap</h3>
-                                <p></p>
+                                <p>React-Bootstrap is a resource library for ReactJS that allowed us to mock up this website with features like the carousel and navbar.</p>
                             </Thumbnail>
                         </Col>
                         <Col md={3} sm={3}>
                             <Thumbnail src="https://i.lensdump.com/i/TDuWM.png">
                                 <h3>React Router</h3>
-                                <p></p>
+                                <p>React Router is a resource library for ReactJS that allows us to seemlessly load pages within our website.</p>
                             </Thumbnail>
                         </Col>
                     </Row>
@@ -255,19 +255,19 @@ class AboutPage extends React.Component {
                         <Col md={3} sm={3}>
                             <Thumbnail src="https://i.lensdump.com/i/TDeH3.md.png">
                                 <h3>ReactJS</h3>
-                                <p></p>
+                                <p>ReactJS is our framework for JS based web application development.</p>
                             </Thumbnail>
                         </Col>
                         <Col md={3} sm={3}>
                             <Thumbnail src="https://i.lensdump.com/i/TDLgD.md.png">
                                 <h3>Slack</h3>
-                                <p></p>
+                                <p>Slack is where we communicate to each other.</p>
                             </Thumbnail>
                         </Col>
                         <Col md={3} sm={3}>
                             <Thumbnail src="https://tse4.mm.bing.net/th?id=OIP.gFZhldMJQCiCQylrx6oU2AHaFG&w=222&h=160&c=7&o=5&dpr=1.1&pid=1.7">
                                 <h3>Webpack</h3>
-                                <p></p>
+                                <p>Webpack manages our JS files into one package.</p>
                             </Thumbnail>
                         </Col>
                     </Row>
