@@ -9,17 +9,20 @@ import { Link } from 'react-router-dom';
 import { Developer as DeveloperStyles } from '../inline-styles/DeveloperStyles';
 import Card from './Card';
 
+import { TwitterTimelineEmbed } from 'react-twitter-embed';
+
 class Developer extends React.Component {
   constructor(props) {
-  super(props);
-  this.state = {
-    developer: null,  /* Text */
-    logoURL: null,    /* http:// */
-    year: null,       /* Text: */
-    loc: null,    /* Text */
-    about: null,      /* Text */
-    gameURL: null,    /* http:// */
-    game: null,       /* Text */
+	  super(props);
+	  
+	  this.state = {
+	    developer: null,  /* Text */
+	    logoURL: null,    /* http:// */
+	    year: null,       /* Text: */
+	    loc: null,    /* Text */
+	    about: null,      /* Text */
+	    gameURL: null,    /* http:// */
+	    game: null,       /* Text */
       articleURL: null, /* http:// */
       article: null,    /* Text */
       twitterURL: null, /* http:// */

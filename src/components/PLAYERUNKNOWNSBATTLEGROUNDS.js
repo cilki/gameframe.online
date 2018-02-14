@@ -27,7 +27,7 @@ class PLAYERUNKNOWNSBATTLEGROUNDS extends React.Component {
 								 diverse and robust Battle Royale experience to date. Not Just a Game. This is BATTLE ROYALE!'
 					  developerURL='/PUBGCorp' developer='PUBG Corp'
 					  articleURL='' article=''
-					  twitterURL='' twitter=''
+					  twitterURL='' twitter='963619071509127168'
 					  youtubeURL='' youtube=''
 					  twitchURL='' twitch=''
 					coverURL='https://images.igdb.com/igdb/image/upload/t_cover_big/lvoic2oakbklg2dytgpa.jpg'

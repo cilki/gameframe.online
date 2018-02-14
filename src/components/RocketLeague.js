@@ -26,7 +26,7 @@ class RocketLeague extends React.Component {
 								 control in this unbelievable, high-octane re-imagining of association football.'
 					  developerURL='/Psyonix' developer='Psyonix'
 					  articleURL='' article=''
-					  twitterURL='' twitter=''
+					  twitterURL='' twitter='963610623220375553'
 					  youtubeURL='' youtube=''
 					  twitchURL='' twitch=''
 					coverURL='https://images.igdb.com/igdb/image/upload/t_cover_big/edkpgyqgfsxyiby9pyj5.jpg'

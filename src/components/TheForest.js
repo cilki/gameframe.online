@@ -23,7 +23,7 @@ class TheForest extends React.Component {
 								 terrifying first person survival horror simulator.'
 					  developerURL='/EndnightGamesLtd' developer='Endnight Games Ltd.'
 					  articleURL='' article=''
-					  twitterURL='' twitter=''
+					  twitterURL='' twitter='963620175491883008'
 					  youtubeURL='' youtube=''
 					  twitchURL='' twitch=''
 					coverURL='https://images.igdb.com/igdb/image/upload/t_cover_big/taf1unbzsejvvjiicaqk.jpg'

@@ -1,16 +1,20 @@
 
 const Game = {
-  background: {
-    backgroundSize: 'cover',
-    position: 'fixed',
-    left: '0',
-    right: '0',
-    top: '0',
-    bottom: '0',
-    filter: 'blur(64px)',
-    zIndex: '-100',
-    display: 'block',
-    transform: 'scale(1.4)'
+  container: (coverURL) => {
+    return {
+      backgroundImage: 'url(' + coverURL + ')',
+      backgroundSize: 'cover',
+     position: 'fixed',
+      left: '0',
+      right: '0',
+      top: '0',
+      bottom: '0',
+      filter: 'blur(64px)',
+      zIndex: '-100',
+        display: 'block',
+      transition: 'hue-rotate 2s',
+        transform: 'scale(1.4)'
+    }
   },
   border: {
     padding: '0 2% 2% 2%',
@@ -28,20 +32,20 @@ const Game = {
     transition: 'transform 0.2s',
     transform: 'none',
     zIndex: '1',
-  },
-  imageContainerHover: {
-    overflow: 'visible',
-    transform: 'scale(1.1)',
-    zIndex: '100'
+    ':hover': {
+      overflow: 'visible',
+      transform: 'scale(1.1)',
+      zIndex: '100'
+    }
   },
   image: {
     maxWidth: '100%',
     maxHeight: '100%',
     transition: 'box-shadow 0.3s',
     boxShadow: 'none',
-  },
-  imageHover: {
-    boxShadow: '0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)'
+    ':hover': {
+      boxShadow: '0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)'
+    }
   },
   imageGallery: {
     display: 'flex',
@@ -69,7 +73,8 @@ const Game = {
   jumboTron: {
     display: 'flex',
     flexDirection: 'column',
-    borderRadius: '10px'
+    borderRadius: '10px',
+    opacity: '1.0'
   }
 }
 
