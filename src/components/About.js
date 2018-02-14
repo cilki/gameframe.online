@@ -201,100 +201,85 @@ class AboutPage extends React.Component {
                     </Row>
                     <Row>
                         <Col md={3} sm={3}>
-                            <Thumbnail src="https://a0.awsstatic.com/main/images/logos/aws_logo_smile_1200x630.png">
+                            <Thumbnail src="https://a0.awsstatic.com/main/images/logos/aws_logo_smile_1200x630.png" style={{width:'150px',height:'150px',margin:'auto'}}/>
                             <h3>AWS</h3>
                             <p>Amazon Web Services (AWS) hosts our website.</p>
-                            </Thumbnail>
                         </Col>
                         <Col md={3} sm={3}>
-                            <Thumbnail src="https://d33wubrfki0l68.cloudfront.net/f35d49d959deb5bfd7deb80c2668128367e2917c/eb35e/images/logo.svg">
+                            <Thumbnail src="https://d33wubrfki0l68.cloudfront.net/f35d49d959deb5bfd7deb80c2668128367e2917c/eb35e/images/logo.svg" style={{width:'150px',height:'150px',margin:'auto'}}/>
                             <h3>Babel</h3>
                             <p>Babel converts our JSX into browser compatible JS.</p>
-                            </Thumbnail>
                         </Col>
                         <Col md={3} sm={3}>
-                            <Thumbnail src="https://i.lensdump.com/i/TDYNA.png">
+                            <Thumbnail src="https://i1.wp.com/blog.docker.com/wp-content/uploads/2013/06/Docker-logo-011.png?ssl=1" style={{width:'150px',height:'150px',margin:'auto'}}/>
+                            <h3>Docker</h3>
+                            <p>Docker runs our frontend development container.</p>
+                        </Col>
+                        <Col md={3} sm={3}>
+                            <Thumbnail src="https://i.lensdump.com/i/TDYNA.png" style={{width:'150px',height:'150px',margin:'auto'}}/>
                             <h3>Flask</h3>
                             <p>Flask is our framework for Python based web application development.</p>
-                            </Thumbnail>
                         </Col>
+                    </Row>
+                    <Row>
                         <Col md={3} sm={3}>
-                            <Thumbnail src="http://cdn.gbraad.nl/images/portfolio/gitbook-logo.png">
+                            <Thumbnail src="http://cdn.gbraad.nl/images/portfolio/gitbook-logo.png" style={{width:'150px',height:'150px',margin:'auto'}}/>
                             <h3>GitBook</h3>
                             <p>GitBook is where we document our website development.</p>
-                            </Thumbnail>
+                        </Col>
+                        <Col md={3} sm={3}>
+                            <Thumbnail src="https://i.lensdump.com/i/TD3gC.md.png" style={{width:'150px',height:'150px',margin:'auto'}}/>
+                            <h3>GitHub</h3>
+                            <p>GitHub is where we collaborate on code.</p>
+                        </Col>
+                        <Col md={3} sm={3}>
+                            <Thumbnail src="https://i.lensdump.com/i/TD7WT.md.png" style={{width:'150px',height:'150px',margin:'auto'}}/>
+                            <h3>Namecheap</h3>
+                            <p>Namecheap allowed us this cool domain name, gameframe.online.</p>
+                        </Col>
+                        <Col md={3} sm={3}>
+                            <Thumbnail src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/db/Npm-logo.svg/640px-Npm-logo.svg.png" style={{width:'150px',height:'150px',margin:'auto'}}/>
+                            <h3>npm</h3>
+                            <p>npm is our JS node package manager.</p>
                         </Col>
                     </Row>
                     <Row>
                         <Col md={3} sm={3}>
-                            <Thumbnail src="https://i.lensdump.com/i/TD3gC.md.png">
-                                <h3>GitHub</h3>
-                                <p>GitHub is where we collaborate on code.</p>
-                            </Thumbnail>
+                            <Thumbnail src="https://www.python.org/static/community_logos/python-logo-inkscape.svg" style={{width:'150px',height:'150px',margin:'auto'}}/>
+                            <h3>Python</h3>
+                            <p>Python is a language we use.</p>
                         </Col>
                         <Col md={3} sm={3}>
-                            <Thumbnail src="https://i.lensdump.com/i/TD7WT.md.png">
-                                <h3>Namecheap</h3>
-                                <p>Namecheap allowed us this cool domain name, gameframe.online.</p>
-                            </Thumbnail>
+                            <Thumbnail src="https://tse1.mm.bing.net/th?id=OIP.PhCTTNKigiR-TKmKdXCSUAHaHB&w=136&h=129&c=7&o=5&dpr=1.1&pid=1.7" style={{width:'150px',height:'150px',margin:'auto'}}/>
+                            <h3>React-Bootstrap</h3>
+                            <p>React-Bootstrap is a resource library for ReactJS that allowed us to mock up this website with features like the carousel and navbar.</p>
                         </Col>
                         <Col md={3} sm={3}>
-                            <Thumbnail src="https://tse1.mm.bing.net/th?id=OIP.PhCTTNKigiR-TKmKdXCSUAHaHB&w=136&h=129&c=7&o=5&dpr=1.1&pid=1.7">
-                                <h3>React-Bootstrap</h3>
-                                <p>React-Bootstrap is a resource library for ReactJS that allowed us to mock up this website with features like the carousel and navbar.</p>
-                            </Thumbnail>
+                            <Thumbnail src="https://i.lensdump.com/i/TDuWM.png" style={{width:'150px',height:'150px',margin:'auto'}}/>
+                            <h3>React Router</h3>
+                            <p>React Router is a resource library for ReactJS that allows us to seemlessly load pages within our website.</p>
                         </Col>
                         <Col md={3} sm={3}>
-                            <Thumbnail src="https://i.lensdump.com/i/TDuWM.png">
-                                <h3>React Router</h3>
-                                <p>React Router is a resource library for ReactJS that allows us to seemlessly load pages within our website.</p>
-                            </Thumbnail>
-                        </Col>
-                    </Row>
-                    <Row>
-                        <Col md={3} sm={3}>
-                            <Thumbnail src="https://i.lensdump.com/i/TDeH3.md.png">
-                                <h3>ReactJS</h3>
-                                <p>ReactJS is our framework for JS based web application development.</p>
-                            </Thumbnail>
-                        </Col>
-                        <Col md={3} sm={3}>
-                            <Thumbnail src="https://i.lensdump.com/i/TDLgD.md.png">
-                                <h3>Slack</h3>
-                                <p>Slack is where we communicate to each other.</p>
-                            </Thumbnail>
-                        </Col>
-                        <Col md={3} sm={3}>
-                            <Thumbnail src="https://tse4.mm.bing.net/th?id=OIP.gFZhldMJQCiCQylrx6oU2AHaFG&w=222&h=160&c=7&o=5&dpr=1.1&pid=1.7">
-                                <h3>Webpack</h3>
-                                <p>Webpack manages our JS files into one package.</p>
-                            </Thumbnail>
-                        </Col>
-						<Col md={3} sm={3}>
-                            <Thumbnail src="https://wcs.smartdraw.com/common/img/smardraw-logo.png?bn=1510011106">
-                                <h3>SmartDraw</h3>
-                                <p>SmartDraw is a tool we used to create a UML diagram.</p>
-                            </Thumbnail>
+                            <Thumbnail src="https://i.lensdump.com/i/TDeH3.md.png" style={{width:'150px',height:'150px',margin:'auto'}}/>
+                            <h3>ReactJS</h3>
+                            <p>ReactJS is our framework for JS based web application development.</p>
                         </Col>
                     </Row>
 					<Row>
                         <Col md={3} sm={3}>
-                            <Thumbnail src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/db/Npm-logo.svg/640px-Npm-logo.svg.png">
-                                <h3>npm</h3>
-                                <p>npm is our JS node package manager.</p>
-                            </Thumbnail>
+                            <Thumbnail src="https://i.lensdump.com/i/TDLgD.md.png" style={{width:'150px',height:'150px',margin:'auto'}}/>
+                            <h3>Slack</h3>
+                            <p>Slack is where we communicate to each other.</p>
                         </Col>
                         <Col md={3} sm={3}>
-                            <Thumbnail src="https://i1.wp.com/blog.docker.com/wp-content/uploads/2013/06/Docker-logo-011.png?ssl=1">
-                                <h3>Docker</h3>
-                                <p>Docker runs our frontend development container.</p>
-                            </Thumbnail>
+                            <Thumbnail src="https://wcs.smartdraw.com/common/img/smardraw-logo.png?bn=1510011106" style={{width:'150px',height:'150px',margin:'auto'}}/>
+                            <h3>SmartDraw</h3>
+                            <p>SmartDraw is a tool we used to create a UML diagram.</p>
                         </Col>
-						<Col md={3} sm={3}>
-                            <Thumbnail src="https://www.python.org/static/community_logos/python-logo-inkscape.svg">
-                                <h3>Python</h3>
-                                <p>Python is a language we use.</p>
-                            </Thumbnail>
+                        <Col md={3} sm={3}>
+                            <Thumbnail src="https://tse4.mm.bing.net/th?id=OIP.gFZhldMJQCiCQylrx6oU2AHaFG&w=222&h=160&c=7&o=5&dpr=1.1&pid=1.7" style={{width:'150px',height:'150px',margin:'auto'}}/>
+                            <h3>Webpack</h3>
+                            <p>Webpack manages our JS files into one package.</p>
                         </Col>
                     </Row>
                 </Grid>
