@@ -13,7 +13,7 @@ class EndnightGamesLtd extends React.Component {
 		return (
 			<div>
 				<Developer developer='Endnight Games Ltd.' 
-					       logoURL='https://www.giantbomb.com/images/1300-2569978'
+					       logoURL='https://static.giantbomb.com/uploads/square_medium/2/23546/2569979-screen+shot+2013-11-12+at+5.49.55+pm.png'
 				           year='2014'
 					       loc='Not Available.' 
 					       about='Not Available.'

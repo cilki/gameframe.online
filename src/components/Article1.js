@@ -21,6 +21,7 @@ class Article1 extends React.Component {
 						 gameURL='/Portal2' game='Portal 2'
 						 developerURL='/ValveCorporation' developer='Valve Software'
 						image='https://assets.rockpapershotgun.com/images//2018/01/portal-bridge-2-620x300.jpg'
+						publisher='Rock Paper Shotgun'
 				/>
 			</div>
 		);

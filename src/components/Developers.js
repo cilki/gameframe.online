@@ -39,7 +39,7 @@ class Developers extends React.Component {
 					/>
 					<Card 
 						url='/EndnightGamesLtd' 
-						cover='https://www.giantbomb.com/images/1300-2569978' 
+						cover='https://static.giantbomb.com/uploads/square_small/2/23546/2569979-screen+shot+2013-11-12+at+5.49.55+pm.png' 
 						company='Endnight Games Ltd' 
 						year='2014' 
 						title='Developer'

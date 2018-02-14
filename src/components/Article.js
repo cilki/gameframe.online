@@ -78,6 +78,7 @@ class Article extends React.Component {
             </div>
             <div style={[ArticleStyles.summary]}>
               <p dangerouslySetInnerHTML={{__html: this.props.summary}}></p>
+	      <h3>Published by {this.props.publisher}</h3>
             </div>
             <div style={[ArticleStyles.games]}>
               <h3>Games:</h3><p><Link to={this.props.gameURL} tyle={{textDecoration: 'none'}}><Label>{this.props.game}</Label></Link></p>

@@ -3,7 +3,7 @@
 const Card = {
   main: {
     padding: '10px 10px 10px 10px',
-    maxWidth: '40%'
+    maxWidth: '40%',
   },
 
   card: {
