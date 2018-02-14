@@ -58,7 +58,7 @@ const pages = [
 class NavBar extends React.Component {
 	render() {
 		return (
-			<Navbar inverse collapseOnSelect style={{borderRadius: '0'}}>
+			<Navbar inverse collapseOnSelect style={{borderRadius: '0', padding: '0 0 0 0'}}>
 			  <Navbar.Header>
 			    <Navbar.Brand>
 			      <Link to="/">GameFrame.Online</Link>

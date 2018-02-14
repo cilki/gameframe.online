@@ -9,6 +9,7 @@ import React from 'react';
 import Game from './Game';
 
 class Portal2 extends React.Component {
+
 	render() {
 		return (
 			<div>
@@ -31,6 +32,7 @@ class Portal2 extends React.Component {
 					  twitterURL='' twitter=''
 					  youtubeURL='' youtube=''
 					  twitchURL='' twitch=''
+			                  coverURL='https://images.igdb.com/igdb/image/upload/t_cover_big/w6kusdugzlssi3yqcbwl.jpg'
 				/>
 			</div>
 		);

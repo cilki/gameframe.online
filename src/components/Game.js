@@ -78,8 +78,23 @@ class Game extends React.Component {
 
   render() {
     return (
+      <div>
+      <div style={{backgroundImage: 'url(' + this.props.coverURL + ')',
+		      backgroundSize: 'cover',
+		     position: 'fixed',
+		      left: '0',
+		      right: '0',
+		      top: '0',
+		      bottom: '0',
+		      filter: 'blur(64px)',
+		      zIndex: '-100',
+	      		display: 'block',
+		      transition: 'hue-rotate 2s',
+	      		transform: 'scale(1.4)'
+	      	
+      }}></div>
       <div style ={[GameStyles.border]}>
-        <Jumbotron style={[GameStyles.jumboTron], {borderRadius: '10px'}}>
+        <Jumbotron style={[GameStyles.jumboTron], {borderRadius: '10px', opacity: '1.0'}}>
           <h1 style={[GameStyles.name]}>{this.props.game}</h1>
           <div style={[GameStyles.secondaryInfo]}>
             <p>Released: {this.props.release} </p>
@@ -146,7 +161,7 @@ class Game extends React.Component {
             <h3>Twitch:</h3>
           </div>
         </Jumbotron>
-      </div>
+      </div></div>
     );
   }
 }

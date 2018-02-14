@@ -30,6 +30,7 @@ class PLAYERUNKNOWNSBATTLEGROUNDS extends React.Component {
 					  twitterURL='' twitter=''
 					  youtubeURL='' youtube=''
 					  twitchURL='' twitch=''
+					coverURL='https://images.igdb.com/igdb/image/upload/t_cover_big/lvoic2oakbklg2dytgpa.jpg'
 				/>
 			</div>
 		);

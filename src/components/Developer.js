@@ -7,6 +7,7 @@ import Radium from 'radium';
 import {Jumbotron, Label, Badge} from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { Developer as DeveloperStyles } from '../inline-styles/DeveloperStyles';
+import Card from './Card';
 
 class Developer extends React.Component {
   constructor(props) {
@@ -40,7 +41,7 @@ class Developer extends React.Component {
             <p>{this.props.about}</p>
           </div>
           <div style={[DeveloperStyles.games]}>
-            <h3>Games:</h3>
+            <h3>Games:</h3><p><Link to={this.props.gameURL} style={{textDecoration: 'none'}}><Label>{this.props.game}</Label></Link></p>
           </div>
           <div style={[DeveloperStyles.articles]}>
             <h3>Articles:</h3>
