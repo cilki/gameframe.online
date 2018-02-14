@@ -74,7 +74,7 @@ class AboutPage extends React.Component {
                                     textAlign: 'left'
                                 }}>
                                     <p><strong>Bio:</strong> I&#39;m a 4th year CS/Math major with a passion for server technology, virtualization, and security. </p>
-                                    <p><strong>Responsibilities:</strong> Backend Developer </p>
+                                    <p><strong>Responsibilities:</strong> Phase 1 Manager & Backend Developer </p>
                                     <p><strong>Commits: </strong>{this.state['cilki'][0]}</p>
                                     <p><strong>Issues: </strong>{this.state['cilki'][1]}</p>
                                     <p><strong>Unit Tests: </strong>{this.state['cilki'][2]}</p>
