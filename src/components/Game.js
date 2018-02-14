@@ -27,141 +27,76 @@ class Game extends React.Component {
       youtubeURL: null,   /* http:// */
       youtube: null,      /* Text */
       twitchURL: null,    /* http:// */
-      twitch: null,        /* Text */
-      hover1: false,
-      hover2: false,
-      hover3: false,
-      hover4: false
+      twitch: null        /* Text */
     };
   }
 
-  componentWillMount() {
-    this.mouseEntry1 = this.mouseEntry1.bind(this);
-    this.mouseLeave1 = this.mouseLeave1.bind(this);
-    this.mouseEntry2 = this.mouseEntry2.bind(this);
-    this.mouseLeave2 = this.mouseLeave2.bind(this);
-    this.mouseEntry3 = this.mouseEntry3.bind(this);
-    this.mouseLeave3 = this.mouseLeave3.bind(this);
-  }
-
-  mouseEntry1(e) {
-    this.setState({hover1: true});
-  }
-
-  mouseLeave1(e) {
-    this.setState({hover1: false});
-  }
-
-  mouseEntry2(e) {
-    this.setState({hover2: true});
-  }
-
-  mouseLeave2(e) {
-    this.setState({hover2: false});
-  }
-
-  mouseEntry3(e) {
-    this.setState({hover3: true});
-  }
-
-  mouseLeave3(e) {
-    this.setState({hover3: false});
-  }
-
-  mouseEntry4(e) {
-    this.setState({hover4: true});
-  }
-
-  mouseLeave4(e) {
-    this.setState({hover4: false});
-  }
-
   render() {
+    let index = 0;
+
     return (
       <div>
-      <div style={{backgroundImage: 'url(' + this.props.coverURL + ')',
-		      backgroundSize: 'cover',
-		     position: 'fixed',
-		      left: '0',
-		      right: '0',
-		      top: '0',
-		      bottom: '0',
-		      filter: 'blur(64px)',
-		      zIndex: '-100',
-	      		display: 'block',
-		      transition: 'hue-rotate 2s',
-	      		transform: 'scale(1.4)'
-	      	
-      }}></div>
-      <div style ={[GameStyles.border]}>
-        <Jumbotron style={[GameStyles.jumboTron], {borderRadius: '10px', opacity: '1.0'}}>
-          <h1 style={[GameStyles.name]}>{this.props.game}</h1>
-          <div style={[GameStyles.secondaryInfo]}>
-            <p>Released: {this.props.release} </p>
-            <p>Genre: <Label>{this.props.genre}</Label></p>
-          </div>
+        <div style={[GameStyles.container(this.props.coverURL)]}></div>
+        <div style ={[GameStyles.border]}>
+          <Jumbotron style={[GameStyles.jumboTron]}>
+            <h1 style={[GameStyles.name]}>{this.props.game}</h1>
+            <div style={[GameStyles.secondaryInfo]}>
+              <p>Released: {this.props.release} </p>
+              <p>Genre: <Label>{this.props.genre}</Label></p>
+            </div>
 
-          <div style={[GameStyles.imageGallery]}>
-            <div style={[
-              GameStyles.imageContainer,
-              this.state.hover1 && GameStyles.imageContainerHover
-            ]}>
-              <div onMouseEnter={this.mouseEntry1} onMouseLeave={this.mouseLeave1}>
-                <a href={this.props.image1URL}>
-                  <img style={[
-                    GameStyles.image,
-                    this.state.hover1 && GameStyles.imageHover
-                  ]} src={this.props.image1URL} />
-                </a>
+            <div style={[GameStyles.imageGallery]}>
+              <div key={index++} style={[
+                GameStyles.imageContainer,
+              ]}>
+                <div onMouseEnter={this.mouseEntry1} onMouseLeave={this.mouseLeave1}>
+                  <a href={this.props.image1URL}>
+                    <img key={index++} style={[GameStyles.image]} src={this.props.image1URL} />
+                  </a>
+                </div>
+              </div>
+              <div key={index++} style={[GameStyles.imageContainer]}>
+                <div onMouseEnter={this.mouseEntry2} onMouseLeave={this.mouseLeave2}>
+                  <a href={this.props.image2URL}>
+                    <img style={[
+                      GameStyles.image
+                    ]} src={this.props.image2URL} />
+                  </a>
+                </div>
+              </div>
+              <div key={index++} style={[
+                GameStyles.imageContainer
+              ]}>
+                <div onMouseEnter={this.mouseEntry3} onMouseLeave={this.mouseLeave3}>
+                  <a href={this.props.image3URL}>
+                    <img key={index++} style={[
+                      GameStyles.image
+                    ]} src={this.props.image3URL} />
+                  </a>
+                </div>
               </div>
             </div>
-            <div style={[
-              GameStyles.imageContainer,
-              this.state.hover2 && GameStyles.imageContainerHover
-            ]}>
-              <div onMouseEnter={this.mouseEntry2} onMouseLeave={this.mouseLeave2}>
-                <a href={this.props.image2URL}>
-                  <img style={[
-                    GameStyles.image,
-                    this.state.hover2 && GameStyles.imageHover
-                  ]} src={this.props.image2URL} />
-                </a>
-              </div>
+            <div style={[GameStyles.synoposis]}>
+              <p>{this.props.synoposis}</p>
             </div>
-            <div style={[
-              GameStyles.imageContainer,
-              this.state.hover3 && GameStyles.imageContainerHover
-            ]}>
-              <div onMouseEnter={this.mouseEntry3} onMouseLeave={this.mouseLeave3}>
-                <a href={this.props.image3URL}>
-                  <img style={[
-                    GameStyles.image,
-                    this.state.hover3 && GameStyles.imageHover
-                  ]} src={this.props.image3URL} />
-                </a>
-              </div>
+            <div style={[GameStyles.developer]}>
+              <p>Developer: <Link to={this.props.developerURL} style={{textDecoration: 'none'}}><Label>{this.props.developer}</Label></Link></p>
             </div>
-          </div>
-          <div style={[GameStyles.synoposis]}>
-            <p>{this.props.synoposis}</p>
-          </div>
-          <div style={[GameStyles.developer]}>
-            <p>Developer: <Link to={this.props.developerURL} style={{textDecoration: 'none'}}><Label>{this.props.developer}</Label></Link></p>
-          </div>
-          <div style={[GameStyles.articles]}>
-            <h3>Articles:</h3>
-          </div>
-          <div style={[GameStyles.twitter]}>
-            <h3>Twitter:</h3>
-          </div>
-          <div style={[GameStyles.youtube]}>
-            <h3>YouTube:</h3>
-          </div>
-          <div style={[GameStyles.twitch]}>
-            <h3>Twitch:</h3>
-          </div>
-        </Jumbotron>
-      </div></div>
+            <div style={[GameStyles.articles]}>
+              <h3>Articles:</h3>
+            </div>
+            <div style={[GameStyles.twitter]}>
+              <h3>Twitter:</h3>
+            </div>
+            <div style={[GameStyles.youtube]}>
+              <h3>YouTube:</h3>
+            </div>
+            <div style={[GameStyles.twitch]}>
+              <h3>Twitch:</h3>
+            </div>
+          </Jumbotron>
+        </div>
+      </div>
     );
   }
 }
