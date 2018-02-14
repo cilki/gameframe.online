@@ -8,7 +8,7 @@ import PropTypes from 'prop-types';
 import Radium from 'radium';
 
 import { InstanceSidebar as InstanceSidebarStyles } from '../inline-styles/InstanceSidebarStyles';
-import { TwitterTimelineEmbed } from 'react-twitter-embed';
+import TwitterTimelineEmbed from './twitter/TwitterEmbedTimeline';
 
 class InstanceSidebar extends React.Component {
 	static propTypes = {
