@@ -215,7 +215,7 @@ class AboutPage extends React.Component {
                         <Col md={3} sm={3}>
                             <Thumbnail src="https://i.lensdump.com/i/TDYNA.png">
                             <h3>Flask</h3>
-                            <p>Flask is our framework for python based web application development.</p>
+                            <p>Flask is our framework for Python based web application development.</p>
                             </Thumbnail>
                         </Col>
                         <Col md={3} sm={3}>
@@ -268,6 +268,32 @@ class AboutPage extends React.Component {
                             <Thumbnail src="https://tse4.mm.bing.net/th?id=OIP.gFZhldMJQCiCQylrx6oU2AHaFG&w=222&h=160&c=7&o=5&dpr=1.1&pid=1.7">
                                 <h3>Webpack</h3>
                                 <p>Webpack manages our JS files into one package.</p>
+                            </Thumbnail>
+                        </Col>
+						<Col md={3} sm={3}>
+                            <Thumbnail src="https://wcs.smartdraw.com/common/img/smardraw-logo.png?bn=1510011106">
+                                <h3>SmartDraw</h3>
+                                <p>SmartDraw is a tool we used to create a UML diagram.</p>
+                            </Thumbnail>
+                        </Col>
+                    </Row>
+					<Row>
+                        <Col md={3} sm={3}>
+                            <Thumbnail src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/db/Npm-logo.svg/640px-Npm-logo.svg.png">
+                                <h3>npm</h3>
+                                <p>npm is our JS node package manager.</p>
+                            </Thumbnail>
+                        </Col>
+                        <Col md={3} sm={3}>
+                            <Thumbnail src="https://i1.wp.com/blog.docker.com/wp-content/uploads/2013/06/Docker-logo-011.png?ssl=1">
+                                <h3>Docker</h3>
+                                <p>Docker runs our frontend development container.</p>
+                            </Thumbnail>
+                        </Col>
+						<Col md={3} sm={3}>
+                            <Thumbnail src="https://www.python.org/static/community_logos/python-logo-inkscape.svg">
+                                <h3>Python</h3>
+                                <p>Python is a language we use.</p>
                             </Thumbnail>
                         </Col>
                     </Row>
