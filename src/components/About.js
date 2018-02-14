@@ -24,7 +24,7 @@ class AboutPage extends React.Component {
                 }
                 this.setState(this.state);
             });
-        fetch('https://api.github.com/repos/cilki/gameframe.online/issues', {method: 'GET'})
+        fetch('https://api.github.com/repos/cilki/gameframe.online/issues?state=all', {method: 'GET'})
             .then(response => response.json())
             .then(json => {
                 for(var i = 0; i < json.length; i++){
@@ -55,9 +55,10 @@ class AboutPage extends React.Component {
                     </p>
                     {/*Explanation*/}
                     <p>
-                        By choosing these three models, we will eventually (in later phases) be able to connect news articles about video games to articles about similar games 
-						by the tags and genres about the games as well as games made by the same developer. This will facilitate the learning and appreciation of new or lesser 
-						known games. 
+                        By choosing these three models, we will eventually (in later phases) be able to determine a notion of popularity of different games by combining 
+                        metrics such as Steam ratings, number of tweets, YouTube videos, Twitch streams, etc. This will give us insight as to where the industry might
+                        be heading next, as well as information on how scandals such as the recent rise of microtransactions in games such as Destiny 2 and Star Wars: 
+                        Battlefront II. 
                     </p>
                 </div>
                 <hr/>
