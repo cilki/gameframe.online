@@ -49,11 +49,15 @@ class AboutPage extends React.Component {
                 }}>
                     {/*Description*/}
                     <p>
-                        This project was born out of all of our love of video games. It connects games to their developers and news articles to both games and developers. The purpose is to get as much data as possible about a game in the same place. We hope the site will be used by others like us with the same love of gaming and thirst for knowledge.
+                        This project was born out of all of our love of video games. It connects games to their developers and news articles to both games and developers. 
+						The purpose is to get as much data as possible about a game in the same place. We hope the site will be used by others like us with the same love of 
+						gaming and thirst for knowledge.
                     </p>
                     {/*Explanation*/}
                     <p>
-                        By choosing these three models, we will eventually (in later phases) be able to connect news articles about video games to articles about similar games by the tags and genres about the games as well as games made by the same developer. This will facilitate the learning and appreciation of new or lesser known games. 
+                        By choosing these three models, we will eventually (in later phases) be able to connect news articles about video games to articles about similar games 
+						by the tags and genres about the games as well as games made by the same developer. This will facilitate the learning and appreciation of new or lesser 
+						known games. 
                     </p>
                 </div>
                 <hr/>
@@ -69,8 +73,8 @@ class AboutPage extends React.Component {
                                 <div style={{
                                     textAlign: 'left'
                                 }}>
-                                    <p><strong>Bio:</strong> I&#39;m a 4th year CS/Math major with a passion for server technology, virtualization, and security.</p>
-                                    <p><strong>Responsibilities:</strong> API design, server management, database design, backend programming.</p>
+                                    <p><strong>Bio:</strong> I&#39;m a 4th year CS/Math major with a passion for server technology, virtualization, and security. </p>
+                                    <p><strong>Responsibilities:</strong> Backend Developer </p>
                                     <p><strong>Commits: </strong>{this.state['cilki'][0]}</p>
                                     <p><strong>Issues: </strong>{this.state['cilki'][1]}</p>
                                     <p><strong>Unit Tests: </strong>{this.state['cilki'][2]}</p>
@@ -84,7 +88,7 @@ class AboutPage extends React.Component {
                                     textAlign: 'left'
                                 }}>
                                     <p><strong>Bio:</strong> I'm a 3rd year CS student with experience in Java and web development. </p>
-                                    <p><strong>Responsibilities:</strong> Frontend Developer</p>
+                                    <p><strong>Responsibilities:</strong> Frontend Developer </p>
                                     <p><strong>Commits: </strong>{this.state['longhorn396'][0]}</p>
                                     <p><strong>Issues: </strong>{this.state['longhorn396'][1]}</p>
                                     <p><strong>Unit Tests: </strong>{this.state['longhorn396'][2]}</p>
@@ -97,8 +101,8 @@ class AboutPage extends React.Component {
                                 <div style={{
                                     textAlign: 'left'
                                 }}>
-                                    <p><strong>Bio:</strong>I'm from Fort Worth, Texas and a 3rd year math/CS student</p>
-                                    <p><strong>Responsibilities:</strong>Frontend Developer</p>
+                                    <p><strong>Bio:</strong> I'm from Fort Worth, Texas and a 3rd year math/CS student. </p>
+                                    <p><strong>Responsibilities:</strong> Frontend Developer </p>
                                     <p><strong>Commits: </strong>{this.state['therealsamf'][0]}</p>
                                     <p><strong>Issues: </strong>{this.state['therealsamf'][1]}</p>
                                     <p><strong>Unit Tests: </strong>{this.state['therealsamf'][2]}</p>
@@ -135,8 +139,9 @@ class AboutPage extends React.Component {
                                 <div style={{
                                     textAlign: 'left'
                                 }}>
-                                    <p><strong>Bio:</strong> I am a student studying Computer Science at the University of Texas at Austin with particular interest in systems & architecture and high performance computing.</p>
-                                    <p><strong>Responsibilities:</strong> Frontend Developer</p>
+                                    <p><strong>Bio:</strong> I am a student studying Computer Science at the University of Texas at Austin with particular interest in systems & architecture 
+									                         and high performance computing. </p>
+                                    <p><strong>Responsibilities:</strong> Frontend Developer </p>
                                     <p><strong>Commits: </strong>{this.state['atrieder'][0]}</p>
                                     <p><strong>Issues: </strong>{this.state['atrieder'][1]}</p>
                                     <p><strong>Unit Tests: </strong>{this.state['atrieder'][2]}</p>
@@ -149,8 +154,11 @@ class AboutPage extends React.Component {
                                 <div style={{
                                     textAlign: 'left'
                                 }}>
-                                    <p><strong>Bio:</strong> I was born in Ankara, Turkey, on October 19th, 1997. I moved to Houston, Texas in 2013, and graduated from William P. Clements High School in 2015. I enrolled into University of Texas at San Antonio after graduating from high school and transferred into University of Texas at Austin one year later, where I am currently pursuing a Bachelor of Science degree in Computer Science and a Certificate in Applied Statistical Modeling.</p>
-                                    <p><strong>Responsibilities:</strong> </p>
+                                    <p><strong>Bio:</strong> I was born in Ankara, Turkey, on October 19th, 1997. I moved to Houston, Texas in 2013, and graduated from William 
+									                         P. Clements High School in 2015. I enrolled into University of Texas at San Antonio after graduating from high school 
+															 and transferred into University of Texas at Austin one year later, where I am currently pursuing a Bachelor of Science 
+															 degree in Computer Science and a Certificate in Applied Statistical Modeling. </p>
+                                    <p><strong>Responsibilities:</strong> Backend Developer </p>
                                     <p><strong>Commits: </strong>{this.state['esoysal'][0]}</p>
                                     <p><strong>Issues: </strong>{this.state['esoysal'][1]}</p>
                                     <p><strong>Unit Tests: </strong>{this.state['esoysal'][2]}</p>
