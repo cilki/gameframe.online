@@ -37,7 +37,7 @@ class Game extends React.Component {
 
   render() {
     let index = 0;
-    
+
     return (
       <InstanceDetails style={{
         container: GameStyles.container(this.props.coverURL),
@@ -91,7 +91,7 @@ class Game extends React.Component {
             <p>Developer: <Link to={this.props.developerURL} style={{textDecoration: 'none'}}><Label>{this.props.developer}</Label></Link></p>
           </div>
           <div style={[GameStyles.articles]}>
-            <h3>Articles:</h3>
+            <h3>Articles:</h3> <p><Link to={this.props.articleURL} style={{textDecoration: 'none'}}><Label>{this.props.article}</Label></Link></p>
           </div>
           <div style={[GameStyles.youtube]}>
             <h3>YouTube:</h3>
