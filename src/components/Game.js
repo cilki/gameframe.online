@@ -44,7 +44,7 @@ class Game extends React.Component {
         border: GameStyles.border,
         jumboTron: GameStyles.jumboTron
       }}
-        twitter={{...this.props.twitter}}
+        twitterWidget={{...this.props.twitter}}
       >
         <div>
           <h1 style={[GameStyles.name]}>{this.props.game}</h1>

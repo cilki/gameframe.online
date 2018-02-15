@@ -21,7 +21,7 @@ class InstanceDetails extends React.Component {
 			jumboTron: PropTypes.object
 		}).isRequired,
 
-		twitter: PropTypes.shape({
+		twitterWidget: PropTypes.shape({
 			widgetId: PropTypes.string,
 			sourceType: PropTypes.string,
 			screenName: PropTypes.string
