@@ -24,7 +24,7 @@ class PUBGCorp extends React.Component {
 								  (PUBG).'
 					       gameURL='/PLAYERUNKNOWNSBATTLEGROUNDS' game='PLAYERUNKNOWNS BATTLEGROUNDS'
 					       articleURL='/Article2' article='Will Smiths Top 7 Games of 2017'
-					       twitterURL='' twitter=''
+					       twitterURL='' twitter={{widgetId: '964020948381978624'}}
 				/>
 			</div>
 		);

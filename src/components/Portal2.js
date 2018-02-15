@@ -31,7 +31,7 @@ class Portal2 extends React.Component {
 
 					  articleURL='/Article1' article='Bridge Constructor Portal isnt a rollercoaster of laughs, but its still good'
 
-					  twitterURL='' twitter='963620401627754496'
+					  twitterURL='' twitter={{widgetId: '963620401627754496'}}
 					  youtubeURL='' youtube=''
 					  twitchURL='' twitch=''
 			                  coverURL='https://images.igdb.com/igdb/image/upload/t_cover_big/w6kusdugzlssi3yqcbwl.jpg'

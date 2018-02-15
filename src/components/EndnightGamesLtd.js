@@ -19,7 +19,7 @@ class EndnightGamesLtd extends React.Component {
 					       about='Not Available.'
 					       gameURL='/TheForest' game='The Forest'
 					       articleURL='/Article3' article='V0.73 and release plans'
-					       twitterURL='' twitter=''
+					       twitterURL='' twitter={{screenName: 'benfalcone1', sourceType: 'profile'}}
 				/>
 			</div>
 		);

@@ -23,7 +23,7 @@ class Psyonix extends React.Component {
 								  Machines. Its first game project was Proteus.'
 					       gameURL='/RocketLeague' game='Rocket League'
 					       articleURL='/Article3' article='Rocket League Roadmap: Spring 2018'
-					       twitterURL='' twitter=''
+					       twitterURL='' twitter={{sourceType: 'profile', screenName: 'PsyonixStudios'}}
 				/>
 			</div>
 		);
