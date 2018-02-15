@@ -14,14 +14,18 @@ import { InstanceDetails as InstanceDetailsStyles } from '../inline-styles/Insta
 class InstanceDetails extends React.Component {
 	/* Enumerate the required props in an attempt to reduce bugs */
 	static propTypes = {
-		children: PropTypes.element.isRequired,
+		children: PropTypes.oneOfType([PropTypes.element, PropTypes.array]).isRequired,
 		style: PropTypes.shape({
 			container: PropTypes.object,
 			border: PropTypes.object,
 			jumboTron: PropTypes.object
 		}).isRequired,
 
-		twitterWidget: PropTypes.string
+		twitter: PropTypes.shape({
+			widgetId: PropTypes.string,
+			sourceType: PropTypes.string,
+			screenName: PropTypes.string
+		})
 	}
 
 	constructor() {
@@ -30,18 +34,20 @@ class InstanceDetails extends React.Component {
 	}
 
 	render() {
+		let twitterProps = this.props.twitterWidget;
+
 		return (
 			<React.Fragment>
 				<div style={this.props.style.container}></div>
 	      <div style ={this.props.style.border}>
 	        <Jumbotron style={this.props.style.jumboTron}>
 	        	<div style={[InstanceDetailsStyles.container]}>
-	          	<div style={[InstanceDetails.childContainer]}>
+	          	<div style={[InstanceDetailsStyles.childContainer]}>
 								{this.props.children}
 							</div>
 
 							<div style={[InstanceDetailsStyles.sidebarContainer]} >
-								<InstanceSidebar twitterWidget={this.props.twitterWidget} />
+								<InstanceSidebar twitterWidget={twitterProps} />
 							</div>
 						</div>
 					</Jumbotron>

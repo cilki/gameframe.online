@@ -24,7 +24,7 @@ class AboutPage extends React.Component {
                 }
                 this.setState(this.state);
             });
-        fetch('https://api.github.com/repos/cilki/gameframe.online/issues', {method: 'GET'})
+        fetch('https://api.github.com/repos/cilki/gameframe.online/issues?state=all', {method: 'GET'})
             .then(response => response.json())
             .then(json => {
                 for(var i = 0; i < json.length; i++){
@@ -55,9 +55,10 @@ class AboutPage extends React.Component {
                     </p>
                     {/*Explanation*/}
                     <p>
-                        By choosing these three models, we will eventually (in later phases) be able to connect news articles about video games to articles about similar games 
-						by the tags and genres about the games as well as games made by the same developer. This will facilitate the learning and appreciation of new or lesser 
-						known games. 
+                        By choosing these three models, we will eventually (in later phases) be able to determine a notion of popularity of different games by combining 
+                        metrics such as Steam ratings, number of tweets, YouTube videos, Twitch streams, etc. This will give us insight as to where the industry might
+                        be heading next, as well as information on how scandals such as the recent rise of microtransactions in games such as Destiny 2 and Star Wars: 
+                        Battlefront II. 
                     </p>
                 </div>
                 <hr/>
@@ -87,7 +88,7 @@ class AboutPage extends React.Component {
                                 <div style={{
                                     textAlign: 'left'
                                 }}>
-                                    <p><strong>Bio:</strong> I'm a 3rd year CS student with experience in Java and web development. </p>
+                                    <p><strong>Bio:</strong> I&#39;m a 3rd year CS student with experience in Java and web development. </p>
                                     <p><strong>Responsibilities:</strong> Frontend Developer </p>
                                     <p><strong>Commits: </strong>{this.state['longhorn396'][0]}</p>
                                     <p><strong>Issues: </strong>{this.state['longhorn396'][1]}</p>
@@ -101,7 +102,7 @@ class AboutPage extends React.Component {
                                 <div style={{
                                     textAlign: 'left'
                                 }}>
-                                    <p><strong>Bio:</strong> I'm from Fort Worth, Texas and a 3rd year math/CS student. </p>
+                                    <p><strong>Bio:</strong> I&#39;m from Fort Worth, Texas and a 3rd year math/CS student. </p>
                                     <p><strong>Responsibilities:</strong> Frontend Developer </p>
                                     <p><strong>Commits: </strong>{this.state['therealsamf'][0]}</p>
                                     <p><strong>Issues: </strong>{this.state['therealsamf'][1]}</p>
@@ -181,17 +182,17 @@ class AboutPage extends React.Component {
                         <Col md={4} sm={4}>
                             <h2><strong>Source and Documentation</strong></h2>
                             <a href="https://github.com/cilki/gameframe.online"><p>GitHub</p></a>
-                            <a href="https://www.gitbook.com/book/cilki/report/details"><p>Technical Report</p></a>
+                            <a href="https://cilki.gitbooks.io/report/"><p>Technical Report</p></a>
                             <a href="https://cilki.gitbooks.io/api/"><p>API Documentation</p></a>
                         </Col>
                         {/*Data*/}
                         <Col md={4} sm={4}>
                             <h2><strong>Data Sources</strong></h2>
-                            <p><a href='https://developer.valvesoftware.com/wiki/Steam_Web_API'>Steam Web API</a></p>
+                            <p><a href='https://developer.valvesoftware.com/wiki/Steam_Web_API'>Steam</a></p>
                             <p><a href='https://www.igdb.com/api'>IGDB</a></p>
                             <p><a href='https://www.giantbomb.com/api/'>Giant Bomb</a></p>
                             <p><a href='https://developer.twitter.com/en/docs'>Twitter</a></p>
-                            <p>Each data source was manually scraped for this phase of the project.</p>
+                            <p>Each data source was manually collected for this phase of the project.</p>
                         </Col>
                     </Row>
                     {/*Tools*/}
@@ -213,24 +214,24 @@ class AboutPage extends React.Component {
                         <Col md={3} sm={3}>
                             <Thumbnail src="https://i1.wp.com/blog.docker.com/wp-content/uploads/2013/06/Docker-logo-011.png?ssl=1" style={{width:'150px',height:'150px',margin:'auto'}}/>
                             <h3>Docker</h3>
-                            <p>Docker runs our frontend development container.</p>
+                            <p>Docker runs the development and production HTTP servers.</p>
                         </Col>
                         <Col md={3} sm={3}>
                             <Thumbnail src="https://i.lensdump.com/i/TDYNA.png" style={{width:'150px',height:'150px',margin:'auto'}}/>
                             <h3>Flask</h3>
-                            <p>Flask is our framework for Python based web application development.</p>
+                            <p>Flask is a micro-framework for web applications written in Python.</p>
                         </Col>
                     </Row>
                     <Row>
                         <Col md={3} sm={3}>
                             <Thumbnail src="http://cdn.gbraad.nl/images/portfolio/gitbook-logo.png" style={{width:'150px',height:'150px',margin:'auto'}}/>
                             <h3>GitBook</h3>
-                            <p>GitBook is where we document our website development.</p>
+                            <p>The site and its API are extensively documented with GitBook.</p>
                         </Col>
                         <Col md={3} sm={3}>
                             <Thumbnail src="https://i.lensdump.com/i/TD3gC.md.png" style={{width:'150px',height:'150px',margin:'auto'}}/>
                             <h3>GitHub</h3>
-                            <p>GitHub is where we collaborate on code.</p>
+                            <p>GitHub hosts the GameFrame source repository.</p>
                         </Col>
                         <Col md={3} sm={3}>
                             <Thumbnail src="https://i.lensdump.com/i/TD7WT.md.png" style={{width:'150px',height:'150px',margin:'auto'}}/>
@@ -240,14 +241,14 @@ class AboutPage extends React.Component {
                         <Col md={3} sm={3}>
                             <Thumbnail src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/db/Npm-logo.svg/640px-Npm-logo.svg.png" style={{width:'150px',height:'150px',margin:'auto'}}/>
                             <h3>npm</h3>
-                            <p>npm is our JS node package manager.</p>
+                            <p>npm is a JS node package manager.</p>
                         </Col>
                     </Row>
                     <Row>
                         <Col md={3} sm={3}>
                             <Thumbnail src="https://www.python.org/static/community_logos/python-logo-inkscape.svg" style={{width:'150px',height:'150px',margin:'auto'}}/>
                             <h3>Python</h3>
-                            <p>Python is a language we use.</p>
+                            <p>Most of the backend is written in Python.</p>
                         </Col>
                         <Col md={3} sm={3}>
                             <Thumbnail src="https://tse1.mm.bing.net/th?id=OIP.PhCTTNKigiR-TKmKdXCSUAHaHB&w=136&h=129&c=7&o=5&dpr=1.1&pid=1.7" style={{width:'150px',height:'150px',margin:'auto'}}/>
@@ -269,7 +270,7 @@ class AboutPage extends React.Component {
                         <Col md={3} sm={3}>
                             <Thumbnail src="https://i.lensdump.com/i/TDLgD.md.png" style={{width:'150px',height:'150px',margin:'auto'}}/>
                             <h3>Slack</h3>
-                            <p>Slack is where we communicate to each other.</p>
+                            <p>Slack is where we communicate with each other.</p>
                         </Col>
                         <Col md={3} sm={3}>
                             <Thumbnail src="https://wcs.smartdraw.com/common/img/smardraw-logo.png?bn=1510011106" style={{width:'150px',height:'150px',margin:'auto'}}/>

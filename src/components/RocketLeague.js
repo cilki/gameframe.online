@@ -25,8 +25,8 @@ class RocketLeague extends React.Component {
 								 interactions, Rocket League® relies on mass and momentum to give players a complete sense of intuitive 
 								 control in this unbelievable, high-octane re-imagining of association football.'
 					  developerURL='/Psyonix' developer='Psyonix'
-					  articleURL='' article=''
-					  twitterURL='' twitter='963610623220375553'
+					  articleURL='/Article4' article='Rocket League Roadmap: Spring 2018'
+					  twitterURL='' twitter={{widgetId: '963610623220375553'}}
 					  youtubeURL='' youtube=''
 					  twitchURL='' twitch=''
 					coverURL='https://images.igdb.com/igdb/image/upload/t_cover_big/edkpgyqgfsxyiby9pyj5.jpg'

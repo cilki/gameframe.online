@@ -19,7 +19,7 @@ class ValveCorporation extends React.Component {
 					       about='Valve Corporation is an American video game developer and digital distribution company headquartered in Bellevue, Washington. The company is known for its software distribution platform Steam and the Half-Life, Counter-Strike, Portal, Day of Defeat, Team Fortress, Left 4 Dead, and Dota 2 games.'
 					       gameURL='/Portal2' game='Portal 2'
 					       articleURL='/Article1' article='Bridge Constructor Portal isnt a rollercoaster of laughs, but its still good'
-					       twitterURL='' twitter=''
+					       twitterURL='' twitter={{widgetId: '964020375020621824'}}
 				/>
 			</div>
 		);

@@ -6,10 +6,10 @@ import React from 'react';
 import Radium from 'radium';
 import {Jumbotron, Label, Badge} from 'react-bootstrap';
 import { Link } from 'react-router-dom';
+
 import { Developer as DeveloperStyles } from '../inline-styles/DeveloperStyles';
 import Card from './Card';
-
-import { TwitterTimelineEmbed } from 'react-twitter-embed';
+import InstanceDetails from './InstanceDetails';
 
 class Developer extends React.Component {
   constructor(props) {
@@ -30,29 +30,32 @@ class Developer extends React.Component {
   }
 
   render() {
-    return (
-      <div style = {[DeveloperStyles.border]}>
-        <Jumbotron style={[DeveloperStyles.jumboTron], {borderRadius: '10px'}}>
-          <h1 style={[DeveloperStyles.name]}>{this.props.developer}<div style={[DeveloperStyles.logo]}><img style={{maxWidth: '100%', maxHeight: '100%'}} src={this.props.logoURL}/></div></h1>
-          <div style={[DeveloperStyles.secondaryInfo]}>
-            <p>Established: {this.props.year}</p>
-            <p>Location: {this.props.loc}</p>
-          </div>
 
-          <div style={[DeveloperStyles.about]}>
-            <p>{this.props.about}</p>
-          </div>
-          <div style={[DeveloperStyles.games]}>
-            <h3>Games:</h3><p><Link to={this.props.gameURL} style={{textDecoration: 'none'}}><Label>{this.props.game}</Label></Link></p>
-          </div>
-          <div style={[DeveloperStyles.articles]}>
-            <h3>Articles:</h3><p><Link to={this.props.articleURL} style={{textDecoration: 'none'}}><Label>{this.props.article}</Label></Link></p>
-          </div>
-          <div style={[DeveloperStyles.twitter]}>
-            <h3>Twitter:</h3>
-          </div>
-        </Jumbotron>
-      </div>
+    return (
+    	<InstanceDetails 
+	    	style={{
+	    		container: undefined,
+	    		border: DeveloperStyles.border,
+	    		jumboTron: DeveloperStyles.jumboTron
+	    	}} 
+	    	twitterWidget={this.props.twitter}
+    	>
+        <h1 style={[DeveloperStyles.name]}>{this.props.developer}<div style={[DeveloperStyles.logo]}><img style={{maxWidth: '100%', maxHeight: '100%'}} src={this.props.logoURL}/></div></h1>
+        <div style={[DeveloperStyles.secondaryInfo]}>
+          <p>Established: {this.props.year}</p>
+          <p>Location: {this.props.loc}</p>
+        </div>
+
+        <div style={[DeveloperStyles.about]}>
+          <p>{this.props.about}</p>
+        </div>
+        <div style={[DeveloperStyles.games]}>
+          <h3>Games:</h3><p><Link to={this.props.gameURL} style={{textDecoration: 'none'}}><Label>{this.props.game}</Label></Link></p>
+        </div>
+        <div style={[DeveloperStyles.articles]}>
+          <h3>Articles:</h3><p><Link to={this.props.articleURL} style={{textDecoration: 'none'}}><Label>{this.props.article}</Label></Link></p>
+        </div>
+     </InstanceDetails>
     );
   }
 }

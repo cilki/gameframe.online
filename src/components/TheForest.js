@@ -22,8 +22,8 @@ class TheForest extends React.Component {
 					             to stay alive against a society of cannibalistic mutants. Build, explore, survive in this 
 								 terrifying first person survival horror simulator.'
 					  developerURL='/EndnightGamesLtd' developer='Endnight Games Ltd.'
-					  articleURL='' article=''
-					  twitterURL='' twitter='963620175491883008'
+					  articleURL='/Article3' article='The Forest launches this April, after four years lost in the woods'
+					  twitterURL='' twitter={{widgetId: '963620175491883008'}}
 					  youtubeURL='' youtube=''
 					  twitchURL='' twitch=''
 					coverURL='https://images.igdb.com/igdb/image/upload/t_cover_big/taf1unbzsejvvjiicaqk.jpg'

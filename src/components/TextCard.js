@@ -9,16 +9,6 @@ import { Link } from 'react-router-dom';
 
 import { TextCard as TextCardStyles } from '../inline-styles/TextCardStyles';
 
-/* @description - Produces a 'card' containing a game's cover image and a
- * caption indicating the developer and publication year.
- * @param {String} coverURL - url to go to when clicked
- * @param {String} developer - the developer of the associated game
- * @param {String} year - the year the game was made in a string
- * @param {Bool} hover - whether the user is hovering over this component
- * @param {Bool} clicked - whether this component is in a 'clicked' state
- * @returns {React.Component}
- */
-
 /**
  * A single card instance within the InstanceGrid
  */

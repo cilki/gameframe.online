@@ -26,8 +26,8 @@ class PLAYERUNKNOWNSBATTLEGROUNDS extends React.Component {
 								 : King of the Kill, Greene is co-developing the game with veteran team at Bluehole to create the most 
 								 diverse and robust Battle Royale experience to date. Not Just a Game. This is BATTLE ROYALE!'
 					  developerURL='/PUBGCorp' developer='PUBG Corp'
-					  articleURL='' article=''
-					  twitterURL='' twitter='963619071509127168'
+					  articleURL='/Article2' article='Will Smiths Top 7 Games of 2017'
+					  twitterURL='' twitter={{widgetId: '963619071509127168'}}
 					  youtubeURL='' youtube=''
 					  twitchURL='' twitch=''
 					coverURL='https://images.igdb.com/igdb/image/upload/t_cover_big/lvoic2oakbklg2dytgpa.jpg'
