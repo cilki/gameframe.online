@@ -63,37 +63,35 @@ class Card extends React.Component {
             <div style={[
               CardStyles.card,
               this.state.hover && CardStyles.card.hover,
-            ]}
-            >
+            ]}>
+                <div style={[
+                  CardStyles.imageContainer,
+                  this.state.hover && CardStyles.imageContainer.hover
+                ]}>
+                  <img style={[
+                    CardStyles.image,
+                    this.state.hover && CardStyles.image.hover
+                  ]} src={this.props.cover} ref={img => this.img = img} onError={
+                    () => this.img.src = '../../static/images/noImage.png'
+                  }/>
+                </div>
+                <div style={[CardStyles.captionContainer]}>
+                  <div style={[CardStyles.caption]}>
+                    <Label>
+                      {this.props.company}
+                    </Label>
+                  </div>
+                  <div style={[CardStyles.badgeContainer]}>
+                    <Badge>
+                      {this.props.year}
+                    </Badge></div></div>
               <div style={[
-                CardStyles.imageContainer,
-                this.state.hover && CardStyles.imageContainer.hover,
-              ]}
-              >
-                <img
-                  style={[
-                  CardStyles.image,
-                  this.state.hover && CardStyles.image.hover,
-                ]}
-                  src={this.props.cover}
-                  ref={img => this.img = img}
-                  onError={
-                  () => this.img.src = '../../static/images/noImage.png'
-                }
-                />
-              </div>
-              <div style={[CardStyles.captionContainer]}>
-                <div style={[CardStyles.caption]}>
-                  <Label>
-                    {this.props.company}
-                  </Label>
+                CardStyles.tooltip,
+                this.state.hover && CardStyles.tooltip.hover,
+              ]}>
+                <h3>Basic Information:</h3><p>AAAAAAAAAAAAAA AAAAA AAAAAAAAAA AAAAAAAAAAAaaaaAAAaaaaA AAaaaA,
+                aaAAaaaAA AAaA!</p>
                 </div>
-                <div style={[CardStyles.badgeContainer]}>
-                  <Badge>
-                    {this.props.year}
-                  </Badge>
-                </div>
-              </div>
             </div>
           </div>
         </Link>

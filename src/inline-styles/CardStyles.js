@@ -23,6 +23,28 @@ const Card = {
     },
   },
 
+  tooltip: {
+    zIndex: '1000',
+    opacity: '0.0',
+    display: 'flex',
+    flexDirection: 'column',
+    position: 'relative',
+    padding: '0px 0px 0px 0px',
+    margin: '0px 0px 0px 0px',
+    height: '0px',
+    color: 'black',
+    top: '5%',
+    left: '5%',
+    bottom: '5%',
+    right: '5%',
+    maxWidth: '256px',
+    transition: 'height 0.255s',
+    hover: {
+      height: '200px',
+      opacity: '1.0'
+    },
+  },
+
   imageContainer: {
     overflow: 'hidden',
     borderRadius: '10px',
@@ -41,10 +63,13 @@ const Card = {
     borderRadius: '10px',
     transition: 'transform 0.2s, filter 0.2s',
     transform: 'scale(1.0)',
+    position: 'relative',
+    width: '100%',
+    margin: 'auto',
     hover: {
-      transition: 'transform 1.0s, filter 0.2s',
+      transition: 'transform 1.0s, filter 1.0s',
       transform: 'scale(1.05)',
-    },
+    }
   },
 
 
