@@ -1,0 +1,6 @@
+
+# Ignore font files
+fonts/
+
+# Ignore twitter's timeline
+twitter/
