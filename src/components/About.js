@@ -22,6 +22,9 @@ class AboutPage extends React.Component {
           this.state.total[0] += json[i].contributions;
         }
         this.setState(this.state);
+      })
+      .catch((err) => {
+        // do something with error
       });
     fetch('https://api.github.com/repos/cilki/gameframe.online/issues?state=all', { method: 'GET' })
       .then(response => response.json())
@@ -31,6 +34,9 @@ class AboutPage extends React.Component {
           this.state.total[1] += 1;
         }
         this.setState(this.state);
+      })
+      .catch((err) => {
+        // do something with error
       });
   }
 
