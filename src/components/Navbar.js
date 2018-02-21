@@ -29,9 +29,11 @@ function createLinkContainerNavItem(href, imageSrc, label, linkProps, navProps) 
   return (
     <LinkContainer to={href} {...linkProps}>
       <NavItem {...navProps}>
-	    <Image src={imageSrc} rounded />
-		<div>
+		<div style={{display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', margin: 'auto',}}>
+		<Image src={imageSrc} rounded />
+		<div style={{display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', margin: 'auto',}}>
         {label} {/* Just text for now, later on should be it's own component */}
+		</div>
 		</div>
       </NavItem>
     </LinkContainer>
