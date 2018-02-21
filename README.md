@@ -3,7 +3,7 @@
 Development site: (http://dev.gameframe.online)<br>
 Production site: (http://gameframe.online)
 
-##### Docker Setup
+#### Docker Setup
 Download the development image:
 ```
 sudo docker pull cilki/gameframe:latest
@@ -15,3 +15,12 @@ sudo docker run -it -p 80:80 -v <repo>:/app cilki/gameframe:latest
 ```
 
 Navigate to `localhost`. The container will automatically reload the server when you make a change in the code ;).
+
+#### Contributing
+##### Tests
+To run the unit tests, run `npm run test`
+
+##### Linting
+To run [ESLint](https://eslint.org/), run `npm run lint`
+
+Run `npm run lint:fix` to get ESLint to attempt to fix as many errors as it can for you
