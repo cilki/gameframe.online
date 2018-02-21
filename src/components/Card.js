@@ -91,7 +91,7 @@ class Card extends React.Component {
                 this.state.hover && CardStyles.tooltip.hover,
               ]}
               >
-                <h3>Basic Information:</h3><p>AAAAAAAAAAAAAA AAAAA AAAAAAAAAA AAAAAAAAAAAaaaaAAAaaaaA AAaaaA,
+                <h3>{this.props.title}</h3><p>AAAAAAAAAAAAAA AAAAA AAAAAAAAAA AAAAAAAAAAAaaaaAAAaaaaA AAaaaA,
                 aaAAaaaAA AAaA!
                 </p>
               </div>
