@@ -24,24 +24,30 @@ const Card = {
   },
 
   tooltip: {
-    zIndex: '1000',
     opacity: '0.0',
     display: 'flex',
     flexDirection: 'column',
     position: 'relative',
-    padding: '0px 0px 0px 0px',
-    margin: '0px 0px 0px 0px',
     height: '0px',
-    color: 'black',
-    top: '5%',
-    left: '5%',
-    bottom: '5%',
-    right: '5%',
+    backgroundColor: 'gray',
+    padding: '0px 5% 0px 5%',
+    minWidth: '100%',
     maxWidth: '256px',
     transition: 'height 0.255s',
+    overflow: 'hidden',
+    borderBottomLeftRadius: '10px',
+    borderBottomRightRadius: '10px',
     hover: {
       height: '200px',
-      opacity: '1.0'
+      opacity: '1.0',
+      color: 'white',
+      textShadow: '0px 0px 2px gray, 0px 0px 3px black',
+    },
+  },
+  imageContainerContainer: {
+    backgroundColor: 'darkGray',
+    hover: {
+      backgroundColor: 'gray',
     },
   },
 
@@ -50,7 +56,6 @@ const Card = {
     borderRadius: '10px',
     transition: 'transform 0.2s',
     transform: 'scale(0.995)',
-    backgroundColor: 'gray',
     margin: 'auto',
     hover: {
       transform: 'scale(1.0)',
@@ -69,7 +74,7 @@ const Card = {
     hover: {
       transition: 'transform 1.0s, filter 1.0s',
       transform: 'scale(1.05)',
-    }
+    },
   },
 
 
@@ -78,6 +83,11 @@ const Card = {
     flexDirection: 'row',
     justifyContent: 'space-around',
     padding: '2% 5% 2% 0%',
+    transition: 'height 0.2s',
+    hover: {
+      height: '0px',
+      overflow: 'hidden',
+    },
   },
 
   caption: {
