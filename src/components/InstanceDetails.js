@@ -37,22 +37,22 @@ class InstanceDetails extends React.Component {
 	  const twitterProps = this.props.twitterWidget;
 
 	  return (
-  <React.Fragment>
-    <div style={this.props.style.container} />
-    <div style={this.props.style.border}>
-      <Jumbotron style={this.props.style.jumboTron}>
-        <div style={[InstanceDetailsStyles.container]}>
-          <div style={[InstanceDetailsStyles.childContainer]}>
-            {this.props.children}
-          </div>
+      <React.Fragment>
+        <div style={this.props.style.container} />
+        <div style={this.props.style.border}>
+          <Jumbotron style={this.props.style.jumboTron}>
+            <div style={[InstanceDetailsStyles.container]}>
+              <div style={[InstanceDetailsStyles.childContainer]}>
+                {this.props.children}
+              </div>
 
-          <div style={[InstanceDetailsStyles.sidebarContainer]} >
-            <InstanceSidebar twitterWidget={twitterProps} />
-          </div>
+              <div style={[InstanceDetailsStyles.sidebarContainer]} >
+                <InstanceSidebar twitterWidget={twitterProps} />
+              </div>
+            </div>
+          </Jumbotron>
         </div>
-      </Jumbotron>
-    </div>
-  </React.Fragment>
+      </React.Fragment>
 	  );
 	}
 }
