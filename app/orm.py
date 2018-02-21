@@ -25,7 +25,7 @@ class Game(db.Model):
     streams = db.relationship('Stream', secondary = 'game_stream', back_populates = "games")
     articles = db.relationship('Article',  secondary = 'game_article', back_populates = "games")
 
-    developer_id = db.Column(Integer, ForeignKey('developer.developer_id'))
+    developer_id = db.Column(db.Integer, db.ForeignKey('developer.developer_id'))
 
 class Article(db.Model):
     """
@@ -63,7 +63,7 @@ class Developer(db.Model):
 
     games = db.relationship('Game')
     tweets = db.relationship('Tweet')
-	
+
 class Tweet(db.Model):
     """
     One of the supporting models, Tweet represents a tweet related to a Game or
@@ -79,7 +79,7 @@ class Tweet(db.Model):
 
     games = db.relationship('Game', secondary = 'game_tweet', back_populates = "tweets")
 
-    developer_id = db.Column(Integer, ForeignKey('developer.developer_id'))
+    developer_id = db.Column(db.Integer, db.ForeignKey('developer.developer_id'))
 
 class Video(db.Model):
     """
