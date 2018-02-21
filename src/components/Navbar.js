@@ -5,7 +5,7 @@
 import React from 'react';
 import {
   Navbar, Nav, Brand, Toggle, NavItem, Forms, FormGroup,
-  FormControl, Button,
+  FormControl, Button, Image
 } from 'react-bootstrap';
 
 import { Link } from 'react-router-dom';
@@ -25,11 +25,14 @@ import { LinkContainer } from 'react-router-bootstrap';
  * 	placed within the NavItem
  * @returns {React.Component}
  */
-function createLinkContainerNavItem(href, label, linkProps, navProps) {
+function createLinkContainerNavItem(href, imageSrc, label, linkProps, navProps) {
   return (
     <LinkContainer to={href} {...linkProps}>
       <NavItem {...navProps}>
+	    <Image src={imageSrc} rounded />
+		<div>
         {label} {/* Just text for now, later on should be it's own component */}
+		</div>
       </NavItem>
     </LinkContainer>
   );
@@ -39,18 +42,22 @@ const pages = [
   {
     href: '/games',
     label: 'Games',
+	imageSrc: '../../static/images/icons8-white-game-controller-50.png',
   },
   {
     href: '/developers',
     label: 'Developers',
+	imageSrc: '../../static/images/icons8-white-development-skill-50.png',
   },
   {
     href: '/articles',
     label: 'Articles',
+	imageSrc: '../../static/images/icons8-white-hot-article-50.png',
   },
   {
     href: '/about',
     label: 'About',
+	imageSrc: '../../static/images/icons8-white-about-50.png',
   },
 ];
 
@@ -72,7 +79,7 @@ class NavBar extends React.Component {
             {/* This dynamically creates all of the NavItems for us depending on
 			    		the objects in `pages` */}
             {pages.map((page, index) => createLinkContainerNavItem(
-page.href, page.label,
+page.href, page.imageSrc, page.label,
 			    			{ key: index },
 			    			{ eventKey: index },
 		    			))}
