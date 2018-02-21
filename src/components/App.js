@@ -1,13 +1,13 @@
 /**
- * Top level component for the entire application. Uses react router to 
+ * Top level component for the entire application. Uses react router to
  * provide static/dynamic routing
  */
 
 import React from 'react';
 import {
-	BrowserRouter as Router,
-	Route,
-	Link
+  BrowserRouter as Router,
+  Route,
+  Link,
 } from 'react-router-dom';
 
 import Banner from './Banner';
@@ -36,49 +36,50 @@ import Article4 from './Article4';
 import AboutPage from './About';
 
 class App extends React.Component {
-
-	render() {
-		return (
-			<Router>
-				<div style={{
+  render() {
+    return (
+      <Router>
+        <div style={{
 					display: 'flex',
 					minHeight: '100%',
-					flexDirection: 'column'
-				}}>
-					<Banner />
-					<Navbar />
+					flexDirection: 'column',
+				}}
+        >
+          <Banner />
+          <Navbar />
 
-					<div style={{
+          <div style={{
 						flex: 1,
-						verticalAlign: 'top'
-					}}>
-						<Route path="/" exact component={Splash} />
-						<Route path="/about" component={AboutPage} />
-						<Route path="/games" exact component={Games} />
-						<Route path="/developers" exact component={Developers} />
-						<Route path="/articles" exact component={Articles} />
+						verticalAlign: 'top',
+					}}
+          >
+            <Route path="/" exact component={Splash} />
+            <Route path="/about" component={AboutPage} />
+            <Route path="/games" exact component={Games} />
+            <Route path="/developers" exact component={Developers} />
+            <Route path="/articles" exact component={Articles} />
 
-						<Route path="/Portal2" exact component={Portal2} />
-						<Route path="/PLAYERUNKNOWNSBATTLEGROUNDS" component={PLAYERUNKNOWNSBATTLEGROUNDS} />
-						<Route path="/RocketLeague" component={RocketLeague} />
-						<Route path="/TheForest" component={TheForest} />
+            <Route path="/Portal2" exact component={Portal2} />
+            <Route path="/PLAYERUNKNOWNSBATTLEGROUNDS" component={PLAYERUNKNOWNSBATTLEGROUNDS} />
+            <Route path="/RocketLeague" component={RocketLeague} />
+            <Route path="/TheForest" component={TheForest} />
 
-						<Route path="/ValveCorporation" exact component={ValveCorporation} />
-						<Route path="/PUBGCorp" exact component={PUBGCorp} />
-						<Route path="/Psyonix" exact component={Psyonix} />
-						<Route path="/EndnightGamesLtd" exact component={EndnightGamesLtd} />
+            <Route path="/ValveCorporation" exact component={ValveCorporation} />
+            <Route path="/PUBGCorp" exact component={PUBGCorp} />
+            <Route path="/Psyonix" exact component={Psyonix} />
+            <Route path="/EndnightGamesLtd" exact component={EndnightGamesLtd} />
 
-						<Route path="/Article1" exact component={Article1} />
-						<Route path="/Article2" exact component={Article2} />
-						<Route path="/Article3" exact component={Article3} />
-						<Route path="/Article4" exact component={Article4} />
-					</div>
-					
-					<Footer />
-				</div>
-			</Router>
-		);
-	}
+            <Route path="/Article1" exact component={Article1} />
+            <Route path="/Article2" exact component={Article2} />
+            <Route path="/Article3" exact component={Article3} />
+            <Route path="/Article4" exact component={Article4} />
+          </div>
+
+          <Footer />
+        </div>
+      </Router>
+    );
+  }
 }
 
 export default App;

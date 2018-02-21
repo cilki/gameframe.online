@@ -12,31 +12,30 @@ import TwitterTimelineEmbed from './twitter/TwitterEmbedTimeline';
 
 class InstanceSidebar extends React.Component {
 	static propTypes = {
-		twitterWidget: PropTypes.object
+	  twitterWidget: PropTypes.object,
 	}
 
 	constructor() {
-		super();
-		this.state = {};
+	  super();
+	  this.state = {};
 	}
 
 	render() {
-		let twitterProps = Object.assign({}, this.props.twitterWidget);
-		
-		if (twitterProps.widgetId)
-			twitterProps.sourceType = 'widget';
+	  const twitterProps = Object.assign({}, this.props.twitterWidget);
+
+	  if (twitterProps.widgetId) { twitterProps.sourceType = 'widget'; }
 
 
-		return (
-			<div style={[InstanceSidebarStyles.container]}>
-				{Object.keys(twitterProps).length > 0 && 
-					<div>
-						<h3>Twitter</h3>
-						<TwitterTimelineEmbed {...twitterProps} />
-					</div>
+	  return (
+  <div style={[InstanceSidebarStyles.container]}>
+    {Object.keys(twitterProps).length > 0 &&
+    <div>
+      <h3>Twitter</h3>
+      <TwitterTimelineEmbed {...twitterProps} />
+    </div>
 				}
-			</div>
-		);
+  </div>
+	  );
 	}
 }
 

@@ -15,12 +15,12 @@ const Card = {
     hover: {
       transition: 'transform 0.2s, filter 0.5s',
       transform: 'scale(0.98)',
-      filter: 'hue-rotate(360deg)'
+      filter: 'hue-rotate(360deg)',
     },
 
     clicked: {
-      filter: 'brightness(0.5) hue-rotate(360deg)'
-    }
+      filter: 'brightness(0.5) hue-rotate(360deg)',
+    },
   },
 
   imageContainer: {
@@ -32,8 +32,8 @@ const Card = {
     margin: 'auto',
     hover: {
       transform: 'scale(1.0)',
-      backgroundColor: 'darkgray'
-    }
+      backgroundColor: 'darkgray',
+    },
   },
 
   image: {
@@ -43,8 +43,8 @@ const Card = {
     transform: 'scale(1.0)',
     hover: {
       transition: 'transform 1.0s, filter 0.2s',
-      transform: 'scale(1.05)'
-    }
+      transform: 'scale(1.05)',
+    },
   },
 
 
@@ -52,7 +52,7 @@ const Card = {
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'space-around',
-    padding: "2% 5% 2% 0%"
+    padding: '2% 5% 2% 0%',
   },
 
   caption: {
@@ -64,8 +64,8 @@ const Card = {
   },
 
   badgeContainer: {
-    maxWidth: '35%'
-  }
+    maxWidth: '35%',
+  },
 };
 
 export { Card };

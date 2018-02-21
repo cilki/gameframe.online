@@ -25,7 +25,7 @@ class Card extends React.Component {
       title: null,
       company: null,
       year: null,
-      hover: false
+      hover: false,
     };
   }
 
@@ -42,20 +42,20 @@ class Card extends React.Component {
    * @description - Event handler for the `mouseEntry` event
    */
   mouseEntry(e) {
-    this.setState({hover: true});
+    this.setState({ hover: true });
   }
 
   /**
    * @description - Event handler for the `mouseLeave` event
    */
   mouseLeave(e) {
-    this.setState({hover: false});
+    this.setState({ hover: false });
   }
 
   render() {
     return (
       <div style={[CardStyles.main]}>
-        <Link to={this.props.url} style={{textDecoration: 'none'}}>
+        <Link to={this.props.url} style={{ textDecoration: 'none' }}>
           <div
             onMouseEnter={this.mouseEntry}
             onMouseLeave={this.mouseLeave}
@@ -63,17 +63,24 @@ class Card extends React.Component {
             <div style={[
               CardStyles.card,
               this.state.hover && CardStyles.card.hover,
-            ]}>
+            ]}
+            >
               <div style={[
                 CardStyles.imageContainer,
-                this.state.hover && CardStyles.imageContainer.hover
-              ]}>
-                <img style={[
+                this.state.hover && CardStyles.imageContainer.hover,
+              ]}
+              >
+                <img
+                  style={[
                   CardStyles.image,
-                  this.state.hover && CardStyles.image.hover
-                ]} src={this.props.cover} ref={img => this.img = img} onError={
+                  this.state.hover && CardStyles.image.hover,
+                ]}
+                  src={this.props.cover}
+                  ref={img => this.img = img}
+                  onError={
                   () => this.img.src = '../../static/images/noImage.png'
-                }/>
+                }
+                />
               </div>
               <div style={[CardStyles.captionContainer]}>
                 <div style={[CardStyles.caption]}>
@@ -91,7 +98,7 @@ class Card extends React.Component {
           </div>
         </Link>
       </div>
-    )
+    );
   }
 }
 

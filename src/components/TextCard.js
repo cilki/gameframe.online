@@ -24,7 +24,7 @@ class TextCard extends React.Component {
       title: null,
       company: null,
       year: null,
-      hover: false
+      hover: false,
     };
   }
 
@@ -41,20 +41,20 @@ class TextCard extends React.Component {
    * @description - Event handler for the `mouseEntry` event
    */
   mouseEntry(e) {
-    this.setState({hover: true});
+    this.setState({ hover: true });
   }
 
   /**
    * @description - Event handler for the `mouseLeave` event
    */
   mouseLeave(e) {
-    this.setState({hover: false});
+    this.setState({ hover: false });
   }
 
   render() {
     return (
       <div style={[TextCardStyles.main]}>
-        <Link to={this.props.url} style={{textDecoration: 'none'}}>
+        <Link to={this.props.url} style={{ textDecoration: 'none' }}>
           <div
             onMouseEnter={this.mouseEntry}
             onMouseLeave={this.mouseLeave}
@@ -62,11 +62,13 @@ class TextCard extends React.Component {
             <div style={[
               TextCardStyles.card,
               this.state.hover && TextCardStyles.card.hover,
-            ]}>
+            ]}
+            >
               <div style={[
                 TextCardStyles.imageContainer,
-                this.state.hover && TextCardStyles.imageContainer.hover
-              ]}>
+                this.state.hover && TextCardStyles.imageContainer.hover,
+              ]}
+              >
                 <h2 style={[TextCardStyles.h2]}>{this.props.title}</h2>
               </div>
               <div style={[TextCardStyles.captionContainer]}>
@@ -85,7 +87,7 @@ class TextCard extends React.Component {
           </div>
         </Link>
       </div>
-    )
+    );
   }
 }
 
