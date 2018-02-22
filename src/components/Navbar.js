@@ -5,7 +5,7 @@
 import React from 'react';
 import {
   Navbar, Nav, Brand, Toggle, NavItem, Forms, FormGroup,
-  FormControl, Button, Image
+  FormControl, Button, Image, Glyphicon
 } from 'react-bootstrap';
 
 import { Link } from 'react-router-dom';
@@ -29,11 +29,9 @@ function createLinkContainerNavItem(href, imageSrc, label, linkProps, navProps) 
   return (
     <LinkContainer to={href} {...linkProps}>
       <NavItem {...navProps}>
-		<div style={{display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', margin: 'auto',}}>
-		<Image src={imageSrc} rounded />
-		<div style={{display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', margin: 'auto',}}>
-        {label} {/* Just text for now, later on should be it's own component */}
-		</div>
+		<div style={{display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', margin: 'auto'}}>
+		  <img style={{maxWidth: '100%', maxHeight: '100%'}} src={imageSrc} />
+          {label} {/* Just text for now, later on should be it's own component */}
 		</div>
       </NavItem>
     </LinkContainer>
@@ -69,31 +67,42 @@ const pages = [
 class NavBar extends React.Component {
   render() {
     return (
-      <Navbar inverse collapseOnSelect style={{ borderRadius: '0', padding: '0 0 0 0' }}>
+      <Navbar inverse collapseOnSelect style={{borderRadius: '0', padding: '0 0 0 0'}}>
+		<div style={{display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}}>
+		<div style={{display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}}>
         <Navbar.Header>
+		  <div style={{display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}}>
           <Navbar.Brand>
             <Link to="/">GameFrame.Online</Link>
           </Navbar.Brand>
-          <Navbar.Toggle />
+		  <Navbar.Toggle />
+		  </div>
         </Navbar.Header>
+		</div>
         <Navbar.Collapse>
+		  <div style={{display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}}>
+		  <div style={{display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}}>
           <Nav>
-            {/* This dynamically creates all of the NavItems for us depending on
-			    		the objects in `pages` */}
-            {pages.map((page, index) => createLinkContainerNavItem(
-page.href, page.imageSrc, page.label,
-			    			{ key: index },
-			    			{ eventKey: index },
-		    			))}
+            {/* This dynamically creates all of the NavItems for us depending on the objects in `pages` */}
+            {pages.map((page, index) => createLinkContainerNavItem(page.href, page.imageSrc, page.label, { key: index }, { eventKey: index }, ))}
           </Nav>
-          <Navbar.Form pullRight style={{ display: 'flex', maxWidth: '33%' }}>
-            <FormGroup style={{}}>
-              <FormControl type="text" placeholder="Search" style={{ flex: 1, maxWidth: '100%' }} />
+		  </div>
+          <Navbar.Form>
+		    <div style={{display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}}>
+            <FormGroup>
+			  <div style={{display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}}>
+              <FormControl type="text" placeholder="Search" />
+			  <Button>
+			    <Glyphicon glyph="search" />
+			  </Button>
+			  </div>
             </FormGroup>
             {' '}
-            <Button type="submit" style={{}}>Submit</Button>
+			</div>
           </Navbar.Form>
+		  </div>
         </Navbar.Collapse>
+		</div>
       </Navbar>
     );
   }
