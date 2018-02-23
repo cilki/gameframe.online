@@ -29,10 +29,8 @@ function createLinkContainerNavItem(href, imageSrc, label, linkProps, navProps) 
   return (
     <LinkContainer to={href} {...linkProps}>
       <NavItem {...navProps}>
-		<div style={{display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', margin: 'auto'}}>
-		  <img style={{maxWidth: '100%', maxHeight: '100%'}} src={imageSrc} />
-          {label} {/* Just text for now, later on should be it's own component */}
-		</div>
+  		  <img style={{maxWidth: '100%', maxHeight: '100%'}} src={imageSrc} />
+            {label} {/* Just text for now, later on should be it's own component */}
       </NavItem>
     </LinkContainer>
   );
@@ -67,42 +65,28 @@ const pages = [
 class NavBar extends React.Component {
   render() {
     return (
-      <Navbar inverse collapseOnSelect style={{borderRadius: '0', padding: '0 0 0 0'}}>
-		<div style={{display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}}>
-		<div style={{display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}}>
+      <Navbar inverse collapseOnSelect >
         <Navbar.Header>
-		  <div style={{display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}}>
           <Navbar.Brand>
             <Link to="/">GameFrame.Online</Link>
           </Navbar.Brand>
-		  <Navbar.Toggle />
-		  </div>
+          <Navbar.Toggle />
         </Navbar.Header>
-		</div>
         <Navbar.Collapse>
-		  <div style={{display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}}>
-		  <div style={{display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}}>
-          <Nav>
+          <Nav pullLeft={true}>
             {/* This dynamically creates all of the NavItems for us depending on the objects in `pages` */}
             {pages.map((page, index) => createLinkContainerNavItem(page.href, page.imageSrc, page.label, { key: index }, { eventKey: index }, ))}
           </Nav>
-		  </div>
-          <Navbar.Form>
-		    <div style={{display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}}>
+          <Navbar.Form pullRight>
             <FormGroup>
-			  <div style={{display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}}>
               <FormControl type="text" placeholder="Search" />
-			  <Button>
-			    <Glyphicon glyph="search" />
-			  </Button>
-			  </div>
+  		        <Button>
+  		          <Glyphicon glyph="search" />
+  		        </Button>
             </FormGroup>
             {' '}
-			</div>
           </Navbar.Form>
-		  </div>
-        </Navbar.Collapse>
-		</div>
+          </Navbar.Collapse>
       </Navbar>
     );
   }
