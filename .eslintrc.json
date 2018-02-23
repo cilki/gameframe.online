@@ -3,6 +3,7 @@
     "parser": "babel-eslint",
     "rules": {
       "linebreak-style": ["off"],
-      "react/jsx-filename-extension": ["off"]
+      "react/jsx-filename-extension": ["off"],
+      "arrow-body-style": ["off", "as-needed", { "requireReturnForObjectLiteral": true }]
     }
 }

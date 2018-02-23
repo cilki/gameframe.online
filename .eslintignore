@@ -4,3 +4,6 @@ fonts/
 
 # Ignore twitter's timeline
 twitter/
+
+# Ignore test files
+.test.js
