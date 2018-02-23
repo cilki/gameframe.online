@@ -1,4 +1,4 @@
-var debug = process.env.NODE_ENV !== "production";
+const debug = process.env.NODE_ENV !== "production";
 
 module.exports = {
   context: __dirname,
@@ -15,6 +15,24 @@ module.exports = {
         test: /\.js$/,
         use: "babel-loader",
         exclude: /node_modules/
+      },
+      {
+        test: /\.(css)$/,
+        use: [
+          "style-loader",
+          {
+            loader: "css-loader",
+            // options: {
+            //   modules: true,
+            //   sourceMap: true,
+            //   importLoaders: 1,
+            //   localIdentName: "[name]--[local]--[hash:base64:8]"
+            // }
+          }
+        ]
+      },
+      {
+        test: /\.(eot|svg|ttf|woff|woff2)$/, loader: 'file-loader?name=fonts/[name].[ext]'
       }
     ]
   }
