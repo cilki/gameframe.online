@@ -1,3 +1,7 @@
+# --------------------------------
+# IGDB.com API scraper           -
+# Copyright (C) 2018 GameFrame   -
+# --------------------------------
 import requests
 import os
 
