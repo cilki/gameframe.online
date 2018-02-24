@@ -9,6 +9,9 @@ import {
   Route,
   Link,
 } from 'react-router-dom';
+import { createStore, combineReducers, applyMiddleware } from 'redux';
+import thunkMiddleware from 'redux-thunk';
+import { Provider } from 'react-redux';
 
 import Banner from './Banner';
 import Navbar from './Navbar';
@@ -33,51 +36,73 @@ import Article2 from './Article2';
 import Article3 from './Article3';
 import Article4 from './Article4';
 
-import AboutPage from './About';
+import AboutPage, { reducer as AboutReducer } from './about';
+
+const store = createStore(
+  combineReducers({
+    about: AboutReducer,
+  }),
+  applyMiddleware(
+    thunkMiddleware
+  )
+);
+
+/**
+ * Since we'll likely be unit testing this code, we can't assume the
+ * existence of a 'window' object
+ */
+try {
+  window.store = store;
+}
+catch (error) {
+  // do nothing...
+}
 
 class App extends React.Component {
   render() {
     return (
-      <Router>
-        <div style={{
-					display: 'flex',
-					minHeight: '100%',
-					flexDirection: 'column',
-				}}
-        >
-          <Banner />
-          <Navbar />
-
+      <Provider store={store}>
+        <Router>
           <div style={{
-						flex: 1,
-						verticalAlign: 'top',
-					}}
+  					display: 'flex',
+  					minHeight: '100%',
+  					flexDirection: 'column',
+  				}}
           >
-            <Route path="/" exact component={Splash} />
-            <Route path="/about" component={AboutPage} />
-            <Route path="/games" exact component={Games} />
-            <Route path="/developers" exact component={Developers} />
-            <Route path="/articles" exact component={Articles} />
+            <Banner />
+            <Navbar />
 
-            <Route path="/Portal2" exact component={Portal2} />
-            <Route path="/PLAYERUNKNOWNSBATTLEGROUNDS" component={PLAYERUNKNOWNSBATTLEGROUNDS} />
-            <Route path="/RocketLeague" component={RocketLeague} />
-            <Route path="/TheForest" component={TheForest} />
+            <div style={{
+  						flex: 1,
+  						verticalAlign: 'top',
+  					}}
+            >
+              <Route path="/" exact component={Splash} />
+              <Route path="/about" component={AboutPage} />
+              <Route path="/games" exact component={Games} />
+              <Route path="/developers" exact component={Developers} />
+              <Route path="/articles" exact component={Articles} />
 
-            <Route path="/ValveCorporation" exact component={ValveCorporation} />
-            <Route path="/PUBGCorp" exact component={PUBGCorp} />
-            <Route path="/Psyonix" exact component={Psyonix} />
-            <Route path="/EndnightGamesLtd" exact component={EndnightGamesLtd} />
+              <Route path="/Portal2" exact component={Portal2} />
+              <Route path="/PLAYERUNKNOWNSBATTLEGROUNDS" component={PLAYERUNKNOWNSBATTLEGROUNDS} />
+              <Route path="/RocketLeague" component={RocketLeague} />
+              <Route path="/TheForest" component={TheForest} />
 
-            <Route path="/Article1" exact component={Article1} />
-            <Route path="/Article2" exact component={Article2} />
-            <Route path="/Article3" exact component={Article3} />
-            <Route path="/Article4" exact component={Article4} />
+              <Route path="/ValveCorporation" exact component={ValveCorporation} />
+              <Route path="/PUBGCorp" exact component={PUBGCorp} />
+              <Route path="/Psyonix" exact component={Psyonix} />
+              <Route path="/EndnightGamesLtd" exact component={EndnightGamesLtd} />
+
+              <Route path="/Article1" exact component={Article1} />
+              <Route path="/Article2" exact component={Article2} />
+              <Route path="/Article3" exact component={Article3} />
+              <Route path="/Article4" exact component={Article4} />
+            </div>
+
+            <Footer />
           </div>
-
-          <Footer />
-        </div>
-      </Router>
+        </Router>
+      </Provider>
     );
   }
 }

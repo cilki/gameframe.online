@@ -6,4 +6,7 @@ fonts/
 twitter/
 
 # Ignore test files
-.test.js
+*.test.js
+
+# Ignore resources, they're not code
+resources/

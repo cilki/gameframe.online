@@ -4,6 +4,7 @@
     "rules": {
       "linebreak-style": ["off"],
       "react/jsx-filename-extension": ["off"],
+      "react/jsx-first-prop-line": ["off"],
       "arrow-body-style": ["off", "as-needed", { "requireReturnForObjectLiteral": true }]
     }
 }
