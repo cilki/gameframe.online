@@ -42,7 +42,12 @@ function getContributorsError(state) {
 const getContributors = createSelector(
   [getAllContributors],
   (contributors) => {
-    return contributors.map(contributor => contributor.get('login')).toJS();
+    return contributors
+      .map(contributor => contributor.get('login'))
+      .sort((first, next) => {
+        return (first > next) - (first < next);
+      })
+      .toJS();
   },
 );
 

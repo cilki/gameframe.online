@@ -535,7 +535,7 @@ describe('about', function() {
         const result = getContributors(state);
         assert.deepEqual(
           result,
-          ['GithubLogin', 'Another GithubLogin'],
+          ['Another GithubLogin', 'GithubLogin'],
           '`getContributors()` didn\'t return the correct data from the state tree'
         );
 
