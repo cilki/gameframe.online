@@ -25,7 +25,7 @@ def rq_app_list():
     rq = requests.get(
         "https://api.steampowered.com/ISteamApps/GetAppList/v2")
 
-    assert(rq.status_code == requests.codes.ok)
+    assert rq.status_code == requests.codes.ok
     return rq.json()
 
 
@@ -40,7 +40,7 @@ def rq_game(app):
     rq = requests.get(
         "http://store.steampowered.com/api/appdetails", {'appids': str(app['appid'])})
 
-    assert(rq.status_code == requests.codes.ok)
+    assert rq.status_code == requests.codes.ok
     return rq.json()
 
 
@@ -48,6 +48,7 @@ def get_game(app):
     """
     Retrieve a game from the cache or download it from Steam.
     """
+    assert os.path.isdir(CACHE_GAME_STEAM)
 
     if not os.path.isfile("%s/%d" % (CACHE_GAME_STEAM, app['appid'])):
         game = rq_game(app)
