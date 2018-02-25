@@ -56,10 +56,14 @@ def get_game(app):
         # Write to the cache
         with open("%s/%d" % (CACHE_GAME_STEAM, app['appid']), 'w', 'utf8') as h:
             h.write(json.dumps(game, ensure_ascii=False))
-        return game
     else:
         with open("%s/%d" % (CACHE_GAME_STEAM, app['appid']), 'r', 'utf8') as h:
-            return json.loads(h)
+            game = json.load(h)
+
+    if len(game) == 0:
+        return None
+
+    return game[0]
 
 
 def gather_games():
@@ -72,7 +76,7 @@ def gather_games():
 
     i = 0
     for app in apps:
-        get_game(id)
-        i += 1
+        if not get_game(id) is None:
+            i += 1
 
     print("[STEAM] Gathered %d games" % i)

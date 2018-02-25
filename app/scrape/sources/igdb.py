@@ -4,6 +4,7 @@
 # --------------------------------
 from ratelimit import rate_limited
 from codecs import open
+from orm import Game
 import requests
 import os
 import json
@@ -74,10 +75,14 @@ def get_game(id):
         # Write to the cache
         with open("%s/%d" % (CACHE_GAME_IGDB, id), 'w', 'utf8') as h:
             h.write(json.dumps(game, ensure_ascii=False))
-        return game[0]
     else:
         with open("%s/%d" % (CACHE_GAME_IGDB, id), 'r', 'utf8') as h:
-            return json.loads(h)[0]
+            game = json.load(h)
+
+    if len(game) == 0:
+        return None
+
+    return game[0]
 
 
 def get_developer(id):
@@ -87,15 +92,19 @@ def get_developer(id):
     assert os.path.isdir(CACHE_DEV_IGDB)
 
     if not os.path.isfile("%s/%d" % (CACHE_DEV_IGDB, id)):
-        dev = rq_game(id)
+        dev = rq_developer(id)
 
         # Write to the cache
         with open("%s/%d" % (CACHE_DEV_IGDB, id), 'w', 'utf8') as h:
             h.write(json.dumps(dev, ensure_ascii=False))
-        return dev
     else:
         with open("%s/%d" % (CACHE_DEV_IGDB, id), 'r', 'utf8') as h:
-            return json.loads(h)
+            dev = json.load(h)
+
+    if len(dev) == 0:
+        return None
+
+    return dev[0]
 
 
 def gather_games():
@@ -107,8 +116,8 @@ def gather_games():
 
     i = 0
     for id in GAME_RANGE:
-        get_game(id)
-        i += 1
+        if not get_game(id) is None:
+            i += 1
 
     print("[IGDB ] Gathered %d games" % i)
 
@@ -124,11 +133,14 @@ def filter_games():
     for id in GAME_RANGE:
         game_json = get_game(id)
 
+        if game_json is None:
+            continue
+
         if 'name' not in game_json:
             continue
 
         # TODO Apply more filtering
-        filtered += id
+        filtered += [id]
 
     print("[IGDB ] Filtered out %d games" % (len(GAME_RANGE) - len(filtered)))
     return filtered
@@ -155,16 +167,16 @@ def populate_games(db):
 
         game.igdb_id = game_json['id']
 
-        if game.name == None:
+        if game.name is None:
             game.name = game_json['name']
 
-        if game.genre == None and 'genres' in game_json:
+        if game.genre is None and 'genres' in game_json:
             game.genre = game_json['genres']
 
-        if game.summary == None and 'summary' in game_json:
+        if game.summary is None and 'summary' in game_json:
             game.summary = game_json['summary']
 
-        if game.release == None and 'release_dates' in game_json:
+        if game.release is None and 'release_dates' in game_json:
             game.release = game_json['release_dates']['date']
 
         db.session.add(game)
