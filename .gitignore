@@ -4,3 +4,6 @@ node_modules/
 
 static/bundle.js
 __pycache__
+
+# Created by Docker container
+supervisord.pid
