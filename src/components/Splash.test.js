@@ -7,12 +7,12 @@ import { Carousel } from 'react-bootstrap';
 const { shallow } = require('enzyme');
 const React = require('react');
 const sinon = require('sinon');
-const { assert, expect } = require('chai');
+const { expect } = require('chai');
 
 describe('Splash', () => {
     it("renders without breaking", () => {
         const wrapper = shallow(<Splash/>);
-        expect(wrapper);
+        expect(wrapper).to.exist;
     });
 
     it("has a carousel", () => {
