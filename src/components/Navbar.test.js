@@ -7,7 +7,6 @@ import { Link } from 'react-router-dom';
 import { LinkContainer } from 'react-router-bootstrap';
 const { shallow } = require('enzyme');
 const React = require('react');
-const sinon = require('sinon');
 const { expect } = require('chai');
 
 describe('Navbar', () => {
