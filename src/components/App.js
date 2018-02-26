@@ -18,7 +18,7 @@ import Navbar from './Navbar';
 import Splash from './Splash';
 import Footer from './Footer';
 
-import Games from './Games';
+import Games, { reducer as GamesReducer } from './games';
 import Portal2 from './Portal2';
 import PLAYERUNKNOWNSBATTLEGROUNDS from './PLAYERUNKNOWNSBATTLEGROUNDS';
 import RocketLeague from './RocketLeague';
@@ -41,6 +41,7 @@ import AboutPage, { reducer as AboutReducer } from './about';
 const store = createStore(
   combineReducers({
     about: AboutReducer,
+    games: GamesReducer,
   }),
   applyMiddleware(
     thunkMiddleware
