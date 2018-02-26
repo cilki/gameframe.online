@@ -169,15 +169,24 @@ def populate_games(db):
 
         game.igdb_id = int(game_json['id'])
 
+        # Title
         if game.name is None:
             game.name = game_json['name']
 
+        # Genre
         if game.genre is None and 'genres' in game_json:
             game.genre = str(game_json['genres'])
 
+        # Summary
         if game.summary is None and 'summary' in game_json:
             game.summary = game_json['summary']
 
+        # Steam ID
+        if game.steam_id is None and 'external' in game_json \
+                and 'steam' in game_json['external']:
+            game.steam_id = int(game_json['external']['steam'])
+
+        # Release date
         # TODO Consider release date for all platforms
         if game.release is None and 'release_dates' in game_json \
                 and 'date' in game_json['release_dates'][0]:

@@ -12,17 +12,35 @@ class Game(db.Model):
     One of the three primary models, Game represents a video game.
     """
 
+    # The game's GameFrame ID
     game_id = db.Column(db.Integer, primary_key=True)
+
+    # The game's Steam AppID
     steam_id = db.Column(db.Integer)
+
+    # The game's IGDB ID
     igdb_id = db.Column(db.Integer)
 
-    name = db.Column(db.String(120), nullable=False)
+    # The game's user-friendly title
+    name = db.Column(db.Text, nullable=False)
+
+    # The game's first release date
     release = db.Column(db.Integer)
-    image = db.Column(db.Text)
+
+    # The game's cover image
+    cover = db.Column(db.Text)
+
+    # Screenshots as CSV
+    screenshots = db.Column(db.Text)
+
+    # A summary written by Steam or IGDB
     summary = db.Column(db.Text)
-    genre = db.Column(db.String(80))
-    players = db.Column(db.Integer)
-    game_link = db.Column(db.Text)
+
+    # Relevant genres as CSV
+    genres = db.Column(db.Text)
+
+    # External links as CSV
+    external_links = db.Column(db.Text)
 
     tweets = db.relationship(
         'Tweet', secondary='game_tweet', back_populates="games")
@@ -44,9 +62,9 @@ class Article(db.Model):
     """
 
     article_id = db.Column(db.Integer, primary_key=True)
-    title = db.Column(db.String(120), nullable=False)
-    outlet = db.Column(db.String(120), nullable=False)
-    author = db.Column(db.String(120), nullable=False)
+    title = db.Column(db.Text, nullable=False)
+    outlet = db.Column(db.Text, nullable=False)
+    author = db.Column(db.Text, nullable=False)
     timestamp = db.Column(db.DateTime, nullable=False)
     introduction = db.Column(db.Text, nullable=False)
     image = db.Column(db.Text, nullable=False)
@@ -65,8 +83,8 @@ class Developer(db.Model):
     """
 
     developer_id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(120), unique=True, nullable=False)
-    country = db.Column(db.String(120), nullable=False)
+    name = db.Column(db.Text, unique=True, nullable=False)
+    country = db.Column(db.Text, nullable=False)
     logo = db.Column(db.Text, nullable=False)
     foundation = db.Column(db.Integer, nullable=False)
     developer_link = db.Column(db.Text, nullable=False)
@@ -87,7 +105,7 @@ class Tweet(db.Model):
     tweet_id = db.Column(db.Integer, primary_key=True)
     twitter_id = db.Column(db.Integer, nullable=False)
     content = db.Column(db.Text, nullable=False)
-    user = db.Column(db.String(80), nullable=False)
+    user = db.Column(db.Text, nullable=False)
     timestamp = db.Column(db.DateTime, nullable=False)
     tweet_link = db.Column(db.Text, nullable=False)
 
@@ -106,8 +124,8 @@ class Video(db.Model):
 
     video_id = db.Column(db.Integer, primary_key=True)
     youtube_id = db.Column(db.Integer, nullable=False)
-    name = db.Column(db.String(120), nullable=False)
-    channel = db.Column(db.String(120), nullable=False)
+    name = db.Column(db.Text, nullable=False)
+    channel = db.Column(db.Text, nullable=False)
     timestamp = db.Column(db.DateTime, nullable=False)
     video_link = db.Column(db.Text, nullable=False)
 
@@ -122,7 +140,7 @@ class Stream(db.Model):
     """
 
     stream_id = db.Column(db.Integer, primary_key=True)
-    channel = db.Column(db.String(120), nullable=False)
+    channel = db.Column(db.Text, nullable=False)
     stream_link = db.Column(db.Text, nullable=False)
 
     games = db.relationship(
