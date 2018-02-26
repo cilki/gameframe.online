@@ -11,7 +11,7 @@ import json
 
 import sys
 sys.path.append(os.path.abspath('app'))
-from orm import Game
+from orm import Game, Developer
 
 """
 The API key
@@ -124,6 +124,20 @@ def gather_games():
 
     print("[IGDB ] Gathered %d games" % i)
 
+def gather_developers():
+    """
+    Download any developers missing from the cache.
+    """
+    assert len(DEV_RANGE) > 0
+    print("[IGDB ] Gathering developers")
+
+    i = 0
+    for id in DEV_RANGE:
+        if not get_developer(id) is None:
+            i += 1
+
+    print("[IGDB ] Gathered %d developers" % i)
+
 
 def filter_games():
     """
@@ -146,6 +160,29 @@ def filter_games():
         filtered += [id]
 
     print("[IGDB ] Filtered out %d games" % (len(GAME_RANGE) - len(filtered)))
+    return filtered
+
+def filter_developers():
+    """
+    Return a filtered list of developers.
+    """
+    print("[IGDB ] Filtering developers")
+
+    filtered = []
+
+    for id in DEV_RANGE:
+        dev_json = get_developer(id)
+
+        if dev_json is None:
+            continue
+
+        if 'name' not in dev_json:
+            continue
+
+        # TODO Apply more filtering
+        filtered += [id]
+
+    print("[IGDB ] Filtered out %d developers" % (len(DEV_RANGE) - len(filtered)))
     return filtered
 
 
@@ -174,8 +211,8 @@ def populate_games(db):
             game.name = game_json['name']
 
         # Genre
-        if game.genre is None and 'genres' in game_json:
-            game.genre = str(game_json['genres'])
+        if game.genres is None and 'genres' in game_json:
+            game.genres = str(game_json['genres'])
 
         # Summary
         if game.summary is None and 'summary' in game_json:
@@ -199,3 +236,47 @@ def populate_games(db):
         db.session.commit()
 
     print("[IGDB ] Inserted %d new games" % i)
+
+
+def populate_developers(db):
+    """
+    Insert the filtered list of developers into the database.
+    """
+
+    i = 0
+    for id in filter_developers():
+        dev_json = get_developer(id)
+        assert 'id' in dev_json
+        assert 'name' in dev_json
+
+        # TODO Find the same dev in database if it already exists
+        if True:
+            dev = Developer()
+            i += 1
+        else:
+            dev = Developer()
+
+        # Title
+        if dev.name is None:
+            dev.name = dev_json['name']
+
+        # Description
+        if dev.description is None and 'description' in dev_json:
+            dev.description = dev_json['description']
+
+        # Website
+        if dev.website is None and 'website' in dev_json:
+            dev.website = dev_json['website']
+
+        # Country
+        if dev.country is None and 'country' in dev_json:
+            dev.country = dev_json['country']
+
+
+        print("Uploading developer: %s" %
+              (dev.name.encode('utf-8', 'ignore')))
+
+        db.session.add(dev)
+        db.session.commit()
+
+    print("[IGDB ] Inserted %d new developers" % i)
