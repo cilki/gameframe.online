@@ -2,7 +2,8 @@ import flask
 import flask_sqlalchemy
 import flask_restless
 
-from orm import Game, Developer, Article, Tweet, Stream, Video
+from .orm import Game, Developer, Article, Tweet, Stream, Video
+
 
 def generate_api(app, db):
     """

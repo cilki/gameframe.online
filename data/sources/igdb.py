@@ -4,11 +4,14 @@
 # --------------------------------
 from ratelimit import rate_limited
 from codecs import open
-from orm import Game
+
 import requests
 import os
 import json
 
+import sys
+sys.path.append(os.path.abspath('app'))
+from orm import Game
 
 """
 The API key
@@ -150,7 +153,6 @@ def populate_games(db):
     """
     Insert the filtered list of games into the database.
     """
-    print("[IGDB ] Populating database")
 
     i = 0
     for id in filter_games():
@@ -165,21 +167,26 @@ def populate_games(db):
         else:
             game = Game()
 
-        game.igdb_id = game_json['id']
+        game.igdb_id = int(game_json['id'])
 
         if game.name is None:
             game.name = game_json['name']
 
         if game.genre is None and 'genres' in game_json:
-            game.genre = game_json['genres']
+            game.genre = str(game_json['genres'])
 
         if game.summary is None and 'summary' in game_json:
             game.summary = game_json['summary']
 
-        if game.release is None and 'release_dates' in game_json:
-            game.release = game_json['release_dates']['date']
+        # TODO Consider release date for all platforms
+        if game.release is None and 'release_dates' in game_json \
+                and 'date' in game_json['release_dates'][0]:
+            game.release = int(game_json['release_dates'][0]['date'])
+
+        print("Uploading game (%d): %s" %
+              (game.igdb_id, game.name.encode('utf-8', 'ignore')))
 
         db.session.add(game)
         db.session.commit()
 
-    print("[IGDB ] Inserted %d games" % i)
+    print("[IGDB ] Inserted %d new games" % i)
