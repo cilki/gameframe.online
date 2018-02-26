@@ -2,41 +2,43 @@
 /**
  * Unit test script for Navbar
  */
-import Navbar from './Navbar.js';
-import { Link } from 'react-router-dom';
-import { LinkContainer } from 'react-router-bootstrap';
+const Navbar = require('./Navbar.js').default;
+const { Link } = require('react-router-dom');
+const { LinkContainer } = require('react-router-bootstrap');
 const { shallow } = require('enzyme');
 const React = require('react');
-const { expect } = require('chai');
+const { assert } = require('chai');
 
 describe('Navbar', () => {
     it("renders without breaking", () => {
         const wrapper = shallow(<Navbar/>);
-        expect(wrapper).to.exist;
+        assert.isDefined(wrapper, '<Navbar /> didn\'t render correctly');
     });
 
-    it("has a link to the splash page", () => {
-        const wrapper = shallow(<Navbar/>);
-        expect(wrapper.contains(<Link to="/">GameFrame.Online</Link>)).to.equal(true);
+    it('has a link to the splash page', function() {
+        const wrapper = shallow(<Navbar />);
+        assert.equal(
+            wrapper.find('[to="/"]').length,
+            1,
+            '<Navbar /> didn\'t have a link to the Splash page' 
+        );
     });
 
-    it("has a link to the games page", () => {
-        const wrapper = shallow(<Navbar/>);
-        expect(wrapper.containsMatchingElement(<LinkContainer to={"/games"}><div/></LinkContainer>)).to.exist;
-    });
+    const links = [
+        'games',
+        'developers',
+        'articles',
+        'about'
+    ];
 
-    it("has a link to the developers page", () => {
-        const wrapper = shallow(<Navbar/>);
-        expect(wrapper.containsMatchingElement(<LinkContainer to={"/developers"}><div/></LinkContainer>)).to.exist;
-    });
-
-    it("has a link to the articles page", () => {
-        const wrapper = shallow(<Navbar/>);
-        expect(wrapper.containsMatchingElement(<LinkContainer to={"/articles"}><div/></LinkContainer>)).to.exist;
-    });
-
-    it("has a link to the about page", () => {
-        const wrapper = shallow(<Navbar/>);
-        expect(wrapper.containsMatchingElement(<LinkContainer to={"/about"}><div/></LinkContainer>)).to.exist;
-    });
+    for (let link of links) {
+        it(`has a link to the ${link} page`, function() {
+            const wrapper = shallow(<Navbar />);
+            assert.equal(
+                wrapper.find(`[to="/${link}"]`).length,
+                1,
+                `<Navbar /> didn\'t have a link to the ${link} page` 
+            );
+        });
+    }
 });

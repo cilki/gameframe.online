@@ -5,11 +5,12 @@
 import Developers from './Developers.js';
 const { shallow } = require('enzyme');
 const React = require('react');
-const { expect } = require('chai');
+const { assert } = require('chai');
 
 describe('Developers', () => {
     it("renders without breaking", () => {
         const wrapper = shallow(<Developers/>);
-        expect(wrapper).to.exist;
+
+        assert.isDefined(wrapper, '<Developers /> didn\'t render');
     });
 });

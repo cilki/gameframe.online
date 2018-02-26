@@ -75,7 +75,7 @@ class NavBar extends React.Component {
         <Navbar.Collapse>
           <Nav pullLeft={true}>
             {/* This dynamically creates all of the NavItems for us depending on the objects in `pages` */}
-            {pages.map((page, index) => createLinkContainerNavItem(page.href, page.imageSrc, page.label, { key: index }, { eventKey: index }, ))}
+            {pages.map((page, index) => createLinkContainerNavItem(page.href, page.imageSrc, page.label, { key: page.href }, { eventKey: index }, ))}
           </Nav>
           <Navbar.Form pullRight>
             <FormGroup>
