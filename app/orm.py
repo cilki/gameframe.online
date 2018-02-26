@@ -22,7 +22,7 @@ class Game(db.Model):
     igdb_id = db.Column(db.Integer)
 
     # The game's user-friendly title
-    name = db.Column(db.Text, nullable=False)
+    name = db.Column(db.Text)
 
     # The game's first release date
     release = db.Column(db.Integer)
@@ -62,13 +62,27 @@ class Article(db.Model):
     """
 
     article_id = db.Column(db.Integer, primary_key=True)
-    title = db.Column(db.Text, nullable=False)
-    outlet = db.Column(db.Text, nullable=False)
-    author = db.Column(db.Text, nullable=False)
-    timestamp = db.Column(db.DateTime, nullable=False)
-    introduction = db.Column(db.Text, nullable=False)
-    image = db.Column(db.Text, nullable=False)
-    article_link = db.Column(db.Text, nullable=False)
+
+    # The article's title
+    title = db.Column(db.Text)
+
+    # The name of the article's outlet
+    outlet = db.Column(db.Text)
+
+    # The name of the article's author
+    author = db.Column(db.Text)
+
+    # The article's publishing timestamp
+    timestamp = db.Column(db.DateTime)
+
+    # The first few sentences of the article
+    introduction = db.Column(db.Text)
+
+    # The article's thumbnail
+    image = db.Column(db.Text)
+
+    # The link to the original article
+    article_link = db.Column(db.Text)
 
     games = db.relationship(
         'Game', secondary='game_article', back_populates="articles")
@@ -82,12 +96,29 @@ class Developer(db.Model):
     of a Game.
     """
 
+    # The developer's GameFrame ID
     developer_id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.Text, unique=True, nullable=False)
-    country = db.Column(db.Text, nullable=False)
-    logo = db.Column(db.Text, nullable=False)
-    foundation = db.Column(db.Integer, nullable=False)
-    developer_link = db.Column(db.Text, nullable=False)
+
+    # The developer's IGDB ID
+    igdb_id = db.Column(db.Integer)
+
+    # The developer's title
+    name = db.Column(db.Text)
+
+    # The developer's country of origin
+    country = db.Column(db.Text)
+
+    # The developer's logo
+    logo = db.Column(db.Text)
+
+    # The developer's foundation date
+    foundation = db.Column(db.Integer)
+
+    # The developer's website
+    website = db.Column(db.Text)
+
+    # The developer's description
+    description = db.Column(db.Text)
 
     articles = db.relationship(
         'Article', secondary='article_developer', back_populates="developers")
@@ -103,11 +134,11 @@ class Tweet(db.Model):
     """
 
     tweet_id = db.Column(db.Integer, primary_key=True)
-    twitter_id = db.Column(db.Integer, nullable=False)
-    content = db.Column(db.Text, nullable=False)
-    user = db.Column(db.Text, nullable=False)
-    timestamp = db.Column(db.DateTime, nullable=False)
-    tweet_link = db.Column(db.Text, nullable=False)
+    twitter_id = db.Column(db.Integer)
+    content = db.Column(db.Text)
+    user = db.Column(db.Text)
+    timestamp = db.Column(db.DateTime)
+    tweet_link = db.Column(db.Text)
 
     games = db.relationship(
         'Game', secondary='game_tweet', back_populates="tweets")
@@ -123,11 +154,11 @@ class Video(db.Model):
     """
 
     video_id = db.Column(db.Integer, primary_key=True)
-    youtube_id = db.Column(db.Integer, nullable=False)
-    name = db.Column(db.Text, nullable=False)
-    channel = db.Column(db.Text, nullable=False)
-    timestamp = db.Column(db.DateTime, nullable=False)
-    video_link = db.Column(db.Text, nullable=False)
+    youtube_id = db.Column(db.Integer)
+    name = db.Column(db.Text)
+    channel = db.Column(db.Text)
+    timestamp = db.Column(db.DateTime)
+    video_link = db.Column(db.Text)
 
     games = db.relationship(
         'Game', secondary='game_video', back_populates="videos")
@@ -140,8 +171,8 @@ class Stream(db.Model):
     """
 
     stream_id = db.Column(db.Integer, primary_key=True)
-    channel = db.Column(db.Text, nullable=False)
-    stream_link = db.Column(db.Text, nullable=False)
+    channel = db.Column(db.Text)
+    stream_link = db.Column(db.Text)
 
     games = db.relationship(
         'Game', secondary='game_stream', back_populates="streams")
