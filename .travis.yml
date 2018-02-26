@@ -25,4 +25,4 @@ install:
   - npm install
 
 script:
-  - coverage run data/test.py
+  - coverage run $TRAVIS_BUILD_DIR/data/test.py
