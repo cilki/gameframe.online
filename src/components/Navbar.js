@@ -15,21 +15,22 @@ import { LinkContainer } from 'react-router-bootstrap';
  * @description - Function that generates a LinkContainer for the Navbar
  * @param {String} href - the location to redirect
  * @param {String} label - the text to display to the user. Eventually
- * 	we'll probably pass in a component here that will accept some extra styling
- * 	in order to customize what each NavItem looks like depending on the current
- * 	router
+ *  we'll probably pass in a component here that will accept some extra styling
+ *  in order to customize what each NavItem looks like depending on the current
+ *  router
  * @param {Object} linkProps - extra props (such as key) that would need to be
- * 	given to the
- * 	outlying LinkContainer component
+ *  given to the
+ *  outlying LinkContainer component
  * @param {Object} navProps - Extra props (such as eventKey) that need to be
- * 	placed within the NavItem
+ *  placed within the NavItem
  * @returns {React.Component}
  */
 function createLinkContainerNavItem(href, imageSrc, label, linkProps, navProps) {
   return (
     <LinkContainer to={href} {...linkProps}>
       <NavItem {...navProps}>
-  		  <img style={{maxWidth: '100%', maxHeight: '100%'}} src={imageSrc} />
+            <img style={{maxWidth: '24px', maxHeight: '24px', filter: 'invert(100%)', paddingRight: '4px'}} src={imageSrc} />
+
             {label} {/* Just text for now, later on should be it's own component */}
       </NavItem>
     </LinkContainer>
@@ -65,7 +66,11 @@ const pages = [
 class NavBar extends React.Component {
   render() {
     return (
-      <Navbar inverse collapseOnSelect >
+      <Navbar inverse collapseOnSelect style={{
+        borderRadius: '0',
+        background: '#2a2626'
+        }}
+      >
         <Navbar.Header>
           <Navbar.Brand>
             <Link to="/">GameFrame.Online</Link>
@@ -79,10 +84,12 @@ class NavBar extends React.Component {
           </Nav>
           <Navbar.Form pullRight>
             <FormGroup>
+            <div style={{display: 'flex'}}>
               <FormControl type="text" placeholder="Search" />
-  		        <Button>
-  		          <Glyphicon glyph="search" />
-  		        </Button>
+                <Button>
+                  <Glyphicon glyph="search" />
+                </Button>
+              </div>
             </FormGroup>
             {' '}
           </Navbar.Form>
