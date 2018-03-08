@@ -6,7 +6,7 @@
 import os
 from flask import Flask
 from sources import igdb
-from sources import ign
+from sources import news
 from orm import db
 
 # Setup Flask
