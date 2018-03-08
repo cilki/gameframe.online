@@ -1,5 +1,5 @@
 # --------------------------------
-# IGN API scraper           -
+# News API scraper           -
 # Copyright (C) 2018 GameFrame   -
 # --------------------------------
 from ratelimit import rate_limited
@@ -21,9 +21,9 @@ API_KEY = os.environ['KEY_IGN']
 @rate_limited(period=40, every=60)
 def rq_articles_from_keyword(keyword):
     """
-    Request article metadata using IGN's API
+    Request article metadata using News API
     """
-    print("[IGN ] Downloading article metadata for keyword: %s" % keyword)
+    print("[News API ] Downloading article metadata for keyword: %s" % keyword)
 	
 	url = "https://newsapi.org/v2/everything?language=en&q=%s&apiKey=%s" % (keyword, API_KEY)
 	response = requests.get(url)
@@ -109,7 +109,7 @@ def populate_articles_for_games(db):
 			db.session.add(article)
 			db.session.commit()
 
-    print("[IGN ] Inserted %d new articles for %s" % counter, game.name)
+    print("[News API ] Inserted %d new articles for %s" % counter, game.name)
 	
 def populate_articles_for_developers(db):
     """
@@ -189,4 +189,4 @@ def populate_articles_for_developers(db):
 			db.session.add(article)
 			db.session.commit()
 
-    print("[IGN ] Inserted %d new articles for %s" % counter, dev.name)
+    print("[News API] Inserted %d new articles for %s" % counter, dev.name)
