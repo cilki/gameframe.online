@@ -18,6 +18,9 @@ The API key
 """
 API_KEY = os.environ['KEY_IGN']
 
+def parse_timestamp(s):
+	return s[:-1]
+
 @rate_limited(period=40, every=60)
 def rq_articles_from_keyword(keyword):
     """
@@ -80,7 +83,7 @@ def populate_articles_for_games(db):
 			
 			# Timestamp
 			if "publishedAt" in i:
-				article.timestamp = i["publishedAt"] # TODO Parse the date
+				article.timestamp = parse_timestamp(i["publishedAt"])
 			else:
 				print("Failed to load timestamp for article %s." % article.title)
 				break
