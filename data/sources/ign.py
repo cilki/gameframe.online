@@ -33,7 +33,7 @@ def rq_articles_from_keyword(keyword):
 
 def populate_articles_for_games(db):
     """
-    Insert articles related to the list of games into the database.
+    Insert articles related to our list of games into the database.
     """
 
     counter = 0
@@ -46,12 +46,27 @@ def populate_articles_for_games(db):
 		    counter += 1
 			article = Article()
 
+			# Title
 			article.title = i["title"]
+			# TODO Iterate through all the articles in the database so that
+		    # no two articles with same name exist? Make title secondary key?
+			
+			# Outlet
 			article.outlet = i["sources"]["name"]
+			
+			# Introduction
 			article.introduction = i["description"]
+			
+			# Author
 			article.author = i["author"]
+			
+			# Timestamp
 			article.timestamp = i["publishedAt"] # TODO Parse the date
+			
+			# Image
 			article.image = i["urlToImage"]
+			
+			# Article link
 			article.article_link = i["url"]
 			
 			game.articles.append(article)
