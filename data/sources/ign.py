@@ -25,7 +25,7 @@ def rq_articles_from_keyword(keyword):
     """
     print("[IGN ] Downloading article metadata for keyword: %s" % keyword)
 	
-	url = "https://newsapi.org/v2/everything?q=%s&apiKey=%s" % (keyword, API_KEY)
+	url = "https://newsapi.org/v2/everything?language=en&q=%s&apiKey=%s" % (keyword, API_KEY)
 	response = requests.get(url)
 	
 	assert response.status_code == requests.codes.ok
