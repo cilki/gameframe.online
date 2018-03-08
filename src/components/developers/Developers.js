@@ -3,9 +3,31 @@
  */
 
 import React from 'react';
-import Card from './Card';
+import PropTypes from 'prop-types';
+import Radium from 'radium';
+import Card from '../Card';
 
 class Developers extends React.Component {
+  static propTypes = {
+	  
+  };
+  
+  static defaultProps = {
+	  
+  };
+  
+  constructor(props) {
+    super(props);
+	this.state = {}
+  }
+  
+  /**
+   * @description - React lifecycle method used to fetch the data
+   */
+   componentDidMount() {
+	   
+   }
+   
   render() {
     return (
       <div>

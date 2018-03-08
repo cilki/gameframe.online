@@ -24,7 +24,7 @@ import PLAYERUNKNOWNSBATTLEGROUNDS from './PLAYERUNKNOWNSBATTLEGROUNDS';
 import RocketLeague from './RocketLeague';
 import TheForest from './TheForest';
 
-import Developers from './Developers';
+import Developers, { reducer as DevelopersReducer } from './developers';
 import ValveCorporation from './ValveCorporation';
 import PUBGCorp from './PUBGCorp';
 import Psyonix from './Psyonix';
@@ -42,6 +42,7 @@ const store = createStore(
   combineReducers({
     about: AboutReducer,
     games: GamesReducer,
+	developers: DevelopersReducer,
   }),
   applyMiddleware(
     thunkMiddleware
