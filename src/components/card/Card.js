@@ -7,7 +7,7 @@ import Radium from 'radium';
 import { Badge, Label } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 
-import { Card as CardStyles } from '../inline-styles/CardStyles';
+import { Card as CardStyles } from './CardStyles';
 
 
 /**
@@ -25,59 +25,29 @@ class Card extends React.Component {
       title: null,
       company: null,
       year: null,
-      hover: false,
+      hover: false
     };
   }
 
   /**
-   * @description - React lifecycle method that is called whenever the
-   * component will mount to the DOM
+   * @description - 
    */
-  componentWillMount() {
-    this.mouseEntry = this.mouseEntry.bind(this);
-    this.mouseLeave = this.mouseLeave.bind(this);
-  }
 
   /**
-   * @description - Event handler for the `mouseEntry` event
+   * @description - 
    */
-  mouseEntry(e) {
-    this.setState({ hover: true });
-  }
-
-  /**
-   * @description - Event handler for the `mouseLeave` event
-   */
-  mouseLeave(e) {
-    this.setState({ hover: false });
-  }
 
   render() {
+    const { title } = this.props;
     return (
       <div style={[CardStyles.main]}>
         <Link to={this.props.url} style={{ textDecoration: 'none' }}>
-          <div
-            onMouseEnter={this.mouseEntry}
-            onMouseLeave={this.mouseLeave}
-          >
-            <div style={[
-              CardStyles.card,
-              this.state.hover && CardStyles.card.hover,
-            ]}
-            >
-              <div style={[CardStyles.imageContainerContainer,
-		this.state.hover && CardStyles.imageContainerContainer.hover]}
-              >
-                <div style={[
-                  CardStyles.imageContainer,
-                  this.state.hover && CardStyles.imageContainer.hover,
-                ]}
-                >
+          <div>
+            <div style={[CardStyles.card]} key={title}>
+              <div style={[CardStyles.imageContainerContainer]} key={`${title}-container`}>
+                <div style={[CardStyles.imageContainer]} key={`${title}-image-container`}>
                   <img
-                    style={[
-                    CardStyles.image,
-                    this.state.hover && CardStyles.image.hover,
-                  ]}
+                    style={[CardStyles.image]}
                     src={this.props.cover}
                     ref={img => this.img = img}
                     onError={
@@ -86,16 +56,14 @@ class Card extends React.Component {
                   />
                 </div>
               </div>
-              <div style={[
-                CardStyles.tooltip,
-                this.state.hover && CardStyles.tooltip.hover,
-              ]}
-              >
+              <div style={[CardStyles.tooltip,
+                this.state.hover && CardStyles.tooltip.hover
+              ]}>
                 <h3>{this.props.title}</h3><p>AAAAAAAAAAAAAA AAAAA AAAAAAAAAA AAAAAAAAAAAaaaaAAAaaaaA AAaaaA,
                 aaAAaaaAA AAaA!
                 </p>
               </div>
-              <div style={[CardStyles.captionContainer]}>
+              <div style={[CardStyles.captionContainer]} key={`${title}-caption`}>
                 <div style={[CardStyles.caption]}>
                   <Label>
                     {this.props.company}

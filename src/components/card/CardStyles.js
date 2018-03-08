@@ -12,7 +12,7 @@ const Card = {
     backgroundColor: 'darkgray',
     transition: 'transform 0.2s, filter 0.1s',
     transform: 'scale(1.0)',
-    hover: {
+    ':hover': {
       transition: 'transform 0.2s, filter 0.5s',
       transform: 'scale(0.98)',
       filter: 'hue-rotate(360deg)',
@@ -46,7 +46,7 @@ const Card = {
   },
   imageContainerContainer: {
     backgroundColor: 'darkGray',
-    hover: {
+    ':hover': {
       backgroundColor: 'gray',
     },
   },
@@ -57,7 +57,7 @@ const Card = {
     transition: 'transform 0.2s',
     transform: 'scale(0.995)',
     margin: 'auto',
-    hover: {
+    ':hover': {
       transform: 'scale(1.0)',
       backgroundColor: 'darkgray',
     },
@@ -71,7 +71,7 @@ const Card = {
     position: 'relative',
     width: '100%',
     margin: 'auto',
-    hover: {
+    ':hover': {
       transition: 'transform 1.0s, filter 1.0s',
       transform: 'scale(1.05)',
     },
@@ -84,7 +84,7 @@ const Card = {
     justifyContent: 'space-around',
     padding: '2% 5% 2% 0%',
     transition: 'height 0.2s',
-    hover: {
+    ':hover': {
       height: '0px',
       overflow: 'hidden',
     },

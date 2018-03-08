@@ -62,3 +62,16 @@ const games = handleActions({
         },
     },
 }, List());
+
+const gamesReducer = combineReducers({
+    games,
+    gamesError,
+    gamesRequested,
+});
+
+export {
+    fetchGamesRequest,
+    fetchGamesResponse,
+
+    gamesReducer,
+};

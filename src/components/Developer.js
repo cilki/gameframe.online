@@ -8,7 +8,6 @@ import { Jumbotron, Label, Badge } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 
 import { Developer as DeveloperStyles } from '../inline-styles/DeveloperStyles';
-import Card from './Card';
 import InstanceDetails from './InstanceDetails';
 
 class Developer extends React.Component {

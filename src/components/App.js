@@ -42,8 +42,8 @@ const store = createStore(
   combineReducers({
     about: AboutReducer,
     games: GamesReducer,
-	developers: DevelopersReducer,
-	articles: ArticlesReducer,
+  	developers: DevelopersReducer,
+  	articles: ArticlesReducer,
   }),
   applyMiddleware(
     thunkMiddleware

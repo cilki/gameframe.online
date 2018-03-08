@@ -9,36 +9,36 @@ import TextCard from '../TextCard';
 
 class Articles extends React.Component {
   static propTypes = {
-	  
+    
   };
   
   static defaultProps = {
-	  
+    
   };
   
   constructor(props) {
     super(props);
-	this.statie = {}
+    this.state = {}
   }
   
   /**
    * @description - React lifecycle method used to fetch the data
    */
   componentDidMount() {
-	   
+     
   }
    
   render() {
     return (
       <div>
         <div style={{
-					display: 'flex',
-					flexDirection: 'row',
-					flexWrap: 'wrap',
-					position: 'relative',
-					justifyContent: 'space-around',
-					maxWidth: '100%',
-				}}
+          display: 'flex',
+          flexDirection: 'row',
+          flexWrap: 'wrap',
+          position: 'relative',
+          justifyContent: 'space-around',
+          maxWidth: '100%',
+        }}
         >
           <TextCard url="/Article1" cover="" company="Brendan Caldwell" year="January 10, 2018" title="Bridge Constructor Portal isnt a rollercoaster of laughs, but its still good" companyURL="/AlexNavarro" />
           <TextCard url="/Article2" cover="" company="Giant Bomb Staff" year="Giant Bomb Staff" title="Will Smiths Top 7 Games of 2017" companyURL="/GiantBombStaff" />

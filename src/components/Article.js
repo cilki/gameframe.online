@@ -27,35 +27,22 @@ class Article extends React.Component {
     };
   }
 
-  componentWillMount() {
-    this.mouseEntry1 = this.mouseEntry1.bind(this);
-    this.mouseLeave1 = this.mouseLeave1.bind(this);
-  }
-
-  mouseEntry1(e) {
-    this.setState({ hover1: true });
-  }
-
-  mouseLeave1(e) {
-    this.setState({ hover1: false });
-  }
-
   render() {
     return (
       <div>
         <div style={{
- backgroundImage: `url(${this.props.image})`,
-        backgroundSize: 'cover',
-        position: 'fixed',
-        left: '0',
-        right: '0',
-        top: '0',
-        bottom: '0',
-        filter: 'blur(64px)',
-        zIndex: '-100',
-        display: 'block',
-        transform: 'scale(1.4)',
-}}
+            backgroundImage: `url(${this.props.image})`,
+            backgroundSize: 'cover',
+            position: 'fixed',
+            left: '0',
+            right: '0',
+            top: '0',
+            bottom: '0',
+            filter: 'blur(64px)',
+            zIndex: '-100',
+            display: 'block',
+            transform: 'scale(1.4)',
+          }}
         />
         <div style={[ArticleStyles.border]}>
           <Jumbotron style={[ArticleStyles.jumboTron], { borderRadius: '10px' }}>
@@ -65,18 +52,19 @@ class Article extends React.Component {
               <p>Published: {this.props.publish}</p>
             </div>
             <div style={[ArticleStyles.imageGallery]}>
-              <div style={[
+              <div
+              key={this.props.title} 
+              style={[
                 ArticleStyles.imageContainer,
-                this.state.hover1 && ArticleStyles.imageContainerHover,
               ]}
               >
-                <div onMouseEnter={this.mouseEntry1} onMouseLeave={this.mouseLeave1}>
+                <div>
                   <a href={this.props.image}>
                     <img
+                      key={this.props.image}
                       style={[
-                      ArticleStyles.image,
-                      this.state.hover1 && ArticleStyles.imageHover,
-                    ]}
+                        ArticleStyles.image,
+                      ]}
                       src={this.props.image}
                     />
                   </a>

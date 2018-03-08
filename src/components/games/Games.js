@@ -6,7 +6,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Radium from 'radium';
 
-import Card from '../Card';
+import Card from '../card';
 
 class Games extends React.Component {
   static propTypes = {
