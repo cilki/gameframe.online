@@ -61,8 +61,8 @@ def populate_articles_for_games(db):
 		    # no two articles with same name exist? Make title secondary key?
 			
 			# Outlet
-			if  "sources" in i and "name" in i["sources"]:
-				article.outlet = i["sources"]["name"]
+			if "source" in i and "name" in i["source"]:
+				article.outlet = i["source"]["name"]
 			else:
 				print("Failed to load outlet for article %s." % article.title)
 				break
