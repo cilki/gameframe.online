@@ -8,10 +8,12 @@ import { connect } from 'react-redux';
 
 import GamesPresenter from './Games';
 import {
-  
+  getGamesRequested,
+  getGames,
+  getGamesError,
 } from './GamesSelectors';
 import {
-  
+  fetchGames
 } from './GamesActions';
 
 /**
@@ -22,7 +24,9 @@ import {
  */
 function mapStateToProps(state) {
   return {
-    
+    gamesRequested: getGamesRequested(state),
+    gamesError: getGamesError(state),
+    games: getGames(state),
   };
 }
 
@@ -35,11 +39,7 @@ function mapStateToProps(state) {
  */
 function mapDispatchToProps(dispatch) {
   return {
-    fetchContributors: () => dispatch(fetchContributors()),
-    fetchIssues: () => dispatch(fetchIssues()),
-
-    fetchDescription: () => dispatch(fetchDescription()),
-    fetchExplanation: () => dispatch(fetchExplanation()),
+    fetchGames: () => dispatch(fetchGames()),
   };
 }
 
