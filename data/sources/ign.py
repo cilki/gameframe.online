@@ -38,6 +38,7 @@ def populate_articles_for_games(db):
 
     counter = 0
 
+	# Iterate through games in our database
     for game in Game.query.all():
         articles_json = rq_articles_from_keyword(game.name)
 		lst = articles_json["articles"]
@@ -45,30 +46,60 @@ def populate_articles_for_games(db):
 		
 		    counter += 1
 			article = Article()
-
+			
 			# Title
-			article.title = i["title"]
+			if "title" in i:
+				article.title = i["title"]
+			else:
+				print("Failed to load article.")
+				break
+			
 			# TODO Iterate through all the articles in the database so that
 		    # no two articles with same name exist? Make title secondary key?
 			
 			# Outlet
-			article.outlet = i["sources"]["name"]
+			if  "sources" in i and "name" in i["sources"]:
+				article.outlet = i["sources"]["name"]
+			else:
+				print("Failed to load outlet for article %s." % article.title)
+				break
 			
 			# Introduction
+			if "description" in i:
 			article.introduction = i["description"]
+			else:
+				print("Failed to load introduction for article %s." % article.title)
+				break
 			
 			# Author
-			article.author = i["author"]
+			if "author" in i:
+				article.author = i["author"]
+			else:
+				print("Failed to load author for article %s." % article.title)
+				break
 			
 			# Timestamp
-			article.timestamp = i["publishedAt"] # TODO Parse the date
+			if "publishedAt" in i:
+				article.timestamp = i["publishedAt"] # TODO Parse the date
+			else:
+				print("Failed to load timestamp for article %s." % article.title)
+				break
 			
 			# Image
-			article.image = i["urlToImage"]
+			if "urlToImage" in i:
+				article.image = i["urlToImage"]
+			else:
+				print("Failed to load image url for article %s." % article.title)
+				break
 			
 			# Article link
-			article.article_link = i["url"]
+			if "url" in i:
+				article.article_link = i["url"]
+			else:
+				print("Failed to load link for article %s." % article.title)
+				break
 			
+			# Setting up a relationship between article and game
 			game.articles.append(article)
 			article.games.append(game)
 				
