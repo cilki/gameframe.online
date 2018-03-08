@@ -30,7 +30,7 @@ import PUBGCorp from './PUBGCorp';
 import Psyonix from './Psyonix';
 import EndnightGamesLtd from './EndnightGamesLtd';
 
-import Articles from './Articles';
+import Articles, { reducer as ArticlesReducer } from './articles';
 import Article1 from './Article1';
 import Article2 from './Article2';
 import Article3 from './Article3';
@@ -43,6 +43,7 @@ const store = createStore(
     about: AboutReducer,
     games: GamesReducer,
 	developers: DevelopersReducer,
+	articles: ArticlesReducer,
   }),
   applyMiddleware(
     thunkMiddleware

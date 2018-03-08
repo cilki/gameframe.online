@@ -3,9 +3,31 @@
  */
 
 import React from 'react';
-import TextCard from './TextCard';
+import PropTypes from 'prop-types';
+import Radium from 'radium';
+import TextCard from '../TextCard';
 
 class Articles extends React.Component {
+  static propTypes = {
+	  
+  };
+  
+  static defaultProps = {
+	  
+  };
+  
+  constructor(props) {
+    super(props);
+	this.statie = {}
+  }
+  
+  /**
+   * @description - React lifecycle method used to fetch the data
+   */
+  componentDidMount() {
+	   
+  }
+   
   render() {
     return (
       <div>

@@ -15,8 +15,8 @@ class Footer extends React.Component {
 				textAlign: 'center',
 			}}
       >
-        <Panel.Footer style={{ position: 'relative', bottom: '0', width: '100%' }}>
-				Copyright © 2018 GameFrame.online. All rights reserved.
+        <Panel.Footer style={{ background: '#2a2626', color: 'white', position: 'relative', bottom: '0', width: '100%' }}>
+				Copyright © 2018 GameFrame.Online. All rights reserved.
         </Panel.Footer>
       </div>
     );
