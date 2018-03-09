@@ -25,7 +25,7 @@ class Game(db.Model):
     name = db.Column(db.Text)
 
     # The game's first release date
-    release = db.Column(db.Integer)
+    release = db.Column(db.Date)
 
     # The game's cover image
     cover = db.Column(db.Text)
@@ -112,7 +112,7 @@ class Developer(db.Model):
     logo = db.Column(db.Text)
 
     # The developer's foundation date
-    foundation = db.Column(db.Integer)
+    foundation = db.Column(db.Date)
 
     # The developer's website
     website = db.Column(db.Text)
