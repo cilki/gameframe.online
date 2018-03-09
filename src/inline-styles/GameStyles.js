@@ -9,13 +9,13 @@ const Game = {
     top: '0',
     bottom: '0',
     filter: 'blur(64px)',
-    zIndex: '-100',
+    zIndex: '-101',
     display: 'block',
     transition: 'hue-rotate 2s',
     transform: 'scale(1.4)',
   }),
   border: {
-    padding: '0 2% 2% 2%',
+    padding: '2% 2% 2% 2%',
   },
   name: {
     paddingLeft: '5%',

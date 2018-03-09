@@ -1,7 +1,7 @@
 
 const Developer = {
   border: {
-    padding: '0 2% 2% 2%',
+    padding: '2% 2% 2% 2%',
   },
   name: {
     paddingLeft: '5%',

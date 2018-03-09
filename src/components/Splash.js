@@ -3,7 +3,9 @@
  */
 
 import React from 'react';
+import Radium from 'radium';
 import { Carousel, Image } from 'react-bootstrap';
+import {CommonAssets as CommonAssets} from '../inline-styles/CommonAssets';
 
 const games = [
   '/static/data/games/PLAYERUNKNOWN\'S BATTLEGROUNDS.json',
@@ -30,12 +32,19 @@ class SplashPage extends React.Component {
   render() {
     return (
       <div
-        style={{
-        height: 'auto',
-        minHeight: '100%',
-      }}
+        style={[
+            {minHeight: '100%'},
+        ]}
       >
-        <Carousel>
+      <div style={[
+        CommonAssets.stripeOverlay,
+        CommonAssets.backgroundColor,
+        CommonAssets.fillBackground
+        ]} />
+        <Carousel style={{
+            padding: '0 0 0 0',
+            minHeight: '100%',
+        }}>
           <Carousel.Item>
             <a href="/games" target="_blank">
               <img style={{
@@ -79,4 +88,4 @@ class SplashPage extends React.Component {
   }
 }
 
-export default SplashPage;
+export default Radium(SplashPage);

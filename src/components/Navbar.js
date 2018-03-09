@@ -29,9 +29,15 @@ function createLinkContainerNavItem(href, imageSrc, label, linkProps, navProps) 
   return (
     <LinkContainer to={href} {...linkProps}>
       <NavItem {...navProps}>
-            <img style={{maxWidth: '24px', maxHeight: '24px', filter: 'invert(100%)', paddingRight: '4px'}} src={imageSrc} />
-
-            {label} {/* Just text for now, later on should be it's own component */}
+        <img style={{
+          maxWidth: '24px',
+          maxHeight: '24px',
+          filter: 'grayscale(100%) invert(100%)',
+          paddingRight: '4px',
+          }}
+          src={imageSrc}
+        />
+        {label} {/* Just text for now, later on should be it's own component */}
       </NavItem>
     </LinkContainer>
   );
@@ -41,22 +47,22 @@ const pages = [
   {
     href: '/games',
     label: 'Games',
-	imageSrc: '../../static/images/icons8-white-game-controller-50.png',
+    imageSrc: '../../static/images/icons8-white-game-controller-50.png',
   },
   {
     href: '/developers',
     label: 'Developers',
-	imageSrc: '../../static/images/icons8-white-development-skill-50.png',
+    imageSrc: '../../static/images/icons8-white-development-skill-50.png',
   },
   {
     href: '/articles',
     label: 'Articles',
-	imageSrc: '../../static/images/icons8-white-hot-article-50.png',
+    imageSrc: '../../static/images/icons8-white-hot-article-50.png',
   },
   {
     href: '/about',
     label: 'About',
-	imageSrc: '../../static/images/icons8-white-about-50.png',
+    imageSrc: '../../static/images/icons8-white-about-50.png',
   },
 ];
 
@@ -68,7 +74,10 @@ class NavBar extends React.Component {
     return (
       <Navbar inverse collapseOnSelect style={{
         borderRadius: '0',
-        background: '#2a2626'
+        background: '#272727',
+        borderLeft: 'none',
+        borderRight: 'none',
+        marginBottom: '0'
         }}
       >
         <Navbar.Header>

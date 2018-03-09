@@ -10,6 +10,8 @@ import { Link } from 'react-router-dom';
 import { Game as GameStyles } from '../inline-styles/GameStyles';
 import InstanceDetails from './InstanceDetails';
 
+import {CommonAssets as CommonAssets} from '../inline-styles/CommonAssets';
+
 class Game extends React.Component {
   constructor(props) {
     super(props);
@@ -38,7 +40,11 @@ class Game extends React.Component {
   render() {
     let index = 0;
 
-    return (
+    return (<div>
+        <div style={[
+          CommonAssets.stripeOverlay,
+          CommonAssets.fillBackground
+        ]} />
       <InstanceDetails
         style={{
         container: GameStyles.container(this.props.coverURL),
@@ -114,7 +120,7 @@ class Game extends React.Component {
             <h3>Twitch:</h3>
           </div>
         </div>
-      </InstanceDetails>
+      </InstanceDetails></div>
     );
   }
 }

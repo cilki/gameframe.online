@@ -6,6 +6,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Radium from 'radium';
 
+import {CommonAssets as CommonAssets} from '../../inline-styles/CommonAssets';
+
 import Card from '../card';
 
 class Games extends React.Component {
@@ -31,6 +33,11 @@ class Games extends React.Component {
   render() {
     return (
       <div>
+        <div style={[
+          CommonAssets.stripeOverlay,
+          CommonAssets.backgroundColor,
+          CommonAssets.fillBackground
+        ]} />
         <div style={{
           display: 'flex',
           flexDirection: 'row',
@@ -38,6 +45,7 @@ class Games extends React.Component {
           position: 'relative',
           justifyContent: 'space-around',
           maxWidth: '100%',
+          paddingTop: '2%'
         }}>
           <Card url="/Portal2" cover="https://images.igdb.com/igdb/image/upload/t_cover_big/w6kusdugzlssi3yqcbwl.jpg" company="Valve Corporation" year="2011" title="Portal 2" companyURL="/ValveCorporation" />
           <Card url="/PLAYERUNKNOWNSBATTLEGROUNDS" cover="https://images.igdb.com/igdb/image/upload/t_cover_big/lvoic2oakbklg2dytgpa.jpg" company="PUBG Corp" year="2017" title="PLAYERUNKNOWN&#39;S BATTLEGROUNDS" companyURL="/PUBGCorp" />
@@ -49,4 +57,4 @@ class Games extends React.Component {
   }
 }
 
-export default Games;
+export default Radium(Games);
