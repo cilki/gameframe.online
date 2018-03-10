@@ -36,6 +36,9 @@ class Game(db.Model):
     # A summary written by Steam or IGDB
     summary = db.Column(db.Text)
 
+    # The game's price in cents
+    price = db.Column(db.Integer)
+
     # Relevant genres as CSV
     genres = db.Column(db.Text)
 
