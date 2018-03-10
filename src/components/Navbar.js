@@ -3,6 +3,7 @@
  */
 
 import React from 'react';
+import Radium from 'radium';
 import {
   Navbar, Nav, Brand, Toggle, NavItem, Forms, FormGroup,
   FormControl, Button, Image, Glyphicon
@@ -10,6 +11,7 @@ import {
 
 import { Link } from 'react-router-dom';
 import { LinkContainer } from 'react-router-bootstrap';
+import { Navbar as NavbarStyles} from '../inline-styles/NavbarStyles';
 
 /**
  * @description - Function that generates a LinkContainer for the Navbar
@@ -27,17 +29,18 @@ import { LinkContainer } from 'react-router-bootstrap';
  */
 function createLinkContainerNavItem(href, imageSrc, label, linkProps, navProps) {
   return (
-    <LinkContainer to={href} {...linkProps}>
-      <NavItem {...navProps}>
-        <img style={{
-          maxWidth: '24px',
-          maxHeight: '24px',
-          filter: 'grayscale(100%) invert(100%)',
-          paddingRight: '4px',
-          }}
+    <LinkContainer to={href} {...linkProps} style={{}}>
+      <NavItem {...navProps} style={{}}>
+    <div style={[NavbarStyles.itemMain]} key={`${href}`}>
+        <img style={[
+            {width: '24px'},
+            {height: '24px'},
+            {filter: 'grayscale(100%) invert(100%)'},
+            {paddingRight: '4px'}
+        ]} key={`${href}-image`}
           src={imageSrc}
         />
-        {label} {/* Just text for now, later on should be it's own component */}
+        {label} {/* Just text for now, later on should be it's own component */}</div>
       </NavItem>
     </LinkContainer>
   );
@@ -77,7 +80,7 @@ class NavBar extends React.Component {
         background: '#272727',
         borderLeft: 'none',
         borderRight: 'none',
-        marginBottom: '0'
+        marginBottom: '0',
         }}
       >
         <Navbar.Header>
@@ -86,8 +89,8 @@ class NavBar extends React.Component {
           </Navbar.Brand>
           <Navbar.Toggle />
         </Navbar.Header>
-        <Navbar.Collapse>
-          <Nav pullLeft={true}>
+        <Navbar.Collapse style={{}}>
+          <Nav pullLeft={true} style={{}}>
             {/* This dynamically creates all of the NavItems for us depending on the objects in `pages` */}
             {pages.map((page, index) => createLinkContainerNavItem(page.href, page.imageSrc, page.label, { key: page.href }, { eventKey: index }, ))}
           </Nav>
@@ -108,4 +111,4 @@ class NavBar extends React.Component {
   }
 }
 
-export default NavBar;
+export default Radium(NavBar);
