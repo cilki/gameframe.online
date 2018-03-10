@@ -2,16 +2,18 @@
 # IGDB.com API scraper           -
 # Copyright (C) 2018 GameFrame   -
 # --------------------------------
-from ratelimit import rate_limited
+
+import json
+import os
+import sys
 from codecs import open
 
 import requests
-import os
-import json
+from ratelimit import rate_limited
 
-import sys
 sys.path.append(os.path.abspath('app'))
-from orm import Game, Developer
+from orm import Developer, Game
+
 
 """
 The API key
@@ -124,6 +126,7 @@ def gather_games():
 
     print("[IGDB ] Gathered %d games" % i)
 
+
 def gather_developers():
     """
     Download any developers missing from the cache.
@@ -162,6 +165,7 @@ def filter_games():
     print("[IGDB ] Filtered out %d games" % (len(GAME_RANGE) - len(filtered)))
     return filtered
 
+
 def filter_developers():
     """
     Return a filtered list of developers.
@@ -182,11 +186,12 @@ def filter_developers():
         # TODO Apply more filtering
         filtered += [id]
 
-    print("[IGDB ] Filtered out %d developers" % (len(DEV_RANGE) - len(filtered)))
+    print("[IGDB ] Filtered out %d developers" %
+          (len(DEV_RANGE) - len(filtered)))
     return filtered
 
 
-def populate_games(db):
+def merge_games(db):
     """
     Insert the filtered list of games into the database.
     """
@@ -238,7 +243,7 @@ def populate_games(db):
     print("[IGDB ] Inserted %d new games" % i)
 
 
-def populate_developers(db):
+def merge_developers(db):
     """
     Insert the filtered list of developers into the database.
     """
@@ -271,7 +276,6 @@ def populate_developers(db):
         # Country
         if dev.country is None and 'country' in dev_json:
             dev.country = dev_json['country']
-
 
         print("Uploading developer: %s" %
               (dev.name.encode('utf-8', 'ignore')))
