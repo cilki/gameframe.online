@@ -24,6 +24,9 @@ class Game(db.Model):
     # The game's user-friendly title
     name = db.Column(db.Text)
 
+    # The game's website
+    website = db.Column(db.Text)
+
     # The game's first release date
     release = db.Column(db.Date)
 
@@ -44,6 +47,15 @@ class Game(db.Model):
 
     # External links as CSV
     external_links = db.Column(db.Text)
+
+    # Windows compatibility
+    platform_win = db.Column(db.Boolean)
+
+    # Linux compatibility
+    platform_lin = db.Column(db.Boolean)
+
+    # Mac compatibility
+    platform_mac = db.Column(db.Boolean)
 
     tweets = db.relationship(
         'Tweet', secondary='game_tweet', back_populates="games")
