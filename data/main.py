@@ -44,15 +44,18 @@ with app.app_context():
         print("8. Merge IGDB developers")
         print("       Upload into the database, possibly overwriting")
 
-        action = raw_input("Choose an action: ")
+        action = input("Choose an action: ")
 
         if action == '0':
+            print("[MAIN ] Dropping database")
+
             # Delete everything
             db.reflect()
             db.drop_all()
 
             # Create database schema
             db.create_all()
+            print("[MAIN ] Reset complete")
         elif action == '1':
             steam.gather_games()
         elif action == '2':
