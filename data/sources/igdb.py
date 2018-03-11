@@ -7,13 +7,16 @@ import json
 import os
 import sys
 from codecs import open
+from functools import lru_cache
+from datetime import datetime
+from tqdm import tqdm
 
 import requests
 from ratelimit import rate_limited
 
 sys.path.append(os.path.abspath('app'))
 from orm import Developer, Game
-
+from util import append_csv
 
 """
 The API key
@@ -35,42 +38,55 @@ CACHE_DEV_IGDB = os.environ['CACHE_DEV_IGDB']
 """
 GAME_RANGE = range(2124, 89253)
 
+"""
+1 - ? seems to be the range of developer IDs on IGDB
+"""
+DEV_RANGE = range(1, 40001)
 
-@rate_limited(period=40, every=60)
+"""
+The number of entities to request at a time
+"""
+API_STRIDE = 100
+
+"""
+The genre mapping that IGDB uses
+"""
+GENRES = {2: 'Point-and-click', 4: 'Fighting', 5: 'Shooter', 7: 'Music',
+          8: 'Platform', 9: 'Puzzle', 10: 'Racing', 11: 'Real Time Strategy',
+          12: 'Role-playing', 13: 'Simulator', 14: 'Sport', 15: 'Strategy',
+          16: 'Turn-based strategy', 24: 'Tactical', 25: "Hack and slash",
+          26: 'Trivia', 30: 'Pinball', 31: 'Adventure', 32: 'Indie', 33: 'Arcade'}
+
+
 def rq_game(id):
     """
     Request game metadata using IGDB's API
     """
-    print("[IGDB ] Downloading game metadata for: %d" % id)
 
-    rq = requests.get("https://api-endpoint.igdb.com/games/%d" % id,
-                      headers={'user-key': API_KEY,
-                               'Accept': 'application/json'},
-                      params={'fields': '*'})
+    rq = requests.get("https://api-endpoint.igdb.com/games/%s"
+                      % str(list(range(id, id + API_STRIDE)))[1:-1].replace(" ", ""),
+                      headers={'user-key': API_KEY})
 
     assert rq.status_code == requests.codes.ok
     return rq.json()
 
 
-@rate_limited(period=40, every=60)
 def rq_developer(id):
     """
     Request developer metadata using IGDB's API
     """
-    print("[IGDB ] Downloading developer metadata for: %d" % id)
 
-    rq = requests.get("https://api-endpoint.igdb.com/companies/%d" % id,
-                      headers={'user-key': API_KEY,
-                               'Accept': 'application/json'},
-                      params={'fields': '*'})
+    rq = requests.get("https://api-endpoint.igdb.com/companies/%s"
+                      % str(list(range(id, id + API_STRIDE)))[1:-1].replace(" ", ""),
+                      headers={'user-key': API_KEY})
 
     assert rq.status_code == requests.codes.ok
     return rq.json()
 
 
-def get_game(id):
+def load_game(id):
     """
-    Retrieve a game from the cache or download it from IGDB.
+    Retrieve a filtered game from the cache or download it from IGDB.
     """
     assert os.path.isdir(CACHE_GAME_IGDB)
 
@@ -78,8 +94,9 @@ def get_game(id):
         game = rq_game(id)
 
         # Write to the cache
-        with open("%s/%d" % (CACHE_GAME_IGDB, id), 'w', 'utf8') as h:
-            h.write(json.dumps(game, ensure_ascii=False))
+        for entity in game:
+            with open("%s/%d" % (CACHE_GAME_IGDB, entity['id']), 'w', 'utf8') as h:
+                h.write(json.dumps([entity], ensure_ascii=False))
     else:
         with open("%s/%d" % (CACHE_GAME_IGDB, id), 'r', 'utf8') as h:
             game = json.load(h)
@@ -90,9 +107,76 @@ def get_game(id):
     return game[0]
 
 
-def get_developer(id):
+def find_game(game_json):
     """
-    Retrieve a developer from the cache or download it from IGDB.
+    Attempt to locate a game in the database
+    """
+    # IGDB ID matching
+    game = Game.query.filter_by(igdb_id=game_json['id']).first()
+
+    # Steam ID matching
+    if game is None and 'external' in game_json and 'steam' in game_json['external']:
+        game = Game.query.filter_by(
+            steam_id=game_json['external']['steam']).first()
+
+    # TODO Provide more robust searching with game_json
+
+    # Construct new Game
+    if game is None:
+        game = Game()
+
+    return game
+
+
+def build_game(game_json):
+    """
+    Build a Game object from the raw data, taking into account previous Games.
+    """
+    game = find_game(game_json)
+
+    # IGDB ID
+    game.igdb_id = int(game_json['id'])
+
+    # Title
+    if game.name is None:
+        game.name = game_json['name']
+
+    # Genre
+    if game.genres is None and 'genres' in game_json:
+        for genre in game_json['genres']:
+            game.genres = append_csv(game.genres, GENRES[genre])
+
+    # Summary
+    if game.summary is None and 'summary' in game_json:
+        game.summary = game_json['summary']
+
+    # Steam ID
+    if game.steam_id is None and 'external' in game_json \
+            and 'steam' in game_json['external']:
+        game.steam_id = int(game_json['external']['steam'])
+
+    # Release date
+    if game.release is None and 'first_release_date' in game_json:
+        game.release = datetime.fromtimestamp(
+            game_json['first_release_date'] // 1000)
+
+    # Screenshots
+    if 'screenshots' in game_json:
+        for screenshot in game_json['screenshots']:
+            game.screenshots = append_csv(
+                game.screenshots, screenshot['url'][2:].replace("t_thumb", "t_original"))
+
+    # Cover
+    if game.cover is None and 'cover' in game_json:
+        game.cover = game_json['cover']['url'][2:].replace(
+            "t_thumb", "t_original")
+
+    return game
+
+
+def load_developer(id):
+    """
+    Retrieve a filtered developer from the cache or download it from IGDB.
     """
     assert os.path.isdir(CACHE_DEV_IGDB)
 
@@ -100,8 +184,9 @@ def get_developer(id):
         dev = rq_developer(id)
 
         # Write to the cache
-        with open("%s/%d" % (CACHE_DEV_IGDB, id), 'w', 'utf8') as h:
-            h.write(json.dumps(dev, ensure_ascii=False))
+        for entity in dev:
+            with open("%s/%d" % (CACHE_DEV_IGDB, entity['id']), 'w', 'utf8') as h:
+                h.write(json.dumps([entity], ensure_ascii=False))
     else:
         with open("%s/%d" % (CACHE_DEV_IGDB, id), 'r', 'utf8') as h:
             dev = json.load(h)
@@ -112,175 +197,159 @@ def get_developer(id):
     return dev[0]
 
 
+def find_dev(dev_json):
+    """
+    Attempt to locate a developer in the database.
+    """
+    # IGDB ID matching
+    dev = Developer.query.filter_by(igdb_id=dev_json['id']).first()
+
+    # Steam ID matching
+    if dev is None and 'external' in dev_json and 'steam' in dev_json['external']:
+        dev = Developer.query.filter_by(
+            steam_id=dev_json['external']['steam']).first()
+
+    # TODO Provide more robust searching with dev_json
+
+    # Construct new Developer
+    if dev is None:
+        dev = Developer()
+
+    return dev
+
+
+def build_dev(dev_json):
+    """
+    Build a Developer object from the raw data, taking into account previous Developers.
+    """
+    dev = find_dev(dev_json)
+
+    # IGDB ID
+    dev.igdb_id = int(dev_json['id'])
+
+    # Name
+    if dev.name is None:
+        dev.name = dev_json['name']
+
+    # Description
+    if dev.description is None and 'description' in dev_json:
+        dev.description = dev_json['description']
+
+    # Website
+    if dev.website is None and 'website' in dev_json:
+        dev.website = dev_json['website']
+
+    # Country
+    if dev.country is None and 'country' in dev_json:
+        dev.country = dev_json['country']
+
+    # Twitter
+    if dev.twitter is None and 'twitter' in dev_json:
+        dev.twitter = dev_json['twitter']
+
+    # Logo
+    if dev.logo is None and 'logo' in dev_json:
+        dev.logo = dev_json['logo']['url'][2:].replace("t_thumb", "t_original")
+
+    return dev
+
+
+@lru_cache(maxsize=1)
 def gather_games():
     """
-    Download any games missing from the cache.
+    Build a filtered list of Game objects.
     """
     assert len(GAME_RANGE) > 0
     print("[IGDB ] Gathering games")
 
-    i = 0
-    for id in GAME_RANGE:
-        if not get_game(id) is None:
-            i += 1
+    games = []
 
-    print("[IGDB ] Gathered %d games" % i)
+    # Load games
+    for id in tqdm(GAME_RANGE):
+        game_json = load_game(id)
+        if game_json is None:
+            continue
+        games.append(build_game(game_json))
+
+    print("[IGDB ] Gathered %d games" % len(games))
+    return games
 
 
+@lru_cache(maxsize=1)
 def gather_developers():
     """
-    Download any developers missing from the cache.
+    Build a filtered list of Developer objects.
     """
     assert len(DEV_RANGE) > 0
     print("[IGDB ] Gathering developers")
 
-    i = 0
-    for id in DEV_RANGE:
-        if not get_developer(id) is None:
-            i += 1
+    developers = []
 
-    print("[IGDB ] Gathered %d developers" % i)
-
-
-def filter_games():
-    """
-    Return a filtered list of games.
-    """
-    print("[IGDB ] Filtering games")
-
-    filtered = []
-
-    for id in GAME_RANGE:
-        game_json = get_game(id)
-
-        if game_json is None:
-            continue
-
-        if 'name' not in game_json:
-            continue
-
-        # TODO Apply more filtering
-        filtered += [id]
-
-    print("[IGDB ] Filtered out %d games" % (len(GAME_RANGE) - len(filtered)))
-    return filtered
-
-
-def filter_developers():
-    """
-    Return a filtered list of developers.
-    """
-    print("[IGDB ] Filtering developers")
-
-    filtered = []
-
-    for id in DEV_RANGE:
-        dev_json = get_developer(id)
-
+    # Load developers
+    for id in tqdm(DEV_RANGE):
+        dev_json = load_developer(id)
         if dev_json is None:
             continue
+        developers.append(build_dev(dev_json))
 
-        if 'name' not in dev_json:
-            continue
-
-        # TODO Apply more filtering
-        filtered += [id]
-
-    print("[IGDB ] Filtered out %d developers" %
-          (len(DEV_RANGE) - len(filtered)))
-    return filtered
+    print("[IGDB ] Gathered %d developers" % len(developers))
+    return developers
 
 
 def merge_games(db):
     """
     Insert the filtered list of games into the database.
     """
+    games = gather_games()
 
-    i = 0
-    for id in filter_games():
-        game_json = get_game(id)
-        assert 'id' in game_json
-        assert 'name' in game_json
-
-        # TODO Find the same game in database if it already exists
-        if True:
-            game = Game()
-            i += 1
-        else:
-            game = Game()
-
-        game.igdb_id = int(game_json['id'])
-
-        # Title
-        if game.name is None:
-            game.name = game_json['name']
-
-        # Genre
-        if game.genres is None and 'genres' in game_json:
-            game.genres = str(game_json['genres'])
-
-        # Summary
-        if game.summary is None and 'summary' in game_json:
-            game.summary = game_json['summary']
-
-        # Steam ID
-        if game.steam_id is None and 'external' in game_json \
-                and 'steam' in game_json['external']:
-            game.steam_id = int(game_json['external']['steam'])
-
-        # Release date
-        # TODO Consider release date for all platforms
-        if game.release is None and 'release_dates' in game_json \
-                and 'date' in game_json['release_dates'][0]:
-            game.release = int(game_json['release_dates'][0]['date'])
-
-        print("Uploading game (%d): %s" %
-              (game.igdb_id, game.name.encode('utf-8', 'ignore')))
-
+    print("[IGDB ] Merging games")
+    for game in games:
         db.session.add(game)
-        db.session.commit()
+    db.session.commit()
 
-    print("[IGDB ] Inserted %d new games" % i)
+    print("[IGDB ] Merge complete")
 
 
 def merge_developers(db):
     """
     Insert the filtered list of developers into the database.
     """
+    developers = gather_developers()
 
-    i = 0
-    for id in filter_developers():
-        dev_json = get_developer(id)
-        assert 'id' in dev_json
-        assert 'name' in dev_json
-
-        # TODO Find the same dev in database if it already exists
-        if True:
-            dev = Developer()
-            i += 1
-        else:
-            dev = Developer()
-
-        # Title
-        if dev.name is None:
-            dev.name = dev_json['name']
-
-        # Description
-        if dev.description is None and 'description' in dev_json:
-            dev.description = dev_json['description']
-
-        # Website
-        if dev.website is None and 'website' in dev_json:
-            dev.website = dev_json['website']
-
-        # Country
-        if dev.country is None and 'country' in dev_json:
-            dev.country = dev_json['country']
-
-        print("Uploading developer: %s" %
-              (dev.name.encode('utf-8', 'ignore')))
-
+    print("[IGDB ] Merging developers")
+    for dev in developers:
         db.session.add(dev)
-        db.session.commit()
+    db.session.commit()
 
-    print("[IGDB ] Inserted %d new developers" % i)
+    print("[IGDB ] Merge complete")
+
+
+def link_developers(db):
+    """
+    Perform the linking for IGDB developers according to IGDB ID
+    """
+
+    print("[IGDB ] Linking developers")
+
+    # Load games with IGDB IDs into a hashtable for improved performance
+    games = {game.igdb_id: game for game in Game.query.all()
+             if game.igdb_id is not None}
+
+    for dev in tqdm(Developer.query.all()):
+        dev_json = load_developer(dev.igdb_id)
+
+        if 'published' not in dev_json:
+            dev_json['published'] = []
+        if 'developed' not in dev_json:
+            dev_json['developed'] = []
+
+        for l in (dev_json['published'], dev_json['developed']):
+            for id in l:
+                if id in games:
+                    # Link the models
+                    game = games[id]
+                    dev.games.append(game)
+                    game.developers.append(dev)
+
+    db.session.commit()
+    print("[IGDB ] Link complete")

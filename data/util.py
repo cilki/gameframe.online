@@ -37,3 +37,25 @@ def append_csv(csv, item):
         csv += item
 
     return csv
+
+
+def reset(db):
+    """
+    Reset the database.
+    """
+    print("[MAIN ] Dropping database")
+
+    # Delete everything
+    db.reflect()
+    db.drop_all()
+
+    # Create database schema
+    db.create_all()
+    print("[MAIN ] Reset complete")
+
+
+def trim(db):
+    """
+    Trim unconnected models
+    """
+    pass
