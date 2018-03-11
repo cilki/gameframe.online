@@ -23,4 +23,4 @@ generate_api(app, db)
 
 # Start Flask
 if __name__ == "__main__":
-    app.run(host=os.environ['BIND_ADDRESS'], port=80)
+    app.run(host='0.0.0.0', port=80)
