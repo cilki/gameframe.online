@@ -65,9 +65,10 @@ class Game(db.Model):
         'Stream', secondary='game_stream', back_populates="games")
     articles = db.relationship(
         'Article',  secondary='game_article', back_populates="games")
-
-    developer_id = db.Column(
-        db.Integer, db.ForeignKey('developer.developer_id'))
+    developers = db.relationship(
+        'Developer',  secondary='game_developer', back_populates="games")
+    # developer_id = db.Column(
+    #    db.Integer, db.ForeignKey('developer.developer_id'))
 
 
 class Article(db.Model):
@@ -135,11 +136,16 @@ class Developer(db.Model):
     # The developer's description
     description = db.Column(db.Text)
 
+    # The developer's Twitter
+    twitter = db.Column(db.Text)
+
     articles = db.relationship(
         'Article', secondary='article_developer', back_populates="developers")
 
-    games = db.relationship('Game')
-    tweets = db.relationship('Tweet')
+    games = db.relationship(
+        'Game', secondary='game_developer', back_populates="developers")
+    # tweets = db.relationship(
+    #     'Tweet', secondary='tweet_developer', back_populates="developers")
 
 
 class Tweet(db.Model):
@@ -217,6 +223,12 @@ game_stream = db.Table('game_stream',
                                  db.ForeignKey('game.game_id')),
                        db.Column('stream_id', db.Integer,
                                  db.ForeignKey('stream.stream_id')))
+
+game_developer = db.Table('game_developer',
+                          db.Column('game_id', db.Integer,
+                                    db.ForeignKey('game.game_id')),
+                          db.Column('developer_id', db.Integer,
+                                    db.ForeignKey('developer.developer_id')))
 
 article_developer = db.Table('article_developer',
                              db.Column('article_id', db.Integer,
