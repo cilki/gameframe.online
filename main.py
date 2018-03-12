@@ -6,10 +6,12 @@
 from app.orm import db
 from app.api import generate_api
 from flask import Flask
+from flask_cors import CORS
 import os
 
 # Initialize Flask
 app = Flask(__name__)
+CORS(app)
 
 # Configure SQLAlchemy
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
