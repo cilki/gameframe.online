@@ -18,9 +18,41 @@ app = Flask(__name__)
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SQLALCHEMY_DATABASE_URI'] = os.environ['SQLALCHEMY_URI']
 
+# Greetings
 print("                             __                          \n                            / _|                         \n  __ _  __ _ _ __ ___   ___| |_ _ __ __ _ _ __ ___   ___ \n / _` |/ _` | '_ ` _ \\ / _ \\  _| '__/ _` | '_ ` _ \\ / _ \\\n| (_| | (_| | | | | | |  __/ | | | | (_| | | | | | |  __/\n \\__, |\\__,_|_| |_| |_|\\___|_| |_|  \\__,_|_| |_| |_|\\___|\n  __/ |                                                  \n |___/\n\n")
 print("")
 print("Connected to: %s" % os.environ['SQLALCHEMY_URI'])
+
+print("")
+print("0. RESET                          Drop all tables and rebuild database schema")
+print("1. REBUILD                        Reset database, merge, and link")
+print("2  FILTER                         Delete low quality entities")
+
+print("")
+print("[STEAM]")
+print("3. COLLECT games                  Download missing games from Steam")
+print("4. MERGE games                    Upload game cache into database")
+print("5. LINK developers                Compute Game-Developer links from Steam games")
+
+print("")
+print("[IGDB]")
+print("6. COLLECT games                  Download missing games from IGDB")
+print("7. COLLECT developers             Download missing developers from IGDB")
+print("8. MERGE games                    Upload game cache into database")
+print("9. MERGE developers               Upload developer cache into database")
+print("A. LINK developers                Compute Game-Developer links from IGDB developers")
+
+print("")
+print("[IGN]")
+print("B. GATHER articles                Download articles from IGN into the local cache")
+print("C. MERGE articles                 Upload article cache into database")
+print("D. LINK articles                  Compute Article links")
+
+print("")
+print("YOUTUBE")
+
+print("")
+print("TWITCH")
 
 with app.app_context():
 
@@ -28,23 +60,8 @@ with app.app_context():
     db.init_app(app)
 
     while True:
-        print("")
-        print("0. RESET Database                    Drop all tables and rebuild schema")
-        print("1. REBUILD Database                  Reset database and load content")
-        print("")
-        print("2. GATHER Steam games                Collect games from Steam")
-        print("3. GATHER IGDB games                 Collect games from IGDB")
-        print("4. GATHER IGDB developers            Collect developers from IGDB")
-        print("5. GATHER articles from games        Download articles from IGN into the local cache")
-        print("6. GATHER articles from developers   Download articles from IGN into the local cache")
-        print("")
-        print("7. MERGE Steam games                 Upload into the database")
-        print("8. MERGE IGDB games                  Upload into the database")
-        print("9. MERGE IGDB developers             Upload into the database")
-        print("")
-        print("A. LINK IGDB developers              Compute Game-Developer links from IGDB developers")
-        print("B. LINK Steam developers             Compute Game-Developer links from Steam games")
 
+        print("")
         action = input("Choose an action: ")
 
         if action == '0':
@@ -60,17 +77,17 @@ with app.app_context():
             steam.link_developers(db)
             print("[MAIN ] Rebuild completed in %d seconds" % (time() - t))
         elif action == '2':
-            steam.gather_games()
+            pass
         elif action == '3':
-            igdb.gather_games()
+            steam.collect_games()
         elif action == '4':
-            igdb.gather_developers()
-        elif action == '5':
-            ign.populate_articles_for_games(db)
-        elif action == '6':
-            ign.populate_articles_for_developers(db)
-        elif action == '7':
             steam.merge_games(db)
+        elif action == '5':
+            steam.link_developers(db)
+        elif action == '6':
+            igdb.collect_games()
+        elif action == '7':
+            igdb.collect_developers()
         elif action == '8':
             igdb.merge_games(db)
         elif action == '9':
@@ -78,6 +95,10 @@ with app.app_context():
         elif action == 'a':
             igdb.link_developers(db)
         elif action == 'b':
-            steam.link_developers(db)
+            ig.gather_articles(db)
+        elif action == 'c':
+            ig.merge_articles(db)
+        elif action == 'd':
+            ig.link_articles(db)
         else:
             print("Unknown Command")
