@@ -17,4 +17,4 @@ const InstanceDetails = {
   },
 };
 
-export { InstanceDetails };
+export default InstanceDetails;

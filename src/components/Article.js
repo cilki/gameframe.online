@@ -3,89 +3,133 @@
  */
 
 import React from 'react';
+import PropTypes from 'prop-types';
 import Radium from 'radium';
-import { Jumbotron, Label, Badge } from 'react-bootstrap';
+import { Jumbotron, Label } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
-import { Article as ArticleStyles } from '../inline-styles/ArticleStyles';
+import ArticleStyles from '../inline-styles/ArticleStyles';
 
-class Article extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      title: null, /* Text */
-      author: null, /* Text */
-      publish: null, /* Text */
-      thumbnailURL: null, /* http:// */
-      summary: null, /* Text: */
-      articleURL: null, /* http:// */
-      article: null, /* Text */
-      gameURL: null, /* http:// */
-      game: null, /* Text */
-      developerURL: null, /* http:// */
-      developer: null, /* Text */
-      hover1: false,
-    };
-  }
+/**
+ * @description - Creates links for a developer
+ * @param {Object} props
+ * @param {String} url
+ * @param {String} name
+ * @returns {React.Component}
+ */
+function link({ url, name }) {
+  return (
+    <Link
+      to={url}
+      style={{
+        textDecoration: 'none',
+      }}
+    >
+      <Label>{name}</Label>
+    </Link>
+  );
+}
 
-  render() {
-    return (
-      <div>
-        <div style={{
-            backgroundImage: `url(${this.props.image})`,
-            backgroundSize: 'cover',
-            position: 'fixed',
-            left: '0',
-            right: '0',
-            top: '0',
-            bottom: '0',
-            filter: 'blur(64px)',
-            zIndex: '-100',
-            display: 'block',
-            transform: 'scale(1.4)',
-          }}
-        />
-        <div style={[ArticleStyles.border]}>
-          <Jumbotron style={[ArticleStyles.jumboTron], { borderRadius: '10px' }}>
-            <h1 style={[ArticleStyles.title]}>{this.props.title}</h1>
-            <div style={[ArticleStyles.secondaryInfo]}>
-              <p>Author: {this.props.author}</p>
-              <p>Published: {this.props.publish}</p>
-            </div>
-            <div style={[ArticleStyles.imageGallery]}>
-              <div
-              key={this.props.title} 
+link.propTypes = {
+  name: PropTypes.string.isRequired,
+  url: PropTypes.string.isRequired,
+};
+
+function Article(props) {
+  return (
+    <div>
+      <div
+        style={{
+          backgroundImage: `url(${props.image})`,
+          backgroundSize: 'cover',
+          position: 'fixed',
+          left: '0',
+          right: '0',
+          top: '0',
+          bottom: '0',
+          filter: 'blur(64px)',
+          zIndex: '-100',
+          display: 'block',
+          transform: 'scale(1.4)',
+        }}
+      />
+      <div style={[ArticleStyles.border]}>
+        <Jumbotron style={[ArticleStyles.jumboTron, { borderRadius: '10px' }]}>
+          <h1 style={[ArticleStyles.title]}>{props.title}</h1>
+          <div style={[ArticleStyles.secondaryInfo]}>
+            <p>Author: {props.author}</p>
+            <p>Published: {props.publish}</p>
+          </div>
+          <div style={[ArticleStyles.imageGallery]}>
+            <div
+              key={props.title}
               style={[
                 ArticleStyles.imageContainer,
               ]}
-              >
-                <div>
-                  <a href={this.props.image}>
-                    <img
-                      key={this.props.image}
-                      style={[
-                        ArticleStyles.image,
-                      ]}
-                      src={this.props.image}
-                    />
-                  </a>
-                </div>
+            >
+              <div>
+                <a href={props.image || window.location.href}> {/* eslint-disable-line */}
+                  <img
+                    key={props.image}
+                    style={[
+                      ArticleStyles.image,
+                    ]}
+                    alt={`${props.title}`}
+                    src={props.image || '../../static/images/noImage.png'}
+                  />
+                </a>
               </div>
             </div>
-            <div style={[ArticleStyles.summary]}>
-              <p dangerouslySetInnerHTML={{ __html: this.props.summary }} />
-              <h3>Published by {this.props.publisher}</h3>
-            </div>
-            <div style={[ArticleStyles.games]}>
-              <h3>Games:</h3><p><Link to={this.props.gameURL} tyle={{ textDecoration: 'none' }}><Label>{this.props.game}</Label></Link></p>
-            </div>
-            <div style={[ArticleStyles.developer]}>
-              <p>Developer: <Link to={this.props.developerURL} style={{ textDecoration: 'none' }}><Label>{this.props.developer}</Label></Link></p>
-            </div>
-          </Jumbotron>
-        </div>
+          </div>
+          <div style={[ArticleStyles.summary]}>
+            {/* TODO: We can do better than this. There are existing libraries to put in HTML */}
+            <p dangerouslySetInnerHTML={{ __html: props.summary }} /> {/* eslint-disable-line */}
+            <h3>Published by {props.publisher}</h3>
+          </div>
+          <div style={[ArticleStyles.games]}>
+            <h3>Games:</h3>
+            <p>
+              {
+                props.games.map(_game => link(_game))
+              }
+            </p>
+          </div>
+          <div style={[ArticleStyles.developer]}>
+            <p>Developer:
+              {
+                props.developers.map(_developer => link(_developer))
+              }
+            </p>
+          </div>
+        </Jumbotron>
       </div>
-    );
-  }
+    </div>
+  );
 }
+
+Article.propTypes = {
+  author: PropTypes.string,
+  // not sure if this should be a list or single item. List is more flexible though
+  developers: PropTypes.arrayOf(PropTypes.shape({
+    name: PropTypes.string.isRequired,
+    url: PropTypes.string.isRequired,
+  })),
+  // not sure if this should be a list or single item. List is more flexible though...
+  games: PropTypes.arrayOf(PropTypes.shape({
+    name: PropTypes.string.isRequired,
+    url: PropTypes.string.isRequired,
+  })),
+  image: PropTypes.string,
+  publish: PropTypes.number,
+  publisher: PropTypes.string.isRequired,
+  title: PropTypes.string.isRequired,
+};
+
+Article.defaultProps = {
+  author: 'Unknown',
+  developers: [],
+  games: [],
+  image: null,
+  publish: new Date().getFullYear(),
+};
 
 export default Radium(Article);

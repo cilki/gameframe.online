@@ -3,71 +3,53 @@
  */
 
 import React from 'react';
+import PropTypes from 'prop-types';
 import Radium from 'radium';
 import { Badge, Label } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 
-import { TextCard as TextCardStyles } from '../inline-styles/TextCardStyles';
+import TextCardStyles from '../inline-styles/TextCardStyles';
 
 /**
  * A single card instance within the InstanceGrid
  */
 class TextCard extends React.Component {
+  static propTypes = {
+    company: PropTypes.string,
+    title: PropTypes.string,
+    url: PropTypes.string.isRequired,
+    year: PropTypes.number,
+  };
+
+  static defaultProps = {
+    company: null,
+    title: null,
+    year: 0,
+  };
   /**
    * @constructor
    */
   constructor(props) {
     super(props);
-
-    this.state = {
-      cover: this.props.cover,
-      title: null,
-      company: null,
-      year: null,
-      hover: false,
-    };
-  }
-
-  /**
-   * @description - React lifecycle method that is called whenever the
-   * component will mount to the DOM
-   */
-  componentWillMount() {
-    this.mouseEntry = this.mouseEntry.bind(this);
-    this.mouseLeave = this.mouseLeave.bind(this);
-  }
-
-  /**
-   * @description - Event handler for the `mouseEntry` event
-   */
-  mouseEntry(e) {
-    this.setState({ hover: true });
-  }
-
-  /**
-   * @description - Event handler for the `mouseLeave` event
-   */
-  mouseLeave(e) {
-    this.setState({ hover: false });
+    this.state = {};
   }
 
   render() {
     return (
       <div style={[TextCardStyles.main]}>
         <Link to={this.props.url} style={{ textDecoration: 'none' }}>
-          <div
-            onMouseEnter={this.mouseEntry}
-            onMouseLeave={this.mouseLeave}
-          >
-            <div style={[
-              TextCardStyles.card,
-              this.state.hover && TextCardStyles.card.hover,
-            ]}
-            >
-              <div style={[
-                TextCardStyles.imageContainer,
-                this.state.hover && TextCardStyles.imageContainer.hover,
+          <div>
+            <div
+              style={[
+                TextCardStyles.card,
               ]}
+              key={`${this.props.url}-card`}
+            >
+              <div
+                style={[
+                  TextCardStyles.imageContainer,
+                ]}
+                key={`${this.props.url}-image-container`}
               >
                 <h2 style={[TextCardStyles.h2]}>{this.props.title}</h2>
               </div>

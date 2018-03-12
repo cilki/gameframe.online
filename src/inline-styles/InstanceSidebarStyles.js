@@ -9,4 +9,4 @@ const InstanceSidebar = {
   },
 };
 
-export { InstanceSidebar };
+export default InstanceSidebar;

@@ -8,10 +8,10 @@ import { connect } from 'react-redux';
 
 import ArticlesPresenter from './Articles';
 import {
-  
+
 } from './ArticlesSelectors';
 import {
-  
+
 } from './ArticlesActions';
 
 /**
@@ -20,9 +20,9 @@ import {
  * @param {Map} state - the current state in the Redux store
  * @returns {Object}
  */
-function mapStateToProps(state) {
+function mapStateToProps() {
   return {
-    
+
   };
 }
 
@@ -33,18 +33,9 @@ function mapStateToProps(state) {
  * @param {Function dispatch
  * @returns {Object}
  */
-function mapDispatchToProps(dispatch) {
+function mapDispatchToProps() {
   return {
-    fetchContributors: () => dispatch(fetchContributors()),
-    fetchIssues: () => dispatch(fetchIssues()),
-
-    fetchDescription: () => dispatch(fetchDescription()),
-    fetchExplanation: () => dispatch(fetchExplanation()),
   };
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(ArticlesPresenter);
-export {
-  mapStateToProps,
-  mapDispatchToProps,
-};

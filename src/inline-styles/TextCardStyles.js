@@ -12,7 +12,7 @@ const TextCard = {
     backgroundColor: 'darkgray',
     transition: 'transform 0.2s, filter 0.1s',
     transform: 'scale(1.0)',
-    hover: {
+    ':hover': {
       transition: 'transform 0.2s, filter 0.5s',
       transform: 'scale(0.98)',
       filter: 'hue-rotate(360deg)',
@@ -30,7 +30,7 @@ const TextCard = {
     transform: 'scale(0.995)',
     background: 'radial-gradient(white, grey)',
     margin: 'auto',
-    hover: {
+    ':hover': {
       transform: 'scale(1.0)',
     },
   },
@@ -46,7 +46,7 @@ const TextCard = {
     borderRadius: '10px',
     transition: 'transform 0.2s, filter 0.2s',
     transform: 'scale(1.0)',
-    hover: {
+    ':hover': {
       transition: 'transform 1.0s, filter 0.2s',
       transform: 'scale(1.05)',
     },
@@ -73,4 +73,4 @@ const TextCard = {
   },
 };
 
-export { TextCard };
+export default TextCard;

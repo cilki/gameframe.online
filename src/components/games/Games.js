@@ -6,17 +6,32 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Radium from 'radium';
 
-import {CommonAssets as CommonAssets} from '../../inline-styles/CommonAssets';
+import CommonAssets from '../../inline-styles/CommonAssets';
+import Styles from './GamesStyles';
 
-import Card from '../card';
+import GameCard from '../game-card';
 
 class Games extends React.Component {
   static propTypes = {
-    
+    games: PropTypes.arrayOf(PropTypes.shape({
+      cover: PropTypes.string,
+      developers: PropTypes.arrayOf(PropTypes.shape({
+        developer_id: PropTypes.number.isRequired,
+      })),
+      game_id: PropTypes.number.isRequired,
+      name: PropTypes.string.isRequired,
+      release: PropTypes.string,
+    })),
+    gamesError: PropTypes.string, //eslint-disable-line
+    gamesRequested: PropTypes.bool, //eslint-disable-line
+
+    fetchGames: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
-    
+    games: [],
+    gamesError: null,
+    gamesRequested: false,
   };
 
   constructor(props) {
@@ -28,29 +43,33 @@ class Games extends React.Component {
    * @description - React lifecycle method used to fetch the data
    */
   componentDidMount() {
-    
+    this.props.fetchGames();
   }
+
   render() {
     return (
       <div>
         <div style={[
           CommonAssets.stripeOverlay,
-          CommonAssets.backgroundColor,
-          CommonAssets.fillBackground
-        ]} />
-        <div style={{
-          display: 'flex',
-          flexDirection: 'row',
-          flexWrap: 'wrap',
-          position: 'relative',
-          justifyContent: 'space-around',
-          maxWidth: '100%',
-          paddingTop: '2%'
-        }}>
-          <Card url="/Portal2" cover="https://images.igdb.com/igdb/image/upload/t_cover_big/w6kusdugzlssi3yqcbwl.jpg" company="Valve Corporation" year="2011" title="Portal 2" companyURL="/ValveCorporation" />
-          <Card url="/PLAYERUNKNOWNSBATTLEGROUNDS" cover="https://images.igdb.com/igdb/image/upload/t_cover_big/lvoic2oakbklg2dytgpa.jpg" company="PUBG Corp" year="2017" title="PLAYERUNKNOWN&#39;S BATTLEGROUNDS" companyURL="/PUBGCorp" />
-          <Card url="/TheForest" cover="https://images.igdb.com/igdb/image/upload/t_cover_big/taf1unbzsejvvjiicaqk.jpg" company="Endnight Games Ltd" year="2014" title="The Forest" companyURL="/EndnightGamesLtd" />
-          <Card url="/RocketLeague" cover="https://images.igdb.com/igdb/image/upload/t_cover_big/edkpgyqgfsxyiby9pyj5.jpg" company="Psyonix" year="2015" title="Rocket League" companyURL="/Psyonix" />
+          // CommonAssets.backgroundColor,
+          CommonAssets.fillBackground,
+        ]}
+        />
+        <div style={[Styles.grid]}>
+          {
+            this.props.games.map((game) => {
+              return (
+                <GameCard
+                  key={game.game_id}
+                  url={`/games/${game.game_id}`}
+                  cover={game.cover}
+                  developer={game.developer}
+                  year={new Date(game.release).getFullYear()}
+                  title={game.name}
+                />
+              );
+            })
+          }
         </div>
       </div>
     );

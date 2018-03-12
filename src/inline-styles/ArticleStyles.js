@@ -19,8 +19,8 @@ const Article = {
     ':hover': {
       overflow: 'visible',
       transform: 'scale(1.1)',
-      zIndex: '100'
-    }
+      zIndex: '100',
+    },
   },
   image: {
     maxWidth: '100%',
@@ -28,8 +28,8 @@ const Article = {
     transition: 'box-shadow 0.3s',
     boxShadow: 'none',
     ':hover': {
-      boxShadow: '0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)'
-    }
+      boxShadow: '0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)',
+    },
   },
   imageGallery: {
     display: 'flex',
@@ -59,4 +59,4 @@ const Article = {
   },
 };
 
-export { Article };
+export default Article;

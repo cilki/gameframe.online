@@ -8,8 +8,7 @@ import './resources/css/bootstrap-theme.css';
 import App from './components/App';
 
 
-
 ReactDOM.render(
   <App />,
-  document.getElementById('root'),
+  document.getElementById('root'), //eslint-disable-line
 );

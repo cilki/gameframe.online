@@ -7,4 +7,4 @@ export default {
   container: {
     textAlign: 'left',
   },
-}
+};

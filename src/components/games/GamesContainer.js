@@ -12,9 +12,7 @@ import {
   getGames,
   getGamesError,
 } from './GamesSelectors';
-import {
-  fetchGames
-} from './GamesActions';
+import { fetchGames } from './GamesActions';
 
 /**
  * @description - Maps our redux state tree to

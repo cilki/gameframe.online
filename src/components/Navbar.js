@@ -5,13 +5,13 @@
 import React from 'react';
 import Radium from 'radium';
 import {
-  Navbar, Nav, Brand, Toggle, NavItem, Forms, FormGroup,
-  FormControl, Button, Image, Glyphicon
+  Navbar, Nav, NavItem, FormGroup,
+  FormControl, Button, Glyphicon,
 } from 'react-bootstrap';
 
 import { Link } from 'react-router-dom';
 import { LinkContainer } from 'react-router-bootstrap';
-import { Navbar as NavbarStyles} from '../inline-styles/NavbarStyles';
+import NavbarStyles from '../inline-styles/NavbarStyles';
 
 /**
  * @description - Function that generates a LinkContainer for the Navbar
@@ -31,16 +31,20 @@ function createLinkContainerNavItem(href, imageSrc, label, linkProps, navProps) 
   return (
     <LinkContainer to={href} {...linkProps} style={{}}>
       <NavItem {...navProps} style={{}}>
-    <div style={[NavbarStyles.itemMain]} key={`${href}`}>
-        <img style={[
-            {width: '24px'},
-            {height: '24px'},
-            {filter: 'grayscale(100%) invert(100%)'},
-            {paddingRight: '4px'}
-        ]} key={`${href}-image`}
-          src={imageSrc}
-        />
-        {label} {/* Just text for now, later on should be it's own component */}</div>
+        <div style={[NavbarStyles.itemMain]} key={`${href}`}>
+          <img
+            style={[
+              { width: '24px' },
+              { height: '24px' },
+              { filter: 'grayscale(100%) invert(100%)' },
+              { paddingRight: '4px' },
+            ]}
+            key={`${href}-image`}
+            src={imageSrc}
+            alt={label}
+          />
+          {label} {/* Just text for now, later on could be it's own component */}
+        </div>
       </NavItem>
     </LinkContainer>
   );
@@ -70,45 +74,58 @@ const pages = [
 ];
 
 /**
- * NavBar class that contains our react-bootstrap navbar with react-router links
+ * @description - NavBar component that contains our react-bootstrap navbar with react-router links
+ * @param {Object] props}
  */
-class NavBar extends React.Component {
-  render() {
-    return (
-      <Navbar inverse collapseOnSelect style={{
-        borderRadius: '0',
-        background: '#272727',
-        borderLeft: 'none',
-        borderRight: 'none',
-        marginBottom: '0',
-        }}
-      >
-        <Navbar.Header>
-          <Navbar.Brand>
-            <Link to="/">GameFrame.Online</Link>
-          </Navbar.Brand>
-          <Navbar.Toggle />
-        </Navbar.Header>
-        <Navbar.Collapse style={{}}>
-          <Nav pullLeft={true} style={{}}>
-            {/* This dynamically creates all of the NavItems for us depending on the objects in `pages` */}
-            {pages.map((page, index) => createLinkContainerNavItem(page.href, page.imageSrc, page.label, { key: page.href }, { eventKey: index }, ))}
-          </Nav>
-          <Navbar.Form pullRight>
-            <FormGroup>
-            <div style={{display: 'flex'}}>
+function NavBar() {
+  return (
+    <Navbar
+      inverse
+      collapseOnSelect
+      style={{
+      borderRadius: '0',
+      background: '#272727',
+      borderLeft: 'none',
+      borderRight: 'none',
+      marginBottom: '0',
+      }}
+    >
+      <Navbar.Header>
+        <Navbar.Brand>
+          <Link to="/">GameFrame.Online</Link>
+        </Navbar.Brand>
+        <Navbar.Toggle />
+      </Navbar.Header>
+      <Navbar.Collapse>
+        <Nav pullLeft>
+          {
+            /* This dynamically creates all of the NavItems for
+             * us depending on the objects in `pages` */
+          }
+          {
+            pages.map((page, index) => createLinkContainerNavItem(
+              page.href,
+              page.imageSrc,
+              page.label,
+              { key: page.href },
+              { eventKey: index },
+            ))
+          }
+        </Nav>
+        <Navbar.Form pullRight>
+          <FormGroup>
+            <div style={{ display: 'flex' }}>
               <FormControl type="text" placeholder="Search" />
-                <Button>
-                  <Glyphicon glyph="search" />
-                </Button>
-              </div>
-            </FormGroup>
-            {' '}
-          </Navbar.Form>
-          </Navbar.Collapse>
-      </Navbar>
-    );
-  }
+              <Button>
+                <Glyphicon glyph="search" />
+              </Button>
+            </div>
+          </FormGroup>
+          {' '}
+        </Navbar.Form>
+      </Navbar.Collapse>
+    </Navbar>
+  );
 }
 
 export default Radium(NavBar);
