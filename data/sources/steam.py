@@ -13,10 +13,12 @@ from tqdm import tqdm
 
 import requests
 from ratelimit import rate_limited
+from itertools import chain
 
 sys.path.append(os.path.abspath('app'))
 from orm import Game, Developer
 from util import parse_steam_date, append_csv
+from working_set import load_working_set, add_game, name_game, steamid_game, name_developer
 
 """
 The game cache
@@ -51,7 +53,7 @@ def rq_game(appid):
     return rq.json()
 
 
-def load_game(appid):
+def load_game_json(appid):
     """
     Retrieve a filtered game from the cache or download it from Steam.
     """
@@ -87,23 +89,6 @@ def load_game(appid):
     if 'name' not in game:
         return None
 
-    # TODO Apply more filtering
-    return game
-
-
-def find_game(game_json):
-    """
-    Attempt to locate a game in the database
-    """
-    # ID matching
-    game = Game.query.filter_by(steam_id=game_json['steam_appid']).first()
-
-    # TODO Provide more robust searching with game_json
-
-    # Construct new Game
-    if game is None:
-        game = Game()
-
     return game
 
 
@@ -111,7 +96,15 @@ def build_game(game_json):
     """
     Build a Game object from the raw data, taking into account previous Games.
     """
-    game = find_game(game_json)
+    # Steam ID matching
+    if game_json['steam_appid'] in steamid_game:
+        game = steamid_game[game_json['steam_appid']]
+    # Exact name matching
+    elif game_json['name'] in name_game:
+        game = name_game[game_json['name']]
+    # Build new Game
+    else:
+        game = Game()
 
     # Steam ID
     game.steam_id = game_json['steam_appid']
@@ -160,39 +153,46 @@ def build_game(game_json):
     return game
 
 
-@lru_cache(maxsize=1)
-def gather_games():
+def collect_games():
     """
-    Build a filtered list of Game objects.
+    Download missing games from Steam.
     """
     apps = rq_app_list()
 
-    print("[STEAM] Gathering games")
-
-    games = []
+    print("[STEAM] Collecting games")
 
     # Load games
+    new_games = 0
     for app in tqdm(apps):
-        game_json = load_game(app['appid'])
-        if game_json is None:
-            continue
-        games.append(build_game(game_json))
+        if not os.path.isfile("%s/%d" % (CACHE_GAME_STEAM, app['appid'])):
+            load_game_json(app['appid'])
+            new_games += 1
 
-    # TODO Perform mutual filtering
-
-    print("[STEAM] Gathered %d games" % len(games))
-    return games
+    print("[STEAM] Gathered %d new games" % new_games)
 
 
 def merge_games(db):
     """
-    Insert the filtered list of games into the database.
+    Merge cached entities into the working set and flush the database.
     """
-    games = gather_games()
+    apps = rq_app_list()
+
+    load_working_set()
 
     print("[STEAM] Merging games")
-    for game in games:
+    for app in tqdm(apps):
+        game_json = load_game_json(app['appid'])
+        if game_json is None:
+            continue
+
+        game = build_game(game_json)
+
+        # Add to working set
+        add_game(game)
+
+        # Add or replace in database
         db.session.add(game)
+
     db.session.commit()
 
     print("[STEAM] Merge complete")
@@ -200,33 +200,23 @@ def merge_games(db):
 
 def link_developers(db):
     """
-    Perform the linking for developers Steam games according to name
+    Perform the developer linking for Steam games according to name.
     """
+    load_working_set()
 
     print("[STEAM] Linking developers")
 
-    # Load all developers into a hashtable for improved performance
-    developers = {dev.name: dev for dev in Developer.query.all()}
-
-    for game in tqdm(Game.query.all()):
-
-        # Skip IGDB games
-        if game.igdb_id is not None:
+    for appid, game in tqdm(steamid_game.items()):
+        game_json = load_game_json(appid)
+        if game_json is None:
             continue
-        game_json = load_game(game.steam_id)
 
-        if 'publishers' not in game_json:
-            game_json['publishers'] = []
-        if 'developers' not in game_json:
-            game_json['developers'] = []
-
-        for l in (game_json['publishers'], game_json['developers']):
-            for name in l:
-                if name in developers:
-                    # Link the models
-                    dev = developers[name]
-                    dev.games.append(game)
-                    game.developers.append(dev)
+        for name in chain(game_json.get('publishers', []), game_json.get('developers', [])):
+            if name in name_developer:
+                # Link the models
+                dev = name_developer[name]
+                dev.games.append(game)
+                game.developers.append(dev)
 
     db.session.commit()
     print("[STEAM] Link complete")

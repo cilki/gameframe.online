@@ -10,6 +10,7 @@ from codecs import open
 from functools import lru_cache
 from datetime import datetime
 from tqdm import tqdm
+from itertools import chain
 
 import requests
 from ratelimit import rate_limited
@@ -17,6 +18,7 @@ from ratelimit import rate_limited
 sys.path.append(os.path.abspath('app'))
 from orm import Developer, Game
 from util import append_csv
+from working_set import load_working_set, add_game, add_developer, name_game, steamid_game, name_developer, igdbid_developer, igdbid_game
 
 """
 The API key
@@ -60,7 +62,7 @@ GENRES = {2: 'Point-and-click', 4: 'Fighting', 5: 'Shooter', 7: 'Music',
 
 def rq_game(id):
     """
-    Request game metadata using IGDB's API
+    Request a block of games starting at the given id using IGDB's API.
     """
 
     rq = requests.get("https://api-endpoint.igdb.com/games/%s"
@@ -73,7 +75,7 @@ def rq_game(id):
 
 def rq_developer(id):
     """
-    Request developer metadata using IGDB's API
+    Request a block of developers starting at the given id using IGDB's API.
     """
 
     rq = requests.get("https://api-endpoint.igdb.com/companies/%s"
@@ -84,7 +86,7 @@ def rq_developer(id):
     return rq.json()
 
 
-def load_game(id):
+def load_game_json(id):
     """
     Retrieve a filtered game from the cache or download it from IGDB.
     """
@@ -97,42 +99,69 @@ def load_game(id):
         for entity in game:
             with open("%s/%d" % (CACHE_GAME_IGDB, entity['id']), 'w', 'utf8') as h:
                 h.write(json.dumps([entity], ensure_ascii=False))
+
+        # Write empty files for skipped entities
+        for i in range(id, id + API_STRIDE):
+            if not os.path.isfile("%s/%d" % (CACHE_GAME_IGDB, i)):
+                with open("%s/%d" % (CACHE_GAME_IGDB, i), 'w', 'utf8') as h:
+                    h.write(json.dumps([]))
     else:
         with open("%s/%d" % (CACHE_GAME_IGDB, id), 'r', 'utf8') as h:
             game = json.load(h)
 
-    if len(game) == 0:
+    if len(game) == 0 or not game[0]['id'] == id:
         return None
 
     return game[0]
 
 
-def find_game(game_json):
+def load_dev_json(id):
     """
-    Attempt to locate a game in the database
+    Retrieve a filtered developer from the cache or download it from IGDB.
     """
-    # IGDB ID matching
-    game = Game.query.filter_by(igdb_id=game_json['id']).first()
+    assert os.path.isdir(CACHE_DEV_IGDB)
 
-    # Steam ID matching
-    if game is None and 'external' in game_json and 'steam' in game_json['external']:
-        game = Game.query.filter_by(
-            steam_id=game_json['external']['steam']).first()
+    if not os.path.isfile("%s/%d" % (CACHE_DEV_IGDB, id)):
+        dev = rq_developer(id)
 
-    # TODO Provide more robust searching with game_json
+        # Write to the cache
+        for entity in dev:
+            with open("%s/%d" % (CACHE_DEV_IGDB, entity['id']), 'w', 'utf8') as h:
+                h.write(json.dumps([entity], ensure_ascii=False))
 
-    # Construct new Game
-    if game is None:
-        game = Game()
+        # Write empty files for skipped entities
+        for i in range(id, id + API_STRIDE):
+            if not os.path.isfile("%s/%d" % (CACHE_DEV_IGDB, i)):
+                with open("%s/%d" % (CACHE_DEV_IGDB, i), 'w', 'utf8') as h:
+                    h.write(json.dumps([]))
+    else:
+        with open("%s/%d" % (CACHE_DEV_IGDB, id), 'r', 'utf8') as h:
+            dev = json.load(h)
 
-    return game
+    if len(dev) == 0 or not dev[0]['id'] == id:
+        return None
+
+    return dev[0]
 
 
 def build_game(game_json):
     """
     Build a Game object from the raw data, taking into account previous Games.
     """
-    game = find_game(game_json)
+
+    try:
+        # Steam ID matching
+        game = steamid_game[game_json['external']['steam']]
+    except KeyError:
+        # IGDB ID matching
+        if game_json['id'] in igdbid_game:
+            game = igdbid_game[game_json['id']]
+        # Exact name matching
+        elif game_json['name'] in name_game:
+            game = name_game[game_json['name']]
+        # Build new Game
+        else:
+            game = Game()
 
     # IGDB ID
     game.igdb_id = int(game_json['id'])
@@ -174,55 +203,17 @@ def build_game(game_json):
     return game
 
 
-def load_developer(id):
-    """
-    Retrieve a filtered developer from the cache or download it from IGDB.
-    """
-    assert os.path.isdir(CACHE_DEV_IGDB)
-
-    if not os.path.isfile("%s/%d" % (CACHE_DEV_IGDB, id)):
-        dev = rq_developer(id)
-
-        # Write to the cache
-        for entity in dev:
-            with open("%s/%d" % (CACHE_DEV_IGDB, entity['id']), 'w', 'utf8') as h:
-                h.write(json.dumps([entity], ensure_ascii=False))
-    else:
-        with open("%s/%d" % (CACHE_DEV_IGDB, id), 'r', 'utf8') as h:
-            dev = json.load(h)
-
-    if len(dev) == 0:
-        return None
-
-    return dev[0]
-
-
-def find_dev(dev_json):
-    """
-    Attempt to locate a developer in the database.
-    """
-    # IGDB ID matching
-    dev = Developer.query.filter_by(igdb_id=dev_json['id']).first()
-
-    # Steam ID matching
-    if dev is None and 'external' in dev_json and 'steam' in dev_json['external']:
-        dev = Developer.query.filter_by(
-            steam_id=dev_json['external']['steam']).first()
-
-    # TODO Provide more robust searching with dev_json
-
-    # Construct new Developer
-    if dev is None:
-        dev = Developer()
-
-    return dev
-
-
 def build_dev(dev_json):
     """
     Build a Developer object from the raw data, taking into account previous Developers.
     """
-    dev = find_dev(dev_json)
+
+    # IGDB ID matching
+    if dev_json['id'] in igdbid_developer:
+        dev = igdbid_developer[dev_json['id']]
+    # Build new Developer
+    else:
+        dev = Developer()
 
     # IGDB ID
     dev.igdb_id = int(dev_json['id'])
@@ -254,57 +245,56 @@ def build_dev(dev_json):
     return dev
 
 
-@lru_cache(maxsize=1)
-def gather_games():
+def collect_games():
     """
-    Build a filtered list of Game objects.
+    Download missing games from IGDB.
     """
     assert len(GAME_RANGE) > 0
-    print("[IGDB ] Gathering games")
-
-    games = []
+    print("[IGDB ] Collecting games")
 
     # Load games
     for id in tqdm(GAME_RANGE):
-        game_json = load_game(id)
-        if game_json is None:
-            continue
-        games.append(build_game(game_json))
+        if not os.path.isfile("%s/%d" % (CACHE_GAME_IGDB, id)):
+            load_game_json(id)
 
-    print("[IGDB ] Gathered %d games" % len(games))
-    return games
+    print("[IGDB ] Collection complete")
 
 
-@lru_cache(maxsize=1)
-def gather_developers():
+def collect_developers():
     """
-    Build a filtered list of Developer objects.
+    Download missing developers from IGDB.
     """
     assert len(DEV_RANGE) > 0
-    print("[IGDB ] Gathering developers")
-
-    developers = []
+    print("[IGDB ] Collecting developers")
 
     # Load developers
     for id in tqdm(DEV_RANGE):
-        dev_json = load_developer(id)
-        if dev_json is None:
-            continue
-        developers.append(build_dev(dev_json))
+        if not os.path.isfile("%s/%d" % (CACHE_DEV_IGDB, id)):
+            load_dev_json(id)
 
-    print("[IGDB ] Gathered %d developers" % len(developers))
-    return developers
+    print("[IGDB ] Collection complete")
 
 
 def merge_games(db):
     """
-    Insert the filtered list of games into the database.
+    Merge cached games into the working set and flush the database.
     """
-    games = gather_games()
+    load_working_set()
 
     print("[IGDB ] Merging games")
-    for game in games:
+    for id in tqdm(GAME_RANGE):
+        game_json = load_game_json(id)
+        if game_json is None:
+            continue
+
+        game = build_game(game_json)
+
+        # Add to working set
+        add_game(game)
+
+        # Add or replace in database
         db.session.add(game)
+
     db.session.commit()
 
     print("[IGDB ] Merge complete")
@@ -312,13 +302,24 @@ def merge_games(db):
 
 def merge_developers(db):
     """
-    Insert the filtered list of developers into the database.
+    Merge cached developers into the working set and flush the database.
     """
-    developers = gather_developers()
+    load_working_set()
 
     print("[IGDB ] Merging developers")
-    for dev in developers:
+    for id in tqdm(DEV_RANGE):
+        dev_json = load_dev_json(id)
+        if dev_json is None:
+            continue
+
+        dev = build_dev(dev_json)
+
+        # Add to working set
+        add_developer(dev)
+
+        # Add or replace in database
         db.session.add(dev)
+
     db.session.commit()
 
     print("[IGDB ] Merge complete")
@@ -328,28 +329,21 @@ def link_developers(db):
     """
     Perform the linking for IGDB developers according to IGDB ID
     """
+    load_working_set()
 
     print("[IGDB ] Linking developers")
 
-    # Load games with IGDB IDs into a hashtable for improved performance
-    games = {game.igdb_id: game for game in Game.query.all()
-             if game.igdb_id is not None}
+    for name, dev in tqdm(name_developer.items()):
+        dev_json = load_dev_json(dev.igdb_id)
+        if dev_json is None:
+            continue
 
-    for dev in tqdm(Developer.query.all()):
-        dev_json = load_developer(dev.igdb_id)
-
-        if 'published' not in dev_json:
-            dev_json['published'] = []
-        if 'developed' not in dev_json:
-            dev_json['developed'] = []
-
-        for l in (dev_json['published'], dev_json['developed']):
-            for id in l:
-                if id in games:
-                    # Link the models
-                    game = games[id]
-                    dev.games.append(game)
-                    game.developers.append(dev)
+        for id in chain(dev_json.get('published', []), dev_json.get('developed', [])):
+            if id in igdbid_game:
+                # Link the models
+                game = igdbid_game[id]
+                dev.games.append(game)
+                game.developers.append(dev)
 
     db.session.commit()
     print("[IGDB ] Link complete")
