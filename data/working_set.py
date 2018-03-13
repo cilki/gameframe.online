@@ -4,7 +4,7 @@
 # --------------------------------
 
 from functools import lru_cache
-from orm import Game, Developer
+from orm import Game, Developer, Article
 from tqdm import tqdm
 
 """
@@ -32,6 +32,11 @@ Maps names to Developer objects
 """
 name_developer = {}
 
+"""
+Maps article titles to Article objects
+"""
+title_article = {}
+
 
 def add_game(game):
     """
@@ -55,6 +60,13 @@ def add_developer(dev):
         igdbid_developer[dev.igdb_id] = dev
 
 
+def add_article(article):
+    """
+    Add an article to the working set
+    """
+    title_article[article.title] = article
+
+
 @lru_cache(maxsize=1)
 def load_working_set():
     """
@@ -74,6 +86,9 @@ def load_working_set():
 
     for dev in tqdm(Developer.query.all()):
         add_developer(dev)
+
+    for article in tqdm(Article.query.all()):
+        add_article(article)
 
     print("[MAIN ] Loaded %d entities from database" %
           (len(name_game) + len(igdbid_developer)))

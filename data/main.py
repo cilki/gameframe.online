@@ -7,7 +7,7 @@ import os
 from time import time
 
 from flask import Flask
-from sources import steam, igdb, ign
+from sources import steam, igdb, newsapi
 from orm import db
 from util import reset
 
@@ -43,10 +43,9 @@ print("9. MERGE developers               Upload developer cache into database")
 print("A. LINK developers                Compute Game-Developer links from IGDB developers")
 
 print("")
-print("[IGN]")
-print("B. GATHER articles                Download articles from IGN into the local cache")
-print("C. MERGE articles                 Upload article cache into database")
-print("D. LINK articles                  Compute Article links")
+print("[NEWSAPI]")
+print("B. GATHER articles                Download articles from NEWSAPI")
+print("C. MERGE articles                 Upload article cache into database and LINK")
 
 print("")
 print("YOUTUBE")
@@ -72,6 +71,7 @@ with app.app_context():
             steam.merge_games(db)
             igdb.merge_games(db)
             igdb.merge_developers(db)
+            newsapi.merge_articles(db)
 
             igdb.link_developers(db)
             steam.link_developers(db)
@@ -95,10 +95,8 @@ with app.app_context():
         elif action == 'a':
             igdb.link_developers(db)
         elif action == 'b':
-            ig.gather_articles(db)
+            newsapi.gather_articles(db)
         elif action == 'c':
-            ig.merge_articles(db)
-        elif action == 'd':
-            ig.link_articles(db)
+            newsapi.merge_articles(db)
         else:
             print("Unknown Command")
