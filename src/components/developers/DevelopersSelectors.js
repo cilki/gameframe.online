@@ -14,7 +14,7 @@ function getAllDevelopers(state) {
 
 /**
  * @description - Simple input selector for the `developersRequested` state
- * @param {Object} state
+ * @param {Map} state
  * @returns {Boolean}
  */
 function getDevelopersRequested(state) {
