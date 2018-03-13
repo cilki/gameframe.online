@@ -3,7 +3,9 @@
 const Card = {
   main: {
     padding: '10px 10px 10px 10px',
-    maxWidth: '40%',
+    minWidth: '10%',
+    maxWidth: '256px',
+    minHeight: '100%'
   },
 
   card: {
@@ -33,6 +35,8 @@ const Card = {
     padding: '0px 5% 0px 5%',
     minWidth: '100%',
     maxWidth: '256px',
+    minHeight: '100%',
+    maxHeight: '256px',
     transition: 'height 0.255s',
     overflow: 'hidden',
     borderBottomLeftRadius: '10px',
@@ -47,7 +51,7 @@ const Card = {
   imageContainerContainer: {
     backgroundColor: 'darkGray',
     ':hover': {
-      backgroundColor: 'gray',
+      backgroundColor: 'darkGray',
     },
   },
 
@@ -65,11 +69,13 @@ const Card = {
 
   image: {
     maxWidth: '100%',
+    maxHeight: '100%',
     borderRadius: '10px',
     transition: 'transform 0.2s, filter 0.2s',
     transform: 'scale(1.0)',
     position: 'relative',
     width: '100%',
+    height: '100%',
     margin: 'auto',
     ':hover': {
       transition: 'transform 1.0s, filter 1.0s',

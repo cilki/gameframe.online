@@ -8,11 +8,18 @@ const Navbar = {
     ':hover': {
       backgroundColor: '#595959',
       color: '#f9f9f9',
-      boxSizing: 'border-box',
+      transition: 'color 0.25s ease-out, background-color 0.15s ease-out, invert 0.15s ease-out',
       padding: '15px',
       margin: '-15px',
-      filter: 'invert(100%)',
-      transition: 'color 3.0s ease-in, background-color 0.3s ease-in, invert 0.3s ease-in',
+      ':hover': {
+        backgroundColor: '#343434',
+        color: '#f9f9f9',
+        boxSizing: 'border-box',
+        padding: '15px',
+        margin: '-15px',
+        filter: 'invert(90%)',
+        transition: 'color 0.25s ease-in, background-color 0.15s ease-in, invert 0.15s ease-in'
+      }
     },
   },
   navItem: {

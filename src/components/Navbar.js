@@ -54,22 +54,22 @@ const pages = [
   {
     href: '/games',
     label: 'Games',
-    imageSrc: '../../static/images/icons8-white-game-controller-50.png',
+    imageSrc: '../../static/images/ic_videogame_asset_black_48px.svg',
   },
   {
     href: '/developers',
     label: 'Developers',
-    imageSrc: '../../static/images/icons8-white-development-skill-50.png',
+    imageSrc: '../../static/images/ic_business_center_black_48px.svg',
   },
   {
     href: '/articles',
     label: 'Articles',
-    imageSrc: '../../static/images/icons8-white-hot-article-50.png',
+    imageSrc: '../../static/images/ic_library_books_black_48px.svg',
   },
   {
     href: '/about',
     label: 'About',
-    imageSrc: '../../static/images/icons8-white-about-50.png',
+    imageSrc: '../../static/images/ic_info_black_48px.svg',
   },
 ];
 
