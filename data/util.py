@@ -4,6 +4,7 @@
 # --------------------------------
 
 from datetime import datetime
+import os
 
 
 def parse_steam_date(d):
@@ -37,6 +38,13 @@ def append_csv(csv, item):
         csv += item
 
     return csv
+
+
+def is_cached(cache_path, filename):
+    """
+    Returns True if the given entry exists in the cache, False otherwise.
+    """
+    return os.path.isfile("%s/%s" % (cache_path, filename))
 
 
 def reset(db):

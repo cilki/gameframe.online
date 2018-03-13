@@ -17,7 +17,7 @@ from itertools import chain
 
 sys.path.append(os.path.abspath('app'))
 from orm import Game, Developer
-from util import parse_steam_date, append_csv
+from util import parse_steam_date, append_csv, is_cached
 from working_set import load_working_set, add_game, name_game, steamid_game, name_developer
 
 """
@@ -59,7 +59,7 @@ def load_game_json(appid):
     """
     assert os.path.isdir(CACHE_GAME_STEAM)
 
-    if not os.path.isfile("%s/%d" % (CACHE_GAME_STEAM, appid)):
+    if not is_cached(CACHE_GAME_STEAM, appid):
         game = rq_game(appid)
 
         # Write to the cache
@@ -164,7 +164,7 @@ def collect_games():
     # Load games
     new_games = 0
     for app in tqdm(apps):
-        if not os.path.isfile("%s/%d" % (CACHE_GAME_STEAM, app['appid'])):
+        if not is_cached(CACHE_GAME_STEAM, app['appid']):
             load_game_json(app['appid'])
             new_games += 1
 
@@ -173,7 +173,7 @@ def collect_games():
 
 def merge_games(db):
     """
-    Merge cached entities into the working set and flush the database.
+    Merge cached games into the working set and flush the database.
     """
     apps = rq_app_list()
 
