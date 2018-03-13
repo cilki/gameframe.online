@@ -8,21 +8,23 @@ import { connect } from 'react-redux';
 
 import DevelopersPresenter from './Developers';
 import {
-
+  getDevelopersRequested,
+  getDevelopers,
+  getDevelopersError,
 } from './DevelopersSelectors';
-import {
-
-} from './DevelopersActions';
+import { fetchDevelopers } from './DevelopersActions';
 
 /**
  * @description - Maps our redux state tree to
  * the props of the presenter
- * @param {Object} state - the current state in the Redux store
+ * @param {Map} state - the current state in the Redux store
  * @returns {Object}
  */
-function mapStateToProps() {
+function mapStateToProps(state) {
   return {
-
+    developersRequested: getDevelopersRequested(state),
+	developersError: getDevelopersError(state),
+	developers: getDevelopers(state),
   };
 }
 
@@ -30,13 +32,17 @@ function mapStateToProps() {
  * @description - Maps the dispatch function (for dispatching actions)
  * to the props of the presenter, which allows our presenter to dispatch
  * actions
- * @param {Function}
+ * @param {Function dispatch}
  * @returns {Object}
  */
-function mapDispatchToProps() {
+function mapDispatchToProps(dispatch) {
   return {
-
+    fetchDevelopers: () => dispatch(fetchDevelopers()),
   };
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(DevelopersPresenter);
+export {
+  mapStateToProps,
+  mapDispatchToProps,
+};
