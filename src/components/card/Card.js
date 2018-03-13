@@ -62,6 +62,8 @@ class Card extends React.Component {
     const { title } = this.props;
     const imageCover = this.props.cover !== null && this.props.cover.search('http') < 0 ?
       `https://${this.props.cover}` : this.props.cover;
+    const developer = this.props.develper !== null ? this.props.developer :
+      `Unknown Developer`;
 
     return (
       <div
@@ -75,7 +77,7 @@ class Card extends React.Component {
               <div style={[CardStyles.imageContainerContainer]} key={`${title}-container`}>
                 <div style={[CardStyles.imageContainer]} key={`${title}-image-container`}>
                   <img
-                    style={[CardStyles.image]}
+                    style={[CardStyles.image]} key={`${title}-image`}
                     src={imageCover || '../../static/images/noImage.png'}
                     ref={(img) => { this.img = img; }}
                     alt=""
@@ -88,11 +90,21 @@ class Card extends React.Component {
               <div
                 style={[
                   CardStyles.tooltip,
-                  this.state.hover && CardStyles.tooltip.hover,
-                ]}
+                ]} key={`${title}-tooltip`}
               >
+                 
+                  <img
+                    style={{maxWidth: '100%', maxHeight: '100%', position: 'fixed', top: '0', left: '0', zIndex: '-2', filter: 'blur(20px) saturate(2.0)', transform: 'scale(5.20)'}}
+                    src={imageCover || '../../static/images/noImage.png'}
+                    ref={(img) => { this.img = img; }}
+                    alt=""
+                    onError={
+                      () => { this.img.src = '../../static/images/noImage.png'; }
+                    }
+                  />
                 <h3>{this.props.title}</h3>
                 <p>
+                  
                   {/* Tool tip content goes here! */}
                 </p>
               </div>
