@@ -17,7 +17,7 @@ from ratelimit import rate_limited
 
 sys.path.append(os.path.abspath('app'))
 from orm import Developer, Game
-from util import append_csv
+from util import append_csv, is_cached
 from working_set import load_working_set, add_game, add_developer, name_game, steamid_game, name_developer, igdbid_developer, igdbid_game
 
 """
@@ -340,10 +340,10 @@ def link_developers(db):
 
         for id in chain(dev_json.get('published', []), dev_json.get('developed', [])):
             if id in igdbid_game:
-                # Link the models
+                # Link the models if not already linked
                 game = igdbid_game[id]
-                dev.games.append(game)
-                game.developers.append(dev)
+                if not dev in game.developers:
+                    dev.games.append(game)
 
     db.session.commit()
     print("[IGDB ] Link complete")

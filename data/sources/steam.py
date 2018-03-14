@@ -217,10 +217,10 @@ def link_developers(db):
 
         for name in chain(game_json.get('publishers', []), game_json.get('developers', [])):
             if name in name_developer:
-                # Link the models
+                # Link the models if not already linked
                 dev = name_developer[name]
-                dev.games.append(game)
-                game.developers.append(dev)
+                if not dev in game.developers:
+                    dev.games.append(game)
 
     db.session.commit()
     print("[STEAM] Link complete")
