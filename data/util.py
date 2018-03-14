@@ -4,6 +4,8 @@
 # --------------------------------
 
 from datetime import datetime
+from working_set import load_working_set, name_game
+from tqdm import tqdm
 import os
 
 
@@ -64,6 +66,29 @@ def reset(db):
 
 def trim(db):
     """
-    Trim unconnected models
+    Remove low quality models.
     """
-    pass
+    load_working_set()
+
+    print("[MAIN ] Trimming database")
+
+    # Remove games without covers and screenshots, with short descriptions,
+    # or a low number of primary connections
+    for name, game in tqdm(name_game.items()):
+        if game.cover is None or game.screenshots is None or game.summary is None \
+                or len(game.summary) < 10 or len(game.developers) == 0 \
+                or len(game.articles) == 0:
+            # TODO remove from working set
+            # Remove from database
+            db.session.delete(game)
+
+    # Remove developers without logos, with short descriptions, or a low number
+    # of primary connections
+    for name, dev in tqdm(name_developer.items()):
+        if dev.logo is None or len(dev.games) == 0 or len(dev.articles) == 0:
+            # TODO remove from working set
+            # Remove from database
+            db.session.delete(dev)
+
+    db.session.commit()
+    print("[MAIN ] Trim complete")
