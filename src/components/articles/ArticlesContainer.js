@@ -8,11 +8,11 @@ import { connect } from 'react-redux';
 
 import ArticlesPresenter from './Articles';
 import {
-
+  getArticlesRequested,
+  getArticles,
+  getArticlesError,
 } from './ArticlesSelectors';
-import {
-
-} from './ArticlesActions';
+import { fetchArticles } from './ArticlesActions';
 
 /**
  * @description - Maps our redux state tree to
@@ -22,7 +22,9 @@ import {
  */
 function mapStateToProps() {
   return {
-
+    articlesRequested: getArticlesRequested(state),
+    articlesError: getArticlesError(state),
+    articles: getArticles(state),
   };
 }
 
@@ -30,12 +32,17 @@ function mapStateToProps() {
  * @description - Maps the dispatch function (for dispatching actions)
  * to the props of the presenter, which allows our presenter to dispatch
  * actions
- * @param {Function dispatch
+ * @param {Function} dispatch
  * @returns {Object}
  */
 function mapDispatchToProps() {
   return {
+    fetchArticles: () => dispatch(fetchArticles()),
   };
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(ArticlesPresenter);
+export {
+  mapStateToProps,
+  mapDispatchToProps,
+};
