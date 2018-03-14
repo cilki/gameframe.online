@@ -15,7 +15,7 @@ const fetchGamesRequest = createAction('FETCH_GAMES_REQUEST');
 const fetchGamesResponse = createAction('FETCH_GAMES_RESPONSE');
 
 /**
- * @descriptin - Predicate function that takes the page number
+ * @description - Predicate function that takes the page number
  * and the state and determines if we need to fetch that particular page
  * @param {Object} state
  * @param {Number} pageNumber

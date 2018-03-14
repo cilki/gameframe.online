@@ -32,7 +32,7 @@ function mapStateToProps(state) {
  * @description - Maps the dispatch function (for dispatching actions)
  * to the props of the presenter, which allows our presenter to dispatch
  * actions
- * @param {Function dispatch
+ * @param {Function} dispatch
  * @returns {Object}
  */
 function mapDispatchToProps(dispatch) {
