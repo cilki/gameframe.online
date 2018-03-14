@@ -9,7 +9,7 @@ from time import time
 from flask import Flask
 from sources import steam, igdb, newsapi
 from orm import db
-from util import reset
+from util import reset, trim
 
 # Setup Flask
 app = Flask(__name__)
@@ -58,10 +58,15 @@ with app.app_context():
     # Initialize Flask
     db.init_app(app)
 
+    cmd = ""
     while True:
 
         print("")
-        action = input("Choose an action: ")
+        if len(cmd) == 0:
+            cmd = input("Choose an action: ")
+
+        action = cmd[0]
+        cmd = cmd[1:]
 
         if action == '0':
             reset(db)
@@ -77,7 +82,7 @@ with app.app_context():
             steam.link_developers(db)
             print("[MAIN ] Rebuild completed in %d seconds" % (time() - t))
         elif action == '2':
-            pass
+            trim(db)
         elif action == '3':
             steam.collect_games()
         elif action == '4':
