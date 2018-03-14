@@ -45,8 +45,8 @@ class Game(db.Model):
     # Relevant genres as CSV
     genres = db.Column(db.Text)
 
-    # External links as CSV
-    external_links = db.Column(db.Text)
+    # A background image
+    background = db.Column(db.Text)
 
     # Windows compatibility
     platform_win = db.Column(db.Boolean)
@@ -67,8 +67,6 @@ class Game(db.Model):
         'Article',  secondary='game_article', back_populates="games")
     developers = db.relationship(
         'Developer',  secondary='game_developer', back_populates="games")
-    # developer_id = db.Column(
-    #    db.Integer, db.ForeignKey('developer.developer_id'))
 
 
 class Article(db.Model):
@@ -144,8 +142,6 @@ class Developer(db.Model):
 
     games = db.relationship(
         'Game', secondary='game_developer', back_populates="developers")
-    # tweets = db.relationship(
-    #     'Tweet', secondary='tweet_developer', back_populates="developers")
 
 
 class Tweet(db.Model):

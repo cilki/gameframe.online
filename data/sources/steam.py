@@ -118,10 +118,14 @@ def build_game(game_json):
         game.summary = game_json['detailed_description']
 
     # Price
-    if game.price is None and 'price_overview' in game_json:
-        game.price = game_json['price_overview']['initial']
+    if game.price is None and 'is_free' in game_json and game_json['is_free']:
+        game.price = 0
+    elif game.price is None and 'price_overview' in game_json:
+        game.price = game_json['price_overview']['final']
 
-        # TODO Discounts
+    # Background
+    if game.background is None and 'background' in game_json:
+        game.background = game_json['background']
 
     # Website
     if game.website is None and 'website' in game_json:
