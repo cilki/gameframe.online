@@ -9,7 +9,7 @@ import Radium from 'radium';
 import CommonAssets from '../../inline-styles/CommonAssets';
 import Styles from './GamesStyles';
 
-import GameCard from '../game-card';
+import Card from '../card';
 
 class Games extends React.Component {
   static propTypes = {
@@ -59,13 +59,14 @@ class Games extends React.Component {
           {
             this.props.games.map((game) => {
               return (
-                <GameCard
+                <Card
+				  tooltipType={1}
                   key={game.game_id}
+				  title={game.name}
                   url={`/games/${game.game_id}`}
                   cover={game.cover}
-                  developer={game.developer}
+                  origin={game.developer}
                   year={new Date(game.release).getFullYear()}
-                  title={game.name}
                 />
               );
             })

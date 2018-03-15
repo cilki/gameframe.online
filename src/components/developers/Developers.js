@@ -14,6 +14,8 @@ import Card from '../card';
 class Developers extends React.Component {
   static propTypes = {
     developers: PropTypes.arrayOf(PropTypes.shape({
+	  country: PropTypes.number,
+	  foundation: PropTypes.number,
 	  developer_id: PropTypes.number.isRequired,
 	  logo: PropTypes.string,
 	  name: PropTypes.string.isRequired,
@@ -55,10 +57,13 @@ class Developers extends React.Component {
 		    this.props.developers.map((developer) => {
 			  return (
 			    <Card
+				  tooltipType={2}
 				  key={developer.developer_id}
+				  title={developer.name}
 				  url={`/developers/${developer.developer_id}`}
 				  cover={developer.logo}
-				  title={developer.name}
+				  origin={developer.country}
+				  year={developer.foundation}
 				/>
 			  );
 			})
