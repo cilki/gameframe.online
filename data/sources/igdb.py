@@ -269,8 +269,33 @@ def collect_developers():
 
     # Load developers
     for id in tqdm(DEV_RANGE):
-        if not os.path.isfile("%s/%d" % (CACHE_DEV_IGDB, id)):
+        if not is_cached(CACHE_DEV, id):
             load_dev_json(id)
+
+    print("[IGDB ] Collection complete")
+
+
+def collect_covers():
+    """
+    Download missing game covers from IGDB.
+    """
+
+    print("[IGDB ] Collecting game covers")
+
+    for id in tqdm(GAME_RANGE):
+        if not is_cached(CACHE_COVER, id):
+            game_json = load_game_json(id)
+            if game_json is not None and 'cover' in game_json:
+                rq = requests.get("http://" + game_json['cover']['url'][2:].replace(
+                    "t_thumb", "t_original"))
+
+                if rq.status_code == requests.codes.ok:
+                    print("[IGDB ] Failed to download cover for id: %d", id)
+                    continue
+
+                # Write the cover to cache
+                with open("%s/%d" % (CACHE_COVER, id), 'wb') as h:
+                    h.write(rq.content)
 
     print("[IGDB ] Collection complete")
 

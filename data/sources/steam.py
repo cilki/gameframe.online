@@ -168,11 +168,34 @@ def collect_games():
     # Load games
     new_games = 0
     for app in tqdm(apps):
-        if not is_cached(CACHE_GAME_STEAM, app['appid']):
+        if not is_cached(CACHE_GAME, app['appid']):
             load_game_json(app['appid'])
             new_games += 1
 
     print("[STEAM] Gathered %d new games" % new_games)
+
+
+def collect_headers():
+    """
+    Download missing game headers from Steam.
+    """
+    apps = rq_app_list()
+
+    print("[STEAM] Collecting game headers")
+
+    for app in tqdm(apps):
+        if not is_cached(CACHE_HEADER, app['appid']):
+            game_json = load_game_json(app['appid'])
+            if game_json is not None and 'header_image' in game_json:
+                rq = requests.get(game_json['header_image'])
+
+                assert rq.status_code == requests.codes.ok
+
+                # Write the header to cache
+                with open("%s/%d" % (CACHE_HEADER, app['appid']), 'wb') as h:
+                    h.write(rq.content)
+
+    print("[STEAM] Collection complete")
 
 
 def merge_games(db):
