@@ -6,13 +6,13 @@
 import json
 import os
 import sys
+import requests
+
 from codecs import open
 from functools import lru_cache
 from datetime import datetime
 from tqdm import tqdm
 from itertools import chain
-
-import requests
 from ratelimit import rate_limited
 
 sys.path.append(os.path.abspath('app'))
@@ -28,12 +28,20 @@ API_KEY = os.environ['KEY_IGDB']
 """
 The game cache
 """
-CACHE_GAME_IGDB = os.environ['CACHE_GAME_IGDB']
+CACHE_GAME = "%s/igdb/games" % os.environ['CACHE_GAMEFRAME']
+assert os.path.isdir(CACHE_GAME)
 
 """
 The developer cache
 """
-CACHE_DEV_IGDB = os.environ['CACHE_DEV_IGDB']
+CACHE_DEV = "%s/igdb/developers" % os.environ['CACHE_GAMEFRAME']
+assert os.path.isdir(CACHE_DEV)
+
+"""
+The cover cache
+"""
+CACHE_COVER = "%s/igdb/covers" % os.environ['CACHE_GAMEFRAME']
+assert os.path.isdir(CACHE_COVER)
 
 """
 2124 - 89252 seems to be the range of game IDs on IGDB
@@ -90,23 +98,23 @@ def load_game_json(id):
     """
     Retrieve a filtered game from the cache or download it from IGDB.
     """
-    assert os.path.isdir(CACHE_GAME_IGDB)
+    assert os.path.isdir(CACHE_GAME)
 
-    if not os.path.isfile("%s/%d" % (CACHE_GAME_IGDB, id)):
+    if not is_cached(CACHE_GAME, id):
         game = rq_game(id)
 
         # Write to the cache
         for entity in game:
-            with open("%s/%d" % (CACHE_GAME_IGDB, entity['id']), 'w', 'utf8') as h:
+            with open("%s/%d" % (CACHE_GAME, entity['id']), 'w', 'utf8') as h:
                 h.write(json.dumps([entity], ensure_ascii=False))
 
         # Write empty files for skipped entities
         for i in range(id, id + API_STRIDE):
-            if not os.path.isfile("%s/%d" % (CACHE_GAME_IGDB, i)):
-                with open("%s/%d" % (CACHE_GAME_IGDB, i), 'w', 'utf8') as h:
+            if not os.path.isfile("%s/%d" % (CACHE_GAME, i)):
+                with open("%s/%d" % (CACHE_GAME, i), 'w', 'utf8') as h:
                     h.write(json.dumps([]))
     else:
-        with open("%s/%d" % (CACHE_GAME_IGDB, id), 'r', 'utf8') as h:
+        with open("%s/%d" % (CACHE_GAME, id), 'r', 'utf8') as h:
             game = json.load(h)
 
     if len(game) == 0 or not game[0]['id'] == id:
@@ -119,23 +127,23 @@ def load_dev_json(id):
     """
     Retrieve a filtered developer from the cache or download it from IGDB.
     """
-    assert os.path.isdir(CACHE_DEV_IGDB)
+    assert os.path.isdir(CACHE_DEV)
 
-    if not os.path.isfile("%s/%d" % (CACHE_DEV_IGDB, id)):
+    if not os.path.isfile("%s/%s" % (CACHE_DEV, id)):
         dev = rq_developer(id)
 
         # Write to the cache
         for entity in dev:
-            with open("%s/%d" % (CACHE_DEV_IGDB, entity['id']), 'w', 'utf8') as h:
+            with open("%s/%d" % (CACHE_DEV, entity['id']), 'w', 'utf8') as h:
                 h.write(json.dumps([entity], ensure_ascii=False))
 
         # Write empty files for skipped entities
         for i in range(id, id + API_STRIDE):
-            if not os.path.isfile("%s/%d" % (CACHE_DEV_IGDB, i)):
-                with open("%s/%d" % (CACHE_DEV_IGDB, i), 'w', 'utf8') as h:
+            if not os.path.isfile("%s/%d" % (CACHE_DEV, i)):
+                with open("%s/%d" % (CACHE_DEV, i), 'w', 'utf8') as h:
                     h.write(json.dumps([]))
     else:
-        with open("%s/%d" % (CACHE_DEV_IGDB, id), 'r', 'utf8') as h:
+        with open("%s/%d" % (CACHE_DEV, id), 'r', 'utf8') as h:
             dev = json.load(h)
 
     if len(dev) == 0 or not dev[0]['id'] == id:
@@ -254,7 +262,7 @@ def collect_games():
 
     # Load games
     for id in tqdm(GAME_RANGE):
-        if not os.path.isfile("%s/%d" % (CACHE_GAME_IGDB, id)):
+        if not is_cached(CACHE_GAME, id):
             load_game_json(id)
 
     print("[IGDB ] Collection complete")

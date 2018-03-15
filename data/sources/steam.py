@@ -6,12 +6,11 @@
 import json
 import os
 import sys
+import requests
 
 from codecs import open
 from functools import lru_cache
 from tqdm import tqdm
-
-import requests
 from ratelimit import rate_limited
 from itertools import chain
 
@@ -23,7 +22,14 @@ from working_set import load_working_set, add_game, name_game, steamid_game, nam
 """
 The game cache
 """
-CACHE_GAME_STEAM = os.environ['CACHE_GAME_STEAM']
+CACHE_GAME = "%s/steam/games" % os.environ['CACHE_GAMEFRAME']
+assert os.path.isdir(CACHE_GAME)
+
+CACHE_HEADER = "%s/steam/headers" % os.environ['CACHE_GAMEFRAME']
+assert os.path.isdir(CACHE_HEADER)
+
+CACHE_CD = "%s/steam/cds" % os.environ['CACHE_GAMEFRAME']
+assert os.path.isdir(CACHE_CD)
 
 
 @rate_limited(period=40, every=60)
@@ -57,16 +63,16 @@ def load_game_json(appid):
     """
     Retrieve a filtered game from the cache or download it from Steam.
     """
-    assert os.path.isdir(CACHE_GAME_STEAM)
+    assert os.path.isdir(CACHE_GAME)
 
-    if not is_cached(CACHE_GAME_STEAM, appid):
+    if not is_cached(CACHE_GAME, appid):
         game = rq_game(appid)
 
         # Write to the cache
-        with open("%s/%d" % (CACHE_GAME_STEAM, appid), 'w', 'utf8') as h:
+        with open("%s/%d" % (CACHE_GAME, appid), 'w', 'utf8') as h:
             h.write(json.dumps(game, ensure_ascii=False))
     else:
-        with open("%s/%d" % (CACHE_GAME_STEAM, appid), 'r', 'utf8') as h:
+        with open("%s/%d" % (CACHE_GAME, appid), 'r', 'utf8') as h:
             game = json.load(h)
 
     game = game[str(appid)]

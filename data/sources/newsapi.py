@@ -2,16 +2,17 @@
 # IGN API scraper                -
 # Copyright (C) 2018 GameFrame   -
 # --------------------------------
-from ratelimit import rate_limited
-from codecs import open
 
+import os
+import json
+import sys
+
+from codecs import open
+from ratelimit import rate_limited
 from newsapi import NewsApiClient
 from datetime import datetime
 from tqdm import tqdm
-import os
-import json
 
-import sys
 sys.path.append(os.path.abspath('app'))
 from orm import Game, Developer, Article
 from working_set import load_working_set, add_article, name_game, title_article
@@ -31,12 +32,14 @@ API = NewsApiClient(api_key=next(KEY_ITER))
 """
 The article-game cache
 """
-CACHE_ARTICLE_GAME = os.environ['CACHE_ARTICLE_GAME']
+CACHE_ARTICLE_GAME = "%s/newsapi/games" % os.environ['CACHE_GAMEFRAME']
+assert os.path.isdir(CACHE_ARTICLE_GAME)
 
 """
 The article-developer cache
 """
-CACHE_ARTICLE_DEVELOPER = os.environ['CACHE_ARTICLE_DEVELOPER']
+CACHE_ARTICLE_DEVELOPER = "%s/newsapi/developers" % os.environ['CACHE_GAMEFRAME']
+assert os.path.isdir(CACHE_ARTICLE_DEVELOPER)
 
 """
 Only allow sources from this whitelist

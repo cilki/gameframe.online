@@ -4,8 +4,10 @@
 # --------------------------------
 
 from functools import lru_cache
-from orm import Game, Developer, Article
 from tqdm import tqdm
+
+from orm import Game, Developer, Article
+
 
 """
 Maps names to Game objects

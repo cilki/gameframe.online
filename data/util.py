@@ -3,10 +3,11 @@
 # Copyright (C) 2018 GameFrame   -
 # --------------------------------
 
-from datetime import datetime
-from working_set import load_working_set, name_game
-from tqdm import tqdm
 import os
+from datetime import datetime
+from tqdm import tqdm
+
+from working_set import load_working_set, name_game
 
 
 def parse_steam_date(d):
