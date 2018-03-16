@@ -82,6 +82,7 @@ function makeGetDeveloperArticles(_developerSelector = null) {
 
 export {
   getDeveloper,
+  makeGetDeveloper,
   makeGetDeveloperArticles,
   makeGetDeveloperGames,
 };

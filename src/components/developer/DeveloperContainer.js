@@ -15,7 +15,7 @@ import { fetchDeveloper } from './DeveloperActions';
 import DeveloperPresenter from './Developer';
 
 /**
- * @description - Maps the relevant data from the state container to the 
+ * @description - Maps the relevant data from the state container to the
  * relevant props in the React component
  * @returns {Function}
  */
@@ -47,7 +47,7 @@ function mapStateToProps() {
 }
 
 /**
- * @description - Matches the dispatch function to 
+ * @description - Matches the dispatch function to
  * relevant functions to allow the presenter component
  * to dispatch actions
  * @param {Function} dispatch

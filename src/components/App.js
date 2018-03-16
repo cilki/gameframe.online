@@ -22,6 +22,7 @@ import Games, { reducer as GamesReducer } from './games';
 import Game from './game';
 
 import Developers, { reducer as DevelopersReducer } from './developers';
+import Developer from './developer';
 
 import Articles, { reducer as ArticlesReducer } from './articles';
 import Article from './article';
@@ -72,6 +73,7 @@ function App() {
             <Route path="/games/:gameId" component={Game} />
             <Route path="/games" exact component={Games} />
             <Route path="/developers" exact component={Developers} />
+            <Route path="/developers/:developerId" exact component={Developer} />
             <Route path="/articles" exact component={Articles} />
             <Route path="/articles/:articleId" component={Article} />
 
