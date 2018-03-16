@@ -17,7 +17,7 @@ import CommonAssets from '../../inline-styles/CommonAssets';
  * @description - Helper method for generating a component
  * to hold a screenshot
  * @param {Object} props
- * @param {String} props.src
+ * @param {String} props.url
  * @param {String} props.alt
  * @returns {React.Component}
  */
@@ -88,7 +88,7 @@ class Game extends React.Component {
     cover: PropTypes.string,
     // this is derived state using selectors
     developers: PropTypes.arrayOf(PropTypes.shape({
-      developer_id: PropTypes.number.isRequired,
+      id: PropTypes.number.isRequired,
       name: PropTypes.string.isRequired,
     })),
     // we don't currently use this right now, but we may in the future
@@ -180,8 +180,8 @@ class Game extends React.Component {
                 {
                   this.props.developers.map(developer => link({
                     label: developer.name,
-                    url: `/developers/${developer.developer_id}`,
-                    key: `developer-${developer.developer_id}`,
+                    url: `/developers/${developer.id}`,
+                    key: `developer-${developer.id}`,
                   }))
                 }
               </p>
@@ -194,8 +194,8 @@ class Game extends React.Component {
                   {
                     this.props.articles.map(article => link({
                       label: article.title,
-                      url: `/articles/${article.article_id}`,
-                      key: `article-${article.article_id}`,
+                      url: `/articles/${article.id}`,
+                      key: `article-${article.id}`,
                     }))
                   }
                 </p>

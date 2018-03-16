@@ -3,12 +3,13 @@
  * Actions file for a single developer
  */
 
-import { createAction } from 'redux-actions';
 
+import {
+  fetchDeveloperRequest,
+  fetchDeveloperResponse,
+} from '../Actions';
 import { getDeveloper } from './DeveloperSelectors';
 
-const fetchDeveloperRequest = createAction('FETCH_DEVELOPER_REQUEST');
-const fetchDeveloperResponse = createAction('FETCH_DEVELOPER_RESPONSE');
 
 /**
  * @description - Predicate function that determines if we've already fetched the
@@ -30,18 +31,15 @@ function shouldFetchDeveloper(state, id) {
 function fetchDeveloper(id) {
   return (dispatch, getState) => {
     if (shouldFetchDeveloper(getState(), id)) {
-      dispatch(fetchDeveloperRequest());
+      dispatch(fetchDeveloperRequest(id));
       fetch(`v1/developer/${id}`, { method: 'GET' }) //eslint-disable-line
         .then(response => response.json())
-        .then(json => dispatch(fetchDeveloperResponse(json)))
-        .catch(err => dispatch(fetchDeveloperResponse(err)));
+        .then(json => dispatch(fetchDeveloperResponse(id, json)))
+        .catch(err => dispatch(fetchDeveloperResponse(id, err)));
     }
   };
 }
 
 export {
-  fetchDeveloperRequest,
-  fetchDeveloperResponse,
-
   fetchDeveloper,
 };

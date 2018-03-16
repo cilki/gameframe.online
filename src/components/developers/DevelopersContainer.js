@@ -24,7 +24,7 @@ function mapStateToProps(state) {
   return {
     developersRequested: getDevelopersRequested(state),
     developersError: getDevelopersError(state),
-    developers: getDevelopers(state),
+    developers: Object.values(getDevelopers(state)),
   };
 }
 

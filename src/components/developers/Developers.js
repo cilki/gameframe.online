@@ -14,14 +14,14 @@ import Card from '../card';
 class Developers extends React.Component {
   static propTypes = {
     developers: PropTypes.arrayOf(PropTypes.shape({
-	  country: PropTypes.number,
-	  foundation: PropTypes.number,
-	  developer_id: PropTypes.number.isRequired,
-	  logo: PropTypes.string,
-	  name: PropTypes.string.isRequired,
+      country: PropTypes.string,
+      foundation: PropTypes.number,
+      developer_id: PropTypes.number.isRequired,
+      logo: PropTypes.string,
+      name: PropTypes.string.isRequired,
     })),
-	developersError: PropTypes.string, //eslint-disable-line
-	developersRequested: PropTypes.bool, //eslint-disable-line
+    developersError: PropTypes.string, //eslint-disable-line
+    developersRequested: PropTypes.bool, //eslint-disable-line
 
     fetchDevelopers: PropTypes.func.isRequired,
   };
@@ -47,27 +47,28 @@ class Developers extends React.Component {
   render() {
     return (
       <div>
-        <div style={[
-          CommonAssets.stripeOverlay,
-		  CommonAssets.fillBackground,
-        ]}
+        <div 
+          style={[
+            CommonAssets.stripeOverlay,
+            CommonAssets.fillBackground,
+          ]}
         />
         <div style={[Styles.grid]}>
           {
-		    this.props.developers.map((developer) => {
-			  return (
-  <Card
-    tooltipType={2}
-    key={developer.developer_id}
-    title={developer.name}
-    url={`/developers/${developer.developer_id}`}
-    cover={developer.logo}
-    origin={developer.country}
-    year={developer.foundation}
-  />
-			  );
-			})
-		  }
+            this.props.developers.map((developer) => {
+              return (
+      			    <Card
+        				  tooltipType={2}
+        				  key={developer.developer_id}
+        				  title={developer.name}
+        				  url={`/developers/${developer.developer_id}`}
+        				  cover={developer.logo}
+        				  origin={developer.country ? Number(developer.country) : null}
+        				  year={developer.foundation}
+      				  />
+              );
+            })
+          }
         </div>
       </div>
     );

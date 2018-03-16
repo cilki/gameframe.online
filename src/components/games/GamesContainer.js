@@ -24,7 +24,7 @@ function mapStateToProps(state) {
   return {
     gamesRequested: getGamesRequested(state),
     gamesError: getGamesError(state),
-    games: getGames(state),
+    games: Object.values(getGames(state)),
   };
 }
 

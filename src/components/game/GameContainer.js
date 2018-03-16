@@ -9,6 +9,8 @@ import { connect } from 'react-redux';
 import {
   makeGetGame,
   makeGetGameGenres,
+  makeGetGameDevelopers,
+  makeGetGameArticles,
 } from './GameSelectors';
 import { fetchGame } from './GameActions';
 import GamePresenter from './Game';
@@ -21,7 +23,10 @@ import GamePresenter from './Game';
 function mapStateToProps() {
   const gameSelector = makeGetGame();
   const genreSelector = makeGetGameGenres(gameSelector);
+  const developerSelector = makeGetGameDevelopers(gameSelector);
+  const articleSelector = makeGetGameArticles(gameSelector);
   return (state, { match: { params } }) => {
+    // this is retrieving the ID from the URL
     const id = Number(params.gameId);
     if (isNaN(id)) { //eslint-disable-line
       return {};
@@ -37,6 +42,8 @@ function mapStateToProps() {
       presenterProps,
       {
         genres: genreSelector(state, props),
+        developers: developerSelector(state, props),
+        articles: articleSelector(state, props),
       },
     );
   };

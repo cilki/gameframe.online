@@ -6,22 +6,8 @@
 import { createSelector } from 'reselect';
 
 import { getGames } from '../games/GamesSelectors';
-import { getDeveloper } from '../developer/DeveloperSelectors';
-
-/**
- * @description - Function that creates selectors for a developer's
- * name for a game. It doesn't care about all of the
- * state fields for a developer
- * @returns {Function}
- */
-function makeGetDeveloperName() {
-  return createSelector(
-    [getDeveloper],
-    (developer) => {
-      return developer ? developer.get('name') : null;
-    },
-  );
-}
+import { getDevelopers } from '../developers/DevelopersSelectors';
+import { getArticles } from '../articles/ArticlesSelectors';
 
 /**
  * @description - Input selector for returning a single game
@@ -33,7 +19,7 @@ function makeGetDeveloperName() {
  */
 function getGame(state, { id }) {
   const games = getGames(state);
-  const game = games.find(_game => _game.game_id === id);
+  const game = games[id];
 
   return game;
 }
@@ -64,10 +50,58 @@ function makeGetGameGenres(_gameSelector = null) {
   );
 }
 
-export {
-  makeGetDeveloperName,
+/**
+ * @description - Memoized selector for returning a game's developers
+ */
+function makeGetGameDevelopers(_gameSelector = null) {
+  const gameSelector = _gameSelector === null ? makeGetGame() : _gameSelector;
+  return createSelector(
+    [gameSelector, getDevelopers],
+    (game, developers) => {
+      const gameDevelopers = [];
+      if (game.developers) {
+        game.developers.forEach((developerId) => {
+          if (developerId >= 0 && developers[developerId]) {
+            gameDevelopers.push({
+              id: developerId,
+              name: developers[developerId] ? developers[developerId].name : null,
+            });
+          }
+        });
+      }
+      return gameDevelopers;
+    }
+  );
+}
 
+/**
+ * @description - Memoized selector for returning a game's developers
+ */
+function makeGetGameArticles(_gameSelector = null) {
+  const gameSelector = _gameSelector === null ? makeGetGame() : _gameSelector;
+  return createSelector(
+    [gameSelector, getArticles],
+    (game, articles) => {
+      const gameArticles = [];
+      if (game.articles) {
+        game.articles.forEach((articleId) => {
+          if (articleId >= 0 && articles[articleId]) {
+            gameArticles.push({
+              id: articleId,
+              title: articles[articleId] ? articles[articleId].title : null,
+            });
+          }
+        });
+      }
+      return gameArticles;
+    }
+  );
+}
+
+export {
   getGame,
   makeGetGame,
   makeGetGameGenres,
+  makeGetGameDevelopers,
+  makeGetGameArticles,
 };

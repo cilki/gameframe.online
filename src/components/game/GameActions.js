@@ -4,20 +4,16 @@
  */
 
 import { createAction } from 'redux-actions';
+import { normalize, schema } from 'normalizr';
 
+import {
+  fetchGameRequest,
+  fetchGameResponse,
+  fetchDevelopersResponse,
+  fetchArticlesResponse,
+} from '../Actions';
+import { games as gameSchema } from '../Schemas';
 import { getGame } from './GameSelectors';
-
-const fetchGameRequest = createAction('FETCH_GAME_REQUEST');
-const fetchGameResponse = createAction(
-  'FETCH_GAME_RESPONSE',
-  (gameId, data) => {
-    let payload = { gameId, data };
-    if (data instanceof Error) {
-      payload = Object.assign(payload, { error: true });
-    }
-    return payload;
-  },
-);
 
 /**
  * @description - Predicate function to determine if the given
@@ -43,15 +39,17 @@ function fetchGame(gameId) {
       dispatch(fetchGameRequest(gameId));
       fetch(`http://api.gameframe.online/v1/game/${gameId}`, { method: 'GET' }) //eslint-disable-line
         .then(response => response.json())
-        .then(json => dispatch(fetchGameResponse(gameId, json)))
+        .then(json => normalize(json, gameSchema))
+        .then((data) => {
+          dispatch(fetchDevelopersResponse(Object.values(data.entities.developers)));
+          dispatch(fetchArticlesResponse(Object.values(data.entities.articles)));
+          dispatch(fetchGameResponse(gameId, data.entities.games[gameId]));
+        })
         .catch(err => dispatch(fetchGameResponse(gameId, err)));
     }
   };
 }
 
 export {
-  fetchGameRequest,
-  fetchGameResponse,
-
   fetchGame,
 };

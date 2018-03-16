@@ -6,13 +6,17 @@
 import { createAction, handleActions } from 'redux-actions';
 import { List, Map } from 'immutable';
 import { combineReducers } from 'redux';
+import { normalize } from 'normalizr';
 
 import {
-
-} from './DevelopersSelectors';
-
-const fetchDevelopersRequest = createAction('FETCH_DEVELOPERS_REQUEST');
-const fetchDevelopersResponse = createAction('FETCH_DEVELOPERS_RESPONSE');
+  fetchDeveloperRequest,
+  fetchDeveloperResponse,
+  fetchDevelopersResponse,
+  fetchDevelopersRequest,
+  fetchGamesResponse,
+  fetchArticlesResponse,
+} from '../Actions';
+import { developers as developersSchema } from '../Schemas';
 
 /**
  * @description - Predicate function that takes the state and page number
@@ -26,6 +30,10 @@ function shouldFetchDevelopers(state, pageNumber) { //eslint-disable-line
   return true;
 }
 
+const developersResponse = {
+  objects: [ developersSchema ],
+};
+
 /**
  * @description - Fetches the developers from our public API.
  * Technically, in Redux jargon, a thunk creator
@@ -36,14 +44,23 @@ function shouldFetchDevelopers(state, pageNumber) { //eslint-disable-line
 function fetchDevelopers(pageNumber = 1) {
   return (dispatch, getState) => {
     if (shouldFetchDevelopers(getState(), pageNumber)) {
-	  dispatch(fetchDevelopersRequest());
-	  fetch( //eslint-disable-line
-	    `http://api.gameframe.online/v1/developer?page=${pageNumber}`,
-        { method: 'GET' },
-	  )
-	    .then(response => response.json())
-        .then(json => dispatch(fetchDevelopersResponse(json)))
-        .catch(err => dispatch(fetchDevelopersResponse(err)));
+  	  dispatch(fetchDevelopersRequest());
+  	  fetch( //eslint-disable-line
+  	    `http://api.gameframe.online/v1/developer?page=${pageNumber}`,
+          { method: 'GET' },
+  	  )
+  	    .then(response => response.json())
+        .then(json => normalize(json, developersResponse))
+        .then((data) => {
+          if (data.entities.games) {
+            dispatch(fetchGamesResponse(Object.values(data.entities.games)));
+          }
+          if (data.entities.articles) {
+            dispatch(fetchArticlesResponse(Object.values(data.entities.articles)));
+          }
+          dispatch(fetchDevelopersResponse(Object.values(data.entities.developers)));
+        })
+    		.catch(err => dispatch(fetchDevelopersResponse(err)));
     }
   };
 }
@@ -85,15 +102,66 @@ const developersError = handleActions({
 const developers = handleActions({
   [fetchDevelopersResponse]: {
     next(state, { payload }) {
-	  return List(payload.objects.map((developer) => {
-	    return Map(developer);
-	  }));
+      const data = {};
+      payload.forEach((developer) => {
+        data[developer.developer_id] = Map(Object.assign({},
+          developer,
+          {
+            error: null,
+            requested: false,
+          },
+          developer.games && {
+            games: List(data.games),
+          },
+          developer.articles && {
+            articles: List(data.articles),
+          },
+        ));
+      });
+
+      return state.mergeDeep(data);
     },
-    throw(state) {
-	  return state;
+    throw(state, { payload }) {
+      console.error(payload);
+      return state;
     },
   },
-}, List());
+
+  // action for a single developer
+  [fetchDeveloperRequest](state, { payload }) {
+    const id = payload;
+    return state.mergeIn([id, 'requested'], true);
+  },
+
+  // action for a single developer
+  [fetchDeveloperResponse](state, { payload }) {
+    const { id, data, error } = payload;
+
+    if (error) {
+      console.error(data);
+      return state.mergeIn([index], {
+        requested: false,
+        error: data.message,
+      });
+    }
+
+    /* data.games and data.articles
+     * MUST be a list of ID's using normalizr */
+    return state.mergeIn([id], Object.assign({},
+      data,
+      {
+        requested: false,
+        error: null,
+      },
+      data.games && {
+        games: List(data.games),
+      },
+      data.articles && {
+        articles: List(data.articles),
+      },
+    ));
+  },
+}, Map());
 
 /**
  * The reducer for all of the developer's related

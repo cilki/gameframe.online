@@ -53,6 +53,7 @@
   "dependencies": {
     "express": "^4.16.2",
     "immutable": "^3.8.2",
+    "normalizr": "^3.2.4",
     "prop-types": "^15.6.0",
     "proptypes": "^1.1.0",
     "radium": "^0.22.0",

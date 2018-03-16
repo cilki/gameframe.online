@@ -6,15 +6,17 @@
 import { createAction, handleActions } from 'redux-actions';
 import { List, Map } from 'immutable';
 import { combineReducers } from 'redux';
+import { normalize, schema } from 'normalizr';
 
+import { games as gamesSchema } from '../Schemas';
 import {
-
-} from './GamesSelectors';
-import { fetchGameRequest, fetchGameResponse } from '../game/GameActions';
-
-const fetchGamesRequest = createAction('FETCH_GAMES_REQUEST');
-const fetchGamesResponse = createAction('FETCH_GAMES_RESPONSE');
-
+  fetchGamesRequest,
+  fetchGamesResponse,
+  fetchGameRequest,
+  fetchGameResponse,
+  fetchDevelopersResponse,
+  fetchArticlesResponse,
+} from '../Actions';
 /**
  * @description - Predicate function that takes the page number
  * and the state and determines if we need to fetch that particular page
@@ -28,6 +30,10 @@ function shouldFetchGames(state, pageNumber) { //eslint-disable-line
    * page. This will require a fixed page size? */
   return true;
 }
+
+const gamesResponse = {
+  objects: [ gamesSchema ],
+};
 
 /**
  * @description - Fetches the games from our public API.
@@ -45,7 +51,12 @@ function fetchGames(pageNumber = 1) {
         { method: 'GET' },
       )
         .then(response => response.json())
-        .then(json => dispatch(fetchGamesResponse(json)))
+        .then(json => normalize(json, gamesResponse))
+        .then((data) => {
+          dispatch(fetchGamesResponse(Object.values(data.entities.games)));
+          dispatch(fetchDevelopersResponse(Object.values(data.entities.developers)));
+          dispatch(fetchArticlesResponse(Object.values(data.entities.articles)));
+        })
         .catch(err => dispatch(fetchGamesResponse(err)));
     }
   };
@@ -82,44 +93,64 @@ const gamesError = handleActions({
 const games = handleActions({
   [fetchGamesResponse]: {
     next(state, { payload }) {
-      return List(payload.objects.map((game) => {
-        return Map(game);
-      }));
+      const data = {};
+      payload.forEach((game) => {
+        data[game.game_id] = Map(Object.assign({},
+          game,
+          {
+            requested: false,
+            error: null,
+          },
+          game.developers && {
+            developers: List(game.developers),
+          },
+          game.articles && {
+            articles: List(game.articles),
+          },
+        ));
+      });
+
+      return state.mergeDeep(data);
     },
-    throw(state) {
+
+    throw(state, { payload }) {
       return state;
     },
   },
 
   [fetchGameRequest](state, { payload }) {
     const id = payload;
-    const index = state.findIndex(game => game.get('game_id') === id);
-    if (index < 0) {
-      return state;
-    }
 
-    return state.mergeIn([index, 'request'], true);
+    return state.mergeIn([id], {
+      requested: true
+    });
   },
 
   // this is for a single game
   [fetchGameResponse](state, { payload }) {
     const { id, data, error } = payload;
-
-    const index = state.findIndex(game => game.get('game_id') === id);
-    if (index < 0) {
-      return state.push(Map(data).merge({ request: false }));
-    }
-
     if (error) {
-      return state.mergeIn([index], {
-        request: false,
+      return state.mergeIn([id], {
+        requested: false,
         error: data.message,
       });
     }
 
-    return state.mergeIn([index], Map(data).merge({ request: false }));
+    return state.mergeIn([id],
+      Object.assign({}, data, {
+          requested: false,
+          error: null,
+        },
+        data.developers && {
+          developers: List(data.developers),
+        },
+        data.articles && {
+          articles: List(data.articles),
+        },
+      ),
+    );
   },
-}, List());
+}, Map());
 
 /* The reducer for all of the game's related
  * state fields */
@@ -131,9 +162,5 @@ const gamesReducer = combineReducers({
 
 export {
   fetchGames,
-
-  fetchGamesRequest,
-  fetchGamesResponse,
-
   gamesReducer,
 };

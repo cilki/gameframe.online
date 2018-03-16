@@ -14,10 +14,9 @@ import Card from '../card';
 class Games extends React.Component {
   static propTypes = {
     games: PropTypes.arrayOf(PropTypes.shape({
+      articles: PropTypes.arrayOf(PropTypes.number),
       cover: PropTypes.string,
-      developers: PropTypes.arrayOf(PropTypes.shape({
-        developer_id: PropTypes.number.isRequired,
-      })),
+      developers: PropTypes.arrayOf(PropTypes.number),
       game_id: PropTypes.number.isRequired,
       name: PropTypes.string.isRequired,
       release: PropTypes.string,
