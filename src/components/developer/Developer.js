@@ -14,44 +14,6 @@ import InstanceDetails from '../InstanceDetails';
 import CommonAssets from '../../inline-styles/CommonAssets';
 
 /**
- * @description - Helper method for generating a component
- * to hold a screenshot
- * @param {Object} props
- * @param {String} props.src
- * @param {String} props.alt
- * @returns {React.Component}
- */
-function screenshot({ url, alt }) {
-  const src = url.indexOf('http') >= 0 ? url : `https://${url}`;
-  return (
-    <div
-      key={`${url}-div-image`}
-      style={[DeveloperStyles.imageContainer]}
-    >
-      <div>
-        <a href={src}>
-          <img
-            key={`${url}-image`}
-            src={src}
-            alt={alt}
-            style={[DeveloperStyles.image]}
-          />
-        </a>
-      </div>
-    </div>
-  );
-}
-
-screenshot.propTypes = {
-  url: PropTypes.string.isRequired,
-  alt: PropTypes.string,
-};
-
-screenshot.defaultProps = {
-  alt: '',
-};
-
-/**
  * @description - Helper method for rendering a link to a game or article
  * @param {Object} props
  * @param {String} url
