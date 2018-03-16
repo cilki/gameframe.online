@@ -144,7 +144,15 @@ class Card extends React.Component {
           <div>
             <div style={[CardStyles.card]} key={title}>
               <div style={[CardStyles.imageContainerContainer]} key={`${title}-container`}>
-                <div style={[CardStyles.imageContainer]} key={`${title}-image-container`}>
+                <div style={[CardStyles.imageContainer(imageCover || '../../static/images/noImage.png')]} key={`${title}-image-container`}>
+                  <img
+                    style={[CardStyles.backgroundImage]}
+                    src={imageCover || '../../static/images/noImage.png'}
+                    alt=""
+                    onError={
+                      () => { this.img.src = '../../static/images/noImage.png'; }
+                    }
+                  />
                   <img
                     style={[CardStyles.image]}
                     key={`${title}-image`}

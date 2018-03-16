@@ -55,30 +55,44 @@ const Card = {
     },
   },
 
-  imageContainer: {
+  imageContainer: imageURL => ({
     overflow: 'hidden',
     borderRadius: '10px',
     transition: 'transform 0.2s',
     transform: 'scale(0.995)',
     objectFit: 'fill',
     margin: 'auto',
-    display: 'inline-block',
+    display: 'flex',
     verticalAlign: 'middle',
     height: '100%',
     objectFit: 'fill',
+    backgroundPosition: 'center',
+    backgroundSize: '100% 100%',
     ':hover': {
       transform: 'scale(1.0)',
-      backgroundColor: 'darkgray',
-    },
+      backgroundColor: 'darkgray'
+    }
+  }),
+
+  backgroundImage: {
+    position: 'fixed',
+    filter: 'blur(64px)',
+    top: '-50%',
+    left: '-50%',
+    margin: 'auto',
+    width: '200%',
+    height: '200%',
+    zIndex: '1'
   },
 
   image: {
     maxWidth: '100%',
-    borderRadius: '10px',
+    borderRadius: '0px',
     transition: 'transform 0.2s, filter 0.2s',
     transform: 'scale(1.0)',
     margin: 'auto',
     verticalAlign: 'middle',
+    zIndex: '2',
     ':hover': {
       transition: 'transform 1.0s, filter 1.0s',
       transform: 'scale(1.05)',
