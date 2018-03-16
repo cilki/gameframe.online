@@ -75,7 +75,7 @@ function makeGetGameDevelopers(_gameSelector = null) {
 }
 
 /**
- * @description - Memoized selector for returning a game's developers
+ * @description - Memoized selector for returning a game's articles
  */
 function makeGetGameArticles(_gameSelector = null) {
   const gameSelector = _gameSelector === null ? makeGetGame() : _gameSelector;

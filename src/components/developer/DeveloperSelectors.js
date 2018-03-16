@@ -5,36 +5,83 @@
 
 import { createSelector } from 'reselect';
 
-import { getAllDevelopers } from '../developers/DevelopersSelectors';
+import { getGames } from '../games/GamesSelectors';
+import { getDevelopers } from '../developers/DevelopersSelectors';
+import { getArticles } from '../articles/ArticlesSelectors';
 
 /**
- * @description - Input selector for a single developer
+ * @description - Input selector for returning a single developer
+ * given the id prop
  * @param {Object} state
  * @param {Object} props
- * @param {Number} props.id - id number of the developer in question
- * @returns {Map}
+ * @param {Number} props.id
+ * @returns {Ovject}
  */
 function getDeveloper(state, { id }) {
-  const allDevelopers = getAllDevelopers(state);
-  return allDevelopers[id];
+  const allDevelopers = getDevelopers(state);
+  const developer = allDevelopers[id];
+
+  return developer;
 }
 
 /**
- * @description - Creates a memoized selector for
- * an individual developer to determine if they're
- * currently fetching the their data
+ * @description - Memoized selector for a developer
  * @returns {Function}
  */
-function makeGetDeveloperRequested() {
+function makeGetDeveloper() {
   return createSelector(
     [getDeveloper],
-    (developer) => {
-      return developer.get('requested');
+    developer => developer,
+  );
+}
+
+/**
+ * @description - Memoized selector for returning a developer's games
+ */
+function makeGetDeveloperGames(_developerSelector = null) {
+  const developerSelector = _developerSelector === null ? makeGetDeveloper() : _developerSelector;
+  return createSelector(
+    [developerSelector, getGames],
+    (developer, games) => {
+      const developerGames = [];
+      if (developer.games) {
+        developer.games.forEach((gameId) => {
+          if (gameId >= 0 && games[gameId]) {
+            developerGames.push({
+              id: gameId,
+              name: games[gameId] ? games[gameId].name : null,
+            });
+          }
+        });
+      }
+      return developerGames;
+    },
+  );
+}
+
+function makeGetDeveloperArticles(_developerSelector = null) {
+  const developerSelector = _developerSelector === null ? makeGetDeveloper() : _developerSelector;
+  return createSelector(
+    [developerSelector, getArticles],
+    (developer, articles) => {
+      const developerArticles = [];
+      if (developer.articles) {
+        developer.articles.forEach((articleId) => {
+          if (articleId >= 0 && articles[articleId]) {
+            developerArticles.push({
+              id: articleId,
+              title: articles[articleId] ? articles[articleId].title : null,
+            });
+          }
+        });
+      }
+      return developerArticles;
     },
   );
 }
 
 export {
   getDeveloper,
-  makeGetDeveloperRequested,
+  makeGetDeveloperArticles,
+  makeGetDeveloperGames,
 };
