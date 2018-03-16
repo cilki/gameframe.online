@@ -117,7 +117,6 @@ const games = handleActions({
       });
     }
 
-    console.log('data', data);
     return state.mergeIn([index], Map(data).merge({ request: false }));
   },
 }, List());

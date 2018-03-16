@@ -11,7 +11,7 @@ const fetchStatsResponse = createAction(
   'FETCH_STATS_RESPONSE',
   (login, data) => {
     let payload = { login, data };
-    
+
     if (data instanceof Error) {
       payload = Object.assign(payload, { error: true });
     }

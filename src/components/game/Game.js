@@ -68,7 +68,7 @@ function link({ label, url, key }) {
 link.propTypes = {
   label: PropTypes.string.isRequired,
   url: PropTypes.string.isRequired,
-  key: PropTypes.any.isRequired,
+  key: PropTypes.oneOf([PropTypes.string, PropTypes.number]).isRequired,
 };
 
 /**
@@ -90,11 +90,13 @@ class Game extends React.Component {
       id: PropTypes.number.isRequired,
       name: PropTypes.string.isRequired,
     })),
-    error: PropTypes.string,
+    // we don't currently use this right now, but we may in the future
+    error: PropTypes.string, //eslint-disable-line
     name: PropTypes.string,
     genres: PropTypes.arrayOf(PropTypes.string),
     release: PropTypes.string,
-    requested: PropTypes.bool,
+    // we don't currently use this right now, but we may in the future
+    requested: PropTypes.bool, //eslint-disable-line
     screenshots: PropTypes.arrayOf(PropTypes.shape({
       src: PropTypes.string.isRequired,
       alt: PropTypes.string,
@@ -153,7 +155,7 @@ class Game extends React.Component {
               {/* Genre should really be a array because that's what we get from the API */}
               <p>Genre:
                 {
-                  this.props.genres.map(genre => {
+                  this.props.genres.map((genre) => {
                     return (
                       <Label key={genre}>
                         {genre}

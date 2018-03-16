@@ -72,7 +72,7 @@ function App() {
             <Route path="/games" exact component={Games} />
             <Route path="/developers" exact component={Developers} />
             <Route path="/articles" exact component={Articles} />
-            
+
           </div>
 
           <Footer />

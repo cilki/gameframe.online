@@ -13,8 +13,8 @@ import {
 import { fetchGame } from './GameActions';
 import GamePresenter from './Game';
 
-/** 
- * @description - Maps the relevant data from the state container to the 
+/**
+ * @description - Maps the relevant data from the state container to the
  * relevant props in the React component
  * @returns {Function}
  */
@@ -23,7 +23,7 @@ function mapStateToProps() {
   const genreSelector = makeGetGameGenres(gameSelector);
   return (state, { match: { params } }) => {
     const id = Number(params.gameId);
-    if (isNaN(id)) {
+    if (isNaN(id)) { //eslint-disable-line
       return {};
     }
 
@@ -36,14 +36,14 @@ function mapStateToProps() {
     return Object.assign(
       presenterProps,
       {
-        genres: genreSelector(state, props),  
+        genres: genreSelector(state, props),
       },
     );
   };
 }
 
 /**
- * @description - Matches the dispatch function to 
+ * @description - Matches the dispatch function to
  * relevant functions to allow the presenter component
  * to dispatch actions
  * @param {Function} dispatch
@@ -54,7 +54,7 @@ function mapDispatchToProps(dispatch, { match: { params } }) {
   const id = Number(params.gameId);
   return {
     fetchGame: () => dispatch(fetchGame(id)),
-  }
+  };
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(GamePresenter);

@@ -5,7 +5,7 @@
 
 import { createSelector } from 'reselect';
 
-import { getGames } from '../games/GamesSelectors.js';
+import { getGames } from '../games/GamesSelectors';
 import { getDeveloper } from '../developer/DeveloperSelectors';
 
 /**
@@ -33,13 +33,9 @@ function makeGetDeveloperName() {
  */
 function getGame(state, { id }) {
   const games = getGames(state);
-  for (let game of games) {
-    if (game.game_id === id) {
-      return game;
-    }
-  }
+  const game = games.find(_game => _game.game_id === id);
 
-  return null;
+  return game;
 }
 
 /**
@@ -54,7 +50,7 @@ function makeGetGame() {
 }
 
 /**
- * @description - Memoized selector for returning the genre's 
+ * @description - Memoized selector for returning the genre's
  * of a game
  * @return {Function}
  */
@@ -63,15 +59,14 @@ function makeGetGameGenres(_gameSelector = null) {
   return createSelector(
     [gameSelector],
     (game) => {
-
       return game !== null && game.genres !== undefined ? game.genres.split(',') : [];
-    }
+    },
   );
 }
 
 export {
   makeGetDeveloperName,
-  
+
   getGame,
   makeGetGame,
   makeGetGameGenres,
