@@ -3,7 +3,7 @@
 const Card = {
   main: {
     padding: '10px 10px 10px 10px',
-    width: '256px'
+    width: '256px',
   },
 
   card: {
@@ -17,12 +17,12 @@ const Card = {
     ':hover': {
       transition: 'transform 0.2s, filter 0.5s',
       transform: 'scale(0.98)',
-      filter: 'hue-rotate(360deg)'
+      filter: 'hue-rotate(360deg)',
     },
 
     clicked: {
-      filter: 'brightness(0.5) hue-rotate(360deg)'
-    }
+      filter: 'brightness(0.5) hue-rotate(360deg)',
+    },
   },
 
   tooltip: {
@@ -44,15 +44,15 @@ const Card = {
       opacity: '1.0',
       color: 'white',
       transition: 'opacity 0.125s ease-in',
-      textShadow: '0px 0px 2px gray, 0px 0px 3px black'
-    }
+      textShadow: '0px 0px 2px gray, 0px 0px 3px black',
+    },
   },
   imageContainerContainer: {
     backgroundColor: 'darkGray',
     height: '256px',
     ':hover': {
-      backgroundColor: 'darkGray'
-    }
+      backgroundColor: 'darkGray',
+    },
   },
 
   imageContainer: {
@@ -68,8 +68,8 @@ const Card = {
     objectFit: 'fill',
     ':hover': {
       transform: 'scale(1.0)',
-      backgroundColor: 'darkgray'
-    }
+      backgroundColor: 'darkgray',
+    },
   },
 
   image: {
@@ -81,8 +81,8 @@ const Card = {
     verticalAlign: 'middle',
     ':hover': {
       transition: 'transform 1.0s, filter 1.0s',
-      transform: 'scale(1.05)'
-    }
+      transform: 'scale(1.05)',
+    },
   },
 
 
@@ -94,8 +94,8 @@ const Card = {
     transition: 'height 0.2s',
     ':hover': {
       height: '0px',
-      overflow: 'hidden'
-    }
+      overflow: 'hidden',
+    },
   },
 
   caption: {
@@ -103,12 +103,12 @@ const Card = {
     postion: 'relative',
     whiteSpace: 'nowrap',
     overflow: 'hidden',
-    textOverflow: 'ellipsis'
+    textOverflow: 'ellipsis',
   },
 
   badgeContainer: {
-    maxWidth: '35%'
-  }
+    maxWidth: '35%',
+  },
 };
 
 export default Card;

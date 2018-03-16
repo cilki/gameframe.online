@@ -172,7 +172,7 @@ class Card extends React.Component {
                     left: '0',
                     zIndex: '-2',
                     filter: 'blur(20px) saturate(1.15)',
-                    transform: 'scale(5.20)'
+                    transform: 'scale(5.20)',
                   }}
                   src={imageCover || '../../static/images/noImage.png'}
                   ref={(img) => { this.img = img; }}
