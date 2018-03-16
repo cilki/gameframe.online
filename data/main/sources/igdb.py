@@ -15,10 +15,9 @@ from tqdm import tqdm
 from itertools import chain
 from ratelimit import rate_limited
 
-sys.path.append(os.path.abspath('app'))
 from orm import Developer, Game, Image, Genre, Platform
 from util import is_cached
-from working_set import load_working_set, add_game, add_developer, name_game, steamid_game, name_developer, igdbid_developer, igdbid_game, map_id_platform, map_id_genre
+from cache import load_working_set, add_game, add_developer, name_game, steamid_game, name_developer, igdbid_developer, igdbid_game, map_id_platform, map_id_genre
 
 """
 The API key

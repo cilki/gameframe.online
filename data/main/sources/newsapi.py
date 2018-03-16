@@ -13,7 +13,6 @@ from newsapi import NewsApiClient
 from datetime import datetime
 from tqdm import tqdm
 
-sys.path.append(os.path.abspath('app'))
 from orm import Game, Developer, Article
 from working_set import load_working_set, add_article, name_game, title_article
 from util import is_cached

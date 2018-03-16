@@ -14,7 +14,6 @@ from tqdm import tqdm
 from ratelimit import rate_limited
 from itertools import chain
 
-sys.path.append(os.path.abspath('app'))
 from orm import Game, Developer, Image, Genre
 from util import parse_steam_date, is_cached
 from working_set import load_working_set, add_game, name_game, steamid_game, name_developer, map_name_genre, map_id_platform

@@ -1,30 +1,16 @@
 # --------------------------------
-# GameFrame API scraper utils    -
+# GameFrame utils                -
 # Copyright (C) 2018 GameFrame   -
 # --------------------------------
 
 import os
-from datetime import datetime
+
 from tqdm import tqdm
+from string import ascii_lowercase
+from random import choice
 
 from orm import Genre, Platform
-from working_set import load_working_set, name_game
-
-
-def parse_steam_date(d):
-    """
-    Parse a textual release date from Steam.
-    """
-    try:
-        return datetime.strptime(d, "%b %d, %Y")
-    except ValueError:
-        pass
-    try:
-        return datetime.strptime(d, "%b %Y")
-    except ValueError:
-        pass
-
-    return None
+from cache import load_working_set, name_game
 
 
 def append_csv(csv, item):
@@ -44,6 +30,16 @@ def append_csv(csv, item):
     return csv
 
 
+def choose_best_cover(header_cd, cover, cover_cd):
+    """
+    Choose the best game cover.
+    """
+    if cover is None:
+        return header_cd
+    if header_cd is None:
+        return cover  # TODO
+
+
 def is_cached(cache_path, filename):
     """
     Returns True if the given entry exists in the cache, False otherwise.
@@ -51,11 +47,66 @@ def is_cached(cache_path, filename):
     return os.path.isfile("%s/%s" % (cache_path, filename))
 
 
+def merge_covers(db):
+    """
+    Merge game covers into the working set and flush the database.
+    """
+    load_working_set()
+
+    print("[MAIN ] Merging covers")
+
+    for _, game in tqdm(name_game.items()):
+        cover = choose_best_cover("%s/%d" % (steam.CACHE_CD, game.steam_id),
+                                  "%s/%d" % (igdb.CACHE_COVER, game.igdb_id),
+                                  "%s/%d" % (igdb.CACHE_CD, game.igdb_id))
+        if cover is not None:
+            unique = "%d-%d" % (0 if game.steam_id is None else game.steam_id,
+                                0 if game.igdb_id is None else game.igdb_id)
+
+            # Upload cover
+            upload_image(cover, unique)
+
+            # Update game
+            game.cover = "%s/%s" % (CDN_URI, unique)
+
+    db.session.commit()
+    print("[MAIN ] Merge complete")
+
+
+def trim(db):
+    """
+    Remove low quality models.
+    """
+    load_working_set()
+
+    print("[MAIN ] Trimming database")
+
+    # Remove games without covers and screenshots, with short descriptions,
+    # or a low number of primary connections
+    for name, game in tqdm(name_game.items()):
+        if game.cover is None or game.screenshots is None or game.summary is None \
+                or len(game.summary) < 10 or len(game.developers) == 0 \
+                or len(game.articles) == 0:
+            # TODO remove from working set
+            # Remove from database
+            db.session.delete(game)
+
+    # Remove developers without logos, with short descriptions, or a low number
+    # of primary connections
+    for name, dev in tqdm(name_developer.items()):
+        if dev.logo is None or len(dev.games) == 0 or len(dev.articles) == 0:
+            # TODO remove from working set
+            # Remove from database
+            db.session.delete(dev)
+
+    db.session.commit()
+    print("[MAIN ] Trim complete")
+
+
 def reset(db):
     """
     Reset the database.
     """
-    print("[MAIN ] Dropping database")
 
     # Delete everything
     db.reflect()
@@ -110,34 +161,3 @@ def reset(db):
         db.session.add(Platform(platform_id=i, name=n))
 
     db.session.commit()
-    print("[MAIN ] Reset complete")
-
-
-def trim(db):
-    """
-    Remove low quality models.
-    """
-    load_working_set()
-
-    print("[MAIN ] Trimming database")
-
-    # Remove games without covers and screenshots, with short descriptions,
-    # or a low number of primary connections
-    for name, game in tqdm(name_game.items()):
-        if game.cover is None or game.screenshots is None or game.summary is None \
-                or len(game.summary) < 10 or len(game.developers) == 0 \
-                or len(game.articles) == 0:
-            # TODO remove from working set
-            # Remove from database
-            db.session.delete(game)
-
-    # Remove developers without logos, with short descriptions, or a low number
-    # of primary connections
-    for name, dev in tqdm(name_developer.items()):
-        if dev.logo is None or len(dev.games) == 0 or len(dev.articles) == 0:
-            # TODO remove from working set
-            # Remove from database
-            db.session.delete(dev)
-
-    db.session.commit()
-    print("[MAIN ] Trim complete")

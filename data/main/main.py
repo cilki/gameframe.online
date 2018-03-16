@@ -9,7 +9,8 @@ from flask import Flask
 
 from sources import steam, igdb, newsapi
 from orm import db
-from util import reset, trim
+from util import reset, merge_covers
+from aws import upload_image
 
 # Setup Flask
 app = Flask(__name__)
@@ -17,6 +18,9 @@ app = Flask(__name__)
 # Configure SQLAlchemy
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SQLALCHEMY_DATABASE_URI'] = os.environ['SQLALCHEMY_URI']
+
+# Constants
+CDN_URI = ''
 
 # Greetings
 print("                             __                          \n                            / _|                         \n  __ _  __ _ _ __ ___   ___| |_ _ __ __ _ _ __ ___   ___ \n / _` |/ _` | '_ ` _ \\ / _ \\  _| '__/ _` | '_ ` _ \\ / _ \\\n| (_| | (_| | | | | | |  __/ | | | | (_| | | | | | |  __/\n \\__, |\\__,_|_| |_| |_|\\___|_| |_|  \\__,_|_| |_| |_|\\___|\n  __/ |                                                  \n |___/\n\n")
@@ -66,9 +70,13 @@ with app.app_context():
         cmd = cmd[1:]
 
         if action == '0':
+            print("[MAIN ] Resetting database")
             reset(db)
+            print("[MAIN ] Reset complete")
         elif action == '1':
             t = time()
+            print("[MAIN ] Rebuilding database")
+
             reset(db)
             steam.merge_games(db)
             igdb.merge_games(db)
@@ -105,6 +113,6 @@ with app.app_context():
         elif action == 'e':
             igdb.collect_covers()
         elif action == 'f':
-            igdb.test()
+            merge_covers(db)
         else:
             print("Unknown Command")
