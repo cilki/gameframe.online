@@ -70,8 +70,8 @@ const Card = {
     backgroundSize: '100% 100%',
     ':hover': {
       transform: 'scale(1.0)',
-      backgroundColor: 'darkgray'
-    }
+      backgroundColor: 'darkgray',
+    },
   }),
 
   backgroundImage: {
@@ -82,7 +82,7 @@ const Card = {
     margin: 'auto',
     width: '200%',
     height: '200%',
-    zIndex: '1'
+    zIndex: '1',
   },
 
   image: {

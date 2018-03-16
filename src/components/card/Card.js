@@ -62,29 +62,12 @@ class Card extends React.Component {
     const { title } = this.props;
     const imageCover = this.props.cover !== null && this.props.cover.search('http') < 0 ?
       `https://${this.props.cover}` : this.props.cover;
-    const developer = this.props.develper !== null ? this.props.developer :
-      'Unknown Developer';
     const tooltipType = this.props.tooltipType;
 
     /**
-	 * @description - Render the tooltip associated with the type.
-	 * @returns {React.Component}
-	 */
-    function tooltip() {
-	  if (tooltipType == 1) {
-	    return gameTooltip();
-	  } else if (tooltipType == 2) {
-	    return developerTooltip();
-	  } else if (tooltipType == 3) {
-	    return articleTooltip();
-	  }
-      return <div>Error: No tooltipType defined!</div>;
-    }
-
-    /**
-	 * @description - Render the game tooltip.
-	 * @returns {React.Component}
-	 */
+     * @description - Render the game tooltip.
+     * @returns {React.Component}
+     */
     function gameTooltip() {
       return (
         <div>
@@ -100,13 +83,13 @@ class Card extends React.Component {
           <div>Tweets: #0</div>
           <div>Articles: #0</div>
         </div>
-	  );
+      );
     }
 
     /**
-	 * @description - Render the developer tooltip.
-	 * @returns {React.Component}
-	 */
+     * @description - Render the developer tooltip.
+     * @returns {React.Component}
+     */
     function developerTooltip() {
       return (
         <div>
@@ -116,13 +99,13 @@ class Card extends React.Component {
           <div>Twitter: Link</div>
           <div>Website: Link</div>
         </div>
-	 );
+      );
     }
 
     /**
-	 * @description - Render the developer tooltip.
-	 * @returns {React.Component}
-	 */
+     * @description - Render the developer tooltip.
+     * @returns {React.Component}
+     */
     function articleTooltip() {
       return (
         <div>
@@ -131,7 +114,22 @@ class Card extends React.Component {
           <div>Media</div>
           <div>Source: Link</div>
         </div>
-	  );
+      );
+    }
+
+    /**
+     * @description - Render the tooltip associated with the type.
+     * @returns {React.Component}
+     */
+    function tooltip() {
+      if (tooltipType === 1) {
+        return gameTooltip();
+      } else if (tooltipType === 2) {
+        return developerTooltip();
+      } else if (tooltipType === 3) {
+        return articleTooltip();
+      }
+      return <div>Error: No tooltipType defined!</div>;
     }
 
     return (
