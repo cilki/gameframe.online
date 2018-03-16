@@ -146,7 +146,11 @@ def merge_articles(db):
     print("[NWAPI] Merging articles")
     for filename in tqdm(os.listdir(CACHE_ARTICLE_GAME)):
 
-        game = name_game[filename.replace("\\", "/")]
+        try:
+            game = name_game[filename.replace("\\", "/")]
+        except KeyError:
+            continue
+
         with open("%s/%s" % (CACHE_ARTICLE_GAME, filename), 'r', 'utf8') as h:
             articles = json.load(h)
         for article_json in articles:

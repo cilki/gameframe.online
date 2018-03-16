@@ -15,9 +15,9 @@ from ratelimit import rate_limited
 from itertools import chain
 
 sys.path.append(os.path.abspath('app'))
-from orm import Game, Developer
-from util import parse_steam_date, append_csv, is_cached
-from working_set import load_working_set, add_game, name_game, steamid_game, name_developer
+from orm import Game, Developer, Image, Genre
+from util import parse_steam_date, is_cached
+from working_set import load_working_set, add_game, name_game, steamid_game, name_developer, map_name_genre, map_id_platform
 
 """
 The game cache
@@ -25,11 +25,32 @@ The game cache
 CACHE_GAME = "%s/steam/games" % os.environ['CACHE_GAMEFRAME']
 assert os.path.isdir(CACHE_GAME)
 
+"""
+The header image cache
+"""
 CACHE_HEADER = "%s/steam/headers" % os.environ['CACHE_GAMEFRAME']
 assert os.path.isdir(CACHE_HEADER)
 
+"""
+The CD image cache
+"""
 CACHE_CD = "%s/steam/cds" % os.environ['CACHE_GAMEFRAME']
 assert os.path.isdir(CACHE_CD)
+
+"""
+Run statistics
+"""
+METRICS = {'game.filtered.genre': 0, 'game.filtered.no_data': 0,
+           'game.filtered.non_game': 0, 'game.filtered.no_name': 0,
+           'game.filtered.failed': 0, 'game.new_downloads': 0}
+
+"""
+Steam genres that should be filtered
+"""
+UNWANTED_GENRES = set(['Animation & Modeling', 'Photo Editing', 'Rol',
+                       'Software Training', 'Accounting', 'Video Production',
+                       'Utilities', 'Audio Production', 'Design & Illustration',
+                       'Web Publishing'])
 
 
 @rate_limited(period=40, every=60)
@@ -67,6 +88,7 @@ def load_game_json(appid):
 
     if not is_cached(CACHE_GAME, appid):
         game = rq_game(appid)
+        METRICS['game.new_downloads'] += 1
 
         # Write to the cache
         with open("%s/%d" % (CACHE_GAME, appid), 'w', 'utf8') as h:
@@ -79,20 +101,24 @@ def load_game_json(appid):
 
     # Filter failed queries
     if game['success'] == 'false':
+        METRICS['game.filtered.failed'] += 1
         return None
 
     # Ensure the game has data
     if 'data' not in game:
+        METRICS['game.filtered.no_data'] += 1
         return None
 
     game = game['data']
 
     # Filter non-games
     if not game['type'] == 'game':
+        METRICS['game.filtered.non_game'] += 1
         return None
 
-    # Ensure the game has a name
-    if 'name' not in game:
+    # Filter unwanted genres
+    if any(x['description'] in UNWANTED_GENRES for x in game.get('genres', [])):
+        METRICS['game.filtered.genre'] += 1
         return None
 
     return game
@@ -138,21 +164,31 @@ def build_game(game_json):
         game.website = game_json['website']
 
     # Platforms
-    if 'platforms' in game_json:
-        game.platform_win = game_json['platforms']['windows']
-        game.platform_lin = game_json['platforms']['linux']
-        game.platform_mac = game_json['platforms']['mac']
+    if game_json.get('platforms', {}).get('windows', False):
+        windows = map_id_platform[6]
+        if windows not in game.platforms:
+            game.platforms.append(windows)
+
+    if game_json.get('platforms', {}).get('linux', False):
+        linux = map_id_platform[3]
+        if linux not in game.platforms:
+            game.platforms.append(linux)
+
+    if game_json.get('platforms', {}).get('mac', False):
+        mac = map_id_platform[14]
+        if mac not in game.platforms:
+            game.platforms.append(mac)
 
     # Screenshots
-    if 'screenshots' in game_json:
-        for screenshot in game_json['screenshots']:
-            game.screenshots = append_csv(
-                game.screenshots, screenshot['path_full'])
+    for screenshot in game_json.get('screenshots', []):
+        game.screenshots.append(
+            Image(url=screenshot['path_full'].split('?', 1)[0]))
 
     # Genres
-    if 'genres' in game_json:
-        for genre in game_json['genres']:
-            game.genres = append_csv(game.genres, genre['description'])
+    for genre in game_json.get('genres', []):
+        genre = map_name_genre[genre['description']]
+        if genre not in game.genres:
+            game.genres.append(genre)
 
     # Release date
     if game.release is None and 'release_date' in game_json:

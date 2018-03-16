@@ -5,8 +5,8 @@
 
 import os
 from time import time
-
 from flask import Flask
+
 from sources import steam, igdb, newsapi
 from orm import db
 from util import reset, trim
@@ -103,5 +103,11 @@ with app.app_context():
             newsapi.gather_articles(db)
         elif action == 'c':
             newsapi.merge_articles(db)
+        elif action == 'd':
+            steam.collect_headers()
+        elif action == 'e':
+            igdb.collect_covers()
+        elif action == 'f':
+            igdb.test()
         else:
             print("Unknown Command")

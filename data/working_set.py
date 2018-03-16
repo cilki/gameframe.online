@@ -6,7 +6,7 @@
 from functools import lru_cache
 from tqdm import tqdm
 
-from orm import Game, Developer, Article
+from orm import Game, Developer, Article, Genre, Platform
 
 
 """
@@ -38,6 +38,10 @@ name_developer = {}
 Maps article titles to Article objects
 """
 title_article = {}
+
+map_id_genre = {}
+map_name_genre = {}
+map_id_platform = {}
 
 
 def add_game(game):
@@ -82,15 +86,25 @@ def load_working_set():
     global id_developer
     global name_developer
 
+    global map_id_genre
+    global map_name_genre
+    global map_id_platform
+
     print("[MAIN ] Loading working set")
-    for game in tqdm(Game.query.all()):
+    for game in Game.query.all():
         add_game(game)
 
-    for dev in tqdm(Developer.query.all()):
+    for dev in Developer.query.all():
         add_developer(dev)
 
-    for article in tqdm(Article.query.all()):
+    for article in Article.query.all():
         add_article(article)
+
+    for genre in Genre.query.all():
+        map_id_genre[genre.genre_id] = genre
+        map_name_genre[genre.name] = genre
+    for platform in Platform.query.all():
+        map_id_platform[platform.platform_id] = platform
 
     print("[MAIN ] Loaded %d entities from database" %
           (len(name_game) + len(igdbid_developer)))

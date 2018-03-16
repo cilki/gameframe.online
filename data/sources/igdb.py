@@ -16,9 +16,9 @@ from itertools import chain
 from ratelimit import rate_limited
 
 sys.path.append(os.path.abspath('app'))
-from orm import Developer, Game
-from util import append_csv, is_cached
-from working_set import load_working_set, add_game, add_developer, name_game, steamid_game, name_developer, igdbid_developer, igdbid_game
+from orm import Developer, Game, Image, Genre, Platform
+from util import is_cached
+from working_set import load_working_set, add_game, add_developer, name_game, steamid_game, name_developer, igdbid_developer, igdbid_game, map_id_platform, map_id_genre
 
 """
 The API key
@@ -49,36 +49,14 @@ assert os.path.isdir(CACHE_COVER)
 GAME_RANGE = range(2124, 89253)
 
 """
-1 - ? seems to be the range of developer IDs on IGDB
+1 - 15092 seems to be the range of developer IDs on IGDB
 """
-DEV_RANGE = range(1, 40001)
+DEV_RANGE = range(1, 15093)
 
 """
 The number of entities to request at a time
 """
 API_STRIDE = 100
-
-"""
-The genre mapping that IGDB uses
-"""
-GENRES = {2: 'Point-and-click', 4: 'Fighting', 5: 'Shooter', 7: 'Music',
-          8: 'Platform', 9: 'Puzzle', 10: 'Racing', 11: 'Real Time Strategy',
-          12: 'Role-playing', 13: 'Simulator', 14: 'Sport', 15: 'Strategy',
-          16: 'Turn-based strategy', 24: 'Tactical', 25: "Hack and slash",
-          26: 'Trivia', 30: 'Pinball', 31: 'Adventure', 32: 'Indie', 33: 'Arcade'}
-
-
-def rq_game(id):
-    """
-    Request a block of games starting at the given id using IGDB's API.
-    """
-
-    rq = requests.get("https://api-endpoint.igdb.com/games/%s"
-                      % str(list(range(id, id + API_STRIDE)))[1:-1].replace(" ", ""),
-                      headers={'user-key': API_KEY})
-
-    assert rq.status_code == requests.codes.ok
-    return rq.json()
 
 
 def rq_developer(id):
@@ -179,9 +157,16 @@ def build_game(game_json):
         game.name = game_json['name']
 
     # Genre
-    if game.genres is None and 'genres' in game_json:
-        for genre in game_json['genres']:
-            game.genres = append_csv(game.genres, GENRES[genre])
+    for numeric_genre in game_json.get('genres', []):
+        genre = map_id_genre[numeric_genre]
+        if genre not in game.genres:
+            game.genres.append(genre)
+
+    # Platform
+    for numeric_platform in game_json.get('platforms', []):
+        platform = map_id_platform[numeric_platform]
+        if platform not in game.platforms:
+            game.platforms.append(platform)
 
     # Summary
     if game.summary is None and 'summary' in game_json:
@@ -198,10 +183,9 @@ def build_game(game_json):
             game_json['first_release_date'] // 1000)
 
     # Screenshots
-    if 'screenshots' in game_json:
-        for screenshot in game_json['screenshots']:
-            game.screenshots = append_csv(
-                game.screenshots, screenshot['url'][2:].replace("t_thumb", "t_original"))
+    for screenshot in game_json.get('screenshots', []):
+        url = screenshot['url'][2:].replace("t_thumb", "t_original")
+        game.screenshots.append(Image(url=url))
 
     # Cover
     if game.cover is None and 'cover' in game_json:
@@ -297,7 +281,7 @@ def collect_covers():
                 rq = requests.get("http://" + game_json['cover']['url'][2:].replace(
                     "t_thumb", "t_original"))
 
-                if rq.status_code == requests.codes.ok:
+                if not rq.status_code == requests.codes.ok:
                     print("[IGDB ] Failed to download cover for id: %d", id)
                     continue
 

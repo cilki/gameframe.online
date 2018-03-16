@@ -33,8 +33,8 @@ class Game(db.Model):
     # The game's cover image
     cover = db.Column(db.Text)
 
-    # Screenshots as CSV
-    screenshots = db.Column(db.Text)
+    # Screenshots
+    screenshots = db.relationship('Image')
 
     # A summary written by Steam or IGDB
     summary = db.Column(db.Text)
@@ -42,31 +42,25 @@ class Game(db.Model):
     # The game's price in cents
     price = db.Column(db.Integer)
 
-    # Relevant genres as CSV
-    genres = db.Column(db.Text)
+    # Relevant genres
+    genres = db.relationship('Genre', secondary='join_game_genre')
+
+    # Compatible platforms
+    platforms = db.relationship('Platform',  secondary='join_game_platform')
 
     # A background image
     background = db.Column(db.Text)
 
-    # Windows compatibility
-    platform_win = db.Column(db.Boolean)
-
-    # Linux compatibility
-    platform_lin = db.Column(db.Boolean)
-
-    # Mac compatibility
-    platform_mac = db.Column(db.Boolean)
-
     tweets = db.relationship(
-        'Tweet', secondary='game_tweet', back_populates="games")
+        'Tweet', secondary='join_game_tweet', back_populates="games")
     videos = db.relationship(
-        'Video', secondary='game_video', back_populates="games")
+        'Video', secondary='join_game_video', back_populates="games")
     streams = db.relationship(
-        'Stream', secondary='game_stream', back_populates="games")
+        'Stream', secondary='join_game_stream', back_populates="games")
     articles = db.relationship(
-        'Article',  secondary='game_article', back_populates="games")
+        'Article',  secondary='join_game_article', back_populates="games")
     developers = db.relationship(
-        'Developer',  secondary='game_developer', back_populates="games")
+        'Developer',  secondary='join_game_developer', back_populates="games")
 
 
 class Article(db.Model):
@@ -99,9 +93,9 @@ class Article(db.Model):
     article_link = db.Column(db.Text)
 
     games = db.relationship(
-        'Game', secondary='game_article', back_populates="articles")
+        'Game', secondary='join_game_article', back_populates="articles")
     developers = db.relationship(
-        'Developer', secondary='article_developer', back_populates="articles")
+        'Developer', secondary='join_article_developer', back_populates="articles")
 
 
 class Developer(db.Model):
@@ -138,10 +132,10 @@ class Developer(db.Model):
     twitter = db.Column(db.Text)
 
     articles = db.relationship(
-        'Article', secondary='article_developer', back_populates="developers")
+        'Article', secondary='join_article_developer', back_populates="developers")
 
     games = db.relationship(
-        'Game', secondary='game_developer', back_populates="developers")
+        'Game', secondary='join_game_developer', back_populates="developers")
 
 
 class Tweet(db.Model):
@@ -158,7 +152,7 @@ class Tweet(db.Model):
     tweet_link = db.Column(db.Text)
 
     games = db.relationship(
-        'Game', secondary='game_tweet', back_populates="tweets")
+        'Game', secondary='join_game_tweet', back_populates="tweets")
 
     developer_id = db.Column(
         db.Integer, db.ForeignKey('developer.developer_id'))
@@ -178,7 +172,7 @@ class Video(db.Model):
     video_link = db.Column(db.Text)
 
     games = db.relationship(
-        'Game', secondary='game_video', back_populates="videos")
+        'Game', secondary='join_game_video', back_populates="videos")
 
 
 class Stream(db.Model):
@@ -192,42 +186,75 @@ class Stream(db.Model):
     stream_link = db.Column(db.Text)
 
     games = db.relationship(
-        'Game', secondary='game_stream', back_populates="streams")
+        'Game', secondary='join_game_stream', back_populates="streams")
 
 
-# Join tables
-game_article = db.Table('game_article',
-                        db.Column('game_id', db.Integer,
-                                  db.ForeignKey('game.game_id')),
-                        db.Column('article_id', db.Integer,
-                                  db.ForeignKey('article.article_id')))
+class Genre(db.Model):
+    genre_id = db.Column(db.Integer, primary_key=True)
 
-game_tweet = db.Table('game_tweet',
-                      db.Column('game_id', db.Integer,
-                                db.ForeignKey('game.game_id')),
-                      db.Column('tweet_id', db.Integer,
-                                db.ForeignKey('tweet.tweet_id')))
+    name = db.Column(db.Text)
 
-game_video = db.Table('game_video',
-                      db.Column('game_id', db.Integer,
-                                db.ForeignKey('game.game_id')),
-                      db.Column('video_id', db.Integer,
-                                db.ForeignKey('video.video_id')))
 
-game_stream = db.Table('game_stream',
-                       db.Column('game_id', db.Integer,
-                                 db.ForeignKey('game.game_id')),
-                       db.Column('stream_id', db.Integer,
-                                 db.ForeignKey('stream.stream_id')))
+class Image(db.Model):
+    image_id = db.Column(db.Integer, primary_key=True)
+    game_id = db.Column(db.Integer, db.ForeignKey('game.game_id'))
 
-game_developer = db.Table('game_developer',
-                          db.Column('game_id', db.Integer,
-                                    db.ForeignKey('game.game_id')),
-                          db.Column('developer_id', db.Integer,
-                                    db.ForeignKey('developer.developer_id')))
+    url = db.Column(db.Text)
 
-article_developer = db.Table('article_developer',
+
+class Platform(db.Model):
+    platform_id = db.Column(db.Integer, primary_key=True)
+
+    name = db.Column(db.Text)
+
+
+"""
+Join table definitions
+"""
+join_game_genre = db.Table('join_game_genre',
+                           db.Column('game_id', db.Integer,
+                                     db.ForeignKey('game.game_id')),
+                           db.Column('genre_id', db.Integer,
+                                     db.ForeignKey('genre.genre_id')))
+
+join_game_platform = db.Table('join_game_platform',
+                              db.Column('game_id', db.Integer,
+                                        db.ForeignKey('game.game_id')),
+                              db.Column('platform_id', db.Integer,
+                                        db.ForeignKey('platform.platform_id')))
+
+join_game_article = db.Table('join_game_article',
+                             db.Column('game_id', db.Integer,
+                                       db.ForeignKey('game.game_id')),
                              db.Column('article_id', db.Integer,
-                                       db.ForeignKey('article.article_id')),
-                             db.Column('developer_id', db.Integer,
-                                       db.ForeignKey('developer.developer_id')))
+                                       db.ForeignKey('article.article_id')))
+
+join_game_tweet = db.Table('join_game_tweet',
+                           db.Column('game_id', db.Integer,
+                                     db.ForeignKey('game.game_id')),
+                           db.Column('tweet_id', db.Integer,
+                                     db.ForeignKey('tweet.tweet_id')))
+
+join_game_video = db.Table('join_game_video',
+                           db.Column('game_id', db.Integer,
+                                     db.ForeignKey('game.game_id')),
+                           db.Column('video_id', db.Integer,
+                                     db.ForeignKey('video.video_id')))
+
+join_game_stream = db.Table('join_game_stream',
+                            db.Column('game_id', db.Integer,
+                                      db.ForeignKey('game.game_id')),
+                            db.Column('stream_id', db.Integer,
+                                      db.ForeignKey('stream.stream_id')))
+
+join_game_developer = db.Table('join_game_developer',
+                               db.Column('game_id', db.Integer,
+                                         db.ForeignKey('game.game_id')),
+                               db.Column('developer_id', db.Integer,
+                                         db.ForeignKey('developer.developer_id')))
+
+join_article_developer = db.Table('join_article_developer',
+                                  db.Column('article_id', db.Integer,
+                                            db.ForeignKey('article.article_id')),
+                                  db.Column('developer_id', db.Integer,
+                                            db.ForeignKey('developer.developer_id')))
