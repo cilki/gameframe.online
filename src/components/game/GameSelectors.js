@@ -5,6 +5,7 @@
 
 import { createSelector } from 'reselect';
 
+import { getGames } from '../games/GamesSelectors.js';
 import { getDeveloper } from '../developer/DeveloperSelectors';
 
 /**
@@ -22,4 +23,56 @@ function makeGetDeveloperName() {
   );
 }
 
-export { makeGetDeveloperName }; //eslint-disable-line
+/**
+ * @description - Input selector for returning a single game
+ * given the id prop
+ * @param {Object} state
+ * @param {Object} props
+ * @param {Number} props.id
+ * @returns {Object}
+ */
+function getGame(state, { id }) {
+  const games = getGames(state);
+  for (let game of games) {
+    if (game.game_id === id) {
+      return game;
+    }
+  }
+
+  return null;
+}
+
+/**
+ * @description - Memoized selector for a game
+ * @returns {Function}
+ */
+function makeGetGame() {
+  return createSelector(
+    [getGame],
+    game => game,
+  );
+}
+
+/**
+ * @description - Memoized selector for returning the genre's 
+ * of a game
+ * @return {Function}
+ */
+function makeGetGameGenres(_gameSelector = null) {
+  const gameSelector = _gameSelector === null ? makeGetGame() : _gameSelector;
+  return createSelector(
+    [gameSelector],
+    (game) => {
+
+      return game !== null && game.genres !== undefined ? game.genres.split(',') : [];
+    }
+  );
+}
+
+export {
+  makeGetDeveloperName,
+  
+  getGame,
+  makeGetGame,
+  makeGetGameGenres,
+};

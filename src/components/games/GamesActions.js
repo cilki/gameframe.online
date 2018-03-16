@@ -10,6 +10,7 @@ import { combineReducers } from 'redux';
 import {
 
 } from './GamesSelectors';
+import { fetchGameRequest, fetchGameResponse } from '../game/GameActions';
 
 const fetchGamesRequest = createAction('FETCH_GAMES_REQUEST');
 const fetchGamesResponse = createAction('FETCH_GAMES_RESPONSE');
@@ -22,7 +23,9 @@ const fetchGamesResponse = createAction('FETCH_GAMES_RESPONSE');
  * @returns {Boolean}
  */
 function shouldFetchGames(state, pageNumber) { //eslint-disable-line
-  // TODO: Implement this function so it's "smart"
+  /* TODO: Implement this function so it's "smart"
+   * This will require looking to see if we have all of the games from a certain
+   * page. This will require a fixed page size? */
   return true;
 }
 
@@ -86,6 +89,36 @@ const games = handleActions({
     throw(state) {
       return state;
     },
+  },
+
+  [fetchGameRequest](state, { payload }) {
+    const id = payload;
+    const index = state.findIndex(game => game.get('game_id') === id);
+    if (index < 0) {
+      return state;
+    }
+
+    return state.mergeIn([index, 'request'], true);
+  },
+
+  // this is for a single game
+  [fetchGameResponse](state, { payload }) {
+    const { id, data, error } = payload;
+
+    const index = state.findIndex(game => game.get('game_id') === id);
+    if (index < 0) {
+      return state.push(Map(data).merge({ request: false }));
+    }
+
+    if (error) {
+      return state.mergeIn([index], {
+        request: false,
+        error: data.message,
+      });
+    }
+
+    console.log('data', data);
+    return state.mergeIn([index], Map(data).merge({ request: false }));
   },
 }, List());
 

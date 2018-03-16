@@ -60,9 +60,9 @@ class Games extends React.Component {
             this.props.games.map((game) => {
               return (
                 <Card
-				  tooltipType={1}
+                  tooltipType={1}
                   key={game.game_id}
-				  title={game.name}
+                  title={game.name}
                   url={`/games/${game.game_id}`}
                   cover={game.cover}
                   origin={game.developer}

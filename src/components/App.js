@@ -19,6 +19,7 @@ import Splash from './Splash';
 import Footer from './Footer';
 
 import Games, { reducer as GamesReducer } from './games';
+import Game from './game';
 
 import Developers, { reducer as DevelopersReducer } from './developers';
 
@@ -67,9 +68,11 @@ function App() {
           >
             <Route path="/" exact component={Splash} />
             <Route path="/about" component={AboutPage} />
+            <Route path="/games/:gameId" component={Game} />
             <Route path="/games" exact component={Games} />
             <Route path="/developers" exact component={Developers} />
             <Route path="/articles" exact component={Articles} />
+            
           </div>
 
           <Footer />
