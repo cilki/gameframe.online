@@ -11,9 +11,7 @@ const fetchStatsResponse = createAction(
   'FETCH_STATS_RESPONSE',
   (login, data) => {
     let payload = { login, data };
-    /* this assume's that our data will never include a `stack` member variable
-     * which is a pretty safe assumption considering we've defined these files
-     * ourselves */
+    
     if (data instanceof Error) {
       payload = Object.assign(payload, { error: true });
     }

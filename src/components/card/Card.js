@@ -16,18 +16,17 @@ class Card extends React.Component {
   static propTypes = {
     title: PropTypes.string.isRequired,
     url: PropTypes.string.isRequired,
-	cover: PropTypes.string,
-	origin: PropTypes.string,
+    cover: PropTypes.string,
+    origin: PropTypes.string,
+    tooltipType: PropTypes.number,
     year: PropTypes.number,
-	
-	tooltipType: PropTypes.number,
   };
 
   static defaultProps = {
     cover: null,
     origin: null,
     year: new Date().getFullYear(),
-	tooltipType: 0,
+    tooltipType: 0,
   };
 
   /**
@@ -65,7 +64,7 @@ class Card extends React.Component {
       `https://${this.props.cover}` : this.props.cover;
     const developer = this.props.develper !== null ? this.props.developer :
       `Unknown Developer`; 
-	const tooltipType = this.props.tooltipType;
+    const tooltipType = this.props.tooltipType;
 	
 	/**
 	 * @description - Render the tooltip associated with the type.
