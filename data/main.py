@@ -50,9 +50,6 @@ print("C. MERGE articles                 Upload article cache into database and 
 print("")
 print("YOUTUBE")
 
-print("")
-print("TWITCH")
-
 with app.app_context():
 
     # Initialize Flask

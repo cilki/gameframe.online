@@ -55,8 +55,6 @@ class Game(db.Model):
         'Tweet', secondary='join_game_tweet', back_populates="games")
     videos = db.relationship(
         'Video', secondary='join_game_video', back_populates="games")
-    streams = db.relationship(
-        'Stream', secondary='join_game_stream', back_populates="games")
     articles = db.relationship(
         'Article',  secondary='join_game_article', back_populates="games")
     developers = db.relationship(
@@ -175,20 +173,6 @@ class Video(db.Model):
         'Game', secondary='join_game_video', back_populates="videos")
 
 
-class Stream(db.Model):
-    """
-    One of the supporting models, Stream represents a Twitch stream related to a
-    Game or Developer.
-    """
-
-    stream_id = db.Column(db.Integer, primary_key=True)
-    channel = db.Column(db.Text)
-    stream_link = db.Column(db.Text)
-
-    games = db.relationship(
-        'Game', secondary='join_game_stream', back_populates="streams")
-
-
 class Genre(db.Model):
     genre_id = db.Column(db.Integer, primary_key=True)
 
@@ -240,12 +224,6 @@ join_game_video = db.Table('join_game_video',
                                      db.ForeignKey('game.game_id')),
                            db.Column('video_id', db.Integer,
                                      db.ForeignKey('video.video_id')))
-
-join_game_stream = db.Table('join_game_stream',
-                            db.Column('game_id', db.Integer,
-                                      db.ForeignKey('game.game_id')),
-                            db.Column('stream_id', db.Integer,
-                                      db.ForeignKey('stream.stream_id')))
 
 join_game_developer = db.Table('join_game_developer',
                                db.Column('game_id', db.Integer,
