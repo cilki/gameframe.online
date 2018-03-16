@@ -24,7 +24,7 @@ function mapStateToProps(state) {
   return {
     articlesRequested: getArticlesRequested(state),
     articlesError: getArticlesError(state),
-    articles: getArticles(state),
+    articles: Object.values(getArticles(state)),
   };
 }
 

@@ -15,16 +15,8 @@ import { getAllDevelopers } from '../developers/DevelopersSelectors';
  * @returns {Map}
  */
 function getDeveloper(state, { id }) {
-  if (id < 0) {
-    return null;
-  }
-
   const allDevelopers = getAllDevelopers(state);
-  const developer = allDevelopers.find((_developer) => {
-    return _developer.get('id') === id;
-  });
-
-  return developer || null;
+  return allDevelopers[id];
 }
 
 /**

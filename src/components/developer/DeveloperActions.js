@@ -19,7 +19,7 @@ import { getDeveloper } from './DeveloperSelectors';
  * @returns {Boolean}
  */
 function shouldFetchDeveloper(state, id) {
-  return getDeveloper(state, { id }) === null;
+  return !getDeveloper(state, { id });
 }
 
 /**
@@ -40,6 +40,4 @@ function fetchDeveloper(id) {
   };
 }
 
-export {
-  fetchDeveloper,
-};
+export { fetchDeveloper }; //eslint-disable-line

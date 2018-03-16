@@ -3,7 +3,7 @@
  * Defines the actions for the Articles page
  */
 
-import { createAction, handleActions } from 'redux-actions';
+import { handleActions } from 'redux-actions';
 import { List, Map } from 'immutable';
 import { combineReducers } from 'redux';
 import { normalize } from 'normalizr';
@@ -31,7 +31,7 @@ function shouldFetchArticles(state, pageNumber) { //eslint-disable-line
 }
 
 const articlesResponse = {
-  objects: [ articlesSchema ],
+  objects: [articlesSchema],
 };
 
 /**
@@ -98,10 +98,12 @@ const articles = handleActions({
     next(state, { payload }) {
       const data = {};
       payload.forEach((article) => {
-        data[article.article_id] = Object.assign({}, article,
+        data[article.article_id] = Object.assign(
+          {},
+          article,
           {
             requested: false,
-            error: null,            
+            error: null,
           },
           article.games && {
             games: List(article.games),
@@ -122,7 +124,9 @@ const articles = handleActions({
   // request for a single article
   [fetchArticleRequest](state, { payload }) {
     const id = payload;
-    return state.mergeIn([id, 'requested'], true);
+    return state.mergeIn([id], {
+      requested: true,
+    });
   },
 
   // response for a single article
@@ -138,7 +142,8 @@ const articles = handleActions({
 
     /* data.games and data.developers
      * MUST be lists of ID's using normalizr */
-    return state.mergeIn([id], Obect.assign({},
+    return state.mergeIn([id], Object.assign(
+      {},
       data,
       {
         error: null,
@@ -151,7 +156,7 @@ const articles = handleActions({
         developers: List(data.developers),
       },
     ));
-  }
+  },
 }, Map());
 
 /* The reduces for all of the article's related

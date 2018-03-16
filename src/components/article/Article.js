@@ -5,7 +5,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Radium from 'radium';
-import { Jumbotron, Label } from 'react-bootstrap';
+import { Label } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import ArticleStyles from './ArticleStyles';
 import InstanceDetails from '../InstanceDetails';
@@ -41,17 +41,16 @@ link.propTypes = {
 class Article extends React.Component {
   static propTypes = {
     // article_id: PropTypes.number.isRequired,
-    article_link: PropTypes.string,
     author: PropTypes.string,
-    developers: PropTypes.arrayOf(PropTypes.shape({
+    // developers: PropTypes.arrayOf(PropTypes.shape({
 
-    })),
-    games: PropTypes.arrayOf(PropTypes.shape({
+    // })),
+    // games: PropTypes.arrayOf(PropTypes.shape({
 
-    })),
-    // cover: PropTypes.string,
+    // })),
+    cover: PropTypes.string,
     introduction: PropTypes.string,
-    outlet: PropTypes.string,
+    // outlet: PropTypes.string,
     timestamp: PropTypes.string,
     title: PropTypes.string,
 
@@ -59,12 +58,12 @@ class Article extends React.Component {
   };
 
   static defaultProps = {
-    article_link: '',
     author: '',
-    developers: [],
-    games: [],
+    cover: null,
+    // developers: [],
+    // games: [],
     introduction: '',
-    outlet: '',
+    // outlet: '',
     timestamp: '',
     title: '',
   };
@@ -84,17 +83,18 @@ class Article extends React.Component {
   render() {
     return (
       <div>
-        <div style={[
-		    CommonAssets.stripeOverlay,
-		    CommonAssets.fillBackground,
-		  ]}
+        <div
+          style={[
+            CommonAssets.stripeOverlay,
+            CommonAssets.fillBackground,
+          ]}
         />
         <InstanceDetails
           style={{
-	        container: ArticleStyles.container(this.props.cover),
-		    border: ArticleStyles.border,
-		    jumboTron: ArticleStyles.jumboTron,
-		  }}
+            container: ArticleStyles.container(this.props.cover),
+            border: ArticleStyles.border,
+            jumboTron: ArticleStyles.jumboTron,
+          }}
         >
           <div>
             <h1 style={[ArticleStyles.title]}>{this.props.title}</h1>

@@ -47,7 +47,7 @@ class Developers extends React.Component {
   render() {
     return (
       <div>
-        <div 
+        <div
           style={[
             CommonAssets.stripeOverlay,
             CommonAssets.fillBackground,
@@ -57,15 +57,15 @@ class Developers extends React.Component {
           {
             this.props.developers.map((developer) => {
               return (
-      			    <Card
-        				  tooltipType={2}
-        				  key={developer.developer_id}
-        				  title={developer.name}
-        				  url={`/developers/${developer.developer_id}`}
-        				  cover={developer.logo}
-        				  origin={developer.country ? Number(developer.country) : null}
-        				  year={developer.foundation}
-      				  />
+                <Card
+                  tooltipType={2}
+                  key={developer.developer_id}
+                  title={developer.name}
+                  url={`/developers/${developer.developer_id}`}
+                  cover={developer.logo}
+                  origin={developer.country ? Number(developer.country) : null}
+                  year={developer.foundation}
+                />
               );
             })
           }

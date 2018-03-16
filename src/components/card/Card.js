@@ -17,7 +17,7 @@ class Card extends React.Component {
     title: PropTypes.string.isRequired,
     url: PropTypes.string.isRequired,
     cover: PropTypes.string,
-    origin: PropTypes.number,
+    origin: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
     tooltipType: PropTypes.number,
     year: PropTypes.number,
   };

@@ -3,7 +3,7 @@
  * Defines the actions for the Developers page
  */
 
-import { createAction, handleActions } from 'redux-actions';
+import { handleActions } from 'redux-actions';
 import { List, Map } from 'immutable';
 import { combineReducers } from 'redux';
 import { normalize } from 'normalizr';
@@ -31,7 +31,7 @@ function shouldFetchDevelopers(state, pageNumber) { //eslint-disable-line
 }
 
 const developersResponse = {
-  objects: [ developersSchema ],
+  objects: [developersSchema],
 };
 
 /**
@@ -44,12 +44,12 @@ const developersResponse = {
 function fetchDevelopers(pageNumber = 1) {
   return (dispatch, getState) => {
     if (shouldFetchDevelopers(getState(), pageNumber)) {
-  	  dispatch(fetchDevelopersRequest());
+      dispatch(fetchDevelopersRequest());
   	  fetch( //eslint-disable-line
-  	    `http://api.gameframe.online/v1/developer?page=${pageNumber}`,
-          { method: 'GET' },
-  	  )
-  	    .then(response => response.json())
+        `http://api.gameframe.online/v1/developer?page=${pageNumber}`,
+        { method: 'GET' },
+      )
+        .then(response => response.json())
         .then(json => normalize(json, developersResponse))
         .then((data) => {
           if (data.entities.games) {
@@ -60,7 +60,7 @@ function fetchDevelopers(pageNumber = 1) {
           }
           dispatch(fetchDevelopersResponse(Object.values(data.entities.developers)));
         })
-    		.catch(err => dispatch(fetchDevelopersResponse(err)));
+        .catch(err => dispatch(fetchDevelopersResponse(err)));
     }
   };
 }
@@ -90,7 +90,7 @@ const developersError = handleActions({
       return null;
     },
     throw(state, { payload: { message } }) {
-	  return message;
+      return message;
     },
   },
 }, null);
@@ -104,7 +104,8 @@ const developers = handleActions({
     next(state, { payload }) {
       const data = {};
       payload.forEach((developer) => {
-        data[developer.developer_id] = Map(Object.assign({},
+        data[developer.developer_id] = Map(Object.assign(
+          {},
           developer,
           {
             error: null,
@@ -122,7 +123,7 @@ const developers = handleActions({
       return state.mergeDeep(data);
     },
     throw(state, { payload }) {
-      console.error(payload);
+      console.error(payload); //eslint-disable-line
       return state;
     },
   },
@@ -138,8 +139,8 @@ const developers = handleActions({
     const { id, data, error } = payload;
 
     if (error) {
-      console.error(data);
-      return state.mergeIn([index], {
+      console.error(data); //eslint-disable-line
+      return state.mergeIn([id], {
         requested: false,
         error: data.message,
       });
@@ -147,7 +148,8 @@ const developers = handleActions({
 
     /* data.games and data.articles
      * MUST be a list of ID's using normalizr */
-    return state.mergeIn([id], Object.assign({},
+    return state.mergeIn([id], Object.assign(
+      {},
       data,
       {
         requested: false,

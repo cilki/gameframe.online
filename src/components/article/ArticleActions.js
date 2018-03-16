@@ -3,21 +3,11 @@
  * Simple actions for a Article's instance page
  */
 
-import { createAction } from 'redux-actions';
-
 import { getArticle } from './ArticleSelectors';
-
-const fetchArticleRequest = createAction('FETCH_ARTICLE_REQUEST');
-const fetchArticleResponse = createAction(
-  'FETCH_ARTICLE_RESPONSE',
-  (articleId, data) => {
-    let payload = { articleId, data };
-    if (data instanceof Error) {
-      payload = Object.assign(payload, { error: true });
-    }
-    return payload;
-  },
-);
+import {
+  fetchArticleRequest,
+  fetchArticleResponse,
+} from '../Actions';
 
 /**
  * @description - Predicate function to determine if the given
@@ -43,15 +33,11 @@ function fetchArticle(articleId) {
       dispatch(fetchArticleRequest(articleId));
       fetch(`http://api.gameframe.online/v1/article/${articleId}`, { method: 'GET' }) //eslint-disable-line
         .then(response => response.json())
+        // TODO: this data should be normalized
         .then(json => dispatch(fetchArticleResponse(articleId, json)))
         .catch(err => dispatch(fetchArticleResponse(articleId, err)));
     }
   };
 }
 
-export {
-  fetchArticleRequest,
-  fetchArticleResponse,
-
-  fetchArticle,
-};
+export { fetchArticle }; //eslint-disable-line

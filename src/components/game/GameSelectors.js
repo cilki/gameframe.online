@@ -70,7 +70,7 @@ function makeGetGameDevelopers(_gameSelector = null) {
         });
       }
       return gameDevelopers;
-    }
+    },
   );
 }
 
@@ -94,7 +94,7 @@ function makeGetGameArticles(_gameSelector = null) {
         });
       }
       return gameArticles;
-    }
+    },
   );
 }
 

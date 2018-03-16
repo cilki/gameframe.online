@@ -15,20 +15,15 @@ import Card from '../card';
 class Articles extends React.Component {
   static propTypes = {
     articles: PropTypes.arrayOf(PropTypes.shape({
-	  article_id: PropTypes.number.isRequired,
-	  article_link: PropTypes.string,
-	  author: PropTypes.string,
-      developers: PropTypes.arrayOf(PropTypes.shape({
-
-      })),
-	  games: PropTypes.arrayOf(PropTypes.shape({
-	    // game_id: PropType.number.isRequired,
-	    // name: PropType.string.isRequired,
-	  })),
-	  // image: PropTypes.string,
-	  outlet: PropTypes.string,
-	  // timestamp: PropTypes.string,
-	  title: PropTypes.string.isRequired,
+      article_id: PropTypes.number.isRequired,
+      article_link: PropTypes.string,
+      author: PropTypes.string,
+      developers: PropTypes.arrayOf(PropTypes.number),
+      games: PropTypes.arrayOf(PropTypes.number),
+      // image: PropTypes.string,
+      outlet: PropTypes.string,
+      // timestamp: PropTypes.string,
+      title: PropTypes.string.isRequired,
     })),
     articlesError: PropTypes.string, //eslint-disable-line
     articlesRequested: PropTypes.bool, //eslint-disable-line
@@ -72,9 +67,9 @@ class Articles extends React.Component {
                   key={article.article_id}
                   title={article.title}
                   url={`/articles/${article.article_id}`}
-				  /* cover={article.cover} */
+                  /* cover={article.cover} */
                   origin={article.author}
-				  /* year={new Date(game.release).getFullYear()} */
+                  /* year={new Date(game.release).getFullYear()} */
                 />
               );
             })

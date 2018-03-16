@@ -3,10 +3,10 @@
  * Defines the actions for the Games page
  */
 
-import { createAction, handleActions } from 'redux-actions';
+import { handleActions } from 'redux-actions';
 import { List, Map } from 'immutable';
 import { combineReducers } from 'redux';
-import { normalize, schema } from 'normalizr';
+import { normalize } from 'normalizr';
 
 import { games as gamesSchema } from '../Schemas';
 import {
@@ -32,7 +32,7 @@ function shouldFetchGames(state, pageNumber) { //eslint-disable-line
 }
 
 const gamesResponse = {
-  objects: [ gamesSchema ],
+  objects: [gamesSchema],
 };
 
 /**
@@ -95,7 +95,8 @@ const games = handleActions({
     next(state, { payload }) {
       const data = {};
       payload.forEach((game) => {
-        data[game.game_id] = Map(Object.assign({},
+        data[game.game_id] = Map(Object.assign(
+          {},
           game,
           {
             requested: false,
@@ -114,6 +115,7 @@ const games = handleActions({
     },
 
     throw(state, { payload }) {
+      console.error(payload); //eslint-disable-line
       return state;
     },
   },
@@ -122,7 +124,7 @@ const games = handleActions({
     const id = payload;
 
     return state.mergeIn([id], {
-      requested: true
+      requested: true,
     });
   },
 
@@ -136,19 +138,20 @@ const games = handleActions({
       });
     }
 
-    return state.mergeIn([id],
-      Object.assign({}, data, {
-          requested: false,
-          error: null,
-        },
-        data.developers && {
-          developers: List(data.developers),
-        },
-        data.articles && {
-          articles: List(data.articles),
-        },
-      ),
-    );
+    return state.mergeIn([id], Object.assign(
+      {},
+      data,
+      {
+        requested: false,
+        error: null,
+      },
+      data.developers && {
+        developers: List(data.developers),
+      },
+      data.articles && {
+        articles: List(data.articles),
+      },
+    ));
   },
 }, Map());
 

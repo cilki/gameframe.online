@@ -17,9 +17,7 @@ import { getArticles } from '../articles/ArticlesSelectors';
  */
 function getArticle(state, { id }) {
   const articles = getArticles(state);
-  const article = articles.find(_article => _article.article_id === id);
-
-  return article;
+  return articles[id];
 }
 
 /**

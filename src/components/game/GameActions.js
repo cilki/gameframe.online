@@ -3,8 +3,7 @@
  * Simple actions for a Game's instance page
  */
 
-import { createAction } from 'redux-actions';
-import { normalize, schema } from 'normalizr';
+import { normalize } from 'normalizr';
 
 import {
   fetchGameRequest,
@@ -50,6 +49,4 @@ function fetchGame(gameId) {
   };
 }
 
-export {
-  fetchGame,
-};
+export { fetchGame }; //eslint-disable-line
