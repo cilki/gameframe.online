@@ -163,17 +163,23 @@ class Card extends React.Component {
                 ]}
                 key={`${title}-tooltip`}
               >
-
                 <img
                   style={{
- maxWidth: '100%', maxHeight: '100%', position: 'fixed', top: '0', left: '0', zIndex: '-2', filter: 'blur(20px) saturate(2.0)', transform: 'scale(5.20)',
-}}
+                    maxWidth: '100%',
+                    maxHeight: '100%',
+                    position: 'fixed',
+                    top: '0',
+                    left: '0',
+                    zIndex: '-2',
+                    filter: 'blur(20px) saturate(1.15)',
+                    transform: 'scale(5.20)'
+                  }}
                   src={imageCover || '../../static/images/noImage.png'}
                   ref={(img) => { this.img = img; }}
                   alt=""
                   onError={
-                      () => { this.img.src = '../../static/images/noImage.png'; }
-                    }
+                    () => { this.img.src = '../../static/images/noImage.png'; }
+                  }
                 />
                 <div>
                   <h3>{this.props.title}</h3>
