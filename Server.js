@@ -5,6 +5,7 @@
  */
 
 const express = require('express');
+const url = require('url');
 const http = require('http');
 
 const app = express();
@@ -17,7 +18,7 @@ app.get(/\/static\/?/, express.static(`${__dirname}`));
  * @param {ServerResponse} res
  * @param {Function} next
  */
-app.get(/\/\w*/, (req, res, next) => {
+app.get(/\/[\w\d]*/, (req, res, next) => {
   res.sendFile(`${__dirname}/index.html`, () => res.end());
 });
 
