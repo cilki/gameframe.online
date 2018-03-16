@@ -165,7 +165,7 @@ def merge_articles(db):
                 introduction=article_json['description'], author=article_json['author'],
                 timestamp=datetime.strptime(
                     article_json['publishedAt'], "%Y-%m-%dT%H:%M:%SZ"),
-                image=article_json['urlToImage'], article_link=article_json['url'])
+                cover=article_json['urlToImage'], article_link=article_json['url'])
 
             # Setting up a relationship between article and game
             game.articles.append(article)

@@ -86,8 +86,8 @@ class Article(db.Model):
     # The first few sentences of the article
     introduction = db.Column(db.Text)
 
-    # The article's thumbnail
-    image = db.Column(db.Text)
+    # The article's cover image
+    cover = db.Column(db.Text)
 
     # The link to the original article
     article_link = db.Column(db.Text)
