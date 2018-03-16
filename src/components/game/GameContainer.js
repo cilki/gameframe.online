@@ -29,7 +29,7 @@ function mapStateToProps() {
 
     const props = { id };
     const presenterProps = gameSelector(state, props);
-    if (presenterProps === null) {
+    if (!presenterProps) {
       return {};
     }
 

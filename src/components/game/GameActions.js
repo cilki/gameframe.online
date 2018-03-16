@@ -27,7 +27,8 @@ const fetchGameResponse = createAction(
  * @returns {Boolean}
  */
 function shouldFetchGame(state, gameId) {
-  return getGame(state, { id: gameId }) === null;
+  const result = getGame(state, { id: gameId });
+  return !result;
 }
 
 /**

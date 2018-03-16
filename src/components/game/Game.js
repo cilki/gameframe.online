@@ -21,16 +21,17 @@ import CommonAssets from '../../inline-styles/CommonAssets';
  * @param {String} props.alt
  * @returns {React.Component}
  */
-function screenshot({ src, alt }) {
+function screenshot({ url, alt }) {
+  const src = url.indexOf('http') >= 0 ? url : `https://${url}`;
   return (
     <div
-      key={`${src}-div-image`}
+      key={`${url}-div-image`}
       style={[GameStyles.imageContainer]}
     >
       <div>
         <a href={src}>
           <img
-            key={`${src}-image`}
+            key={`${url}-image`}
             src={src}
             alt={alt}
             style={[GameStyles.image]}
@@ -42,7 +43,7 @@ function screenshot({ src, alt }) {
 }
 
 screenshot.propTypes = {
-  src: PropTypes.string.isRequired,
+  url: PropTypes.string.isRequired,
   alt: PropTypes.string,
 };
 
@@ -87,7 +88,7 @@ class Game extends React.Component {
     cover: PropTypes.string,
     // this is derived state using selectors
     developers: PropTypes.arrayOf(PropTypes.shape({
-      id: PropTypes.number.isRequired,
+      developer_id: PropTypes.number.isRequired,
       name: PropTypes.string.isRequired,
     })),
     // we don't currently use this right now, but we may in the future
@@ -98,7 +99,7 @@ class Game extends React.Component {
     // we don't currently use this right now, but we may in the future
     requested: PropTypes.bool, //eslint-disable-line
     screenshots: PropTypes.arrayOf(PropTypes.shape({
-      src: PropTypes.string.isRequired,
+      url: PropTypes.string.isRequired,
       alt: PropTypes.string,
     })),
     summary: PropTypes.string,
@@ -179,8 +180,8 @@ class Game extends React.Component {
                 {
                   this.props.developers.map(developer => link({
                     label: developer.name,
-                    url: `/developers/${developer.id}`,
-                    key: `developer-${developer.id}`,
+                    url: `/developers/${developer.developer_id}`,
+                    key: `developer-${developer.developer_id}`,
                   }))
                 }
               </p>
@@ -193,8 +194,8 @@ class Game extends React.Component {
                   {
                     this.props.articles.map(article => link({
                       label: article.title,
-                      url: `/articles/${article.id}`,
-                      key: `article-${article.id}`,
+                      url: `/articles/${article.article_id}`,
+                      key: `article-${article.article_id}`,
                     }))
                   }
                 </p>

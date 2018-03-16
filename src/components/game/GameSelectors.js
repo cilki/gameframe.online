@@ -59,7 +59,7 @@ function makeGetGameGenres(_gameSelector = null) {
   return createSelector(
     [gameSelector],
     (game) => {
-      return game !== null && game.genres !== undefined ? game.genres.split(',') : [];
+      return game && game.genres !== undefined ? game.genres.map(genre => genre.name) : [];
     },
   );
 }
