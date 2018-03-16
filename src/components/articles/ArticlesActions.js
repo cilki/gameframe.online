@@ -22,8 +22,8 @@ const fetchArticlesResponse = createAction('FETCH_ARTICLES_RESPONSE');
  * @returns {Boolean}
  */
 function shouldFetchArticles(state, pageNumber) { //eslint-disable-line
-    // TODO: Implement this function so it's "smart"
-    return true;
+  // TODO: Implement this function so it's "smart"
+  return true;
 }
 
 /**
@@ -34,74 +34,74 @@ function shouldFetchArticles(state, pageNumber) { //eslint-disable-line
  * @returns {Function}
  */
 function fetchArticles(pageNumber = 1) {
-    return (dispatch, getState) => {
-        if (shouldFetchArticles(getState(), pageNumber)) {
-            dispatch(fetchArticlesRequest());
+  return (dispatch, getState) => {
+    if (shouldFetchArticles(getState(), pageNumber)) {
+      dispatch(fetchArticlesRequest());
             fetch( //eslint-disable-line
-                'http://api.gameframe.online/v1/article?page=${pageNumber}',
-                { method: 'GET' },
-            )
-            .then(response => response.json())
-            .then(json => dispatch(fetchArticlesResponse(json)))
-            .catch(err => dispatch(fetchArticlesResponse(err)));
-        }
-    };
+        `http://api.gameframe.online/v1/article?page=${pageNumber}`,
+        { method: 'GET' },
+      )
+        .then(response => response.json())
+        .then(json => dispatch(fetchArticlesResponse(json)))
+        .catch(err => dispatch(fetchArticlesResponse(err)));
+    }
+  };
 }
 
 /* articlesRequested state field. Is true
  * while we're fetching for articles, and false
  * otherwise. Should be used to implement a spinner */
 const articlesRequested = handleActions({
-    [fetchArticlesRequest]() {
-        return true;
-    },
-    [fetchArticlesResponse]() {
-        return false;
-    },
+  [fetchArticlesRequest]() {
+    return true;
+  },
+  [fetchArticlesResponse]() {
+    return false;
+  },
 }, false);
 
 /* articlesError state field. Set to the error
  * message whenever we get an error while
  * fetching for articles */
 const articlesError = handleActions({
-    [fetchArticlesResponse]: {
-        next() {
-            return null;
-        },
-        throw(state, {payload: { message } }) {
-            return message;
-        },
+  [fetchArticlesResponse]: {
+    next() {
+      return null;
     },
+    throw(state, { payload: { message } }) {
+      return message;
+    },
+  },
 }, null);
 
-/* articles state field. A list of the actual 
+/* articles state field. A list of the actual
  * state for our articles */
 const articles = handleActions({
-    [fetchArticlesResponse]: {
-        next(state, { payload }) {
-            return List(payload.objects.map((article) => {
-                return Map(article);
-            }));
-        },
-        throw(state) {
-            return state;
-        },
+  [fetchArticlesResponse]: {
+    next(state, { payload }) {
+      return List(payload.objects.map((article) => {
+        return Map(article);
+      }));
     },
+    throw(state) {
+      return state;
+    },
+  },
 }, List());
 
 /* The reduces for all of the article's related
  * state fields */
 const articlesReducer = combineReducers({
-    articles, 
-    articlesError,
-    articlesRequested,
+  articles,
+  articlesError,
+  articlesRequested,
 });
 
 export {
-    fetchArticles, 
+  fetchArticles,
 
-    fetchArticlesRequest, 
-    fetchArticlesResponse,
+  fetchArticlesRequest,
+  fetchArticlesResponse,
 
-    articlesReducer,
+  articlesReducer,
 };

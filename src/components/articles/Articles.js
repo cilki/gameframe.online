@@ -8,14 +8,27 @@ import Radium from 'radium';
 
 import CommonAssets from '../../inline-styles/CommonAssets';
 import Styles from './ArticlesStyles';
-import TextCard from '../TextCard';
+import Card from '../card';
 
 // import TextCard from '../TextCard';
 
 class Articles extends React.Component {
   static propTypes = {
     articles: PropTypes.arrayOf(PropTypes.shape({
+	  article_id: PropTypes.number.isRequired,
+	  article_link: PropTypes.string,
+	  author: PropTypes.string,
+      developers: PropTypes.arrayOf(PropTypes.shape({
 
+      })),
+	  games: PropTypes.arrayOf(PropTypes.shape({
+	    // game_id: PropType.number.isRequired,
+	    // name: PropType.string.isRequired,
+	  })),
+	  // image: PropTypes.string,
+	  outlet: PropTypes.string,
+	  // timestamp: PropTypes.string,
+	  title: PropTypes.string.isRequired,
     })),
     articlesError: PropTypes.string, //eslint-disable-line
     articlesRequested: PropTypes.bool, //eslint-disable-line
@@ -54,12 +67,14 @@ class Articles extends React.Component {
           {
             this.props.articles.map((article) => {
               return (
-                <TextCard 
+                <Card
+                  tooltipType={3}
                   key={article.article_id}
-                  company={article.company}
                   title={article.title}
-                  url={'articles/${article.article_id}'}
-                  year={article.year}
+                  url={`/articles/${article.article_id}`}
+				  /* cover={article.cover} */
+                  origin={article.author}
+				  /* year={new Date(game.release).getFullYear()} */
                 />
               );
             })

@@ -39,16 +39,16 @@ function fetchDevelopers(pageNumber = 1) {
 	  dispatch(fetchDevelopersRequest());
 	  fetch( //eslint-disable-line
 	    `http://api.gameframe.online/v1/developer?page=${pageNumber}`,
-		{ method: 'GET' },
+        { method: 'GET' },
 	  )
 	    .then(response => response.json())
-		.then(json => dispatch(fetchDevelopersResponse(json)))
-		.catch(err => dispatch(fetchDevelopersResponse(err)));
-	}
+        .then(json => dispatch(fetchDevelopersResponse(json)))
+        .catch(err => dispatch(fetchDevelopersResponse(err)));
+    }
   };
 }
 
-/** 
+/**
  * developersRequested state field. Is true
  * while we're fetching for developers, and false
  * otherwise. Should be used to implement a spinner
@@ -71,10 +71,10 @@ const developersError = handleActions({
   [fetchDevelopersResponse]: {
     next() {
       return null;
-	},
-	throw(state, { payload: { message } }) {
+    },
+    throw(state, { payload: { message } }) {
 	  return message;
-	},
+    },
   },
 }, null);
 
@@ -88,10 +88,10 @@ const developers = handleActions({
 	  return List(payload.objects.map((developer) => {
 	    return Map(developer);
 	  }));
-	},
-	throw(state) {
+    },
+    throw(state) {
 	  return state;
-	},
+    },
   },
 }, List());
 
@@ -105,11 +105,11 @@ const developersReducer = combineReducers({
   developersRequested,
 });
 
-export { 
+export {
   fetchDevelopers,
-  
+
   fetchDevelopersRequest,
   fetchDevelopersResponse,
-  
-  developersReducer, 
+
+  developersReducer,
 };

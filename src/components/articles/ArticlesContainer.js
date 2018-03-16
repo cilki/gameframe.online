@@ -20,7 +20,7 @@ import { fetchArticles } from './ArticlesActions';
  * @param {Map} state - the current state in the Redux store
  * @returns {Object}
  */
-function mapStateToProps() {
+function mapStateToProps(state) {
   return {
     articlesRequested: getArticlesRequested(state),
     articlesError: getArticlesError(state),
@@ -35,7 +35,7 @@ function mapStateToProps() {
  * @param {Function} dispatch
  * @returns {Object}
  */
-function mapDispatchToProps() {
+function mapDispatchToProps(dispatch) {
   return {
     fetchArticles: () => dispatch(fetchArticles()),
   };

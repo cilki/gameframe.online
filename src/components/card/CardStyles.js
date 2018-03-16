@@ -5,7 +5,7 @@ const Card = {
     padding: '10px 10px 10px 10px',
     minWidth: '10%',
     maxWidth: '256px',
-    minHeight: '100%'
+    minHeight: '100%',
   },
 
   card: {

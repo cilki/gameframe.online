@@ -23,8 +23,8 @@ import { fetchDevelopers } from './DevelopersActions';
 function mapStateToProps(state) {
   return {
     developersRequested: getDevelopersRequested(state),
-	developersError: getDevelopersError(state),
-	developers: getDevelopers(state),
+    developersError: getDevelopersError(state),
+    developers: getDevelopers(state),
   };
 }
 

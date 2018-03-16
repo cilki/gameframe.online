@@ -18,8 +18,8 @@ const Navbar = {
         padding: '15px',
         margin: '-15px',
         filter: 'invert(90%)',
-        transition: 'color 0.25s ease-in, background-color 0.15s ease-in, invert 0.15s ease-in'
-      }
+        transition: 'color 0.25s ease-in, background-color 0.15s ease-in, invert 0.15s ease-in',
+      },
     },
   },
   navItem: {

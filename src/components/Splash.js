@@ -24,7 +24,7 @@ class SplashPage extends React.Component {
         <div
           style={[
             CommonAssets.stripeOverlay,
-            //CommonAssets.backgroundColor,
+            // CommonAssets.backgroundColor,
             CommonAssets.fillBackground,
           ]}
         />

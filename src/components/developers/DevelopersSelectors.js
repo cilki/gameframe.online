@@ -37,10 +37,10 @@ function getDevelopers(state) {
  * @param {Map} state
  * @returns {String|null}
  */
- function getDevelopersError(state) {
+function getDevelopersError(state) {
   return state.developers.developersError;
- }
- 
+}
+
 export {
   getAllDevelopers,
   getDevelopersRequested,
