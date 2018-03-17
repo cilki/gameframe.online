@@ -5,12 +5,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Radium from 'radium';
-
 import CommonAssets from '../../inline-styles/CommonAssets';
 import Styles from './ArticlesStyles';
 import Card from '../card';
-
-// import TextCard from '../TextCard';
 
 class Articles extends React.Component {
   static propTypes = {
@@ -20,9 +17,9 @@ class Articles extends React.Component {
       author: PropTypes.string,
       developers: PropTypes.arrayOf(PropTypes.number),
       games: PropTypes.arrayOf(PropTypes.number),
-      // image: PropTypes.string,
+      cover: PropTypes.string,
       outlet: PropTypes.string,
-      // timestamp: PropTypes.string,
+      timestamp: PropTypes.string,
       title: PropTypes.string.isRequired,
     })),
     articlesError: PropTypes.string, //eslint-disable-line
@@ -54,7 +51,6 @@ class Articles extends React.Component {
       <div>
         <div style={[
           CommonAssets.stripeOverlay,
-          // CommonAssets.backgroundColor,
           CommonAssets.fillBackground,
         ]}
         />
@@ -67,9 +63,9 @@ class Articles extends React.Component {
                   key={article.article_id}
                   title={article.title}
                   url={`/articles/${article.article_id}`}
-                  /* cover={article.cover} */
+                  cover={article.cover}
                   origin={article.author}
-                  /* year={new Date(game.release).getFullYear()} */
+                  year={new Date(article.timestamp).getFullYear()}
                 />
               );
             })
