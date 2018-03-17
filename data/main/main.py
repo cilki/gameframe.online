@@ -12,8 +12,8 @@ from flask import Flask
 
 from aws import upload_image
 from common import METRICS
-from orm import db
 from sources import igdb, newsapi, steam
+from orm import db
 from util import merge_covers, reset
 
 
