@@ -18,6 +18,10 @@ The API key
 """
 API_KEY = os.environ['KEY_IGN']
 
+def parse_keyword(s):
+	s = s.replace(" ", "+")
+	return s
+
 @rate_limited(period=40, every=60)
 def rq_videos_from_keyword(keyword):
     """
@@ -26,7 +30,7 @@ def rq_videos_from_keyword(keyword):
     print("[Google API ] Downloading video metadata for keyword: %s" % keyword)
 	
 	response = requests.get("https://www.googleapis.com/youtube/v3/search",
-			params={'q': keyword, 'order': 'relevance', 'part': 'snippet',
+			params={'q': parse_keyword(keyword), 'order': 'relevance', 'part': 'snippet',
 			'type': 'video', 'maxResults': 10, 'key': API_KEY})
 	
 	assert response.status_code == requests.codes.ok
