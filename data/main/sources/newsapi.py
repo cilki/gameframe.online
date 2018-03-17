@@ -50,18 +50,18 @@ assert os.path.isdir(CACHE_ARTICLE_DEVELOPER)
 """
 Only allow sources from this whitelist
 """
-WHITELIST = ['Nintendolife.com', 'Gonintendo.com', 'Mirror', 'Playstation.com',
+WHITELIST = ['Nintendolife.com', 'Gonintendo.com', 'Playstation.com', 'IGN',
              'Starwars.com', 'Mmorpg.com', 'Rockpapershotgun.com', 'Kotaku.com',
              'Kotaku.com.au', 'Gameinformer.com', 'Slickdeals.net', '1up.com',
-             'Techtimes.com', 'Pcworld.com', 'Escapistmagazine.com', 'IGN',
-             'Playstationlifestyle.net', 'Gamespot.com', 'Mynintendonews.com',
+             'Techtimes.com', 'Pcworld.com', 'Techdirt.com', 'Ongamers.com',
+             'Playstationlifestyle.net',  'Mynintendonews.com', 'Gamespot.com',
              'Multiplayer.it', 'Toucharcade.com', 'Shacknews.com', 'Kinja.com',
              'Wccftech.com',  'Gamesasylum.com', 'Pcgamer.com', 'Vrfocus.com',
              'Ars Technica', 'Blizzardwatch.com', 'Gamasutra.com', 'Gamespy.com',
-             'Gamesradar.com', 'Gametyrant.com', 'Gamingbolt.com', 'Techdirt.com',
+             'Gamesradar.com', 'Gametyrant.com', 'Gamingbolt.com',
              'Gamingonlinux.com', 'Tweaktown.com',  'Gameplanet.co.nz',
              'Gamezebo.com', 'Gamezombie.tv', 'Giantbomb.com', 'Gamespark.jp',
-             'Ongamers.com', 'Stratics.com']
+             'Stratics.com', 'Escapistmagazine.com']
 
 
 def rq_articles(keyword):
