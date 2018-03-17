@@ -59,13 +59,16 @@ class Articles extends React.Component {
             this.props.articles.map((article) => {
               return (
                 <Card
-                  tooltipType={3}
                   key={article.article_id}
                   title={article.title}
                   url={`/articles/${article.article_id}`}
                   cover={article.cover}
                   origin={article.author}
                   year={new Date(article.timestamp).getFullYear()}
+                  tooltipType={3}
+                  games={article.games}
+                  developers={article.developers}
+                  link1={article.outlet}
                 />
               );
             })

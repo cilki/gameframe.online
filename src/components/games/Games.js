@@ -5,10 +5,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Radium from 'radium';
-
 import CommonAssets from '../../inline-styles/CommonAssets';
 import Styles from './GamesStyles';
-
 import Card from '../card';
 
 class Games extends React.Component {
@@ -51,7 +49,6 @@ class Games extends React.Component {
       <div>
         <div style={[
           CommonAssets.stripeOverlay,
-          // CommonAssets.backgroundColor,
           CommonAssets.fillBackground,
         ]}
         />
@@ -60,14 +57,15 @@ class Games extends React.Component {
             this.props.games.map((game) => {
               return (
                 <Card
-                  tooltipType={1}
                   key={game.game_id}
                   title={game.name}
                   url={`/games/${game.game_id}`}
                   cover={game.cover}
                   origin={game.developer}
                   year={new Date(game.release).getFullYear()}
+                  tooltipType={1}
                   price={game.price}
+                  articles={game.articles}
                 />
               );
             })

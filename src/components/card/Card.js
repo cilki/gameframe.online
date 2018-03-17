@@ -23,6 +23,9 @@ class Card extends React.Component {
     price: PropTypes.number,
     link1: PropTypes.string,
     link2: PropTypes.string,
+    articles: PropTypes.arrayOf(PropTypes.number),
+    developers: PropTypes.arrayOf(PropTypes.number),
+    games: PropTypes.arrayOf(PropTypes.number),
   };
 
   static defaultProps = {
@@ -33,6 +36,9 @@ class Card extends React.Component {
     price: 0,
     link1: '',
     link2: '',
+    articles: [],
+    developers: [],
+    games: [],
   };
 
   /**
@@ -72,6 +78,8 @@ class Card extends React.Component {
     const price = this.props.price / 100;
     const link1 = this.props.link1;
     const link2 = this.props.link2;
+    const numberOfArticles = this.props.articles.length;
+    const numberOfGames = this.props.games.length;
 
     /**
      * @description - Render the game tooltip.
@@ -90,7 +98,7 @@ class Card extends React.Component {
           <div>Streams: #0</div>
           <div>Videos: #0</div>
           <div>Tweets: #0</div>
-          <div>Articles: #0</div>
+          <div>Articles: #{numberOfArticles}</div>
         </div>
       );
     }
@@ -102,8 +110,8 @@ class Card extends React.Component {
     function developerTooltip() {
       return (
         <div>
-          <div>Games: #0</div>
-          <div>Articles: #0</div>
+          <div>Games: #{numberOfGames}</div>
+          <div>Articles: #{numberOfArticles}</div>
           <div>Media</div>
           <div>Twitter: {link1}</div>
           <div>Website: {link2}</div>
