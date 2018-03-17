@@ -177,9 +177,5 @@ const developersReducer = combineReducers({
 
 export {
   fetchDevelopers,
-
-  fetchDevelopersRequest,
-  fetchDevelopersResponse,
-
   developersReducer,
 };

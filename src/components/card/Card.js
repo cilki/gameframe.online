@@ -8,7 +8,9 @@ import Radium from 'radium';
 import { Badge, Label } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import CardStyles from './CardStyles';
+import GameTooltip from '../tooltips/GameTooltip';
 import DeveloperTooltip from '../tooltips/DeveloperTooltip';
+import ArticleTooltip from '../tooltips/ArticleTooltip';
 
 /**
  * A single card instance within the InstanceGrid
@@ -76,85 +78,34 @@ class Card extends React.Component {
     const imageCover = this.props.cover !== null && this.props.cover.search('http') < 0 ?
       `https://${this.props.cover}` : this.props.cover;
     const tooltipType = this.props.tooltipType;
-    const price = this.props.price / 100;
-    const link1 = this.props.link1;
-    const link2 = this.props.link2;
-    const numberOfArticles = this.props.articles.length;
-    const numberOfGames = this.props.games.length;
-
-    /**
-     * @description - Render the game tooltip.
-     * @returns {React.Component}
-     */
-    function gameTooltip() {
-      return (
-        <div>
-          <div>Price: ${price}</div>
-          <div>Genres: <Badge>Genre</Badge></div>
-          <div>Platforms</div>
-          <div>Windows: Yes</div>
-          <div>Mac: No</div>
-          <div>Linux: No</div>
-          <div>Media</div>
-          <div>Streams: #0</div>
-          <div>Videos: #0</div>
-          <div>Tweets: #0</div>
-          <div>Articles: #{0}</div>
-        </div>
-      );
-    }
-
-    /**
-     * @description - Render the developer tooltip.
-     * @returns {React.Component}
-     */
-    /*
-    function developerTooltip() {
-      return (
-        <div>
-          <div>Games: #{numberOfGames}</div>
-          <div>Articles: #{numberOfArticles}</div>
-          <div>Media</div>
-          <div>Twitter: {link1}</div>
-          <div>Website: {link2}</div>
-        </div>
-      );
-    } */
-
-    /**
-     * @description - Render the developer tooltip.
-     * @returns {React.Component}
-     */
-    function articleTooltip() {
-      return (
-        <div>
-          <div>Games: <Badge>Game</Badge></div>
-          <div>Developers: <Badge>Developer</Badge></div>
-          <div>Media</div>
-          <div>Source: {link1}</div>
-        </div>
-      );
-    }
 
     /**
      * @description - Render the tooltip associated with the type.
      * @returns {React.Component}
      */
-    function tooltip() {
+    function tooltip(articles, games, link1, link2, price) {
       if (tooltipType === 1) {
-        return gameTooltip();
+        return (
+          <GameTooltip
+            price={price}
+            articles={articles.length}
+          />
+        );
       } else if (tooltipType === 2) {
-        { /* return developerTooltip(); */ }
         return (
           <DeveloperTooltip
-            articles={numberOfArticles}
-            games={numberOfGames}
+            articles={articles.length}
+            games={games.length}
             twitter={link1}
             website={link2}
           />
         );
       } else if (tooltipType === 3) {
-        return articleTooltip();
+        return (
+          <ArticleTooltip
+            outlet={link1}
+          />
+        );
       }
       return <div>Error: No tooltipType defined!</div>;
     }
@@ -216,7 +167,7 @@ class Card extends React.Component {
                 />
                 <div>
                   <h3>{this.props.title}</h3>
-                  {tooltip()}
+                  {tooltip(this.props.articles, this.props.games, this.props.link1, this.props.link2, this.props.price)}
                 </div>
               </div>
               <div style={[CardStyles.captionContainer]} key={`${title}-caption`}>

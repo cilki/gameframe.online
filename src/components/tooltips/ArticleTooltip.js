@@ -1,6 +1,6 @@
 /**
- * DeveloperTooltip represents a snapshot of data for an
- * instance of a Developer's Card.
+ * ArticleTooltip represents a snapshot of data for an
+ * instance of a Article's Card.
  */
 
 import React from 'react';
@@ -10,19 +10,17 @@ import { Badge, Label } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 /* import TooltipStyles from './TooltipStyles'; */
 
-class DeveloperTooltip extends React.Component {
+class ArticleTooltip extends React.Component {
   static propTypes = {
-    articles: PropTypes.number,
     games: PropTypes.number,
-    twitter: PropTypes.string,
-    website: PropTypes.string,
+    developers: PropTypes.number,
+    outlet: PropTypes.string,
   };
 
   static defaultProps = {
-    articles: 0,
     games: 0,
-    twitter: '',
-    website: '',
+    developers: 0,
+    outlet: '',
   };
 
   /**
@@ -36,14 +34,13 @@ class DeveloperTooltip extends React.Component {
   render() {
     return (
       <div>
-        <div>Articles: #{this.props.articles}</div>
-        <div>Games: #{this.props.games}</div>
+        <div>Games: <Badge>Game</Badge></div>
+        <div>Developers: <Badge>Developer</Badge></div>
         <div>Media</div>
-        <div>Twitter: {this.props.twitter}</div>
-        <div>Website: {this.props.website}</div>
+        <div>Source: {this.props.outlet}</div>
       </div>
     );
   }
 }
 
-export default Radium(DeveloperTooltip);
+export default Radium(ArticleTooltip);
