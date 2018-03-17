@@ -30,4 +30,5 @@ def upload_image(image, target):
         pass
 
     # Upload
-    S3().upload_file(image, 'gameframe', target)
+    S3().upload_file(image, 'gameframe', target,
+                     ExtraArgs={'ContentType': 'image/png'})
