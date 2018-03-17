@@ -7,8 +7,10 @@ import PropTypes from 'prop-types';
 import Radium from 'radium';
 import { Label } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
+
 import ArticleStyles from './ArticleStyles';
 import InstanceDetails from '../InstanceDetails';
+
 import CommonAssets from '../../inline-styles/CommonAssets';
 
 /**
@@ -42,12 +44,14 @@ class Article extends React.Component {
   static propTypes = {
     // article_id: PropTypes.number.isRequired,
     author: PropTypes.string,
-    // developers: PropTypes.arrayOf(PropTypes.shape({
-
-    // })),
-    // games: PropTypes.arrayOf(PropTypes.shape({
-
-    // })),
+    developers: PropTypes.arrayOf(PropTypes.shape({
+      id: PropTypes.number.isRequired,
+      name: PropTypes.string.isRequired,
+    })),
+    games: PropTypes.arrayOf(PropTypes.shape({
+      id: PropTypes.number.isRequired,
+      name: PropTypes.string.isRequired,
+    })),
     cover: PropTypes.string,
     introduction: PropTypes.string,
     // outlet: PropTypes.string,
@@ -60,8 +64,8 @@ class Article extends React.Component {
   static defaultProps = {
     author: '',
     cover: null,
-    // developers: [],
-    // games: [],
+    developers: [],
+    games: [],
     introduction: '',
     // outlet: '',
     timestamp: '',
@@ -107,6 +111,28 @@ class Article extends React.Component {
               {/* TODO: We can do better than this. There are existing libraries to put in HTML */}
               <p dangerouslySetInnerHTML={{ __html: this.props.introduction }} /> {/* eslint-disable-line */}
               <h3>Published by {this.props.author}</h3>
+            </div>
+            <div style={[ArticleStyles.developer]}>
+              <p>Developer:
+                {
+                  this.props.developers.map(developer => link({
+                    label: developer.name,
+                    url: `/developers/${developer.id}`,
+                    key: `developer-${developer.id}`,
+                  }))
+                }
+              </p>
+            </div>
+            <div style={[ArticleStyles.game]}>
+              <p>Game:
+                {
+                  this.props.games.map(game => link({
+                    label: game.name,
+                    url: `/games/${game.id}`,
+                    key: `game-${game.id}`,
+                  }))
+                }
+              </p>
             </div>
           </div>
         </InstanceDetails>
