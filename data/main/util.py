@@ -8,6 +8,7 @@ import os
 from tqdm import tqdm
 from string import ascii_lowercase
 from random import choice
+from PIL import Image
 
 from orm import Genre, Platform
 from cache import load_working_set, name_game
@@ -35,9 +36,21 @@ def choose_best_cover(header_cd, cover, cover_cd):
     Choose the best game cover.
     """
     if cover is None:
+        # The CD version of the IGDB cover won't exist either
         return header_cd
     if header_cd is None:
-        return cover  # TODO
+        # Choose between the normal IGDB cover or the CD version
+        cover_w, cover_h = Image.open(cover).size
+        cover_cd_w, cover_cd_h = Image.open(cover_cd).size
+
+        # Return the larger image
+        if cover_cd_w * cover_cd_h > cover_w * cover_h:
+            return cover_cd
+        else:
+            return cover
+
+    # TODO Choose between all three
+    return header_cd
 
 
 def is_cached(cache_path, filename):
