@@ -78,7 +78,10 @@ def populate_articles_for_games(db):
 				video.channel = i["snippet"]["channelTitle"]
 			else:
 				print("Failed to load channel name for video %s." % video.name)
-				break	
+				break
+				
+			# Video Link	
+			video.video_link = "https://www.youtube.com/watch?v=" + video.youtube_id		
 			
 			# Setting up a relationship between article and game
 			game.videos.append(video)
