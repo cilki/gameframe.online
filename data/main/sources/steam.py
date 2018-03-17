@@ -192,6 +192,10 @@ def build_game(game_json):
             game.release = parse_steam_date(
                 game_json['release_date']['date'])
 
+    # Metacritic rating
+    if game.metacritic is None and 'metacritic' in game_json:
+        game.metacritic = game_json['metacritic']['score']
+
     return game
 
 
