@@ -8,6 +8,7 @@ import Radium from 'radium';
 import { Badge, Label } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import CardStyles from './CardStyles';
+import DeveloperTooltip from '../tooltips/DeveloperTooltip';
 
 /**
  * A single card instance within the InstanceGrid
@@ -98,7 +99,7 @@ class Card extends React.Component {
           <div>Streams: #0</div>
           <div>Videos: #0</div>
           <div>Tweets: #0</div>
-          <div>Articles: #{numberOfArticles}</div>
+          <div>Articles: #{0}</div>
         </div>
       );
     }
@@ -107,6 +108,7 @@ class Card extends React.Component {
      * @description - Render the developer tooltip.
      * @returns {React.Component}
      */
+    /*
     function developerTooltip() {
       return (
         <div>
@@ -117,7 +119,7 @@ class Card extends React.Component {
           <div>Website: {link2}</div>
         </div>
       );
-    }
+    } */
 
     /**
      * @description - Render the developer tooltip.
@@ -142,7 +144,15 @@ class Card extends React.Component {
       if (tooltipType === 1) {
         return gameTooltip();
       } else if (tooltipType === 2) {
-        return developerTooltip();
+        { /* return developerTooltip(); */ }
+        return (
+          <DeveloperTooltip
+            articles={numberOfArticles}
+            games={numberOfGames}
+            twitter={link1}
+            website={link2}
+          />
+        );
       } else if (tooltipType === 3) {
         return articleTooltip();
       }
