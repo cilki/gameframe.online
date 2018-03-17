@@ -58,6 +58,10 @@ const Game = {
   },
   articles: {
     paddingLeft: '2%',
+    display: 'flex',
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    width: '80%'
   },
   twitter: {
     paddingLeft: '2%',
