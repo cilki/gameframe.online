@@ -15,7 +15,7 @@ import { getArticles } from '../articles/ArticlesSelectors';
  * @param {Object} state
  * @param {Object} props
  * @param {Number} props.id
- * @returns {Ovject}
+ * @returns {Object}
  */
 function getDeveloper(state, { id }) {
   const allDevelopers = getDevelopers(state);
