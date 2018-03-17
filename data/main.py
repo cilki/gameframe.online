@@ -7,7 +7,7 @@ import os
 from time import time
 from flask import Flask
 
-from sources import steam, igdb, newsapi
+from sources import steam, igdb, newsapi, youtube
 from orm import db
 from util import reset, trim
 
