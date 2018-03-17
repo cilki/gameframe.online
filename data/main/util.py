@@ -66,22 +66,29 @@ def merge_covers(db):
     print("[MAIN ] Merging covers")
 
     for name, game in tqdm(name_game.items()):
-        cover1 = "%s/%s" % (steam.CACHE_CD, game.steam_id)
+        if game.cover is not None:
+            continue
+
+        cover1 = "%s/%s.png" % (steam.CACHE_CD, game.steam_id)
         cover2 = "%s/%s" % (igdb.CACHE_COVER, game.igdb_id)
-        cover3 = "%s/%s" % (igdb.CACHE_CD, game.igdb_id)
+        cover3 = "%s/%s.png" % (igdb.CACHE_CD, game.igdb_id)
 
         cover = choose_best_cover(cover1 if os.path.isfile(cover1) else None,
                                   cover2 if os.path.isfile(cover2) else None,
                                   cover3 if os.path.isfile(cover3) else None)
         if cover is not None:
-            unique = "%d-%d.png" % (0 if game.steam_id is None else game.steam_id,
-                                    0 if game.igdb_id is None else game.igdb_id)
+            if cover == cover2:
+                # Just link to someone else's CDN
+                game.cover = cover
+            else:
+                unique = "%d-%d.png" % (0 if game.steam_id is None else game.steam_id,
+                                        0 if game.igdb_id is None else game.igdb_id)
 
-            # Upload cover
-            upload_image(cover, 'cover/' + unique)
+                # Upload cover
+                upload_image(cover, 'cover/' + unique)
 
-            # Update game
-            game.cover = "%s/%s" % (CDN_URI, unique)
+                # Update game
+                game.cover = "%s/%s" % (CDN_URI, unique)
 
     db.session.commit()
     print("[MAIN ] Merge complete")

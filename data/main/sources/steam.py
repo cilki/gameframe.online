@@ -8,6 +8,7 @@ import os
 from codecs import open
 from functools import lru_cache
 from itertools import chain
+from subprocess import call
 
 import requests
 from ratelimit import rate_limited
@@ -214,23 +215,29 @@ def collect_games():
 
 def collect_headers():
     """
-    Download missing game headers from Steam.
+    Download missing game headers from Steam and generate CDs.
     """
     apps = rq_app_list()
 
     print("[STEAM] Collecting game headers")
 
     for app in tqdm(apps):
-        if not is_cached(CACHE_HEADER, app['appid']):
-            game_json = load_game_json(app['appid'])
+        appid = app['appid']
+        if not is_cached(CACHE_HEADER, appid):
+            game_json = load_game_json(appid)
             if game_json is not None and 'header_image' in game_json:
                 rq = requests.get(game_json['header_image'])
 
                 assert rq.status_code == requests.codes.ok
 
                 # Write the header to cache
-                with open("%s/%d" % (CACHE_HEADER, app['appid']), 'wb') as h:
+                with open("%s/%d" % (CACHE_HEADER, appid), 'wb') as h:
                     h.write(rq.content)
+
+        # Generate CD
+        if not is_cached(CACHE_CD, "%d.png" % appid) and is_cached(CACHE_HEADER, appid):
+            call(["./data/main/cd/steam-cd.sh", "%s/%d" % (CACHE_HEADER, appid),
+                  "%s/%d" % (CACHE_CD, appid)])
 
     print("[STEAM] Collection complete")
 
