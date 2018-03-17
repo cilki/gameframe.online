@@ -163,7 +163,7 @@ class Video(db.Model):
     """
 
     video_id = db.Column(db.Integer, primary_key=True)
-    youtube_id = db.Column(db.Integer)
+    youtube_id = db.Column(db.Text)
     name = db.Column(db.Text)
     channel = db.Column(db.Text)
     timestamp = db.Column(db.DateTime)
