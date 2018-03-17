@@ -16,7 +16,7 @@ from cache import add_article, load_working_set, name_game, title_article
 from common import CACHE_GAMEFRAME, METRICS
 from orm import Article, Developer, Game
 
-from .util import condition_keyword, is_cached
+from .util import condition_article, is_cached
 
 """
 The NEWS API keyfile
@@ -72,7 +72,7 @@ def rq_articles(keyword):
 
     while True:
         rq = API.get_everything(language='en', sort_by='relevancy', page_size=100,
-                                page=p, q=condition_keyword(keyword))
+                                page=p, q=condition_article(keyword))
 
         if rq['status'] == 'error':
             API = NewsApiClient(api_key=next(KEY_ITER))

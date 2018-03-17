@@ -11,15 +11,12 @@ from ratelimit import rate_limited
 
 from orm import Game, Video
 
+from .util import condition_video
+
 """
 The API key
 """
 API_KEY = os.environ['KEY_YOUTUBE']
-
-
-def parse_keyword(s):
-    s = s.replace(" ", "+")
-    return s
 
 
 @rate_limited(period=40, every=60)
@@ -28,12 +25,12 @@ def rq_videos(keyword):
     Request video metadata using Google API according to a keyword
     """
 
-    response = requests.get("https://www.googleapis.com/youtube/v3/search",
-                            params={'q': parse_keyword(keyword), 'order': 'relevance', 'part': 'snippet',
-                                    'type': 'video', 'maxResults': 10, 'key': API_KEY})
+    rq = requests.get("https://www.googleapis.com/youtube/v3/search",
+                      params={'q': condition_video(keyword), 'order': 'relevance',
+                              'part': 'snippet', 'type': 'video', 'maxResults': 10, 'key': API_KEY})
 
-    assert response.status_code == requests.codes.ok
-    return response.json()
+    assert rq.status_code == requests.codes.ok
+    return rq.json()
 
 
 def populate_articles_for_games(db):

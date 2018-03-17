@@ -23,12 +23,19 @@ def parse_steam_date(d):
     return None
 
 
-def condition_keyword(keyword):
+def condition_article(keyword):
     """
     Condition an article keyword for searching
     """
     return keyword.replace("™", "").replace("®", "").replace("<sup>", "") \
         .replace("</sup>", "").replace(":", "").replace("-", "")
+
+
+def condition_video(keyword):
+    """
+    Condition a video keyword for searching
+    """
+    return condition_article(keyword).replace(" ", "+")
 
 
 def is_cached(cache_path, filename):
