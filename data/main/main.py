@@ -4,13 +4,29 @@
 # --------------------------------
 
 import os
+import sys
+from signal import SIGINT, signal
 from time import time
+
 from flask import Flask
 
-from sources import steam, igdb, newsapi
-from orm import db
-from util import reset, merge_covers
 from aws import upload_image
+from common import METRICS
+from orm import db
+from sources import igdb, newsapi, steam
+from util import merge_covers, reset
+
+
+def sigint_handler(sig, frame):
+    """
+    SIGINT handler which prints run metrics and exits
+    """
+    print("\nRun Metrics:\n%s" % METRICS)
+    sys.exit(0)
+
+
+# Register signal
+signal(SIGINT, sigint_handler)
 
 # Setup Flask
 app = Flask(__name__)
@@ -18,9 +34,6 @@ app = Flask(__name__)
 # Configure SQLAlchemy
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SQLALCHEMY_DATABASE_URI'] = os.environ['SQLALCHEMY_URI']
-
-# Constants
-CDN_URI = ''
 
 # Greetings
 print("                             __                          \n                            / _|                         \n  __ _  __ _ _ __ ___   ___| |_ _ __ __ _ _ __ ___   ___ \n / _` |/ _` | '_ ` _ \\ / _ \\  _| '__/ _` | '_ ` _ \\ / _ \\\n| (_| | (_| | | | | | |  __/ | | | | (_| | | | | | |  __/\n \\__, |\\__,_|_| |_| |_|\\___|_| |_|  \\__,_|_| |_| |_|\\___|\n  __/ |                                                  \n |___/\n\n")
@@ -31,25 +44,28 @@ print("")
 print("0. RESET                          Drop all tables and rebuild database schema")
 print("1. REBUILD                        Reset database, merge, and link")
 print("2  FILTER                         Delete low quality entities")
+print("3  MERGE covers                   Upload game covers to S3")
 
 print("")
 print("[STEAM]")
-print("3. COLLECT games                  Download missing games from Steam")
-print("4. MERGE games                    Upload game cache into database")
-print("5. LINK developers                Compute Game-Developer links from Steam games")
+print("4. COLLECT games                  Download missing games from Steam")
+print("5. COLLECT headers                Download game headers from Steam")
+print("6. MERGE games                    Upload game cache into database")
+print("7. LINK developers                Compute Game-Developer links from Steam games")
 
 print("")
 print("[IGDB]")
-print("6. COLLECT games                  Download missing games from IGDB")
-print("7. COLLECT developers             Download missing developers from IGDB")
-print("8. MERGE games                    Upload game cache into database")
-print("9. MERGE developers               Upload developer cache into database")
-print("A. LINK developers                Compute Game-Developer links from IGDB developers")
+print("8. COLLECT games                  Download missing games from IGDB")
+print("9. COLLECT developers             Download missing developers from IGDB")
+print("A. COLLECT covers                 Download game covers from IGDB")
+print("B. MERGE games                    Upload game cache into database")
+print("C. MERGE developers               Upload developer cache into database")
+print("D. LINK developers                Compute Game-Developer links from IGDB developers")
 
 print("")
 print("[NEWSAPI]")
-print("B. GATHER articles                Download articles from NEWSAPI")
-print("C. MERGE articles                 Upload article cache into database and LINK")
+print("E. GATHER articles                Download articles from NEWSAPI")
+print("F. MERGE articles                 Upload article cache into database and LINK")
 
 print("")
 print("YOUTUBE")
@@ -89,30 +105,31 @@ with app.app_context():
         elif action == '2':
             trim(db)
         elif action == '3':
-            steam.collect_games()
-        elif action == '4':
-            steam.merge_games(db)
-        elif action == '5':
-            steam.link_developers(db)
-        elif action == '6':
-            igdb.collect_games()
-        elif action == '7':
-            igdb.collect_developers()
-        elif action == '8':
-            igdb.merge_games(db)
-        elif action == '9':
-            igdb.merge_developers(db)
-        elif action == 'a':
-            igdb.link_developers(db)
-        elif action == 'b':
-            newsapi.gather_articles(db)
-        elif action == 'c':
-            newsapi.merge_articles(db)
-        elif action == 'd':
-            steam.collect_headers()
-        elif action == 'e':
-            igdb.collect_covers()
-        elif action == 'f':
             merge_covers(db)
+        elif action == '4':
+            steam.collect_games()
+        elif action == '5':
+            steam.collect_headers()
+        elif action == '6':
+            steam.merge_games(db)
+        elif action == '7':
+            steam.link_developers(db)
+        elif action == '8':
+            igdb.collect_games()
+        elif action == '9':
+            igdb.collect_developers()
+        elif action == 'a':
+            igdb.collect_covers()
+        elif action == 'b':
+            igdb.merge_games(db)
+        elif action == 'c':
+            igdb.merge_developers(db)
+        elif action == 'd':
+            igdb.link_developers(db)
+        elif action == 'e':
+            newsapi.gather_articles(db)
+        elif action == 'f':
+            newsapi.merge_articles(db)
+
         else:
             print("Unknown Command")

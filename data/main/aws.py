@@ -3,8 +3,10 @@
 # Copyright (C) 2018 GameFrame   -
 # --------------------------------
 
-import boto3
 from functools import lru_cache
+
+import boto3
+from botocore.exceptions import ClientError
 
 
 @lru_cache(maxsize=1)
@@ -22,10 +24,10 @@ def upload_image(image, target):
 
     # Check for existence
     try:
-        S3().head_object(Bucket='gameframe', Key='image/' + target)
+        S3().head_object(Bucket='gameframe', Key=target)
         return
-    except ClientError: # TODO make error more specific if possible
+    except ClientError:  # TODO make error more specific if possible
         pass
 
     # Upload
-    S3().upload_file(image, 'gameframe', 'image/' + target)
+    S3().upload_file(image, 'gameframe', target)

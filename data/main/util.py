@@ -5,13 +5,14 @@
 
 import os
 
-from tqdm import tqdm
-from string import ascii_lowercase
-from random import choice
 from PIL import Image
+from tqdm import tqdm
 
-from orm import Genre, Platform
+from aws import upload_image
 from cache import load_working_set, name_game
+from common import CDN_URI
+from orm import Genre, Platform
+from sources import igdb, newsapi, steam
 
 
 def append_csv(csv, item):
@@ -40,6 +41,9 @@ def choose_best_cover(header_cd, cover, cover_cd):
         return header_cd
     if header_cd is None:
         # Choose between the normal IGDB cover or the CD version
+        if cover_cd is None:
+            return cover
+
         cover_w, cover_h = Image.open(cover).size
         cover_cd_w, cover_cd_h = Image.open(cover_cd).size
 
@@ -53,13 +57,6 @@ def choose_best_cover(header_cd, cover, cover_cd):
     return header_cd
 
 
-def is_cached(cache_path, filename):
-    """
-    Returns True if the given entry exists in the cache, False otherwise.
-    """
-    return os.path.isfile("%s/%s" % (cache_path, filename))
-
-
 def merge_covers(db):
     """
     Merge game covers into the working set and flush the database.
@@ -68,16 +65,20 @@ def merge_covers(db):
 
     print("[MAIN ] Merging covers")
 
-    for _, game in tqdm(name_game.items()):
-        cover = choose_best_cover("%s/%d" % (steam.CACHE_CD, game.steam_id),
-                                  "%s/%d" % (igdb.CACHE_COVER, game.igdb_id),
-                                  "%s/%d" % (igdb.CACHE_CD, game.igdb_id))
+    for name, game in tqdm(name_game.items()):
+        cover1 = "%s/%s" % (steam.CACHE_CD, game.steam_id)
+        cover2 = "%s/%s" % (igdb.CACHE_COVER, game.igdb_id)
+        cover3 = "%s/%s" % (igdb.CACHE_CD, game.igdb_id)
+
+        cover = choose_best_cover(cover1 if os.path.isfile(cover1) else None,
+                                  cover2 if os.path.isfile(cover2) else None,
+                                  cover3 if os.path.isfile(cover3) else None)
         if cover is not None:
-            unique = "%d-%d" % (0 if game.steam_id is None else game.steam_id,
-                                0 if game.igdb_id is None else game.igdb_id)
+            unique = "%d-%d.png" % (0 if game.steam_id is None else game.steam_id,
+                                    0 if game.igdb_id is None else game.igdb_id)
 
             # Upload cover
-            upload_image(cover, unique)
+            upload_image(cover, 'cover/' + unique)
 
             # Update game
             game.cover = "%s/%s" % (CDN_URI, unique)

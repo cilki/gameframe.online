@@ -3,63 +3,77 @@
 # Copyright (C) 2018 GameFrame   -
 # --------------------------------
 
-import os
 import json
-import sys
-
+import os
 from codecs import open
-from ratelimit import rate_limited
-from newsapi import NewsApiClient
 from datetime import datetime
+
+from newsapi import NewsApiClient
+from ratelimit import rate_limited
 from tqdm import tqdm
 
-from orm import Game, Developer, Article
-from working_set import load_working_set, add_article, name_game, title_article
-from util import is_cached
+from cache import add_article, load_working_set, name_game, title_article
+from common import CACHE_GAMEFRAME, METRICS
+from orm import Article, Developer, Game
+
+from .util import condition_keyword, is_cached
 
 """
 The NEWS API keyfile
 """
-KEYS_NEWSAPI = os.environ['KEYS_NEWSAPI']
+API_KEYS = os.environ['KEYS_NEWSAPI']
+assert os.path.isfile(API_KEYS)
 
-# Load API keys
-with open(KEYS_NEWSAPI) as h:
+"""
+The API key iterator
+"""
+with open(API_KEYS) as h:
     KEY_ITER = iter([s.strip() for s in h.readlines()])
 
+"""
+The NEWSAPI client
+"""
 API = NewsApiClient(api_key=next(KEY_ITER))
 
 """
 The article-game cache
 """
-CACHE_ARTICLE_GAME = "%s/newsapi/games" % os.environ['CACHE_GAMEFRAME']
+CACHE_ARTICLE_GAME = "%s/newsapi/games" % CACHE_GAMEFRAME
 assert os.path.isdir(CACHE_ARTICLE_GAME)
 
 """
 The article-developer cache
 """
-CACHE_ARTICLE_DEVELOPER = "%s/newsapi/developers" % os.environ['CACHE_GAMEFRAME']
+CACHE_ARTICLE_DEVELOPER = "%s/newsapi/developers" % CACHE_GAMEFRAME
 assert os.path.isdir(CACHE_ARTICLE_DEVELOPER)
 
 """
 Only allow sources from this whitelist
 """
-SOURCE_WHITELIST = ['Nintendolife.com', 'Gonintendo.com', 'Mirror', 'Playstation.com', 'Starwars.com', 'Mmorpg.com', 'Rockpapershotgun.com', 'Kotaku.com', 'Kotaku.com.au', 'Gameinformer.com', 'Slickdeals.net', 'Techdirt.com', 'Techtimes.com', 'Pcworld.com', 'Escapistmagazine.com', 'Playstationlifestyle.net', 'Gamespot.com',
-                    'IGN', 'Mynintendonews.com', 'Multiplayer.it', 'Toucharcade.com', 'Shacknews.com', 'Pcgamer.com', 'Wccftech.com', 'Kinja.com', 'Gamesasylum.com', 'Vrfocus.com', 'Ars Technica', 'Blizzardwatch.com', 'Gamasutra.com', 'Gamespark.jp', 'Gamesradar.com', 'Gametyrant.com', 'Gamingbolt.com',
-                    'Gamingonlinux.com', 'Tweaktown.com', '1up.com', 'Gameplanet.co.nz', 'Gamespy.com', 'Gamezebo.com', 'Gamezombie.tv', 'Giantbomb.com', 'Ongamers.com', 'Stratics.com']
+WHITELIST = ['Nintendolife.com', 'Gonintendo.com', 'Mirror', 'Playstation.com',
+             'Starwars.com', 'Mmorpg.com', 'Rockpapershotgun.com', 'Kotaku.com',
+             'Kotaku.com.au', 'Gameinformer.com', 'Slickdeals.net', '1up.com',
+             'Techtimes.com', 'Pcworld.com', 'Escapistmagazine.com', 'IGN',
+             'Playstationlifestyle.net', 'Gamespot.com', 'Mynintendonews.com',
+             'Multiplayer.it', 'Toucharcade.com', 'Shacknews.com', 'Kinja.com',
+             'Wccftech.com',  'Gamesasylum.com', 'Pcgamer.com', 'Vrfocus.com',
+             'Ars Technica', 'Blizzardwatch.com', 'Gamasutra.com', 'Gamespy.com',
+             'Gamesradar.com', 'Gametyrant.com', 'Gamingbolt.com', 'Techdirt.com',
+             'Gamingonlinux.com', 'Tweaktown.com',  'Gameplanet.co.nz',
+             'Gamezebo.com', 'Gamezombie.tv', 'Giantbomb.com', 'Gamespark.jp',
+             'Ongamers.com', 'Stratics.com']
 
 
 def rq_articles(keyword):
-    # Condition the keyword
-    keyword = keyword.replace("™", "").replace("®", "").replace(
-        "<sup>", "").replace("</sup>", "").replace(":", "").replace("-", "")
 
     global API
     articles = []
     p = 1
 
     while True:
-        rq = API.get_everything(
-            language='en', sort_by='relevancy', page_size=100, page=p, q=keyword)
+        rq = API.get_everything(language='en', sort_by='relevancy', page_size=100,
+                                page=p, q=condition_keyword(keyword))
+
         if rq['status'] == 'error':
             API = NewsApiClient(api_key=next(KEY_ITER))
             continue
@@ -74,7 +88,7 @@ def rq_articles(keyword):
 
             # Filter Outlet
             outlet = article_json.get('source', {}).get('name', '')
-            if outlet is None or outlet not in SOURCE_WHITELIST:
+            if outlet is None or outlet not in WHITELIST:
                 continue
 
             # Filter Introduction

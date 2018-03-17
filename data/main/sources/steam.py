@@ -5,43 +5,39 @@
 
 import json
 import os
-import sys
-import requests
-
 from codecs import open
 from functools import lru_cache
-from tqdm import tqdm
-from ratelimit import rate_limited
 from itertools import chain
 
-from orm import Game, Developer, Image, Genre
-from util import parse_steam_date, is_cached
-from working_set import load_working_set, add_game, name_game, steamid_game, name_developer, map_name_genre, map_id_platform
+import requests
+from ratelimit import rate_limited
+from tqdm import tqdm
+
+from cache import (add_game, load_working_set, map_id_platform, map_name_genre,
+                   name_developer, name_game, steamid_game)
+from common import CACHE_GAMEFRAME, METRICS
+from orm import Developer, Game, Genre, Image
+
+from .util import is_cached, parse_steam_date
 
 """
 The game cache
 """
-CACHE_GAME = "%s/steam/games" % os.environ['CACHE_GAMEFRAME']
+CACHE_GAME = "%s/steam/games" % CACHE_GAMEFRAME
 assert os.path.isdir(CACHE_GAME)
 
 """
 The header image cache
 """
-CACHE_HEADER = "%s/steam/headers" % os.environ['CACHE_GAMEFRAME']
+CACHE_HEADER = "%s/steam/headers" % CACHE_GAMEFRAME
 assert os.path.isdir(CACHE_HEADER)
 
 """
 The CD image cache
 """
-CACHE_CD = "%s/steam/cds" % os.environ['CACHE_GAMEFRAME']
+CACHE_CD = "%s/steam/cds" % CACHE_GAMEFRAME
 assert os.path.isdir(CACHE_CD)
 
-"""
-Run statistics
-"""
-METRICS = {'game.filtered.genre': 0, 'game.filtered.no_data': 0,
-           'game.filtered.non_game': 0, 'game.filtered.no_name': 0,
-           'game.filtered.failed': 0, 'game.new_downloads': 0}
 
 """
 Steam genres that should be filtered
@@ -87,7 +83,7 @@ def load_game_json(appid):
 
     if not is_cached(CACHE_GAME, appid):
         game = rq_game(appid)
-        METRICS['game.new_downloads'] += 1
+        METRICS['steam.new_downloads'] += 1
 
         # Write to the cache
         with open("%s/%d" % (CACHE_GAME, appid), 'w', 'utf8') as h:
@@ -100,24 +96,24 @@ def load_game_json(appid):
 
     # Filter failed queries
     if game['success'] == 'false':
-        METRICS['game.filtered.failed'] += 1
+        METRICS['steam.filtered.failed'] += 1
         return None
 
     # Ensure the game has data
     if 'data' not in game:
-        METRICS['game.filtered.no_data'] += 1
+        METRICS['steam.filtered.no_data'] += 1
         return None
 
     game = game['data']
 
     # Filter non-games
     if not game['type'] == 'game':
-        METRICS['game.filtered.non_game'] += 1
+        METRICS['steam.filtered.non_game'] += 1
         return None
 
     # Filter unwanted genres
     if any(x['description'] in UNWANTED_GENRES for x in game.get('genres', [])):
-        METRICS['game.filtered.genre'] += 1
+        METRICS['steam.filtered.genre'] += 1
         return None
 
     return game

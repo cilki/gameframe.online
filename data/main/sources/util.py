@@ -3,6 +3,7 @@
 # Copyright (C) 2018 GameFrame   -
 # --------------------------------
 
+import os
 from datetime import datetime
 
 
@@ -22,8 +23,16 @@ def parse_steam_date(d):
     return None
 
 
-def parse_igdb_date(d):
+def condition_keyword(keyword):
     """
-    Parse a textual release date from IGDB.
+    Condition an article keyword for searching
     """
-    pass
+    return keyword.replace("™", "").replace("®", "").replace("<sup>", "") \
+        .replace("</sup>", "").replace(":", "").replace("-", "")
+
+
+def is_cached(cache_path, filename):
+    """
+    Returns True if the given entry exists in the cache, False otherwise.
+    """
+    return os.path.isfile("%s/%s" % (cache_path, filename))

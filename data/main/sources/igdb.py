@@ -5,19 +5,22 @@
 
 import json
 import os
-import sys
-import requests
-
 from codecs import open
-from functools import lru_cache
 from datetime import datetime
-from tqdm import tqdm
+from functools import lru_cache
 from itertools import chain
-from ratelimit import rate_limited
 
-from orm import Developer, Game, Image, Genre, Platform
-from util import is_cached
-from cache import load_working_set, add_game, add_developer, name_game, steamid_game, name_developer, igdbid_developer, igdbid_game, map_id_platform, map_id_genre
+import requests
+from ratelimit import rate_limited
+from tqdm import tqdm
+
+from cache import (add_developer, add_game, igdbid_developer, igdbid_game,
+                   load_working_set, map_id_genre, map_id_platform,
+                   name_developer, name_game, steamid_game)
+from common import CACHE_GAMEFRAME, METRICS
+from orm import Developer, Game, Genre, Image, Platform
+
+from .util import is_cached
 
 """
 The API key
@@ -27,20 +30,26 @@ API_KEY = os.environ['KEY_IGDB']
 """
 The game cache
 """
-CACHE_GAME = "%s/igdb/games" % os.environ['CACHE_GAMEFRAME']
+CACHE_GAME = "%s/igdb/games" % CACHE_GAMEFRAME
 assert os.path.isdir(CACHE_GAME)
 
 """
 The developer cache
 """
-CACHE_DEV = "%s/igdb/developers" % os.environ['CACHE_GAMEFRAME']
+CACHE_DEV = "%s/igdb/developers" % CACHE_GAMEFRAME
 assert os.path.isdir(CACHE_DEV)
 
 """
 The cover cache
 """
-CACHE_COVER = "%s/igdb/covers" % os.environ['CACHE_GAMEFRAME']
+CACHE_COVER = "%s/igdb/covers" % CACHE_GAMEFRAME
 assert os.path.isdir(CACHE_COVER)
+
+"""
+The CD image cache
+"""
+CACHE_CD = "%s/igdb/cds" % CACHE_GAMEFRAME
+assert os.path.isdir(CACHE_CD)
 
 """
 2124 - 89252 seems to be the range of game IDs on IGDB
