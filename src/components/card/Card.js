@@ -20,6 +20,9 @@ class Card extends React.Component {
     origin: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
     tooltipType: PropTypes.number,
     year: PropTypes.number,
+    price: PropTypes.number,
+    link1: PropTypes.string,
+    link2: PropTypes.string,
   };
 
   static defaultProps = {
@@ -27,6 +30,9 @@ class Card extends React.Component {
     origin: null,
     year: new Date().getFullYear(),
     tooltipType: 0,
+    price: 0,
+    link1: '',
+    link2: '',
   };
 
   /**
@@ -63,6 +69,9 @@ class Card extends React.Component {
     const imageCover = this.props.cover !== null && this.props.cover.search('http') < 0 ?
       `https://${this.props.cover}` : this.props.cover;
     const tooltipType = this.props.tooltipType;
+    const price = this.props.price / 100;
+    const link1 = this.props.link1;
+    const link2 = this.props.link2;
 
     /**
      * @description - Render the game tooltip.
@@ -71,7 +80,7 @@ class Card extends React.Component {
     function gameTooltip() {
       return (
         <div>
-          <div>Price: $00.00</div>
+          <div>Price: ${price}</div>
           <div>Genres: <Badge>Genre</Badge></div>
           <div>Platforms</div>
           <div>Windows: Yes</div>
@@ -96,8 +105,8 @@ class Card extends React.Component {
           <div>Games: #0</div>
           <div>Articles: #0</div>
           <div>Media</div>
-          <div>Twitter: Link</div>
-          <div>Website: Link</div>
+          <div>Twitter: {link1}</div>
+          <div>Website: {link2}</div>
         </div>
       );
     }
@@ -112,7 +121,7 @@ class Card extends React.Component {
           <div>Games: <Badge>Game</Badge></div>
           <div>Developers: <Badge>Developer</Badge></div>
           <div>Media</div>
-          <div>Source: Link</div>
+          <div>Source: {link1}</div>
         </div>
       );
     }

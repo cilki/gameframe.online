@@ -19,6 +19,7 @@ class Games extends React.Component {
       developers: PropTypes.arrayOf(PropTypes.number),
       game_id: PropTypes.number.isRequired,
       name: PropTypes.string.isRequired,
+      price: PropTypes.number,
       release: PropTypes.string,
     })),
     gamesError: PropTypes.string, //eslint-disable-line
@@ -66,6 +67,7 @@ class Games extends React.Component {
                   cover={game.cover}
                   origin={game.developer}
                   year={new Date(game.release).getFullYear()}
+                  price={game.price}
                 />
               );
             })
