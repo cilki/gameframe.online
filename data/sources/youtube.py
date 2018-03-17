@@ -25,8 +25,9 @@ def rq_videos_from_keyword(keyword):
     """
     print("[Google API ] Downloading video metadata for keyword: %s" % keyword)
 	
-	url = "https://www.googleapis.com/youtube/v3/search?q=%s&order=date&part=snippet&type=video&maxResults=10&key=%s" % (keyword, API_KEY)
-	response = requests.get(url)
+	response = requests.get("https://www.googleapis.com/youtube/v3/search",
+			params={'q': keyword, 'order': 'date', 'part': 'snippet',
+			'type': 'video', 'maxResults': 10, 'key': API_KEY})
 	
 	assert response.status_code == requests.codes.ok
 	return response.json()
