@@ -3,11 +3,16 @@
  * Simple actions for a Article's instance page
  */
 
-import { getArticle } from './ArticleSelectors';
+import { normalize } from 'normalizr';
+
 import {
   fetchArticleRequest,
   fetchArticleResponse,
+  fetchDeveloperResponse,
+  fetchGamesResponse,
 } from '../Actions';
+import { articles as articleSchema } from '../Schemas';
+import { getArticle } from './ArticleSelectors';
 
 /**
  * @description - Predicate function to determine if the given
@@ -33,8 +38,12 @@ function fetchArticle(articleId) {
       dispatch(fetchArticleRequest(articleId));
       fetch(`http://api.gameframe.online/v1/article/${articleId}`, { method: 'GET' }) //eslint-disable-line
         .then(response => response.json())
-        // TODO: this data should be normalized
-        .then(json => dispatch(fetchArticleResponse(articleId, json)))
+        .then(json => normalize(json, articleSchema))
+        .then((data) => {
+          dispatch(fetchDevelopersResponse(Object.values(data.entities.developers)));
+          dispatch(fetchGamesResponse(Object.values(data.entities.games)));
+          dispatch(fetchArticleResponse(articleId, data.entities.articles[articleId]));
+        })
         .catch(err => dispatch(fetchArticleResponse(articleId, err)));
     }
   };
