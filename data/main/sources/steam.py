@@ -177,8 +177,9 @@ def build_game(game_json):
 
     # Screenshots
     for screenshot in game_json.get('screenshots', []):
-        game.screenshots.append(
-            Image(url=screenshot['path_full'].split('?', 1)[0]))
+        url = screenshot['path_full'].split('?', 1)[0]
+        if next((x for x in game.screenshots if x.url == url), None) is None:
+            game.screenshots.append(Image(url=url))
 
     # Genres
     for genre in game_json.get('genres', []):

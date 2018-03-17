@@ -193,7 +193,8 @@ def build_game(game_json):
     # Screenshots
     for screenshot in game_json.get('screenshots', []):
         url = screenshot['url'][2:].replace("t_thumb", "t_original")
-        game.screenshots.append(Image(url=url))
+        if next((x for x in game.screenshots if x.url == url), None) is None:
+            game.screenshots.append(Image(url=url))
 
     # Cover
     if game.cover is None and 'cover' in game_json:
