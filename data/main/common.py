@@ -8,7 +8,7 @@ import os
 """
 The GameFrame CDN URL for images
 """
-CDN_URI = 'd1qrdq7tpuxril.cloudfront.net'
+CDN_URI = 'cdn.gameframe.online'
 
 """
 The root cache directory
