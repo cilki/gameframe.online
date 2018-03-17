@@ -5,6 +5,8 @@
 
 import { createSelector } from 'reselect';
 
+import { getGames } from '../games/GamesSelectors';
+import { getDevelopers } from '../developers/DevelopersSelectors';
 import { getArticles } from '../articles/ArticlesSelectors';
 
 /**
@@ -62,11 +64,11 @@ function makeGetArticleGames(_articleSelector = null) {
   const articleSelector = _articleSelector === null ? makeGetArticle() : _articleSelector;
   return createSelector(
     [articleSelector, getGames],
-    (article, game) => {
+    (article, games) => {
       const articleGames = [];
-      if(article.games) {
+      if (article.games) {
         article.games.forEach((gameId) => {
-          if(gameId >= 0 && games[gameId]) {
+          if (gameId >= 0 && games[gameId]) {
             articleGames.push({
               id: gameId,
               name: games[gameId] ? games[gameId].name : null,

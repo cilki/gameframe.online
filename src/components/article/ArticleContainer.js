@@ -6,7 +6,11 @@
 
 import { connect } from 'react-redux';
 
-import { makeGetArticle } from './ArticleSelectors';
+import {
+  makeGetArticle,
+  makeGetArticleDevelopers,
+  makeGetArticleGames,
+} from './ArticleSelectors';
 import { fetchArticle } from './ArticleActions';
 import ArticlePresenter from './Article';
 
@@ -17,7 +21,10 @@ import ArticlePresenter from './Article';
  */
 function mapStateToProps() {
   const articleSelector = makeGetArticle();
+  const developerSelector = makeGetArticleDevelopers(articleSelector);
+  const gameSelector = makeGetArticleGames(articleSelector);
   return (state, { match: { params } }) => {
+    // this is retrieving the ID from the URL
     const id = Number(params.articleId);
     if (isNaN(id)) { //eslint-disable-line
       return {};
@@ -32,7 +39,8 @@ function mapStateToProps() {
     return Object.assign(
       presenterProps,
       {
-
+        developers: developerSelector(state, props),
+        games: gameSelector(state, props),
       },
     );
   };

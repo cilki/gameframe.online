@@ -40,7 +40,7 @@ function fetchArticle(articleId) {
         .then(response => response.json())
         .then(json => normalize(json, articleSchema))
         .then((data) => {
-          dispatch(fetchDevelopersResponse(Object.values(data.entities.developers)));
+          dispatch(fetchDeveloperResponse(Object.values(data.entities.developers)));
           dispatch(fetchGamesResponse(Object.values(data.entities.games)));
           dispatch(fetchArticleResponse(articleId, data.entities.articles[articleId]));
         })
