@@ -16,10 +16,10 @@ from tqdm import tqdm
 
 from cache import (add_game, load_working_set, map_id_platform, map_name_genre,
                    name_developer, name_game, steamid_game)
-from common import CACHE_GAMEFRAME, METRICS
+from common import CACHE_GAMEFRAME, METRICS, CDN_URI
 from orm import Developer, Game, Genre, Image
 
-from .util import is_cached, parse_steam_date
+from .util import is_cached, parse_steam_date, get_cover_id
 
 """
 The game cache
@@ -134,7 +134,7 @@ def build_game(game_json):
     else:
         game = Game()
 
-    # Steam ID
+    # Steam ID (overwrite)
     game.steam_id = game_json['steam_appid']
 
     # Title
@@ -197,6 +197,10 @@ def build_game(game_json):
     if game.metacritic is None and 'metacritic' in game_json:
         game.metacritic = game_json['metacritic']['score']
 
+    # Cover
+    if game.cover is None and is_cached(CACHE_CD, "%d.png" % game.steam_id):
+        game.cover = "%s/cover/steam/%d.png" % (CDN_URI, game.steam_id)
+
     return game
 
 
@@ -245,6 +249,20 @@ def collect_headers():
                   "%s/%d" % (CACHE_CD, appid)])
 
     print("[STEAM] Collection complete")
+
+
+def upload_covers():
+    """
+    Upload game covers
+    """
+    print("[STEAM] Uploading covers")
+
+    for name, game in tqdm(name_game.items()):
+        if game.cover is not None and 'cdn.gameframe' in game.cover:
+            # Upload cover
+            upload_image(cover, 'cover/steam/' + game.steam_id)
+
+    print("[STEAM] Upload complete")
 
 
 def merge_games(db):

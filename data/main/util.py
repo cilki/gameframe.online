@@ -5,12 +5,10 @@
 
 import os
 
-from PIL import Image
 from tqdm import tqdm
 
 from aws import upload_image
 from cache import load_working_set, name_game
-from common import CDN_URI
 from orm import Genre, Platform
 from sources import igdb, newsapi, steam
 
@@ -30,68 +28,6 @@ def append_csv(csv, item):
         csv += item
 
     return csv
-
-
-def choose_best_cover(header_cd, cover, cover_cd):
-    """
-    Choose the best game cover.
-    """
-    if cover is None:
-        # The CD version of the IGDB cover won't exist either
-        return header_cd
-    if header_cd is None:
-        # Choose between the normal IGDB cover or the CD version
-        if cover_cd is None:
-            return cover
-
-        cover_w, cover_h = Image.open(cover).size
-        cover_cd_w, cover_cd_h = Image.open(cover_cd).size
-
-        # Return the larger image
-        if cover_cd_w * cover_cd_h > cover_w * cover_h:
-            return cover_cd
-        else:
-            return cover
-
-    # TODO Choose between all three
-    return header_cd
-
-
-def merge_covers(db):
-    """
-    Merge game covers into the working set and flush the database.
-    """
-    load_working_set()
-
-    print("[MAIN ] Merging covers")
-
-    for name, game in tqdm(name_game.items()):
-        if game.cover is not None:
-            continue
-
-        cover1 = "%s/%s.png" % (steam.CACHE_CD, game.steam_id)
-        cover2 = "%s/%s" % (igdb.CACHE_COVER, game.igdb_id)
-        cover3 = "%s/%s.png" % (igdb.CACHE_CD, game.igdb_id)
-
-        cover = choose_best_cover(cover1 if os.path.isfile(cover1) else None,
-                                  cover2 if os.path.isfile(cover2) else None,
-                                  cover3 if os.path.isfile(cover3) else None)
-        if cover is not None:
-            if cover == cover2:
-                # Just link to someone else's CDN
-                game.cover = cover
-            else:
-                unique = "%d-%d.png" % (0 if game.steam_id is None else game.steam_id,
-                                        0 if game.igdb_id is None else game.igdb_id)
-
-                # Upload cover
-                upload_image(cover, 'cover/' + unique)
-
-                # Update game
-                game.cover = "%s/%s" % (CDN_URI, unique)
-
-    db.session.commit()
-    print("[MAIN ] Merge complete")
 
 
 def trim(db):

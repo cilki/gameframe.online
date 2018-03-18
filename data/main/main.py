@@ -14,7 +14,7 @@ from aws import upload_image
 from common import METRICS
 from sources import igdb, newsapi, steam
 from orm import db
-from util import merge_covers, reset
+from util import reset
 
 
 def sigint_handler(sig, frame):
@@ -44,14 +44,14 @@ print("")
 print("0. RESET                          Drop all tables and rebuild database schema")
 print("1. REBUILD                        Reset database, merge, and link")
 print("2. FILTER                         Delete low quality entities")
-print("3. MERGE covers                   Upload game covers to S3")
 
 print("")
 print("[STEAM]")
-print("4. COLLECT games                  Download missing games from Steam")
-print("5. COLLECT headers                Download game headers from Steam")
-print("6. MERGE games                    Upload game cache into database")
-print("7. LINK developers                Compute Game-Developer links from Steam games")
+print("3. COLLECT games                  Download missing games from Steam")
+print("4. COLLECT headers                Download game headers from Steam")
+print("5. MERGE games                    Upload game cache into database")
+print("6. LINK developers                Compute Game-Developer links from Steam games")
+print("7. UPLOAD covers                  Upload game covers to S3")
 
 print("")
 print("[IGDB]")
@@ -105,15 +105,15 @@ with app.app_context():
         elif action == '2':
             trim(db)
         elif action == '3':
-            merge_covers(db)
-        elif action == '4':
             steam.collect_games()
-        elif action == '5':
+        elif action == '4':
             steam.collect_headers()
-        elif action == '6':
+        elif action == '5':
             steam.merge_games(db)
-        elif action == '7':
+        elif action == '6':
             steam.link_developers(db)
+        elif action == '7':
+            steam.upload_covers()
         elif action == '8':
             igdb.collect_games()
         elif action == '9':

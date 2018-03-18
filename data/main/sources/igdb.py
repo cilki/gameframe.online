@@ -46,10 +46,9 @@ CACHE_COVER = "%s/igdb/covers" % CACHE_GAMEFRAME
 assert os.path.isdir(CACHE_COVER)
 
 """
-The CD image cache
+The minimum cover size that will be accepted
 """
-CACHE_CD = "%s/igdb/cds" % CACHE_GAMEFRAME
-assert os.path.isdir(CACHE_CD)
+COVER_AREA_MIN = 2500
 
 """
 2124 - 89252 seems to be the range of game IDs on IGDB
@@ -157,7 +156,7 @@ def build_game(game_json):
         else:
             game = Game()
 
-    # IGDB ID
+    # IGDB ID (overwrite)
     game.igdb_id = int(game_json['id'])
 
     # Title
@@ -196,10 +195,11 @@ def build_game(game_json):
         if next((x for x in game.screenshots if x.url == url), None) is None:
             game.screenshots.append(Image(url=url))
 
-    # Cover
-    if game.cover is None and 'cover' in game_json:
-        game.cover = game_json['cover']['url'][2:].replace(
-            "t_thumb", "t_original")
+    # Cover (overwrite)
+    if 'cover' in game_json:
+        cover = game_json['cover']
+        if cover['width'] * cover['height'] >= COVER_AREA_MIN:
+            game.cover = cover['url'][2:].replace("t_thumb", "t_original")
 
     return game
 
