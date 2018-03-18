@@ -2,7 +2,7 @@ import flask
 import flask_sqlalchemy
 import flask_restless
 
-from .orm import Game, Developer, Article, Tweet, Stream, Video
+from .orm import Game, Developer, Article, Tweet, Video
 
 
 def generate_api(app, db):
@@ -18,5 +18,4 @@ def generate_api(app, db):
     api_manager.create_api(Developer, methods=['GET'], url_prefix='/v1')
     api_manager.create_api(Article, methods=['GET'], url_prefix='/v1')
     api_manager.create_api(Tweet, methods=['GET'], url_prefix='/v1')
-    api_manager.create_api(Stream, methods=['GET'], url_prefix='/v1')
     api_manager.create_api(Video, methods=['GET'], url_prefix='/v1')
