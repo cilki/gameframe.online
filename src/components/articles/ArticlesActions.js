@@ -58,7 +58,9 @@ function fetchArticles(pageNumber = 1) {
           if (data.entities.developers) {
             dispatch(fetchDevelopersResponse(Object.values(data.entities.developers)));
           }
-          dispatch(fetchArticlesResponse(Object.values(data.entities.articles)));
+          if (data.entities && data.entities.articles) {
+            dispatch(fetchArticlesResponse(Object.values(data.entities.articles)));
+          }
         })
         .catch(err => dispatch(fetchArticlesResponse(err)));
     }

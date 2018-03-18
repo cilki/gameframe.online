@@ -93,7 +93,7 @@ const Card = {
     },
   },
 
-  imageContainer: imageURL => ({
+  imageContainer: () => ({
     overflow: 'hidden',
     borderRadius: '10px',
     WebkitTransition: '-webkit-transform 0.2s',
@@ -111,7 +111,6 @@ const Card = {
     display: 'flex',
     verticalAlign: 'middle',
     height: '100%',
-    objectFit: 'fill',
     backgroundPosition: 'center',
     backgroundSize: '100% 100%',
     ':hover': {

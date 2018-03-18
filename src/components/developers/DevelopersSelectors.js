@@ -4,15 +4,6 @@
  */
 
 /**
- * @description - Simple input selector for all of the developers
- * @param {Object} state
- * @returns {List}
- */
-function getAllDevelopers(state) {
-  return state.developers.developers;
-}
-
-/**
  * @description - Simple input selector for the `developersRequested` state
  * @param {Map} state
  * @returns {Boolean}
@@ -42,7 +33,6 @@ function getDevelopersError(state) {
 }
 
 export {
-  getAllDevelopers,
   getDevelopersRequested,
   getDevelopers,
   getDevelopersError,

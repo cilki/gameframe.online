@@ -60,25 +60,33 @@ screenshot.defaultProps = {
  */
 function link({ label, url, key }) {
   return (
-    <Link key={key} to={url} style={{
-      textDecoration: 'none',
-      display: 'flex',
-      flexDirection: 'row',
-      maxWidth: '100%',
-      textOverflow: 'ellipsis'
-    }}>
-      <Label style={{
+    <Link
+      key={key}
+      to={url}
+      style={{
+        textDecoration: 'none',
+        display: 'flex',
+        flexDirection: 'row',
         maxWidth: '100%',
-        overflow: 'hidden',
-        whiteSpace: 'nowrap',
-        textOverflow: 'ellipsis'
-      }}>
-        <div style={{
+        textOverflow: 'ellipsis',
+      }}
+    >
+      <Label
+        style={{
           maxWidth: '100%',
-          textOverflow:'ellipsis',
+          overflow: 'hidden',
           whiteSpace: 'nowrap',
-          overflow: 'hidden'
-        }}>
+          textOverflow: 'ellipsis',
+        }}
+      >
+        <div
+          style={{
+            maxWidth: '100%',
+            textOverflow: 'ellipsis',
+            whiteSpace: 'nowrap',
+            overflow: 'hidden',
+          }}
+        >
           {label}
         </div>
       </Label>

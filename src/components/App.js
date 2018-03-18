@@ -70,12 +70,15 @@ function App() {
           >
             <Route path="/" exact component={Splash} />
             <Route path="/about" component={AboutPage} />
+
             <Route path="/games/:gameId" component={Game} />
             <Route path="/games" exact component={Games} />
-            <Route path="/developers" exact component={Developers} />
+
             <Route path="/developers/:developerId" exact component={Developer} />
-            <Route path="/articles" exact component={Articles} />
+            <Route path="/developers" exact component={Developers} />
+
             <Route path="/articles/:articleId" component={Article} />
+            <Route path="/articles" exact component={Articles} />
 
           </div>
 

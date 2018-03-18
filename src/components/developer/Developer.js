@@ -44,18 +44,18 @@ class Developer extends React.Component {
   static propTypes = {
     // this is derived state using selectors
     articles: PropTypes.arrayOf(PropTypes.shape({
-      name: PropTypes.string.isRequired,
-      url: PropTypes.string.isRequired,
+      title: PropTypes.string.isRequired,
+      id: PropTypes.number.isRequired,
     })),
     name: PropTypes.string.isRequired,
     // this is derived state using selectors
     games: PropTypes.arrayOf(PropTypes.shape({
       name: PropTypes.string.isRequired,
-      url: PropTypes.string.isRequired,
+      id: PropTypes.number.isRequired,
     })),
     country: PropTypes.string,
-    logoURL: PropTypes.string,
-    twitter: PropTypes.object, //eslint-disable-line
+    logo: PropTypes.string,
+    twitter: PropTypes.oneOfType([PropTypes.string, PropTypes.object]), //eslint-disable-line
     foundation: PropTypes.string,
     website: PropTypes.string,
     // we currently don't use these but we may in the future
@@ -70,8 +70,8 @@ class Developer extends React.Component {
     name: '',
     games: [],
     country: '',
-    logoURL: '',
-    twitter: null,
+    logo: null,
+    twitter: {},
     foundation: '',
     website: '',
     error: null,
@@ -91,6 +91,7 @@ class Developer extends React.Component {
   }
 
   render() {
+    const logoURL = this.props.logo && this.props.logo.indexOf('http') < 0 ? `https://${this.props.logo}` : this.props.logo;
     return (
       <div>
         <div style={[
@@ -104,14 +105,13 @@ class Developer extends React.Component {
             border: DeveloperStyles.border,
             jumboTron: DeveloperStyles.jumboTron,
           }}
-          twitterWidget={this.props.twitter}
         >
           <div>
             <h1 style={[DeveloperStyles.name]}>{this.props.name}
               <div style={[DeveloperStyles.logo]}>
                 <img
                   style={{ maxWidth: '100%', maxHeight: '100%' }}
-                  src={this.props.logoURL}
+                  src={logoURL}
                   alt={`${this.props.name} logo`}
                 />
               </div>
@@ -129,7 +129,7 @@ class Developer extends React.Component {
               <p>
                 {
                   this.props.games.map(game => link({
-                    label: game.name,
+                    label: game.title,
                     url: `/games/${game.id}`,
                     key: `game-${game.id}`,
                   }))

@@ -8,8 +8,8 @@ import { normalize } from 'normalizr';
 import {
   fetchDeveloperRequest,
   fetchDeveloperResponse,
-  fetchArticlesRequest,
-  fetchGamesRequest,
+  fetchArticlesResponse,
+  fetchGamesResponse,
 } from '../Actions';
 import { developers as developerSchema } from '../Schemas';
 import { getDeveloper } from './DeveloperSelectors';
@@ -40,9 +40,15 @@ function fetchDeveloper(developerId) {
         .then(response => response.json())
         .then(json => normalize(json, developerSchema))
         .then((data) => {
-          dispatch(fetchGamesRequest(Object.values(data.entities.games)));
-          dispatch(fetchArticlesRequest(Object.values(data.entities.articles)));
-          dispatch(fetchDeveloperResponse(developerId, data.entities.developers[developerId]));
+          if (data.entities && data.entities.games) {
+            dispatch(fetchGamesResponse(Object.values(data.entities.games)));
+          }
+          if (data.entities && data.entities.articles) {
+            dispatch(fetchArticlesResponse(Object.values(data.entities.articles)));
+          }
+          if (data.entities && data.entities.developers && data.entities.developers[developerId]) {
+            dispatch(fetchDeveloperResponse(developerId, data.entities.developers[developerId]));
+          }
         })
         .catch(err => dispatch(fetchDeveloperResponse(developerId, err)));
     }

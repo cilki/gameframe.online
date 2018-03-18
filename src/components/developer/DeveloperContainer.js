@@ -25,7 +25,7 @@ function mapStateToProps() {
   const gameSelector = makeGetDeveloperGames(developerSelector);
   return (state, { match: { params } }) => {
     // this is retrieving the ID from the URL
-    const id = Number(params.gameId);
+    const id = Number(params.developerId);
     if (isNaN(id)) { //eslint-disable-line
       return {};
     }

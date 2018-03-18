@@ -52,13 +52,15 @@ function fetchDevelopers(pageNumber = 1) {
         .then(response => response.json())
         .then(json => normalize(json, developersResponse))
         .then((data) => {
-          if (data.entities.games) {
+          if (data.entities && data.entities.games) {
             dispatch(fetchGamesResponse(Object.values(data.entities.games)));
           }
-          if (data.entities.articles) {
+          if (data.entities && data.entities.articles) {
             dispatch(fetchArticlesResponse(Object.values(data.entities.articles)));
           }
-          dispatch(fetchDevelopersResponse(Object.values(data.entities.developers)));
+          if (data.entities && data.entities.developers) {
+            dispatch(fetchDevelopersResponse(Object.values(data.entities.developers)));
+          }
         })
         .catch(err => dispatch(fetchDevelopersResponse(err)));
     }
@@ -131,7 +133,9 @@ const developers = handleActions({
   // action for a single developer
   [fetchDeveloperRequest](state, { payload }) {
     const id = payload;
-    return state.mergeIn([id, 'requested'], true);
+    return state.mergeIn([id], {
+      requested: true,
+    });
   },
 
   // action for a single developer

@@ -53,9 +53,15 @@ function fetchGames(pageNumber = 1) {
         .then(response => response.json())
         .then(json => normalize(json, gamesResponse))
         .then((data) => {
-          dispatch(fetchGamesResponse(Object.values(data.entities.games)));
-          dispatch(fetchDevelopersResponse(Object.values(data.entities.developers)));
-          dispatch(fetchArticlesResponse(Object.values(data.entities.articles)));
+          if (data.entities && data.entities.developers) {
+            dispatch(fetchDevelopersResponse(Object.values(data.entities.developers)));
+          }
+          if (data.entities && data.entities.articles) {
+            dispatch(fetchArticlesResponse(Object.values(data.entities.articles)));
+          }
+          if (data.entities && data.entities.games) {
+            dispatch(fetchGamesResponse(Object.values(data.entities.games)));
+          }
         })
         .catch(err => dispatch(fetchGamesResponse(err)));
     }

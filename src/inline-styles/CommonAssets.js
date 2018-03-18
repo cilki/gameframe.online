@@ -5,7 +5,7 @@ const CommonAssets = {
 
   horizontalGradient: {
     background: 'linear-gradient(to right, black, #090909, #191919, #191919, #090909, black)',
-    zIndex: '-101'
+    zIndex: '-101',
   },
 
   backgroundColor: {

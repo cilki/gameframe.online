@@ -61,7 +61,7 @@ const Game = {
     display: 'flex',
     flexDirection: 'row',
     flexWrap: 'wrap',
-    width: '80%'
+    width: '80%',
   },
   twitter: {
     paddingLeft: '2%',
