@@ -48,6 +48,11 @@ class Games extends React.Component {
     return (
       <div>
         <div style={[
+          CommonAssets.fillBackground,
+          CommonAssets.horizontalGradient,
+        ]}
+        />
+        <div style={[
           CommonAssets.stripeOverlay,
           CommonAssets.fillBackground,
         ]}

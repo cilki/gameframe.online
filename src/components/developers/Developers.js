@@ -51,6 +51,12 @@ class Developers extends React.Component {
       <div>
         <div
           style={[
+            CommonAssets.fillBackground,
+            CommonAssets.horizontalGradient,
+          ]}
+        />
+        <div
+          style={[
             CommonAssets.stripeOverlay,
             CommonAssets.fillBackground,
           ]}
