@@ -8,7 +8,7 @@ const Developer = {
     right: '0',
     top: '0',
     bottom: '0',
-    filter: 'blur(64px)',
+    filter: 'blur(64px) saturate(200%)',
     zIndex: '-101',
     display: 'block',
     transition: 'hue-rotate 2s',

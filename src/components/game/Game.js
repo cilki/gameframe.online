@@ -163,6 +163,7 @@ class Game extends React.Component {
 
   render() {
     const screenshots = this.props.screenshots ? this.props.screenshots : [];
+    const coverURL = this.props.cover && this.props.cover.indexOf('http') < 0 ? `https://${this.props.cover}` : this.props.cover;
     return (
       <div>
         <div style={[
@@ -172,7 +173,7 @@ class Game extends React.Component {
         />
         <InstanceDetails
           style={{
-            container: GameStyles.container(this.props.cover),
+            container: GameStyles.container(coverURL),
             border: GameStyles.border,
             jumboTron: GameStyles.jumboTron,
           }}
