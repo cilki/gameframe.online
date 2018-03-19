@@ -7,10 +7,8 @@ import PropTypes from 'prop-types';
 import Radium from 'radium';
 import { Label, ListGroup, ListGroupItem } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
-
 import DeveloperStyles from './DeveloperStyles';
 import InstanceDetails from '../InstanceDetails';
-
 import CommonAssets from '../../inline-styles/CommonAssets';
 
 /**
@@ -118,12 +116,14 @@ class Developer extends React.Component {
                 />
               </div>
             </h1>
+  
             <div style={[DeveloperStyles.secondaryInfo]}>
               <p>Established: {this.props.foundation}</p>
               <p>Location: {this.props.country}</p>
               <p>Website: <a href={this.props.website}>{this.props.website}</a></p>
             </div>
           </div>
+          
           <div style={[DeveloperStyles.games]}>
             <h3>Games:</h3>
             {
@@ -141,18 +141,21 @@ class Developer extends React.Component {
               </p>
             }
           </div>
+          
           <div style={[DeveloperStyles.articles]}>
             <h3>Articles:</h3>
             {
               this.props.articles.length > 0 &&
               <p>
-                {
-                  this.props.articles.map(article => link({
-                    label: article.title,
-                    url: `/articles/${article.id}`,
-                    key: `article-${article.id}`,
-                  }))
-                }
+                <ListGroup>
+                  {
+                    this.props.articles.map(article => link({
+                      label: article.title,
+                      url: `/articles/${article.id}`,
+                      key: `article-${article.id}`,
+                    }))
+                  }
+                </ListGroup>
               </p>
             }
           </div>

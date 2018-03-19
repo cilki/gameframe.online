@@ -5,12 +5,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Radium from 'radium';
-import { Label } from 'react-bootstrap';
+import { Label,ListGroup, ListGroupItem } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
-
 import ArticleStyles from './ArticleStyles';
 import InstanceDetails from '../InstanceDetails';
-
 import CommonAssets from '../../inline-styles/CommonAssets';
 
 /**
@@ -22,9 +20,11 @@ import CommonAssets from '../../inline-styles/CommonAssets';
  */
 function link({ label, url, key }) {
   return (
-    <Link key={key} to={url} style={{ textDecoration: 'none' }}>
-      <Label>{label}</Label>
-    </Link>
+    <ListGroupItem key={key}>
+      <Link to={url} style={{ textDecoration: 'none' }}>
+        <Label>{label}</Label>
+      </Link>
+    </ListGroupItem>
   );
 }
 
@@ -42,7 +42,6 @@ link.propTypes = {
  */
 class Article extends React.Component {
   static propTypes = {
-    // article_id: PropTypes.number.isRequired,
     author: PropTypes.string,
     developers: PropTypes.arrayOf(PropTypes.shape({
       id: PropTypes.number.isRequired,
@@ -54,10 +53,9 @@ class Article extends React.Component {
     })),
     cover: PropTypes.string,
     introduction: PropTypes.string,
-    // outlet: PropTypes.string,
+    outlet: PropTypes.string,
     timestamp: PropTypes.string,
     title: PropTypes.string,
-
     fetchArticle: PropTypes.func.isRequired,
   };
 
@@ -67,7 +65,7 @@ class Article extends React.Component {
     developers: [],
     games: [],
     introduction: '',
-    // outlet: '',
+    outlet: '',
     timestamp: '',
     title: '',
   };
@@ -85,6 +83,8 @@ class Article extends React.Component {
   }
 
   render() {
+    const coverURL = this.props.cover && this.props.cover.indexOf('http') < 0 ? 
+      `https://${this.props.cover}` : this.props.cover;
     return (
       <div>
         <div
@@ -95,44 +95,67 @@ class Article extends React.Component {
         />
         <InstanceDetails
           style={{
-            container: ArticleStyles.container(this.props.cover),
+            container: undefined,
             border: ArticleStyles.border,
             jumboTron: ArticleStyles.jumboTron,
           }}
         >
           <div>
-            <h1 style={[ArticleStyles.title]}>{this.props.title}</h1>
+            <h1 style={[ArticleStyles.title]}>{this.props.title}
+              <div style={[ArticleStyles.logo]}>
+                <img
+                  style={{ maxWidth: '100%', maxHeight: '100%' }}
+                  src={coverURL}
+                  alt={`${this.props.author} thumbnail`}
+                />
+              </div>
+            </h1>
+            
             <div style={[ArticleStyles.secondaryInfo]}>
               <p>Author: {this.props.author}</p>
               <p>Published: {this.props.timestamp}</p>
+              <p>Outlet: <a href={this.props.outlet}>{this.props.outlet}</a></p>
             </div>
 
             <div style={[ArticleStyles.summary]}>
               {/* TODO: We can do better than this. There are existing libraries to put in HTML */}
               <p dangerouslySetInnerHTML={{ __html: this.props.introduction }} /> {/* eslint-disable-line */}
-              <h3>Published by {this.props.author}</h3>
             </div>
+            
             <div style={[ArticleStyles.developer]}>
-              <p>Developer:
+              <h3>Developer:</h3>
                 {
-                  this.props.developers.map(developer => link({
-                    label: developer.name,
-                    url: `/developers/${developer.id}`,
-                    key: `developer-${developer.id}`,
-                  }))
+                  this.props.developers.length > 0 &&
+                  <p>
+                    <ListGroup>
+                      {
+                        this.props.developers.map(developer => link({
+                          label: developer.name,
+                          url: `/developers/${developer.id}`,
+                          key: `developer-${developer.id}`,
+                        }))
+                      }
+                    </ListGroup>
+                </p>
                 }
-              </p>
             </div>
+            
             <div style={[ArticleStyles.game]}>
-              <p>Game:
+              <h3>Game:</h3>
                 {
-                  this.props.games.map(game => link({
-                    label: game.name,
-                    url: `/games/${game.id}`,
-                    key: `game-${game.id}`,
-                  }))
+                  this.props.games.length > 0 &&
+                  <p>
+                    <ListGroup>
+                      {
+                        this.props.games.map(game => link({
+                          label: game.name,
+                          url: `/games/${game.id}`,
+                          key: `game-${game.id}`,
+                        }))
+                      }
+                    </ListGroup>
+                </p>
                 }
-              </p>
             </div>
           </div>
         </InstanceDetails>
