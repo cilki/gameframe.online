@@ -101,7 +101,7 @@ class Developer extends React.Component {
         />
         <InstanceDetails
           style={{
-            container: undefined,
+            container: DeveloperStyles.container(logoURL),
             border: DeveloperStyles.border,
             jumboTron: DeveloperStyles.jumboTron,
           }}
