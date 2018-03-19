@@ -83,7 +83,10 @@ class Card extends React.Component {
      * @description - Render the tooltip associated with the type.
      * @returns {React.Component}
      */
-    function tooltip(articles, games, link1, link2, price) {
+    function tooltip(games, price,
+                     developers,
+                     articles,
+                     link1, link2) {
       if (tooltipType === 1) {
         return (
           <GameTooltip
@@ -94,8 +97,8 @@ class Card extends React.Component {
       } else if (tooltipType === 2) {
         return (
           <DeveloperTooltip
-            articles={articles.length}
             games={games.length}
+            articles={articles.length}
             twitter={link1}
             website={link2}
           />
@@ -103,7 +106,9 @@ class Card extends React.Component {
       } else if (tooltipType === 3) {
         return (
           <ArticleTooltip
-            outlet={link1}
+            games={games}
+            developers={developers}
+            article_link={link1}
           />
         );
       }
@@ -176,7 +181,10 @@ class Card extends React.Component {
                   }
                 />
                 <div>
-                  {tooltip(this.props.articles, this.props.games, this.props.link1, this.props.link2, this.props.price)}
+                  {tooltip(this.props.games, this.props.price,
+                           this.props.developers,
+                           this.props.articles,
+                           this.props.link1, this.props.link2)}
                 </div>
               </div>
               <div style={[CardStyles.captionContainer]} key={`${title}-caption`}>
