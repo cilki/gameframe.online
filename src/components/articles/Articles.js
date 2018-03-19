@@ -103,4 +103,4 @@ class Articles extends React.Component {
   }
 }
 
-export default Radium(Articles);
+export default Articles;

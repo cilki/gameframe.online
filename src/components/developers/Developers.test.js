@@ -9,7 +9,13 @@ const { expect } = require('chai');
 
 describe('Developers', () => {
     it("renders without breaking", () => {
-        const wrapper = shallow(<Developers/>);
+        const wrapper = shallow(
+          <Developers
+            currentPage={1}
+            totalPages={1}
+            fetchDevelopers={() => {}}
+          />
+        );
         expect(wrapper).to.exist;
     });
 });
