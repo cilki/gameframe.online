@@ -13,11 +13,21 @@ import { Link } from 'react-router-dom';
 class GameTooltip extends React.Component {
   static propTypes = {
     price: PropTypes.number,
+    genres: PropTypes.arrayOf(PropTypes.string),
+    platforms: PropTypes.arrayOf(PropTypes.string),
+    streams: PropTypes.number,
+    videos: PropTypes.number,
+    tweets: PropTypes.number,
     articles: PropTypes.number,
   };
 
   static defaultProps = {
     price: 0,
+    genres: [],
+    platforms: [],
+    streams: 0,
+    videos: 0,
+    tweets: 0,
     articles: 0,
   };
 
@@ -33,17 +43,88 @@ class GameTooltip extends React.Component {
     const price = this.props.price / 100;
     return (
       <div>
-        <div>Price: ${price}</div>
-        <div>Genres: <Badge>Genre</Badge></div>
-        <div>Platforms</div>
-        <div>Windows: Yes</div>
-        <div>Mac: No</div>
-        <div>Linux: No</div>
-        <div>Media</div>
-        <div>Streams: #0</div>
-        <div>Videos: #0</div>
-        <div>Tweets: #0</div>
-        <div>Articles: #{this.props.articles}</div>
+        <div>
+          <p>
+            Price: 
+            <Badge>
+              ${price}
+            </Badge>
+          </p>
+        </div>
+        
+        <div>
+          <h4>
+            Genres: 
+          </h4>
+          {
+            this.props.genres.length > 0 &&
+            <p>
+            {
+              this.props.genres.map((genre) => {
+                return (
+                  <Label key={genre}>
+                      {genre}
+                  </Label>
+                );
+              })
+            }
+            </p>
+          }
+        </div>
+        
+        <div>
+          <h4>
+            Platforms
+          </h4>
+          <p>
+            Windows:
+            <Badge>
+              Yes
+            </Badge>
+          </p>
+          <p>
+            Mac:
+            <Badge>
+              No
+            </Badge>
+          </p>
+          <p>
+            Linux:
+            <Badge>
+              No
+            </Badge>
+          </p>
+        </div>
+              
+        <div>
+          <h4>
+            Media
+          </h4>
+          <p>
+            Streams: 
+            <Badge>
+              #{this.props.streams}
+            </Badge>
+          </p>
+          <p>
+            Videos: 
+            <Badge>
+              #{this.props.videos}
+            </Badge>
+          </p>
+          <p>
+            Tweets: 
+            <Badge>
+              #{this.props.tweets}
+            </Badge>
+          </p>
+          <p>
+            Articles: 
+            <Badge>
+              #{this.props.articles}
+            </Badge>
+          </p>
+        </div>
       </div>
     );
   }

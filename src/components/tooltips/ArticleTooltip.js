@@ -12,15 +12,15 @@ import { Link } from 'react-router-dom';
 
 class ArticleTooltip extends React.Component {
   static propTypes = {
-    games: PropTypes.number,
-    developers: PropTypes.number,
-    outlet: PropTypes.string,
+    games: PropTypes.arrayOf(PropTypes.number),
+    developers: PropTypes.arrayOf(PropTypes.number),
+    article_link: PropTypes.string,
   };
 
   static defaultProps = {
-    games: 0,
-    developers: 0,
-    outlet: '',
+    games: [],
+    developers: [],
+    article_link: '',
   };
 
   /**
@@ -34,10 +34,59 @@ class ArticleTooltip extends React.Component {
   render() {
     return (
       <div>
-        <div>Games: <Badge>Game</Badge></div>
-        <div>Developers: <Badge>Developer</Badge></div>
-        <div>Media</div>
-        <div>Source: {this.props.outlet}</div>
+        <div>
+          <h4>
+            Games: 
+          </h4>
+          {
+            this.props.games.length > 0 &&
+            <p>
+            {
+              this.props.games.map((game) => {
+                return (
+                  <Label key={game}>
+                      {game.name}
+                  </Label>
+                );
+              })
+            }
+            </p>
+          }
+        </div>
+        
+        <div>
+          <h4>
+            Developers: 
+          </h4>
+          {
+            this.props.developers.length > 0 &&
+            <p>
+            {
+              this.props.developers.map((developer) => {
+                return (
+                  <Label key={developer}>
+                      {developer.name}
+                  </Label>
+                );
+              })
+            }
+            </p>
+          }
+        </div>
+        
+        <div>
+          <h4>
+            Media
+          </h4>
+          <p>
+            Source:
+            <a href={this.props.article_link}>
+              <Label>
+                {this.props.article_link}
+              </Label>
+            </a>
+          </p>
+        </div>
       </div>
     );
   }
