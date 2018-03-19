@@ -114,10 +114,10 @@ const developers = handleActions({
             requested: false,
           },
           developer.games && {
-            games: List(data.games),
+            games: List(developer.games),
           },
           developer.articles && {
-            articles: List(data.articles),
+            articles: List(developer.articles),
           },
         ));
       });

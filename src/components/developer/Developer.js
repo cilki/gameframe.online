@@ -5,7 +5,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Radium from 'radium';
-import { Label } from 'react-bootstrap';
+import { Label, ListGroup, ListGroupItem } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 
 import DeveloperStyles from './DeveloperStyles';
@@ -22,9 +22,11 @@ import CommonAssets from '../../inline-styles/CommonAssets';
  */
 function link({ label, url, key }) {
   return (
-    <Link key={key} to={url} style={{ textDecoration: 'none' }}>
-      <Label>{label}</Label>
-    </Link>
+    <ListGroupItem key={key}>
+      <Link to={url} style={{ textDecoration: 'none' }}>
+        <Label>{label}</Label>
+      </Link>
+    </ListGroupItem>
   );
 }
 
@@ -127,13 +129,15 @@ class Developer extends React.Component {
             {
               this.props.games.length > 0 &&
               <p>
-                {
-                  this.props.games.map(game => link({
-                    label: game.title,
-                    url: `/games/${game.id}`,
-                    key: `game-${game.id}`,
-                  }))
-                }
+                <ListGroup>
+                  {
+                    this.props.games.map(game => link({
+                      label: game.name,
+                      url: `/games/${game.id}`,
+                      key: `game-${game.id}`,
+                    }))
+                  }
+                </ListGroup>
               </p>
             }
           </div>
