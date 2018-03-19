@@ -139,7 +139,7 @@ def gather_articles(db):
         if not is_cached(CACHE_ARTICLE_GAME, name):
             articles = rq_articles(name)
             # Write to the cache
-            with open(u"%s/%s" % (CACHE_ARTICLE_GAME, name.replace("/", "\\")), 'w', 'utf8') as h:
+            with open("%s/%s" % (CACHE_ARTICLE_GAME, name.replace("/", "\\")), 'w', 'utf8') as h:
                 h.write(json.dumps(articles, ensure_ascii=False))
 
     print("[NWAPI] Gathering articles by developer")
@@ -147,16 +147,34 @@ def gather_articles(db):
         if not is_cached(CACHE_ARTICLE_GAME, name):
             articles = rq_articles(name)
             # Write to the cache
-            with open(u"%s/%s" % (CACHE_ARTICLE_DEVELOPER, name.replace("/", "\\")), 'w', 'utf8') as h:
+            with open("%s/%s" % (CACHE_ARTICLE_DEVELOPER, name.replace("/", "\\")), 'w', 'utf8') as h:
                 h.write(json.dumps(articles, ensure_ascii=False))
 
     print("[NWAPI] Gather Complete")
 
 
+def clean_cache():
+    """
+    Scour the article cache and remove undesirable articles
+    """
+
+    for filename in os.listdir(CACHE_ARTICLE_GAME):
+        articles = []
+        with open("%s/%s" % (CACHE_ARTICLE_GAME, filename), 'r', 'utf8') as h:
+            for article_json in json.load(h):
+                if False:  # TODO condition
+                    print('Removing article: %s' % article_json['title'])
+                else:
+                    articles.append(article_json)
+
+        with open("%s/%s" % (CACHE_ARTICLE_GAME, filename), 'w', 'utf8') as h:
+            h.write(json.dumps(articles, ensure_ascii=False))
+
+
 def merge_articles(db):
     load_working_set()
 
-    print("[NWAPI] Merging articles")
+    print("[NWAPI] Merging/Linking articles")
     for filename in tqdm(os.listdir(CACHE_ARTICLE_GAME)):
 
         try:
@@ -170,6 +188,9 @@ def merge_articles(db):
 
             # Do not allow duplicate titles
             if article_json['title'] in title_article:
+                article = title_article[article_json['title']]
+                if article not in game.articles:
+                    game.articles.append(article)
                 continue
 
             # Build Article
@@ -182,9 +203,9 @@ def merge_articles(db):
 
             # Setting up a relationship between article and game
             game.articles.append(article)
-            article.games.append(game)
 
+            # Add to working set
             add_article(article)
-            db.session.add(article)
-        db.session.commit()
-    print("[NWAPI] Merge Complete")
+
+    db.session.commit()
+    print("[NWAPI] Merge/Link Complete")
