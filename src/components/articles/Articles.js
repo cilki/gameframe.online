@@ -5,8 +5,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Radium from 'radium';
+
+import Grid from '../grid';
 import CommonAssets from '../../inline-styles/CommonAssets';
-import Styles from './ArticlesStyles';
 import Card from '../card';
 
 class Articles extends React.Component {
@@ -23,6 +24,9 @@ class Articles extends React.Component {
     })),
     articlesError: PropTypes.string, //eslint-disable-line
     articlesRequested: PropTypes.bool, //eslint-disable-line
+    currentPage: PropTypes.number.isRequired,
+    totalPages: PropTypes.number.isRequired,
+
     fetchArticles: PropTypes.func.isRequired,
   };
 
@@ -41,7 +45,18 @@ class Articles extends React.Component {
    * @description - React lifecycle method used to fetch the data
    */
   componentDidMount() {
-    this.props.fetchArticles();
+    this.props.fetchArticles(this.props.currentPage);
+  }
+
+  /**
+   * @description - React lifecycle method used to fetch the another
+   * page if there's a page switch
+   * @param {Object} prevProps
+   */
+  componentDidUpdate(prevProps) {
+    if (prevProps.currentPage !== this.props.currentPage) {
+      this.props.fetchArticles(this.props.currentPage);
+    }
   }
 
   render() {
@@ -57,7 +72,13 @@ class Articles extends React.Component {
           CommonAssets.fillBackground,
         ]}
         />
-        <div style={[Styles.grid]}>
+        <Grid
+          {...{
+            currentPage: this.props.currentPage,
+            totalPages: this.props.totalPages,
+            prefix: 'articles',
+          }}
+        >
           {
             this.props.articles.map((article) => {
               return (
@@ -76,7 +97,7 @@ class Articles extends React.Component {
               );
             })
           }
-        </div>
+        </Grid>
       </div>
     );
   }

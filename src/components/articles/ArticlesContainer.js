@@ -9,8 +9,10 @@ import { connect } from 'react-redux';
 import ArticlesPresenter from './Articles';
 import {
   getArticlesRequested,
-  getArticles,
   getArticlesError,
+  getArticlesCurrentPage,
+  getTotalPages,
+  getArticlesByPage,
 } from './ArticlesSelectors';
 import { fetchArticles } from './ArticlesActions';
 
@@ -20,11 +22,13 @@ import { fetchArticles } from './ArticlesActions';
  * @param {Map} state - the current state in the Redux store
  * @returns {Object}
  */
-function mapStateToProps(state) {
+function mapStateToProps(state, props) {
   return {
     articlesRequested: getArticlesRequested(state),
     articlesError: getArticlesError(state),
-    articles: Object.values(getArticles(state)),
+    articles: getArticlesByPage(state, props),
+    currentPage: getArticlesCurrentPage(state, props),
+    totalPages: getTotalPages(state),
   };
 }
 
@@ -37,7 +41,7 @@ function mapStateToProps(state) {
  */
 function mapDispatchToProps(dispatch) {
   return {
-    fetchArticles: () => dispatch(fetchArticles()),
+    fetchArticles: page => dispatch(fetchArticles(page)),
   };
 }
 

@@ -3,11 +3,13 @@
  * Defines the actions for the Articles page
  */
 
-import { handleActions } from 'redux-actions';
+import { handleActions, createAction } from 'redux-actions';
 import { List, Map } from 'immutable';
 import { combineReducers } from 'redux';
 import { normalize } from 'normalizr';
 
+import { PAGE_SIZE } from '../Constants';
+import { getArticlesByPage } from './ArticlesSelectors';
 import {
   fetchArticlesRequest,
   fetchArticlesResponse,
@@ -26,9 +28,12 @@ import { articles as articlesSchema } from '../Schemas';
  * @returns {Boolean}
  */
 function shouldFetchArticles(state, pageNumber) { //eslint-disable-line
-  // TODO: Implement this function so it's "smart"
-  return true;
+  return getArticlesByPage(state, { page: pageNumber }).length < PAGE_SIZE;
 }
+
+
+const setArticlesTotalPages = createAction('SET_ARTICLES_TOTAL_PAGES');
+const setArticlePage = createAction('SET_ARTICLE_PAGE');
 
 const articlesResponse = {
   objects: [articlesSchema],
@@ -46,12 +51,16 @@ function fetchArticles(pageNumber = 1) {
     if (shouldFetchArticles(getState(), pageNumber)) {
       dispatch(fetchArticlesRequest());
       fetch( //eslint-disable-line
-        `http://api.gameframe.online/v1/article?page=${pageNumber}`,
+        encodeURI(`http://api.gameframe.online/v1/article?page=${pageNumber}&results_per_page=${PAGE_SIZE}`),
         { method: 'GET' },
       )
         .then(response => response.json())
         .then(json => normalize(json, articlesResponse))
         .then((data) => {
+          if (data.result && data.result.total_pages) {
+            dispatch(setArticlesTotalPages(data.result.total_pages));
+          }
+
           if (data.entities.games) {
             dispatch(fetchGamesResponse(Object.values(data.entities.games)));
           }
@@ -60,6 +69,11 @@ function fetchArticles(pageNumber = 1) {
           }
           if (data.entities && data.entities.articles) {
             dispatch(fetchArticlesResponse(Object.values(data.entities.articles)));
+
+            dispatch(setArticlePage({
+              pageNumber,
+              indices: Object.keys(data.entities.articles),
+            }));
           }
         })
         .catch(err => dispatch(fetchArticlesResponse(err)));
@@ -92,6 +106,22 @@ const articlesError = handleActions({
     },
   },
 }, null);
+
+/**
+ * Reducer for the total number of pages of developers
+ * we have in the API
+ */
+const totalPages = handleActions({
+  [setArticlesTotalPages](state, { payload }) {
+    return payload;
+  },
+}, 0);
+
+const pages = handleActions({
+  [setArticlePage](state, { payload: { pageNumber, indices } }) {
+    return state.merge({ [pageNumber]: List(indices) });
+  },
+}, Map());
 
 /* articles state field. A list of the actual
  * state for our articles */
@@ -167,6 +197,8 @@ const articlesReducer = combineReducers({
   articles,
   articlesError,
   articlesRequested,
+  totalPages,
+  pages,
 });
 
 export {
