@@ -46,6 +46,14 @@ const Card = {
       filter: 'hue-rotate(360deg)',
     },
 
+    titleText: {
+      color: 'white',
+      maxWidth: '100%',
+      whiteSpace: 'nowrap',
+      overflow: 'hidden',
+      textOverflow: 'ellipsis'
+    },
+
     clicked: {
       WebkitFilter: 'brightness(0.5) hue-rotate(360deg)',
       MozFilter: 'brightness(0.5) hue-rotate(360deg)',
@@ -62,8 +70,9 @@ const Card = {
     width: '100%',
     height: '100%',
     top: '0',
+    overflow: 'scroll',
     left: '0',
-    padding: '0px 5% 0px 5%',
+    padding: '5% 5% 0px 5%',
     borderBottomLeftRadius: '10px',
     borderBottomRightRadius: '10px',
     WebkitTransition: 'opacity 0.25s ease-out',

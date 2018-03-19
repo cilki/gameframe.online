@@ -116,6 +116,16 @@ class Card extends React.Component {
         onMouseEnter={() => this.onMouseEntry}
         onMouseLeave={() => this.onMouseLeave}
       >
+        <div style={{
+          color: '#e9e9e9',
+          maxWidth: '100%',
+          whiteSpace: 'nowrap',
+          overflow: 'hidden',
+          textOverflow: 'ellipsis'
+        }}>
+          {this.props.title}
+        </div>
+
         <Link to={this.props.url} style={{ textDecoration: 'none' }}>
           <div>
             <div style={[CardStyles.card]} key={title}>
@@ -166,7 +176,6 @@ class Card extends React.Component {
                   }
                 />
                 <div>
-                  <h3>{this.props.title}</h3>
                   {tooltip(this.props.articles, this.props.games, this.props.link1, this.props.link2, this.props.price)}
                 </div>
               </div>
