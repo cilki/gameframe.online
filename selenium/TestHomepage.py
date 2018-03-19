@@ -6,7 +6,7 @@ class TestHomepageFirefox(unittest.TestCase):
 
     def test_homepage_chrome(self):
         self.driver = webdriver.Chrome()
-        self.homepage()    
+        self.homepage()
 
     def test_homepage_edge(self):
         self.driver = webdriver.Edge()
