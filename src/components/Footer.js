@@ -28,6 +28,7 @@ function Footer() {
           width: '100%',
           borderTop: 'none',
           borderRadius: '0',
+          boxShadow: 'inset 0 10px 20px -10px rgba(0,0,0,0.99), 0 6px 6px -6px rgba(0,0,0,0.23)'
         }}
       >
         Copyright © 2018 GameFrame.Online. All rights reserved.

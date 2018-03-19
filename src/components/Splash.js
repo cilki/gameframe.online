@@ -23,6 +23,12 @@ class SplashPage extends React.Component {
       >
         <div
           style={[
+            CommonAssets.fillBackground,
+            CommonAssets.horizontalGradient,
+          ]}
+        />
+        <div
+          style={[
             CommonAssets.stripeOverlay,
             // CommonAssets.backgroundColor,
             CommonAssets.fillBackground,
@@ -31,6 +37,7 @@ class SplashPage extends React.Component {
         <Carousel
           style={{
             padding: '0 0 0 0',
+            boxSizing: 'border-box',
             minHeight: '100%',
           }}
         >
