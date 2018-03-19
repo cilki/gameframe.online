@@ -33,12 +33,7 @@ function createLinkContainerNavItem(href, imageSrc, label, linkProps, navProps) 
       <NavItem {...navProps} style={{}}>
         <div style={[NavbarStyles.itemMain]} key={`${href}`}>
           <img
-            style={[
-              { width: '24px' },
-              { height: '24px' },
-              { filter: 'grayscale(100%) invert(100%)' },
-              { paddingRight: '4px' },
-            ]}
+            style={NavbarStyles.navImage}
             key={`${href}-image`}
             src={imageSrc}
             alt={label}
@@ -83,11 +78,12 @@ function NavBar() {
       inverse
       collapseOnSelect
       style={{
-      borderRadius: '0',
-      background: '#272727',
-      borderLeft: 'none',
-      borderRight: 'none',
-      marginBottom: '0',
+        borderRadius: '0',
+        background: '#272727',
+        borderLeft: 'none',
+        borderRight: 'none',
+        marginBottom: '0',
+        boxShadow: '0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23)'
       }}
     >
       <Navbar.Header>

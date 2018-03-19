@@ -8,7 +8,7 @@ const Article = {
     right: '0',
     top: '0',
     bottom: '0',
-    filter: 'blur(64px)',
+    filter: 'saturate(2) blur(64px)',
     zIndex: '-101',
     display: 'block',
     transition: 'hue-rotate 2s',
