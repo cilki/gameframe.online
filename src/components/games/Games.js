@@ -12,7 +12,7 @@ import Grid from '../grid';
 
 class Games extends React.Component {
   static propTypes = {
-    currentPage: PropTypes.number,
+    currentPage: PropTypes.number.isRequired,
     games: PropTypes.arrayOf(PropTypes.shape({
       articles: PropTypes.arrayOf(PropTypes.number),
       cover: PropTypes.string,
@@ -30,7 +30,6 @@ class Games extends React.Component {
   };
 
   static defaultProps = {
-    currentPage: 1,
     games: [],
     gamesError: null,
     gamesRequested: false,
@@ -45,7 +44,13 @@ class Games extends React.Component {
    * @description - React lifecycle method used to fetch the data
    */
   componentDidMount() {
-    this.props.fetchGames();
+    this.props.fetchGames(this.props.currentPage);
+  }
+
+  componentDidUpdate(prevProps) {
+    if (this.props.currentPage !== prevProps.currentPage) {
+      this.props.fetchGames(this.props.currentPage);
+    }
   }
 
   render() {

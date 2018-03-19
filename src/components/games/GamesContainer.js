@@ -5,14 +5,14 @@
  */
 
 import { connect } from 'react-redux';
-import QueryString from 'query-string';
 
 import GamesPresenter from './Games';
 import {
   getGamesRequested,
-  getGames,
+  getGamesByPage,
   getGamesError,
   getTotalPages,
+  getGamesCurrentPage,
 } from './GamesSelectors';
 import { fetchGames } from './GamesActions';
 
@@ -24,14 +24,13 @@ import { fetchGames } from './GamesActions';
  * @returns {Object}
  */
 function mapStateToProps(state, props) {
-  let { page } = QueryString.parse(props.location.search);
-  page = Number(page);
   return {
     gamesRequested: getGamesRequested(state),
     gamesError: getGamesError(state),
-    games: Object.values(getGames(state)),
+    // this automatically gets the current page from props
+    games: getGamesByPage(state, props),
     totalPages: getTotalPages(state),
-    currentPage: isNaN(page) ? 1 : page, //eslint-disable-line
+    currentPage: getGamesCurrentPage(state, props),
   };
 }
 
@@ -44,7 +43,7 @@ function mapStateToProps(state, props) {
  */
 function mapDispatchToProps(dispatch) {
   return {
-    fetchGames: () => dispatch(fetchGames()),
+    fetchGames: page => dispatch(fetchGames(page)),
   };
 }
 

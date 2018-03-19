@@ -5,7 +5,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Radium from 'radium';
-import { Label,ListGroup, ListGroupItem } from 'react-bootstrap';
+import { Label, ListGroup, ListGroupItem } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import ArticleStyles from './ArticleStyles';
 import InstanceDetails from '../InstanceDetails';
@@ -83,7 +83,7 @@ class Article extends React.Component {
   }
 
   render() {
-    const coverURL = this.props.cover && this.props.cover.indexOf('http') < 0 ? 
+    const coverURL = this.props.cover && this.props.cover.indexOf('http') < 0 ?
       `https://${this.props.cover}` : this.props.cover;
     return (
       <div>
@@ -110,7 +110,7 @@ class Article extends React.Component {
                 />
               </div>
             </h1>
-            
+
             <div style={[ArticleStyles.secondaryInfo]}>
               <p>Author: {this.props.author}</p>
               <p>Published: {this.props.timestamp}</p>
@@ -121,41 +121,41 @@ class Article extends React.Component {
               {/* TODO: We can do better than this. There are existing libraries to put in HTML */}
               <p dangerouslySetInnerHTML={{ __html: this.props.introduction }} /> {/* eslint-disable-line */}
             </div>
-            
+
             <div style={[ArticleStyles.developer]}>
               <h3>Developer:</h3>
-                {
-                  this.props.developers.length > 0 &&
-                  <p>
-                    <ListGroup>
-                      {
-                        this.props.developers.map(developer => link({
-                          label: developer.name,
-                          url: `/developers/${developer.id}`,
-                          key: `developer-${developer.id}`,
-                        }))
-                      }
-                    </ListGroup>
+              {
+                this.props.developers.length > 0 &&
+                <p>
+                  <ListGroup>
+                    {
+                      this.props.developers.map(developer => link({
+                        label: developer.name,
+                        url: `/developers/${developer.id}`,
+                        key: `developer-${developer.id}`,
+                      }))
+                    }
+                  </ListGroup>
                 </p>
-                }
+              }
             </div>
-            
+
             <div style={[ArticleStyles.game]}>
               <h3>Game:</h3>
-                {
-                  this.props.games.length > 0 &&
-                  <p>
-                    <ListGroup>
-                      {
-                        this.props.games.map(game => link({
-                          label: game.name,
-                          url: `/games/${game.id}`,
-                          key: `game-${game.id}`,
-                        }))
-                      }
-                    </ListGroup>
+              {
+                this.props.games.length > 0 &&
+                <p>
+                  <ListGroup>
+                    {
+                      this.props.games.map(game => link({
+                        label: game.name,
+                        url: `/games/${game.id}`,
+                        key: `game-${game.id}`,
+                      }))
+                    }
+                  </ListGroup>
                 </p>
-                }
+              }
             </div>
           </div>
         </InstanceDetails>

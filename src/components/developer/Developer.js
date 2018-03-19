@@ -116,14 +116,13 @@ class Developer extends React.Component {
                 />
               </div>
             </h1>
-  
             <div style={[DeveloperStyles.secondaryInfo]}>
               <p>Established: {this.props.foundation}</p>
               <p>Location: {this.props.country}</p>
               <p>Website: <a href={this.props.website}>{this.props.website}</a></p>
             </div>
           </div>
-          
+
           <div style={[DeveloperStyles.games]}>
             <h3>Games:</h3>
             {
@@ -141,7 +140,7 @@ class Developer extends React.Component {
               </p>
             }
           </div>
-          
+
           <div style={[DeveloperStyles.articles]}>
             <h3>Articles:</h3>
             {

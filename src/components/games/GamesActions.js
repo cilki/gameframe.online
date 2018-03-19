@@ -8,6 +8,8 @@ import { List, Map } from 'immutable';
 import { combineReducers } from 'redux';
 import { normalize } from 'normalizr';
 
+import { getGamesByPage } from './GamesSelectors';
+import { PAGE_SIZE } from '../Constants';
 import { games as gamesSchema } from '../Schemas';
 import {
   fetchGamesRequest,
@@ -26,10 +28,7 @@ import {
  * @returns {Boolean}
  */
 function shouldFetchGames(state, pageNumber) { //eslint-disable-line
-  /* TODO: Implement this function so it's "smart"
-   * This will require looking to see if we have all of the games from a certain
-   * page. This will require a fixed page size? */
-  return true;
+  return getGamesByPage(state, { page: pageNumber }).length < PAGE_SIZE;
 }
 
 const gamesResponse = {
@@ -50,7 +49,7 @@ function fetchGames(pageNumber = 1) {
     if (shouldFetchGames(getState(), pageNumber)) {
       dispatch(fetchGamesRequest());
       fetch( //eslint-disable-line
-        `http://api.gameframe.online/v1/game?page=${pageNumber}`,
+        encodeURI(`http://api.gameframe.online/v1/game?page=${pageNumber}&results_per_page=${PAGE_SIZE}`),
         { method: 'GET' },
       )
         .then(response => response.json())
