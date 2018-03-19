@@ -56,6 +56,7 @@
     "normalizr": "^3.2.4",
     "prop-types": "^15.6.0",
     "proptypes": "^1.1.0",
+    "query-string": "^6.0.0",
     "radium": "^0.22.0",
     "react": "^16.2.0",
     "react-bootstrap": "^0.32.1",

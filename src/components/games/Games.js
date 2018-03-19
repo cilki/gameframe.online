@@ -5,12 +5,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Radium from 'radium';
+
 import CommonAssets from '../../inline-styles/CommonAssets';
-import Styles from './GamesStyles';
 import Card from '../card';
+import Grid from '../grid';
 
 class Games extends React.Component {
   static propTypes = {
+    currentPage: PropTypes.number,
     games: PropTypes.arrayOf(PropTypes.shape({
       articles: PropTypes.arrayOf(PropTypes.number),
       cover: PropTypes.string,
@@ -22,11 +24,13 @@ class Games extends React.Component {
     })),
     gamesError: PropTypes.string, //eslint-disable-line
     gamesRequested: PropTypes.bool, //eslint-disable-line
+    totalPages: PropTypes.number.isRequired,
 
     fetchGames: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
+    currentPage: 1,
     games: [],
     gamesError: null,
     gamesRequested: false,
@@ -57,7 +61,11 @@ class Games extends React.Component {
           CommonAssets.fillBackground,
         ]}
         />
-        <div style={[Styles.grid]}>
+        <Grid
+          currentPage={this.props.currentPage}
+          totalPages={this.props.totalPages}
+          prefix="games"
+        >
           {
             this.props.games.map((game) => {
               return (
@@ -75,7 +83,7 @@ class Games extends React.Component {
               );
             })
           }
-        </div>
+        </Grid>
       </div>
     );
   }

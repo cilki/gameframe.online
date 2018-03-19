@@ -34,8 +34,18 @@ function getGamesError(state) {
   return state.games.gamesError;
 }
 
+/**
+ * @description - Total page selector for games
+ * @param {Object} state
+ * @returns {Number}
+ */
+function getTotalPages(state) {
+  return state.games.totalPages;
+}
+
 export { //eslint-disable-line
   getGamesRequested,
   getGames,
   getGamesError,
+  getTotalPages,
 };

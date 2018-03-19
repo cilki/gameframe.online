@@ -1,8 +1,4 @@
 
-/**
- * Inline stylesheet for Games
- */
-
 export default {
   grid: {
     display: 'flex',

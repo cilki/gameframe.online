@@ -3,7 +3,7 @@
  * Defines the actions for the Games page
  */
 
-import { handleActions } from 'redux-actions';
+import { handleActions, createAction } from 'redux-actions';
 import { List, Map } from 'immutable';
 import { combineReducers } from 'redux';
 import { normalize } from 'normalizr';
@@ -17,6 +17,7 @@ import {
   fetchDevelopersResponse,
   fetchArticlesResponse,
 } from '../Actions';
+
 /**
  * @description - Predicate function that takes the page number
  * and the state and determines if we need to fetch that particular page
@@ -34,6 +35,8 @@ function shouldFetchGames(state, pageNumber) { //eslint-disable-line
 const gamesResponse = {
   objects: [gamesSchema],
 };
+
+const setGamesTotalPages = createAction('SET_GAMES_TOTAL_PAGES');
 
 /**
  * @description - Fetches the games from our public API.
@@ -53,6 +56,10 @@ function fetchGames(pageNumber = 1) {
         .then(response => response.json())
         .then(json => normalize(json, gamesResponse))
         .then((data) => {
+          if (data.result && data.result.total_pages) {
+            dispatch(setGamesTotalPages(data.result.total_pages));
+          }
+
           if (data.entities && data.entities.developers) {
             dispatch(fetchDevelopersResponse(Object.values(data.entities.developers)));
           }
@@ -93,6 +100,13 @@ const gamesError = handleActions({
     },
   },
 }, null);
+
+/* Total number of pages for games */
+const totalPages = handleActions({
+  [setGamesTotalPages](state, { payload }) {
+    return payload;
+  },
+}, 0);
 
 /* games state field. A list of the actual
  * state for our games */
@@ -167,6 +181,7 @@ const gamesReducer = combineReducers({
   games,
   gamesError,
   gamesRequested,
+  totalPages,
 });
 
 export {
