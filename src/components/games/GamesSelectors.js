@@ -6,8 +6,6 @@
 import QueryString from 'query-string';
 import { createSelector } from 'reselect';
 
-import { PAGE_SIZE } from '../Constants';
-
 /**
  * @description - Input selector for the games
  * 'requested' state
@@ -61,19 +59,40 @@ function getTotalPages(state) {
 }
 
 /**
+ * @description - Input selector for the
+ * pages within games
+ * @param {Object} state
+ * @returns {Map}
+ */
+function getPages(state) {
+  return state.games.pages;
+}
+
+/* Returns the indices for a page */
+const getPageIndices = createSelector(
+  [getPages, getGamesCurrentPage],
+  (pages, currentPage) => {
+    return pages.get(String(currentPage));
+  },
+);
+
+/**
  * @description - Returns all of the games from a certain
  * page
  * @returns {Function}
  */
 const getGamesByPage = createSelector(
-  [getGames, getGamesCurrentPage],
-  (games, currentPage) => {
+  [getGames, getPageIndices],
+  (games, indices) => {
     const gamesToReturn = [];
-    for (let i = (currentPage - 1) * PAGE_SIZE + 1; i <= currentPage * PAGE_SIZE; ++i) { //eslint-disable-line
-      if (games[i]) {
-        gamesToReturn.push(games[i]);
-      }
+    if (!indices) {
+      return gamesToReturn;
     }
+    indices.forEach((index) => {
+      if (games[index]) {
+        gamesToReturn.push(games[index]);
+      }
+    });
 
     return gamesToReturn;
   },

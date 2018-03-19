@@ -9,8 +9,10 @@ import { connect } from 'react-redux';
 import DevelopersPresenter from './Developers';
 import {
   getDevelopersRequested,
-  getDevelopers,
   getDevelopersError,
+  getDevelopersCurrentPage,
+  getTotalPages,
+  getDevelopersByPage,
 } from './DevelopersSelectors';
 import { fetchDevelopers } from './DevelopersActions';
 
@@ -20,11 +22,13 @@ import { fetchDevelopers } from './DevelopersActions';
  * @param {Map} state - the current state in the Redux store
  * @returns {Object}
  */
-function mapStateToProps(state) {
+function mapStateToProps(state, props) {
   return {
     developersRequested: getDevelopersRequested(state),
     developersError: getDevelopersError(state),
-    developers: Object.values(getDevelopers(state)),
+    developers: getDevelopersByPage(state, props),
+    currentPage: getDevelopersCurrentPage(state, props),
+    totalPages: getTotalPages(state),
   };
 }
 
@@ -37,7 +41,7 @@ function mapStateToProps(state) {
  */
 function mapDispatchToProps(dispatch) {
   return {
-    fetchDevelopers: () => dispatch(fetchDevelopers()),
+    fetchDevelopers: page => dispatch(fetchDevelopers(page)),
   };
 }
 

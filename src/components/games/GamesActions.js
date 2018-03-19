@@ -36,6 +36,7 @@ const gamesResponse = {
 };
 
 const setGamesTotalPages = createAction('SET_GAMES_TOTAL_PAGES');
+const setGamePage = createAction('SET_GAME_PAGE');
 
 /**
  * @description - Fetches the games from our public API.
@@ -67,6 +68,11 @@ function fetchGames(pageNumber = 1) {
           }
           if (data.entities && data.entities.games) {
             dispatch(fetchGamesResponse(Object.values(data.entities.games)));
+
+            dispatch(setGamePage({
+              pageNumber,
+              indices: Object.keys(data.entities.games),
+            }));
           }
         })
         .catch(err => dispatch(fetchGamesResponse(err)));
@@ -106,6 +112,12 @@ const totalPages = handleActions({
     return payload;
   },
 }, 0);
+
+const pages = handleActions({
+  [setGamePage](state, { payload: { pageNumber, indices } }) {
+    return state.merge({ [pageNumber]: List(indices) });
+  },
+}, Map());
 
 /* games state field. A list of the actual
  * state for our games */
@@ -181,6 +193,7 @@ const gamesReducer = combineReducers({
   gamesError,
   gamesRequested,
   totalPages,
+  pages,
 });
 
 export {

@@ -5,12 +5,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Radium from 'radium';
+
+import Grid from '../grid';
 import CommonAssets from '../../inline-styles/CommonAssets';
-import Styles from './DevelopersStyles';
 import Card from '../card';
 
 class Developers extends React.Component {
   static propTypes = {
+    currentPage: PropTypes.number.isRequired,
     developers: PropTypes.arrayOf(PropTypes.shape({
       articles: PropTypes.arrayOf(PropTypes.number),
       country: PropTypes.string,
@@ -24,6 +26,7 @@ class Developers extends React.Component {
     })),
     developersError: PropTypes.string, //eslint-disable-line
     developersRequested: PropTypes.bool, //eslint-disable-line
+    totalPages: PropTypes.number.isRequired,
 
     fetchDevelopers: PropTypes.func.isRequired,
   };
@@ -43,7 +46,18 @@ class Developers extends React.Component {
    * @description - React lifecycle method used to fetch the data
    */
   componentDidMount() {
-    this.props.fetchDevelopers();
+    this.props.fetchDevelopers(this.props.currentPage);
+  }
+
+  /**
+   * @description - React lifecycle method that detects when a different
+   * page has been requested
+   * @param {Object} prevProps
+   */
+  componentDidUpdate(prevProps) {
+    if (prevProps.currentPage !== this.props.currentPage) {
+      this.props.fetchDevelopers(this.props.currentPage);
+    }
   }
 
   render() {
@@ -61,7 +75,11 @@ class Developers extends React.Component {
             CommonAssets.fillBackground,
           ]}
         />
-        <div style={[Styles.grid]}>
+        <Grid
+          currentPage={this.props.currentPage}
+          totalPages={this.props.totalPages}
+          prefix="developers"
+        >
           {
             this.props.developers.map((developer) => {
               return (
@@ -81,7 +99,7 @@ class Developers extends React.Component {
               );
             })
           }
-        </div>
+        </Grid>
       </div>
     );
   }

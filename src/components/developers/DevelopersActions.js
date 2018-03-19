@@ -3,11 +3,12 @@
  * Defines the actions for the Developers page
  */
 
-import { handleActions } from 'redux-actions';
+import { handleActions, createAction } from 'redux-actions';
 import { List, Map } from 'immutable';
 import { combineReducers } from 'redux';
 import { normalize } from 'normalizr';
 
+import { PAGE_SIZE } from '../Constants';
 import {
   fetchDeveloperRequest,
   fetchDeveloperResponse,
@@ -16,6 +17,7 @@ import {
   fetchGamesResponse,
   fetchArticlesResponse,
 } from '../Actions';
+import { getDevelopersByPage } from './DevelopersSelectors';
 import { developers as developersSchema } from '../Schemas';
 
 /**
@@ -26,9 +28,11 @@ import { developers as developersSchema } from '../Schemas';
  * @returns {Boolean}
  */
 function shouldFetchDevelopers(state, pageNumber) { //eslint-disable-line
-  // TODO: Implement this function so it's "smart"
-  return true;
+  return getDevelopersByPage(state, { page: pageNumber }).length < PAGE_SIZE;
 }
+
+const setDevelopersTotalPages = createAction('SET_DEVELOPERS_TOTAL_PAGES');
+const setDeveloperPage = createAction('SET_DEVELOPER_PAGE');
 
 const developersResponse = {
   objects: [developersSchema],
@@ -46,12 +50,16 @@ function fetchDevelopers(pageNumber = 1) {
     if (shouldFetchDevelopers(getState(), pageNumber)) {
       dispatch(fetchDevelopersRequest());
   	  fetch( //eslint-disable-line
-        `http://api.gameframe.online/v1/developer?page=${pageNumber}`,
+        encodeURI(`http://api.gameframe.online/v1/developer?page=${pageNumber}&results_per_page=${PAGE_SIZE}`),
         { method: 'GET' },
       )
         .then(response => response.json())
         .then(json => normalize(json, developersResponse))
         .then((data) => {
+          if (data.result && data.result.total_pages) {
+            dispatch(setDevelopersTotalPages(data.result.total_pages));
+          }
+
           if (data.entities && data.entities.games) {
             dispatch(fetchGamesResponse(Object.values(data.entities.games)));
           }
@@ -60,6 +68,11 @@ function fetchDevelopers(pageNumber = 1) {
           }
           if (data.entities && data.entities.developers) {
             dispatch(fetchDevelopersResponse(Object.values(data.entities.developers)));
+
+            dispatch(setDeveloperPage({
+              pageNumber,
+              indices: Object.keys(data.entities.developers),
+            }));
           }
         })
         .catch(err => dispatch(fetchDevelopersResponse(err)));
@@ -96,6 +109,22 @@ const developersError = handleActions({
     },
   },
 }, null);
+
+/**
+ * Reducer for the total number of pages of developers
+ * we have in the API
+ */
+const totalPages = handleActions({
+  [setDevelopersTotalPages](state, { payload }) {
+    return payload;
+  },
+}, 0);
+
+const pages = handleActions({
+  [setDeveloperPage](state, { payload: { pageNumber, indices } }) {
+    return state.merge({ [pageNumber]: List(indices) });
+  },
+}, Map());
 
 /**
  * developers state field. A list of the actual
@@ -177,6 +206,8 @@ const developersReducer = combineReducers({
   developers,
   developersError,
   developersRequested,
+  totalPages,
+  pages,
 });
 
 export {
