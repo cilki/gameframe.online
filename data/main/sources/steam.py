@@ -19,7 +19,7 @@ from cache import (add_game, load_working_set, map_id_platform, map_name_genre,
 from common import CACHE_GAMEFRAME, METRICS, CDN_URI
 from orm import Developer, Game, Genre, Image
 
-from .util import is_cached, parse_steam_date, get_cover_id
+from .util import is_cached, parse_steam_date
 
 """
 The game cache

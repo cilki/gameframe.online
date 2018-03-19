@@ -14,7 +14,7 @@ from aws import upload_image
 from common import METRICS
 from sources import igdb, newsapi, steam
 from orm import db
-from util import reset
+from util import reset, trim
 
 
 def sigint_handler(sig, frame):
@@ -101,6 +101,7 @@ with app.app_context():
 
             igdb.link_developers(db)
             steam.link_developers(db)
+            trim(db)
             print("[MAIN ] Rebuild completed in %d seconds" % (time() - t))
         elif action == '2':
             trim(db)

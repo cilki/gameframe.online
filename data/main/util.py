@@ -8,7 +8,7 @@ import os
 from tqdm import tqdm
 
 from aws import upload_image
-from cache import load_working_set, name_game
+from cache import load_working_set, name_game, name_developer
 from orm import Genre, Platform
 from sources import igdb, newsapi, steam
 
