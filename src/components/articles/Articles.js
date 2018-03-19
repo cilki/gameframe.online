@@ -15,16 +15,14 @@ class Articles extends React.Component {
       article_id: PropTypes.number.isRequired,
       article_link: PropTypes.string,
       author: PropTypes.string,
+      cover: PropTypes.string,
       developers: PropTypes.arrayOf(PropTypes.number),
       games: PropTypes.arrayOf(PropTypes.number),
-      cover: PropTypes.string,
-      outlet: PropTypes.string,
       timestamp: PropTypes.string,
       title: PropTypes.string.isRequired,
     })),
     articlesError: PropTypes.string, //eslint-disable-line
     articlesRequested: PropTypes.bool, //eslint-disable-line
-
     fetchArticles: PropTypes.func.isRequired,
   };
 
@@ -73,7 +71,7 @@ class Articles extends React.Component {
                   tooltipType={3}
                   games={article.games}
                   developers={article.developers}
-                  link1={article.outlet}
+                  link1={article.article_link}
                 />
               );
             })

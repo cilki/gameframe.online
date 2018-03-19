@@ -95,7 +95,7 @@ class Article extends React.Component {
         />
         <InstanceDetails
           style={{
-            container: undefined,
+            container: ArticleStyles.container(coverURL),
             border: ArticleStyles.border,
             jumboTron: ArticleStyles.jumboTron,
           }}

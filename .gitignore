@@ -4,6 +4,7 @@ node_modules/
 
 static/bundle.js
 __pycache__
+geckodriver.log
 
 # Created by Docker container
 supervisord.pid

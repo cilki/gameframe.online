@@ -12,15 +12,15 @@ import { Link } from 'react-router-dom';
 
 class DeveloperTooltip extends React.Component {
   static propTypes = {
-    articles: PropTypes.number,
     games: PropTypes.number,
+    articles: PropTypes.number,
     twitter: PropTypes.string,
     website: PropTypes.string,
   };
 
   static defaultProps = {
-    articles: 0,
     games: 0,
+    articles: 0,
     twitter: '',
     website: '',
   };
@@ -36,11 +36,45 @@ class DeveloperTooltip extends React.Component {
   render() {
     return (
       <div>
-        <div>Articles: #{this.props.articles}</div>
-        <div>Games: #{this.props.games}</div>
-        <div>Media</div>
-        <div>Twitter: {this.props.twitter}</div>
-        <div>Website: {this.props.website}</div>
+        <div>
+          <p>
+            Games: 
+            <Badge>
+              #{this.props.games}
+            </Badge>
+          </p>
+        </div>
+        
+        <div>
+          <p>
+            Articles: 
+            <Badge>
+              #{this.props.articles}
+            </Badge>
+          </p>
+        </div>
+        
+        <div>
+          <h4>
+            Media
+          </h4>
+          <p>
+            Twitter:
+            <a href={this.props.twitter}>
+              <Label>
+                {this.props.twitter}
+              </Label>
+            </a>
+          </p>
+          <p>
+            Website:
+            <a href={this.props.website}>
+              <Label>
+                {this.props.website}
+              </Label>
+            </a>
+          </p>
+        </div>
       </div>
     );
   }
