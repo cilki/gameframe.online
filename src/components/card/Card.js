@@ -121,7 +121,7 @@ class Card extends React.Component {
           maxWidth: '100%',
           whiteSpace: 'nowrap',
           overflow: 'hidden',
-          textoverflow: 'ellipsis'
+          textOverflow: 'ellipsis'
         }}>
           {this.props.title}
         </div>
