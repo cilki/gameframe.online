@@ -1,0 +1,214 @@
+{
+  "tools": [
+    {
+      "cover": "https://a0.awsstatic.com/main/images/logos/aws_logo_smile_1200x630.png",
+      "name": "AWS",
+      "phase": 1,
+      "usage": "Amazon Web Services (AWS) hosts our website.",
+      "tool_id": 1
+    },
+    {
+      "cover": "https://d33wubrfki0l68.cloudfront.net/f35d49d959deb5bfd7deb80c2668128367e2917c/eb35e/images/logo.svg",
+      "name": "Babel",
+      "phase": 1,
+      "usage": "Babel converts our JSX into browser compatible JS.",
+      "tool_id": 2    
+    },
+    {
+      "cover": "https://i1.wp.com/blog.docker.com/wp-content/uploads/2013/06/Docker-logo-011.png?ssl=1",
+      "name": "Docker",
+      "phase": 1,
+      "usage": "Docker runs the development and production HTTP servers.",
+      "tool_id": 3    
+    },
+    {
+      "cover": "https://i.lensdump.com/i/TDYNA.png",
+      "name": "Flask",
+      "phase": 1,
+      "usage": "Flask supports our back-end web-framework, which is written in Python.",
+      "tool_id": 4    
+    },
+    {
+      "cover": "http://cdn.gbraad.nl/images/portfolio/gitbook-logo.png",
+      "name": "GitBook",
+      "phase": 1,
+      "usage": "All material regarding the development of our website is extensively documented with GitBook.",
+      "tool_id": 5   
+    },
+    {
+      "cover": "https://i.lensdump.com/i/TD3gC.md.png",
+      "name": "GitHub",
+      "phase": 1,
+      "usage": "GitHub hosts the GameFrame source repository.",
+      "tool_id": 6   
+    },
+    {
+      "cover": "https://i.lensdump.com/i/TD7WT.md.png",
+      "name": "NameCheap",
+      "phase": 1,
+      "usage": "Namecheap allowed us this cool domain name, gameframe.online.",
+      "tool_id": 7   
+    },
+    {
+      "cover": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/db/Npm-logo.svg/640px-Npm-logo.svg.png",
+      "name": "npm",
+      "phase": 1,
+      "usage": "npm is our JS node package manager.",
+      "tool_id": 8  
+    },
+    {
+      "cover": "https://www.python.org/static/community_logos/python-logo-inkscape.svg",
+      "name": "Python",
+      "phase": 1,
+      "usage": "Most of the back-end is written in Python.",
+      "tool_id": 9  
+    },
+    {
+      "cover": "https://tse1.mm.bing.net/th?id=OIP.PhCTTNKigiR-TKmKdXCSUAHaHB&w=136&h=129&c=7&o=5&dpr=1.1&pid=1.7",
+      "name": "React-Bootstrap",
+      "phase": 1,
+      "usage": "React-Bootstrap is a resource library for ReactJS that allowed us to mock up this website with features like the carousel and navbar.",
+      "tool_id": 10  
+    },
+    {
+      "cover": "https://i.lensdump.com/i/TDuWM.pn",
+      "name": "React Router",
+      "phase": 1,
+      "usage": "React Router is a resource library for ReactJS that allowed us to seamlessly load pages within our website.",
+      "tool_id": 11  
+    },
+    {
+      "cover": "https://i.lensdump.com/i/TDeH3.md.png",
+      "name": "ReactJS",
+      "phase": 1,
+      "usage": "ReactJS supports our front-end web-framework, which is written in JavaScript.",
+      "tool_id": 12 
+    },
+    {
+      "cover": "https://i.lensdump.com/i/TDLgD.md.png",
+      "name": "Slack",
+      "phase": 1,
+      "usage": "Slack is where we communicate with each other.",
+      "tool_id": 13 
+    },
+    {
+      "cover": "https://wcs.smartdraw.com/common/img/smardraw-logo.png?bn=1510011106",
+      "name": "SmartDraw",
+      "phase": 1,
+      "usage": "SmartDraw is a tool we used to create a UML diagram.",
+      "tool_id": 14 
+    },
+    {
+      "cover": "https://tse4.mm.bing.net/th?id=OIP.gFZhldMJQCiCQylrx6oU2AHaFG&w=222&h=160&c=7&o=5&dpr=1.1&pid=1.7",
+      "name": "Webpack",
+      "phase": 1,
+      "usage": "Webpack manages our JS files into one package.",
+      "tool_id": 15 
+    },
+    {
+      "cover": "",
+      "name": "Radium",
+      "phase": 2,
+      "usage": "Radium manages our in-line styles on React elements.",
+      "tool_id": 16 
+    },
+    {
+      "cover": "https://upload.wikimedia.org/wikipedia/commons/9/99/Unofficial_JavaScript_logo_2.svg",
+      "name": "JavaScript",
+      "phase": 1,
+      "usage": "Most of the front-end is written in JavaScript.",
+      "tool_id": 17 
+    },
+    {
+      "cover": "",
+      "name": "Selenium",
+      "phase": 2,
+      "usage": "Selenium tests our graphical user interface.",
+      "tool_id": 18 
+    },
+    {
+      "cover": "https://camo.githubusercontent.com/af4bf83ab2ca125346740f9961345a24ec43b3a9/68747470733a2f2f636c6475702e636f6d2f78465646784f696f41552e737667",
+      "name": "Mocha",
+      "phase": 2,
+      "usage": "Mocha tests our JavaScript code.",
+      "tool_id": 19
+    },
+    {
+      "cover": "",
+      "name": "Enzyme",
+      "phase": 2,
+      "usage": "Enzyme makes testing our JavaScript code with Mocha easier.",
+      "tool_id": 20
+    },
+    {
+      "cover": "https://camo.githubusercontent.com/431283cc1643d02167aac31067137897507c60fc/687474703a2f2f636861696a732e636f6d2f696d672f636861692d6c6f676f2e706e67",
+      "name": "Chai",
+      "phase": 2,
+      "usage": "Chai makes assertions easier when testing our JavaScript code with Mocha.",
+      "tool_id": 21
+    },
+    {
+      "cover": "https://camo.githubusercontent.com/e69fbfc8dc529fda880b1890f43fa0aec6ab5cb6/687474703a2f2f65736c696e742e6f72672f696d672f6c6f676f2e737667",
+      "name": "Eslint",
+      "phase": 2,
+      "usage": "Eslint helps maintain our JavaScript code in a specific error-free format.",
+      "tool_id": 22
+    },
+    {
+      "cover": "https://cdn-images-1.medium.com/max/1600/0*HERF9Ii9f_M3OzQQ.",
+      "name": "Sinon",
+      "phase": 2,
+      "usage": "Sinon helps mock up data for testing our JavaScript code with Mocha.",
+      "tool_id": 23
+    },
+    {
+      "cover": "",
+      "name": "Postman",
+      "phase": 1,
+      "usage": "We use Postman to document, develop, and test our API.",
+      "tool_id": 24
+    },
+    {
+      "cover": "",
+      "name": "SQLAlchemy",
+      "phase": 2,
+      "usage": "SQLAlchemy is our Python SQL toolkit and Object Relational Mapper.",
+      "tool_id": 25
+    },
+    {
+      "cover": "",
+      "name": "MySQL",
+      "phase": 2,
+      "usage": "MySQL manages our database.",
+      "tool_id": 26
+    },
+    {
+      "cover": "",
+      "name": "PostgreSQL",
+      "phase": 2,
+      "usage": "PostgreSQL manages our database.",
+      "tool_id": 27
+    },
+    {
+      "cover": "",
+      "name": "iso-3166-1",
+      "phase": 2,
+      "usage": "Country codes within website are parsed by iso-3166-1.",
+      "tool_id": 28
+    },
+    {
+      "cover": "https://raw.githubusercontent.com/reactjs/redux/master/logo/logo.png",
+      "name": "React-Redux",
+      "phase": 2,
+      "usage": "React-Redux manages our state of data throughout the website.",
+      "tool_id": 29
+    },
+    {
+      "cover": "",
+      "name": "React-Twitter-Embed",
+      "phase": 1,
+      "usage": "React-Twitter-Embed is a resource library for Twitter plug-ins.",
+      "tool_id": 30
+    }
+  ]
+}
