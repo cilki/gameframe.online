@@ -48,6 +48,5 @@ module.exports = {
       cache: true,
     }),
     new ExtractTextPlugin('styles.css'),
-    new BundleAnalyzerPlugin(),
   ],
 };
