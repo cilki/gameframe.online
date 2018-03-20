@@ -202,6 +202,9 @@ const articlesReducer = combineReducers({
 });
 
 export {
+  shouldFetchArticles,
   fetchArticles,
+  articlesRequested,
+  articlesError,
   articlesReducer,
 };
