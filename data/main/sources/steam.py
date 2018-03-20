@@ -8,7 +8,6 @@ import os
 from codecs import open
 from functools import lru_cache
 from itertools import chain
-from subprocess import call
 
 import requests
 from ratelimit import rate_limited
@@ -16,8 +15,9 @@ from tqdm import tqdm
 
 from cache import (add_game, load_working_set, map_id_platform, map_name_genre,
                    name_developer, name_game, steamid_game)
+from cdgen.steam import generate
 from common import CACHE_GAMEFRAME, METRICS, CDN_URI
-from orm import Developer, Game, Genre, Image
+from orm import Developer, Game, Genre, Image, Platform
 
 from .util import is_cached, parse_steam_date
 
@@ -224,7 +224,7 @@ def collect_games():
 
 def collect_headers():
     """
-    Download missing game headers from Steam and generate CDs.
+    Download missing game headers from Steam
     """
     apps = rq_app_list()
 
@@ -243,26 +243,59 @@ def collect_headers():
                 with open("%s/%d" % (CACHE_HEADER, appid), 'wb') as h:
                     h.write(rq.content)
 
-        # Generate CD
-        if not is_cached(CACHE_CD, "%d.png" % appid) and is_cached(CACHE_HEADER, appid):
-            call(["./data/main/cd/steam-cd.sh", "%s/%d" % (CACHE_HEADER, appid),
-                  "%s/%d" % (CACHE_CD, appid)])
-
     print("[STEAM] Collection complete")
+
+
+def generate_covers():
+    """
+    Generate Steam covers using the cached headers
+    """
+    load_working_set()
+    LIN = Platform.query.get(3)
+    WIN = Platform.query.get(6)
+    MAC = Platform.query.get(14)
+
+    print("[STEAM] Generating covers")
+    for appid, game in tqdm(steamid_game.items()):
+        if not is_cached(CACHE_CD, str(appid) + '.png') and is_cached(CACHE_HEADER, appid):
+            generate("%s/%d" % (CACHE_HEADER, appid), "%s/%s" %
+                     (CACHE_CD, str(appid) + '.png'),
+                     LIN in game.platforms, WIN in game.platforms, MAC in game.platforms)
+
+    print("[STEAM] Generation Complete")
 
 
 def upload_covers():
     """
     Upload game covers
     """
+    load_working_set()
+
     print("[STEAM] Uploading covers")
 
     for name, game in tqdm(name_game.items()):
         if game.cover is not None and 'cdn.gameframe' in game.cover:
             # Upload cover
-            upload_image(cover, 'cover/steam/' + game.steam_id)
+            upload_image(cover, 'cover/steam/' + game.steam_id + '.png')
 
     print("[STEAM] Upload complete")
+
+
+def gather_articles(db):
+    """
+    Search for articles related to games and download them to the cache
+    """
+    load_working_set()
+
+    print("[STEAM] Gathering articles by game")
+    for appid, game in tqdm(steamid_game.items()):
+        if not is_cached(CACHE_ARTICLE, appid):
+            articles = rq_articles(appid)
+            # Write to the cache
+            with open("%s/%d" % (CACHE_ARTICLE, appid), 'w', 'utf8') as h:
+                h.write(json.dumps(articles, ensure_ascii=False))
+
+    print("[STEAM] Gather Complete")
 
 
 def merge_games(db):

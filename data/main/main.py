@@ -51,21 +51,23 @@ print("3. COLLECT games                  Download missing games from Steam")
 print("4. COLLECT headers                Download game headers from Steam")
 print("5. MERGE games                    Upload game cache into database")
 print("6. LINK developers                Compute Game-Developer links from Steam games")
-print("7. UPLOAD covers                  Upload game covers to S3")
+print("7. GENERATE covers                Generate game covers")
+print("8. UPLOAD covers                  Upload game covers to S3")
 
 print("")
 print("[IGDB]")
-print("8. COLLECT games                  Download missing games from IGDB")
-print("9. COLLECT developers             Download missing developers from IGDB")
-print("A. COLLECT covers                 Download game covers from IGDB")
-print("B. MERGE games                    Upload game cache into database")
-print("C. MERGE developers               Upload developer cache into database")
-print("D. LINK developers                Compute Game-Developer links from IGDB developers")
+print("9. COLLECT games                  Download missing games from IGDB")
+print("A. COLLECT developers             Download missing developers from IGDB")
+print("B. COLLECT covers                 Download game covers from IGDB")
+print("C. MERGE games                    Upload game cache into database")
+print("D. MERGE developers               Upload developer cache into database")
+print("E. LINK developers                Compute Game-Developer links from IGDB developers")
 
 print("")
 print("[NEWSAPI]")
-print("E. GATHER articles                Download articles from NEWSAPI")
-print("F. MERGE articles                 Upload article cache into database and LINK")
+print("F. GATHER articles by game        Download game articles from NEWSAPI")
+print("G. GATHER articles by developer   Download developer articles from NEWSAPI")
+print("H. MERGE articles                 Upload article cache into database and LINK")
 
 print("")
 print("YOUTUBE")
@@ -114,22 +116,26 @@ with app.app_context():
         elif action == '6':
             steam.link_developers(db)
         elif action == '7':
-            steam.upload_covers()
+            steam.generate_covers()
         elif action == '8':
-            igdb.collect_games()
+            steam.upload_covers()
         elif action == '9':
-            igdb.collect_developers()
+            igdb.collect_games()
         elif action == 'a':
-            igdb.collect_covers()
+            igdb.collect_developers()
         elif action == 'b':
-            igdb.merge_games(db)
+            igdb.collect_covers()
         elif action == 'c':
-            igdb.merge_developers(db)
+            igdb.merge_games(db)
         elif action == 'd':
-            igdb.link_developers(db)
+            igdb.merge_developers(db)
         elif action == 'e':
-            newsapi.gather_articles(db)
+            igdb.link_developers(db)
         elif action == 'f':
+            newsapi.gather_articles_by_game(db)
+        elif action == 'g':
+            newsapi.gather_articles_by_developer(db)
+        elif action == 'h':
             newsapi.merge_articles(db)
 
         else:
