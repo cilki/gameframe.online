@@ -12,7 +12,7 @@ from newsapi import NewsApiClient
 from ratelimit import rate_limited
 from tqdm import tqdm
 
-from cache import add_article, load_working_set, name_game, title_article
+from cache import add_article, load_working_set, name_game, title_article, name_developer
 from common import CACHE_GAMEFRAME, METRICS
 from orm import Article, Developer, Game
 
@@ -48,6 +48,11 @@ CACHE_ARTICLE_DEVELOPER = "%s/newsapi/developers" % CACHE_GAMEFRAME
 assert os.path.isdir(CACHE_ARTICLE_DEVELOPER)
 
 """
+The maximum number of article pages to request
+"""
+MAX_PAGES = 10
+
+"""
 Only allow sources from this whitelist
 """
 WHITELIST = ['Nintendolife.com', 'Gonintendo.com', 'Playstation.com', 'IGN',
@@ -58,13 +63,17 @@ WHITELIST = ['Nintendolife.com', 'Gonintendo.com', 'Playstation.com', 'IGN',
              'Multiplayer.it', 'Toucharcade.com', 'Shacknews.com', 'Kinja.com',
              'Wccftech.com',  'Gamesasylum.com', 'Pcgamer.com', 'Vrfocus.com',
              'Ars Technica', 'Blizzardwatch.com', 'Gamasutra.com', 'Gamespy.com',
-             'Gamesradar.com', 'Gametyrant.com', 'Gamingbolt.com',
+             'Gamesradar.com', 'Gametyrant.com', 'Gamingbolt.com', 'Mactrast.com',
              'Gamingonlinux.com', 'Tweaktown.com',  'Gameplanet.co.nz',
              'Gamezebo.com', 'Gamezombie.tv', 'Giantbomb.com', 'Gamespark.jp',
-             'Stratics.com', 'Escapistmagazine.com']
+             'Stratics.com', 'Escapistmagazine.com', 'Linuxtoday.com',
+             'Phoronix.com', 'Omgubuntu.co.uk', 'Idownloadblog.com']
 
 
-def rq_articles(keyword):
+def rq_articles(query):
+    """
+    Request articles from NewsAPI according to a query
+    """
 
     global API
     articles = []
@@ -72,7 +81,7 @@ def rq_articles(keyword):
 
     while True:
         rq = API.get_everything(language='en', sort_by='relevancy', page_size=100,
-                                page=p, q=condition_article(keyword))
+                                page=p, q=query)
 
         if rq['status'] == 'error':
             API = NewsApiClient(api_key=next(KEY_ITER))
@@ -118,7 +127,7 @@ def rq_articles(keyword):
             # Finally add the article
             articles.append(article_json)
 
-        if rq['totalResults'] > p * 100 and p < 10:
+        if rq['totalResults'] > p * 100 and p < MAX_PAGES:
             # Move to the next page
             p += 1
             continue
@@ -128,9 +137,9 @@ def rq_articles(keyword):
     return articles
 
 
-def gather_articles(db):
+def gather_articles_by_game(db):
     """
-    Search for articles related to games/devlopers and download them to the cache
+    Search for articles related to games and download them to the cache
     """
     load_working_set()
 
@@ -142,9 +151,18 @@ def gather_articles(db):
             with open("%s/%s" % (CACHE_ARTICLE_GAME, name.replace("/", "\\")), 'w', 'utf8') as h:
                 h.write(json.dumps(articles, ensure_ascii=False))
 
+    print("[NWAPI] Gather Complete")
+
+
+def gather_articles_by_developer(db):
+    """
+    Search for articles related to games and download them to the cache
+    """
+    load_working_set()
+
     print("[NWAPI] Gathering articles by developer")
     for name, dev in tqdm(name_developer.items()):
-        if not is_cached(CACHE_ARTICLE_GAME, name):
+        if not is_cached(CACHE_ARTICLE_DEVELOPER, name):
             articles = rq_articles(name)
             # Write to the cache
             with open("%s/%s" % (CACHE_ARTICLE_DEVELOPER, name.replace("/", "\\")), 'w', 'utf8') as h:
