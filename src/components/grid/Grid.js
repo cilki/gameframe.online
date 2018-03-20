@@ -66,8 +66,8 @@ function GridPagination({
   return React.createElement(
     Pagination,
     {},
-    <GridPaginationItem disabled={currentPage <= 1} {...{ prefix, page: 1, label: '⇐' }} />,
-    <GridPaginationItem disabled={currentPage <= 1} {...{ prefix, page: currentPage - 1, label: '←' }} />,
+    <GridPaginationItem style={{color: 'red'}} disabled={currentPage <= 1} {...{ prefix, page: 1, label: '⇐' }} />,
+    <GridPaginationItem style={{color: 'green'}} disabled={currentPage <= 1} {...{ prefix, page: currentPage - 1, label: '←' }} />,
 
     currentPage > 3 && <GridPaginationItem {...{ prefix, page: 1 }} />,
     currentPage > 4 && <GridPaginationItem {...{ prefix, page: 2 }} />,
@@ -112,7 +112,7 @@ function Grid(props) {
   const { children, ...rest } = props;
   return (
     <div>
-      <div>
+      <div style={{display: 'flex', justifyContent: 'center'}}>
         <GridPagination {...rest} />
       </div>
       <div style={[Styles.grid]}>

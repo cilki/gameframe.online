@@ -34,6 +34,7 @@ link.propTypes = {
   key: PropTypes.oneOf([PropTypes.string, PropTypes.number]).isRequired,
 };
 
+
 /**
  * @description - Returns the main component to render a developer's own
  * page
@@ -78,12 +79,18 @@ class Developer extends React.Component {
     requested: false,
   };
 
+
   /**
    * @constructor
    */
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+    };
+
+    this.iso = require('iso-3166-1');
+
+      console.log(this.iso.whereNumeric(840).country);
   }
 
   componentDidMount() {
@@ -92,6 +99,9 @@ class Developer extends React.Component {
 
   render() {
     const logoURL = this.props.logo && this.props.logo.indexOf('http') < 0 ? `https://${this.props.logo}` : this.props.logo;
+    const countryNumber = `${this.props.country}`;
+    const country = this.iso.whereNumeric(countryNumber);
+    const countryName = country ? country.country : 'Unknown';
     return (
       <div>
         <div style={[
@@ -118,7 +128,7 @@ class Developer extends React.Component {
             </h1>
             <div style={[DeveloperStyles.secondaryInfo]}>
               <p>Established: {this.props.foundation}</p>
-              <p>Location: {this.props.country}</p>
+              <p>Location: {countryName}</p>
               <p>Website: <a href={this.props.website}>{this.props.website}</a></p>
             </div>
           </div>
