@@ -211,6 +211,9 @@ const developersReducer = combineReducers({
 });
 
 export {
+  shouldFetchDevelopers,
   fetchDevelopers,
+  developersRequested,
+  developersError,
   developersReducer,
 };
