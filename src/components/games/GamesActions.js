@@ -199,5 +199,7 @@ const gamesReducer = combineReducers({
 export {
   shouldFetchGames,
   fetchGames,
+  gamesRequested,
+  gamesError,
   gamesReducer,
 };

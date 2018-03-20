@@ -109,5 +109,33 @@ describe('games', function() {
         assert.equal(f, false, '`shouldFetchGames(...)` returned true');
       });       
     });
+    
+    describe('`gamesRequested()`', function() {
+      it('Returns true when dispatched an \'FETCH_GAMES_REQUEST\' action', function() {
+        const { gamesRequested } = getGamesActions();
+        const f = gamesRequested(null, { type: 'FETCH_GAMES_REQUEST' });
+        assert.equal(f, true, '`gamesRequested()` didn\'t reduce the action correctly');
+      });
+      
+      it('Returns false when dispatched an \'FETCH_GAMES_RESPONSE\' action', function() {
+        const { gamesRequested } = getGamesActions();
+        const f = gamesRequested(null, { type: 'FETCH_GAMES_RESPONSE' });
+        assert.equal(f, false, '`gamesRequested()` didn\'t reduce the action correctly');
+      });
+    });
+    
+    describe('`gamesError()`', function() {
+      it('Returns null when given a successful \'FETCH_GAMES_RESPONSE\' action', function() {
+        const { gamesError } = getGamesActions();
+        const f = gamesError(true, { type: 'FETCH_GAMES_RESPONSE', payload: 'games'});
+        assert.isNull(f, '`gamesError()` didn\'t reduce the action correctly');
+      });
+      
+      it('Returns the error string when given an error in a \'FETCH_GAMES_RESPONSE\' action', function() {
+        const { gamesError } = getGamesActions();
+        const f = gamesError(true, { type: 'FETCH_GAMES_RESPONSE', payload: new Error('error'), error: true});
+        assert.equal(f, 'error', '`gamesError()` didn\'t reduce the error action correctly');
+      });
+    });
   });
 });
