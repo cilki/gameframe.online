@@ -8,3 +8,8 @@ geckodriver.log
 
 # Created by Docker container
 supervisord.pid
+
+#generated files
+static/app.bundle.js
+static/styles.css
+static/vendor.bundle.js

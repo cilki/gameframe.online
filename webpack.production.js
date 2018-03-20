@@ -1,17 +1,20 @@
 
 const webpack = require('webpack');
+
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 const CommonsChunkPlugin = webpack.optimize.CommonsChunkPlugin;
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 module.exports = {
   context: __dirname,
-  devtool: 'inline-sourcemap',
   entry: {
     app: './src/index.js',
     vendor: ['react', 'react-bootstrap'],
   },
   output: {
     path: __dirname + "/static",
-    filename: '[name].bundle.js',
+    filename: "[name].bundle.js"
   },
 
   module: {
@@ -23,18 +26,10 @@ module.exports = {
       },
       {
         test: /\.(css)$/,
-        use: [
-          "style-loader",
-          {
-            loader: "css-loader",
-            // options: {
-            //   modules: true,
-            //   sourceMap: true,
-            //   importLoaders: 1,
-            //   localIdentName: "[name]--[local]--[hash:base64:8]"
-            // }
-          }
-        ]
+        use: ExtractTextPlugin.extract({
+          fallback: 'style-loader',
+          use: 'css-loader',
+        }),
       },
       {
         test: /\.(eot|svg|ttf|woff|woff2)$/, loader: 'file-loader?name=fonts/[name].[ext]'
@@ -42,8 +37,17 @@ module.exports = {
     ]
   },
   plugins: [
+    new webpack.DefinePlugin({
+      'process.env.NODE_ENV': JSON.stringify('production')
+    }),
     new CommonsChunkPlugin({
       name: 'vendor',
     }),
-  ]
+    new UglifyJsPlugin({
+      parallel: true,
+      cache: true,
+    }),
+    new ExtractTextPlugin('styles.css'),
+    new BundleAnalyzerPlugin(),
+  ],
 };

@@ -16,6 +16,12 @@ sudo docker run -it -p 80:80 -v <repo>:/app cilki/gameframe:latest
 
 Navigate to `localhost`. The container will automatically reload the server when you make a change in the code ;).
 
+#### Building
+```
+npm run build
+```
+This command generates an optimized, small bundles for loading web resources in a production environment
+
 #### Contributing
 ##### Tests
 To run the unit tests, run `npm run test`
