@@ -9,6 +9,9 @@ __pycache__
 geckodriver.log
 debug.log
 
+#files created by Devin's text editor
+.vscode
+
 # Created by Docker container
 supervisord.pid
 
