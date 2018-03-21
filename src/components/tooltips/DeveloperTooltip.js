@@ -8,7 +8,6 @@ import PropTypes from 'prop-types';
 import Radium from 'radium';
 import { Badge, Label } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
-import TooltipsStyles from './TooltipsStyles';
 /* import TooltipStyles from './TooltipStyles'; */
 
 class DeveloperTooltip extends React.Component {
