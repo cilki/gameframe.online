@@ -52,7 +52,7 @@ class SplashPage extends React.Component {
                 width={900}
                 height={500}
                 alt="PLAYERUNKNOWN'S BATTLEGROUNDS"
-                src="http://cdn.akamai.steamstatic.com/steam/apps/578080/header.jpg?t=1516879634"
+                src="https://d1wfiv6sf8d64f.cloudfront.net/static/pc/img/visual_main.jpg"
               />
             </a>
           </Carousel.Item>
@@ -67,7 +67,7 @@ class SplashPage extends React.Component {
                 width={900}
                 height={500}
                 alt="Portal 2"
-                src="http://cdn.akamai.steamstatic.com/steam/apps/620/header.jpg?t=1512411524"
+                src="http://cdn.akamai.steamstatic.com/steamcommunity/public/images/items/620/aae901f5cca93fb9f50fd4746535d24cd572b5b4.jpg"
               />
             </a>
           </Carousel.Item>
@@ -82,7 +82,7 @@ class SplashPage extends React.Component {
                 width={900}
                 height={500}
                 alt="Rocket League"
-                src="http://cdn.akamai.steamstatic.com/steam/apps/252950/header.jpg?t=1512003663"
+                src="http://nintendoenthusiast.com/wp-content/uploads/2017/01/rocket-league.jpg"
               />
             </a>
           </Carousel.Item>
@@ -97,7 +97,7 @@ class SplashPage extends React.Component {
                 width={900}
                 height={500}
                 alt="The Forest"
-                src="http://cdn.akamai.steamstatic.com/steam/apps/242760/header.jpg?t=1478631950"
+                src="https://compunit.pl/wp-content/uploads/2016/05/maxresdefault.jpg"
               />
             </a>
           </Carousel.Item>
