@@ -89,8 +89,6 @@ class Developer extends React.Component {
     };
 
     this.iso = require('iso-3166-1');
-
-      console.log(this.iso.whereNumeric(840).country);
   }
 
   componentDidMount() {

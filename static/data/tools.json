@@ -25,7 +25,7 @@
       "cover": "https://i.lensdump.com/i/TDYNA.png",
       "name": "Flask",
       "phase": 1,
-      "usage": "Flask supports our back-end web-framework, which is written in Python.",
+      "usage": "Flask supports our backend web framework, which is written in Python.",
       "tool_id": 4    
     },
     {
@@ -60,7 +60,7 @@
       "cover": "https://www.python.org/static/community_logos/python-logo-inkscape.svg",
       "name": "Python",
       "phase": 1,
-      "usage": "Most of the back-end is written in Python.",
+      "usage": "Most of the backend is written in Python.",
       "tool_id": 9  
     },
     {
@@ -109,7 +109,7 @@
       "cover": "",
       "name": "Radium",
       "phase": 2,
-      "usage": "Radium manages our in-line styles on React elements.",
+      "usage": "Radium manages our inline styles and states on React elements.",
       "tool_id": 16 
     },
     {

@@ -18,7 +18,7 @@ function Banner() {
         margin: 'auto',
       }}
     >
-      <div style={{ width: '50%' }}>
+      <div style={{ maxWidth: '570px', maxHeight: '320px' }}>
         <img
           style={{ height: '100%', width: '100%', verticalAlign: 'top' }}
           src="../../static/images/splash.jpg"

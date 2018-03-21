@@ -45,20 +45,24 @@ class GameTooltip extends React.Component {
       <div>
         <div>
           <p>
-            Price: 
-            <Badge>
+            Price:
+            <Badge style={{
+              marginLeft: '5%'
+            }}>
               ${price}
             </Badge>
           </p>
         </div>
-        
+
         <div>
           <h4>
-            Genres: 
+            Genres:
           </h4>
           {
             this.props.genres.length > 0 &&
-            <p>
+            <p style={{
+              marginLeft: '5%'
+            }}>
             {
               this.props.genres.map((genre) => {
                 return (
@@ -71,57 +75,71 @@ class GameTooltip extends React.Component {
             </p>
           }
         </div>
-        
+
         <div>
           <h4>
             Platforms
           </h4>
           <p>
             Windows:
-            <Badge>
+            <Badge style={{
+              marginLeft: '5%'
+            }}>
               Yes
             </Badge>
           </p>
           <p>
             Mac:
-            <Badge>
+            <Badge style={{
+              marginLeft: '5%'
+            }}>
               No
             </Badge>
           </p>
           <p>
             Linux:
-            <Badge>
+            <Badge style={{
+              marginLeft: '5%'
+            }}>
               No
             </Badge>
           </p>
         </div>
-              
+
         <div>
           <h4>
             Media
           </h4>
           <p>
-            Streams: 
-            <Badge>
-              #{this.props.streams}
+            Streams:
+            <Badge style={{
+              marginLeft: '5%'
+            }}>
+              {this.props.streams}
             </Badge>
           </p>
           <p>
-            Videos: 
-            <Badge>
-              #{this.props.videos}
+            Videos:
+            <Badge style={{
+              marginLeft: '5%'
+            }}>
+              {this.props.videos}
             </Badge>
           </p>
           <p>
-            Tweets: 
-            <Badge>
-              #{this.props.tweets}
+            Tweets:
+            <Badge style={{
+              marginLeft: '5%'
+            }}>
+              {this.props.tweets}
             </Badge>
           </p>
           <p>
-            Articles: 
-            <Badge>
-              #{this.props.articles}
+            Articles:
+            <Badge style={{
+              marginLeft: '5%'
+            }}>
+              {this.props.articles}
             </Badge>
           </p>
         </div>

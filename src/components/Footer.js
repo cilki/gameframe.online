@@ -31,7 +31,7 @@ function Footer() {
           boxShadow: 'inset 0 10px 20px -10px rgba(0,0,0,0.99), 0 6px 6px -6px rgba(0,0,0,0.23)'
         }}
       >
-        Copyright © 2018 GameFrame.Online. All rights reserved.
+        <p>Copyright © 2018 GameFrame LLC, All rights reserved. Any and all third-party trademarks, logos, screenshots, and content herein are property of their respective owners.</p>
       </Panel.Footer>
     </div>
   );
