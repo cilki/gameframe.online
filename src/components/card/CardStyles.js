@@ -47,7 +47,7 @@ const Card = {
     },
 
     titleText: {
-      color: 'white',
+      color: '#e9e9e9',
       maxWidth: '100%',
       whiteSpace: 'nowrap',
       overflow: 'hidden',
@@ -189,10 +189,6 @@ const Card = {
     MsTransition: 'height 0.2s',
     OTransition: 'height 0.2s',
     transition: 'height 0.2s',
-    ':hover': {
-      height: '0px',
-      overflow: 'hidden',
-    },
   },
 
   caption: {
