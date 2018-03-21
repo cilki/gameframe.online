@@ -53,6 +53,8 @@ class Card extends React.Component {
     this.state = {
       hover: false,
     };
+
+    this.iso = require('iso-3166-1');
   }
 
   /**
@@ -114,6 +116,8 @@ class Card extends React.Component {
       }
       return <div>Error: No tooltipType defined!</div>;
     }
+
+    const origin = this.props.origin ? this.iso.whereNumeric(this.props.origin).country : undefined;
 
     return (
       <div
@@ -190,7 +194,7 @@ class Card extends React.Component {
               <div style={[CardStyles.captionContainer]} key={`${title}-caption`}>
                 <div style={[CardStyles.caption]}>
                   <Label>
-                    {this.props.origin}
+                    {origin}
                   </Label>
                 </div>
                 <div style={[CardStyles.badgeContainer]}>
