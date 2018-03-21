@@ -2,7 +2,7 @@ from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 import unittest
 
-class TestHomepageFirefox(unittest.TestCase):
+class TestHomepage(unittest.TestCase):
 
     def test_homepage_chrome(self):
         self.driver = webdriver.Chrome()
