@@ -171,7 +171,7 @@ class Card extends React.Component {
                   style={{
                     maxWidth: '100%',
                     maxHeight: '100%',
-                    position: 'fixed',
+                    position: 'absolute',
                     top: '0',
                     left: '0',
                     zIndex: '-2',
