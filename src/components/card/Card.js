@@ -117,7 +117,8 @@ class Card extends React.Component {
       return <div>Error: No tooltipType defined!</div>;
     }
 
-    const origin = this.props.origin ? this.iso.whereNumeric(this.props.origin).country : undefined;
+    const origin = this.props.origin ? this.iso.whereNumeric(this.props.origin) : '';
+    const country = origin ? origin.country : null;
 
     return (
       <div
@@ -194,7 +195,7 @@ class Card extends React.Component {
               <div style={[CardStyles.captionContainer]} key={`${title}-caption`}>
                 <div style={[CardStyles.caption]}>
                   <Label>
-                    {origin}
+                    {country}
                   </Label>
                 </div>
                 <div style={[CardStyles.badgeContainer]}>
