@@ -102,11 +102,17 @@ class AboutPage extends React.Component {
               {/* Data */}
               <Col md={4} sm={4}>
                 <h2><strong>Data Sources</strong></h2>
-                <p><a href="https://developer.valvesoftware.com/wiki/Steam_Web_API">Steam</a></p>
                 <p><a href="https://www.igdb.com/api">IGDB</a></p>
-                <p><a href="https://www.giantbomb.com/api/">Giant Bomb</a></p>
+                <p><a href="https://newsapi.org/">News API</a></p>
+                <p><a href="https://developer.valvesoftware.com/wiki/Steam_Web_API">Steam</a></p>
                 <p><a href="https://developer.twitter.com/en/docs">Twitter</a></p>
-                <p>Each data source was manually collected for this phase of the project.</p>
+                <p><a href="https://developers.google.com/youtube/v3/docs/">YouTube Data API</a></p>
+                <p>
+                  For IGDB and Stream, we scraped data with a "GET" call on a range of ids.
+                  While, News API and YouTube Data API's data got scraped with a "GET" call on specific keywords 
+                  related to games. Furthermore, Twitter feeds are fetched by a plug-in that uses the name of 
+                  a game as a keyword to get that game feed.
+                </p>
               </Col>
             </Row>
             {/* Tools */}
@@ -248,6 +254,126 @@ class AboutPage extends React.Component {
                 />
                 <h3>Webpack</h3>
                 <p>Webpack manages our JS files into one package.</p>
+              </Col>
+              <Col md={3} sm={3}>
+                <Thumbnail
+                  src="../../../static/images/noImage.png"
+                  style={{ width: '150px', height: '150px', margin: 'auto' }}
+                />
+                <h3>Radium</h3>
+                <p>Radium manages our inline styles and states on React elements.</p>
+              </Col>
+            </Row>
+            <Row>
+              <Col md={3} sm={3}>
+                <Thumbnail
+                  src="https://upload.wikimedia.org/wikipedia/commons/9/99/Unofficial_JavaScript_logo_2.svg"
+                  style={{ width: '150px', height: '150px', margin: 'auto' }}
+                />
+                <h3>JavaScript</h3>
+                <p>Most of the front-end is written in JavaScript.</p>
+              </Col>
+              <Col md={3} sm={3}>
+                <Thumbnail
+                  src="../../../static/images/noImage.png"
+                  style={{ width: '150px', height: '150px', margin: 'auto' }}
+                />
+                <h3>Selenium</h3>
+                <p>Selenium tests our graphical user interface.</p>
+              </Col>
+              <Col md={3} sm={3}>
+                <Thumbnail
+                  src="https://camo.githubusercontent.com/af4bf83ab2ca125346740f9961345a24ec43b3a9/68747470733a2f2f636c6475702e636f6d2f78465646784f696f41552e737667"
+                  style={{ width: '150px', height: '150px', margin: 'auto' }}
+                />
+                <h3>Mocha</h3>
+                <p>Mocha tests our JavaScript code.</p>
+              </Col>
+              <Col md={3} sm={3}>
+                <Thumbnail
+                  src="../../../static/images/noImage.png"
+                  style={{ width: '150px', height: '150px', margin: 'auto' }}
+                />
+                <h3>Enzyme</h3>
+                <p>Enzyme makes testing our JavaScript code with Mocha easier.</p>
+              </Col>
+            </Row>
+            <Row>
+              <Col md={3} sm={3}>
+                <Thumbnail
+                  src="https://camo.githubusercontent.com/431283cc1643d02167aac31067137897507c60fc/687474703a2f2f636861696a732e636f6d2f696d672f636861692d6c6f676f2e706e67"
+                  style={{ width: '150px', height: '150px', margin: 'auto' }}
+                />
+                <h3>Chai</h3>
+                <p>Chai makes assertions easier when testing our JavaScript code with Mocha.</p>
+              </Col>
+              <Col md={3} sm={3}>
+                <Thumbnail
+                  src="https://camo.githubusercontent.com/e69fbfc8dc529fda880b1890f43fa0aec6ab5cb6/687474703a2f2f65736c696e742e6f72672f696d672f6c6f676f2e737667"
+                  style={{ width: '150px', height: '150px', margin: 'auto' }}
+                />
+                <h3>Eslint</h3>
+                <p>Eslint helps maintain our JavaScript code in a specific error-free format.</p>
+              </Col>
+              <Col md={3} sm={3}>
+                <Thumbnail
+                  src="https://cdn-images-1.medium.com/max/1600/0*HERF9Ii9f_M3OzQQ."
+                  style={{ width: '150px', height: '150px', margin: 'auto' }}
+                />
+                <h3>Sinon</h3>
+                <p>Sinon helps mock up data for testing our JavaScript code with Mocha.</p>
+              </Col>
+              <Col md={3} sm={3}>
+                <Thumbnail
+                  src="../../../static/images/noImage.png"
+                  style={{ width: '150px', height: '150px', margin: 'auto' }}
+                />
+                <h3>Postman</h3>
+                <p>We use Postman to document, develop, and test our API.</p>
+              </Col>
+            </Row>
+            <Row>
+              <Col md={3} sm={3}>
+                <Thumbnail
+                  src="../../../static/images/noImage.png"
+                  style={{ width: '150px', height: '150px', margin: 'auto' }}
+                />
+                <h3>SQLAlchemy</h3>
+                <p>SQLAlchemy is our Python SQL toolkit and Object Relational Mapper.</p>
+              </Col>
+              <Col md={3} sm={3}>
+                <Thumbnail
+                  src="../../../static/images/noImage.png"
+                  style={{ width: '150px', height: '150px', margin: 'auto' }}
+                />
+                <h3>MySQL</h3>
+                <p>MySQL manages our database.</p>
+              </Col>
+              <Col md={3} sm={3}>
+                <Thumbnail
+                  src="../../../static/images/noImage.png"
+                  style={{ width: '150px', height: '150px', margin: 'auto' }}
+                />
+                <h3>iso-3166-1</h3>
+                <p>Country codes within website are parsed by iso-3166-1.</p>
+              </Col>
+              <Col md={3} sm={3}>
+                <Thumbnail
+                  src="https://raw.githubusercontent.com/reactjs/redux/master/logo/logo.png"
+                  style={{ width: '150px', height: '150px', margin: 'auto' }}
+                />
+                <h3>React-Redux </h3>
+                <p>React-Redux manages our state of data throughout the website.</p>
+              </Col>
+            </Row>
+            <Row>
+              <Col md={3} sm={3}>
+                <Thumbnail
+                  src="../../../static/images/noImage.png"
+                  style={{ width: '150px', height: '150px', margin: 'auto' }}
+                />
+                <h3>React-Twitter-Embed</h3>
+                <p>React-Twitter-Embed is a resource library for Twitter plug-ins.</p>
               </Col>
             </Row>
           </Grid>
