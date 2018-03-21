@@ -91,7 +91,7 @@ const Card = {
       MsTransition: 'opacity 0.125s ease-in',
       OTransition: 'opacity 0.125s ease-in',
       transition: 'opacity 0.125s ease-in',
-      textShadow: '0px 0px 2px gray, 0px 0px 3px black',
+      textShadow: '-1px -1px 0 black, 1px -1px 0 black, -1px 1px 0 black, 1px 1px 0 black, -1px 0 0 black, 1px 0 0 black, 0 1px 0 black, 0 -1px 0 black, 0 0 2px black',
     },
   },
   imageContainerContainer: {
