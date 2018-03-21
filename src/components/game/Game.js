@@ -7,6 +7,7 @@ import PropTypes from 'prop-types';
 import Radium from 'radium';
 import { Label } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
+import ReactHTMLParser from 'react-html-parser';
 
 import GameStyles from './GameStyles';
 import InstanceDetails from '../InstanceDetails';
@@ -183,7 +184,8 @@ class Game extends React.Component {
             <div style={[GameStyles.secondaryInfo]}>
               <p>Released: {this.props.release} </p>
               {/* Genre should really be a array because that's what we get from the API */}
-              <p>Genre:
+              Genre:
+              <span>
                 {
                   this.props.genres.map((genre) => {
                     return (
@@ -193,7 +195,7 @@ class Game extends React.Component {
                     );
                   })
                 }
-              </p>
+              </span>
             </div>
 
             <div style={[GameStyles.imageGallery]}>
@@ -202,10 +204,13 @@ class Game extends React.Component {
               }
             </div>
             <div style={[GameStyles.summary]}>
-              <p>{this.props.summary}</p>
+              <div>
+                {ReactHTMLParser(this.props.summary)}
+              </div>
             </div>
             <div style={[GameStyles.developer]}>
-              <p>Developer:
+              Developer:
+              <span>
                 {
                   this.props.developers.map(developer => link({
                     label: developer.name,
@@ -213,13 +218,13 @@ class Game extends React.Component {
                     key: `developer-${developer.id}`,
                   }))
                 }
-              </p>
+              </span>
             </div>
             <div style={[GameStyles.articles]}>
               <h3>Articles:</h3>
               {
                 this.props.articles.length > 0 &&
-                <p>
+                <span>
                   {
                     this.props.articles.map(article => link({
                       label: article.title,
@@ -227,7 +232,7 @@ class Game extends React.Component {
                       key: `article-${article.id}`,
                     }))
                   }
-                </p>
+                </span>
               }
             </div>
             <div style={[GameStyles.youtube]}>
