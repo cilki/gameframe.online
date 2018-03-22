@@ -1,6 +1,6 @@
 const CommonAssets = {
   stripeOverlay: {
-    background: 'linear-gradient(rgba(39, 39, 39, 0.5), rgba(39, 39, 39, 0.5) 1px, rgba(52, 51, 52, 0.5) 1px, rgba(52, 51, 52, 0.5) 2px)',
+    backgroundImage: 'linear-gradient(rgba(39, 39, 39, 0.5), rgba(39, 39, 39, 0.5) 1px, rgba(52, 51, 52, 0.5) 1px, rgba(52, 51, 52, 0.5) 2px)',
     backgroundSize: '1px 2px',
   },
 
@@ -10,7 +10,9 @@ const CommonAssets = {
     MsTransform: 'translateZ(0)',
     OTransform: 'translateZ(0)',
     transform: 'translateZ(0)',
-    background: 'linear-gradient(to right, black, #090909, #191919, #191919, #090909, black)',
+    backgroundImage: 'linear-gradient(to right, black, #090909, #191919, #191919, #090909, black)',
+    backgroundSize: '100% 1px',
+    backgroundRepeat: 'repeat-y',
     zIndex: '-101',
   },
 

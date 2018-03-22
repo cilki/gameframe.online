@@ -147,7 +147,8 @@ class Card extends React.Component {
                     height: '100%',
                     position: 'fixed',
                     top: '0',
-                    left: '0'
+                    left: '0',
+                    borderRadius: '10px'
                   }}>
                     <img
                       style={[CardStyles.backgroundImage]}
