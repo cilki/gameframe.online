@@ -132,7 +132,7 @@ const Card = {
   }),
 
   backgroundImage: {
-    position: 'fixed',
+    position: 'absolute',
     WebkitFilter: 'blur(64px)',
     MozFilter: 'blur(64px)',
     OFilter: 'blur(64px)',
@@ -144,7 +144,7 @@ const Card = {
     margin: 'auto',
     width: '200%',
     height: '200%',
-    zIndex: '1',
+    zIndex: '-5',
   },
 
   image: {
@@ -188,6 +188,7 @@ const Card = {
     MsTransition: 'height 0.2s',
     OTransition: 'height 0.2s',
     transition: 'height 0.2s',
+    zIndex: '1'
   },
 
   caption: {
