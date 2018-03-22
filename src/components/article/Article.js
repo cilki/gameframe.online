@@ -85,6 +85,8 @@ class Article extends React.Component {
   render() {
     const coverURL = this.props.cover && this.props.cover.indexOf('http') < 0 ?
       `https://${this.props.cover}` : this.props.cover;
+    const outletURL = this.props.outlet && this.props.outlet.indexOf('http') < 0 ?
+      `http://${this.props.outlet}` : this.props.outlet;
     return (
       <div>
         <div
@@ -114,7 +116,7 @@ class Article extends React.Component {
             <div style={[ArticleStyles.secondaryInfo]}>
               <p>Author: {this.props.author}</p>
               <p>Published: {this.props.timestamp}</p>
-              <p>Outlet: <a href={this.props.outlet}>{this.props.outlet}</a></p>
+              <p>Outlet: <a href={outletURL}>{outletURL}</a></p>
             </div>
 
             <div style={[ArticleStyles.summary]}>

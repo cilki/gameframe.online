@@ -9,8 +9,8 @@ class TestPartOfSite(unittest.TestCase):
     time_to_sleep = 2
 
     #Which environment to test
-    environment = "http://gameframe.online"
-    #environment = "http://localhost"
+    #environment = "http://gameframe.online"
+    environment = "http://localhost"
      
     def test_chrome(self):
         self.driver = webdriver.Chrome()
@@ -60,6 +60,10 @@ class TestNavbar(TestPartOfSite):
     
 class TestGrid(TestPartOfSite):
 
+    def click_page(self, driver, environment, grid_name, index, number):
+        driver.find_element(By.CLASS_NAME, "pagination").find_elements(By.TAG_NAME, "a")[index].click()
+        self.assertEqual(environment + "/" + grid_name + "?page=" + number, driver.current_url)
+
     def part(self):
         driver = self.driver
         environment = self.environment
@@ -70,24 +74,16 @@ class TestGrid(TestPartOfSite):
         driver.get(environment + "/" + grid_name + "")
         time.sleep(time_to_sleep)
         #Click a page number
-        driver.find_element(By.XPATH, "//a[@href='/" + grid_name + "?page=3']").click()
-        self.assertEqual(environment + "/" + grid_name + "?page=3", driver.current_url)
-        time.sleep(time_to_sleep)
+        self.click_page(driver, environment, grid_name, 1, "3")
         #Click max value
         driver.find_element(By.CLASS_NAME, "pagination").find_elements(By.TAG_NAME, "a")[-1].click()
         self.assertNotEqual(environment + "/" + grid_name + "?page=3", driver.current_url)
-        time.sleep(time_to_sleep)
         #Click first page
-        driver.find_element(By.CLASS_NAME, "pagination").find_elements(By.TAG_NAME, "a")[0].click()
-        self.assertEqual(environment + "/" + grid_name + "?page=1", driver.current_url)
-        time.sleep(time_to_sleep)
+        self.click_page(driver, environment, grid_name, 0, "1")
         #Click next page
-        driver.find_element(By.CLASS_NAME, "pagination").find_elements(By.TAG_NAME, "a")[-2].click()
-        self.assertEqual(environment + "/" + grid_name + "?page=2", driver.current_url)
-        time.sleep(time_to_sleep)
+        self.click_page(driver, environment, grid_name, -2, "2")
         #Click previous page
-        driver.find_element(By.CLASS_NAME, "pagination").find_elements(By.TAG_NAME, "a")[1].click()
-        self.assertEqual(environment + "/" + grid_name + "?page=1", driver.current_url)
+        self.click_page(driver, environment, grid_name, 1, "1")
     
 class TestGames(TestGrid):
 
@@ -101,47 +97,55 @@ class TestArticles(TestGrid):
 
     grid_name = "articles"
 
-class TestGameRelations(TestPartOfSite):
+class TestRelations(TestPartOfSite):
 
-    def part(self):
-        driver = self.driver
-        environment = self.environment
-        time_to_sleep = self.time_to_sleep
-        driver.get(environment + "/games/126")
-        time.sleep(time_to_sleep)
-        driver.find_element(By.XPATH, "//a[@href='/developers/291']").click()
-        self.assertEqual(environment + "/developers/291", driver.current_url)
-        driver.back()
-        driver.find_element(By.XPATH, "//a[@href='/articles/9480']").click()
-        self.assertEqual(environment + "/articles/9480", driver.current_url)
+    def find_game(self):
+        time.sleep(self.time_to_sleep)
+        self.driver.find_element(By.XPATH, "//a[@href='/games/126']").click()
+        self.assertEqual(self.environment + "/games/126", self.driver.current_url)
     
-class TestDeveloperRelations(TestPartOfSite):
-
-    def part(self):
-        driver = self.driver
-        environment = self.environment
-        time_to_sleep = self.time_to_sleep
-        driver.get(environment + "/developers/291")
-        time.sleep(time_to_sleep)
-        driver.find_element(By.XPATH, "//a[@href='/games/126']").click()
-        self.assertEqual(environment + "/games/126", driver.current_url)
-        driver.back()
-        driver.find_element(By.XPATH, "//a[@href='/articles/9480']").click()
-        self.assertEqual(environment + "/articles/9480", driver.current_url)
+    def find_developer(self):
+        time.sleep(self.time_to_sleep)
+        self.driver.find_element(By.XPATH, "//a[@href='/developers/291']").click()
+        self.assertEqual(self.environment + "/developers/291", self.driver.current_url)
     
-class TestArticleRelations(TestPartOfSite):
+    def find_article(self):
+        time.sleep(self.time_to_sleep)
+        self.driver.find_element(By.XPATH, "//a[@href='/articles/9480']").click()
+        self.assertEqual(self.environment + "/articles/9480", self.driver.current_url)
+
+class TestGameRelations(TestRelations):
 
     def part(self):
-        driver = self.driver
-        environment = self.environment
-        time_to_sleep = self.time_to_sleep
-        driver.get(environment + "/articles/9480")
-        time.sleep(time_to_sleep)
-        driver.find_element(By.XPATH, "//a[@href='/games/126']").click()
-        self.assertEqual(environment + "/games/126", driver.current_url)
-        driver.back()
-        driver.find_element(By.XPATH, "//a[@href='/developers/291']").click()
-        self.assertEqual(environment + "/developers/291", driver.current_url)
+        self.driver.get(self.environment + "/games/126")
+        self.find_developer()
+        self.find_article()
+        self.find_game()
+        self.find_article()
+        self.find_developer()
+        self.find_game()
+    
+class TestDeveloperRelations(TestRelations):
+
+    def part(self):
+        self.driver.get(self.environment + "/developers/291")
+        self.find_game()
+        self.find_article()
+        self.find_developer()
+        self.find_article()
+        self.find_game()
+        self.find_developer()
+    
+class TestArticleRelations(TestRelations):
+
+    def part(self):
+        self.driver.get(self.environment + "/articles/9480")
+        self.find_game()
+        self.find_developer()
+        self.find_article()
+        self.find_developer()
+        self.find_game()
+        self.find_article()
 
 if __name__ == '__main__':
     classes = [TestHomepage, TestNavbar, TestGames, TestDevelopers, TestArticles, TestGameRelations, TestDeveloperRelations, TestArticleRelations]
