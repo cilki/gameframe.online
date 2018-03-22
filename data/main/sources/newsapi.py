@@ -190,6 +190,9 @@ def clean_cache():
 
 
 def merge_articles(db):
+    """
+    Merge cached articles into the working set and link
+    """
     load_working_set()
 
     print("[NWAPI] Merging/Linking articles")
@@ -219,8 +222,46 @@ def merge_articles(db):
                     article_json['publishedAt'], "%Y-%m-%dT%H:%M:%SZ"),
                 cover=article_json['urlToImage'], article_link=article_json['url'])
 
-            # Setting up a relationship between article and game
+            # Setup a relationship between the article and game
             game.articles.append(article)
+
+            # Setup a relationship between the article and any developers
+            for developer in game.developers:
+                if article not in developer.articles:
+                    developer.articles.append(article)
+
+            # Add to working set
+            add_article(article)
+
+    # TODO reduce duplication
+    for filename in tqdm(os.listdir(CACHE_ARTICLE_DEVELOPER)):
+
+        try:
+            developer = name_developer[filename.replace("\\", "/")]
+        except KeyError:
+            continue
+
+        with open("%s/%s" % (CACHE_ARTICLE_DEVELOPER, filename), 'r', 'utf8') as h:
+            articles = json.load(h)
+        for article_json in articles:
+
+            # Do not allow duplicate titles
+            if article_json['title'] in title_article:
+                article = title_article[article_json['title']]
+                if article not in developer.articles:
+                    developer.articles.append(article)
+                continue
+
+            # Build Article
+            article = Article(
+                title=article_json['title'], outlet=article_json['source']['name'],
+                introduction=article_json['description'], author=article_json['author'],
+                timestamp=datetime.strptime(
+                    article_json['publishedAt'], "%Y-%m-%dT%H:%M:%SZ"),
+                cover=article_json['urlToImage'], article_link=article_json['url'])
+
+            # Setting up a relationship between article and developer
+            developer.articles.append(article)
 
             # Add to working set
             add_article(article)
