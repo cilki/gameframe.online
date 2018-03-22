@@ -4,6 +4,7 @@
 # --------------------------------
 
 import os
+import sys
 
 from tqdm import tqdm
 
@@ -11,23 +12,6 @@ from aws import upload_image
 from cache import load_working_set, name_game, name_developer
 from orm import Genre, Platform
 from sources import igdb, newsapi, steam
-
-
-def append_csv(csv, item):
-    """
-    Append an item to a CSV string. Duplicates are ignored.
-    """
-    item = str(item)
-    if csv is None:
-        return item
-
-    if item not in csv:
-        if len(csv) > 0:
-            csv += ","
-
-        csv += item
-
-    return csv
 
 
 def trim(db):
@@ -41,8 +25,8 @@ def trim(db):
     # Remove games without covers and screenshots, with short descriptions,
     # or a low number of primary connections
     for name, game in tqdm(name_game.items()):
-        if game.cover is None or game.screenshots is None or game.summary is None \
-                or len(game.summary) < 10 or len(game.developers) == 0 \
+        if game.cover is None or game.screenshots is None or len(game.screenshots) == 0 \
+            or game.summary is None or len(game.summary) < 10 or len(game.developers) == 0 \
                 or len(game.articles) == 0:
             # TODO remove from working set
             # Remove from database
@@ -58,6 +42,10 @@ def trim(db):
 
     db.session.commit()
     print("[MAIN ] Trim complete")
+
+    # TODO remove when working set is updated
+    print("[MAIN ] Exiting")
+    sys.exit()
 
 
 def reset(db):
