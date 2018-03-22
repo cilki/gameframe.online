@@ -13,6 +13,7 @@ import requests
 from ratelimit import rate_limited
 from tqdm import tqdm
 
+from aws import upload_image
 from cache import (add_game, load_working_set, map_id_platform, map_name_genre,
                    name_developer, name_game, steamid_game)
 from cdgen.steam import generate
@@ -28,6 +29,12 @@ CACHE_GAME = "%s/steam/games" % CACHE_GAMEFRAME
 assert os.path.isdir(CACHE_GAME)
 
 """
+The article cache
+"""
+CACHE_ARTICLE = "%s/steam/articles" % CACHE_GAMEFRAME
+assert os.path.isdir(CACHE_ARTICLE)
+
+"""
 The header image cache
 """
 CACHE_HEADER = "%s/steam/headers" % CACHE_GAMEFRAME
@@ -41,7 +48,7 @@ assert os.path.isdir(CACHE_CD)
 
 
 """
-Steam genres that should be filtered
+Steam genres that should be filtered out
 """
 UNWANTED_GENRES = set(['Animation & Modeling', 'Photo Editing', 'Rol',
                        'Software Training', 'Accounting', 'Video Production',
@@ -74,6 +81,19 @@ def rq_game(appid):
 
     assert rq.status_code == requests.codes.ok
     return rq.json()
+
+
+@rate_limited(period=35, every=60)
+def rq_articles(appid):
+    """
+    Request game news using the store API.
+    """
+
+    rq = requests.get("https://api.steampowered.com/ISteamNews/GetNewsForApp/v2",
+                      {'appid': appid, 'count': 500})
+
+    assert rq.status_code == requests.codes.ok
+    return rq.json()['appnews']['newsitems']
 
 
 def load_game_json(appid):
@@ -204,6 +224,31 @@ def build_game(game_json):
     return game
 
 
+def build_article(article_json):
+    """
+    Build an Article object from the raw data, taking into account previous Articles.
+    """
+    # Name matching
+    if article_json['title'] in title_article:
+        return title_article[article_json['title']]
+
+    # Build new Article
+    article = Article()
+
+    # Title
+    article.title = article_json['title']
+
+    # Introduction
+    if 'contents' in article_json:
+        article.introduction = article_json['contents']
+    else:
+        return None
+
+    # TODO finish in next phase
+
+    return article
+
+
 def collect_games():
     """
     Download missing games from Steam.
@@ -273,10 +318,11 @@ def upload_covers():
 
     print("[STEAM] Uploading covers")
 
-    for name, game in tqdm(name_game.items()):
-        if game.cover is not None and 'cdn.gameframe' in game.cover:
+    for appid, game in tqdm(steamid_game.items()):
+        if is_cached(CACHE_CD, str(appid) + '.png'):
             # Upload cover
-            upload_image(cover, 'cover/steam/' + game.steam_id + '.png')
+            upload_image("%s/%d.png" % (CACHE_CD, appid),
+                         "cover/steam/%d.png" % game.steam_id)
 
     print("[STEAM] Upload complete")
 
@@ -300,7 +346,7 @@ def gather_articles(db):
 
 def merge_games(db):
     """
-    Merge cached games into the working set and flush the database.
+    Merge cached games into the working set and flush the database
     """
     apps = rq_app_list()
 
@@ -327,7 +373,7 @@ def merge_games(db):
 
 def link_developers(db):
     """
-    Perform the developer linking for Steam games according to name.
+    Perform the developer linking for Steam games according to name
     """
     load_working_set()
 
