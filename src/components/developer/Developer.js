@@ -130,7 +130,6 @@ class Developer extends React.Component {
               <p>Website: <a href={this.props.website}>{this.props.website}</a></p>
             </div>
           </div>
-
           <div style={[DeveloperStyles.games]}>
             <h3>Games:</h3>
             {
