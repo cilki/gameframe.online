@@ -11,8 +11,6 @@ const CommonAssets = {
     OTransform: 'translateZ(0)',
     transform: 'translateZ(0)',
     backgroundImage: 'linear-gradient(to right, black, #090909, #191919, #191919, #090909, black)',
-    backgroundSize: '100% 1px',
-    backgroundRepeat: 'repeat-y',
     zIndex: '-101',
   },
 
