@@ -70,11 +70,11 @@ const Card = {
     width: '100%',
     height: '100%',
     top: '0',
-    overflow: 'scroll',
+    overflowX: 'hidden',
+    overflowY: 'scroll',
     left: '0',
     padding: '5% 5% 0px 5%',
-    borderBottomLeftRadius: '10px',
-    borderBottomRightRadius: '10px',
+    borderRadius: '10px',
     WebkitTransition: 'opacity 0.25s ease-out',
     MozTransition: 'opacity 0.25s ease-out',
     MsTransition: 'opacity 0.25s ease-out',
@@ -133,7 +133,7 @@ const Card = {
   }),
 
   backgroundImage: {
-    position: 'fixed',
+    position: 'absolute',
     WebkitFilter: 'blur(64px)',
     MozFilter: 'blur(64px)',
     OFilter: 'blur(64px)',
@@ -145,7 +145,7 @@ const Card = {
     margin: 'auto',
     width: '200%',
     height: '200%',
-    zIndex: '1',
+    zIndex: '-5',
   },
 
   image: {
@@ -189,6 +189,7 @@ const Card = {
     MsTransition: 'height 0.2s',
     OTransition: 'height 0.2s',
     transition: 'height 0.2s',
+    zIndex: '1'
   },
 
   caption: {
