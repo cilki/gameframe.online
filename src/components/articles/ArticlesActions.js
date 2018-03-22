@@ -157,7 +157,7 @@ const articles = handleActions({
   // request for a single article
   [fetchArticleRequest](state, { payload }) {
     const id = payload;
-    return state.mergeIn([id], {
+    return state.mergeIn([String(id)], {
       requested: true,
     });
   },

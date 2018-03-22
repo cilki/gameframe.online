@@ -110,10 +110,12 @@ class AboutPage extends React.Component {
                 <p><a href="https://developer.twitter.com/en/docs">Twitter</a></p>
                 <p><a href="https://developers.google.com/youtube/v3/docs/">YouTube Data API</a></p>
                 <p>
-                  For IGDB and Stream, we scraped data with a "GET" call on a range of ids.
-                  While, News API and YouTube Data API's data got scraped with a "GET" call on specific keywords 
-                  related to games. Furthermore, Twitter feeds are fetched by a plug-in that uses the name of 
-                  a game as a keyword to get that game feed.
+                  {
+                    'For IGDB and Stream, we scraped data with a "GET" call on a range of ids. ' +
+                    'While, News API and YouTube Data API\'s data got scraped with a "GET" call ' +
+                    'on specific keywords related to games. Furthermore, Twitter feeds are fetched ' +
+                    ' by a plug-in that uses the name of a game as a keyword to get that game feed.'
+                  }
                 </p>
               </Col>
             </Row>
@@ -236,7 +238,7 @@ class AboutPage extends React.Component {
               <Col md={3} sm={3}>
                 <Thumbnail
                   src="../../../static/images/tools/slack_mark.svg"
-                  style={{ width: '150px', height: '150px', margin: 'auto'}}
+                  style={{ width: '150px', height: '150px', margin: 'auto' }}
                 />
                 <h3>Slack</h3>
                 <p>Slack is where we communicate with each other.</p>

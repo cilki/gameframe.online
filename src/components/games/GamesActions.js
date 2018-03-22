@@ -154,7 +154,7 @@ const games = handleActions({
   [fetchGameRequest](state, { payload }) {
     const id = payload;
 
-    return state.mergeIn([id], {
+    return state.mergeIn([String(id)], {
       requested: true,
     });
   },
@@ -163,7 +163,7 @@ const games = handleActions({
   [fetchGameResponse](state, { payload }) {
     const { id, data, error } = payload;
     if (error) {
-      return state.mergeIn([id], {
+      return state.mergeIn([String(id)], {
         requested: false,
         error: data.message,
       });

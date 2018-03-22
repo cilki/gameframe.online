@@ -162,7 +162,7 @@ const developers = handleActions({
   // action for a single developer
   [fetchDeveloperRequest](state, { payload }) {
     const id = payload;
-    return state.mergeIn([id], {
+    return state.mergeIn([String(id)], {
       requested: true,
     });
   },
@@ -173,7 +173,7 @@ const developers = handleActions({
 
     if (error) {
       console.error(data); //eslint-disable-line
-      return state.mergeIn([id], {
+      return state.mergeIn([String(id)], {
         requested: false,
         error: data.message,
       });
