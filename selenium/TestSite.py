@@ -14,20 +14,25 @@ class TestPartOfSite(unittest.TestCase):
      
     def test_chrome(self):
         self.driver = webdriver.Chrome()
-        self.part()
+        self.do_part()
 
     def test_edge(self):
         self.driver = webdriver.Edge()
-        self.part()
+        self.do_part()
     
     def test_firefox(self):
         self.driver = webdriver.Firefox()
         #Firefox doesn't need to sleep for some reason
         self.time_to_sleep = 0
-        self.part()
+        self.do_part()
 
-    def part():
-        self.driver.close()
+    def do_part(self):
+        try:
+            self.part()
+        except Exception as e:
+            self.fail(e)
+        finally:
+            self.driver.close()
 
 class TestHomepage(TestPartOfSite):
     
@@ -35,7 +40,6 @@ class TestHomepage(TestPartOfSite):
         self.driver.get(self.environment)
         self.assertEqual(self.environment + "/", self.driver.current_url)
         self.assertEqual("GameFrame.online", self.driver.title)
-        self.driver.close()
     
 class TestNavbar(TestPartOfSite):
 
@@ -53,7 +57,6 @@ class TestNavbar(TestPartOfSite):
         self.assertEqual(environment + "/games", driver.current_url)
         driver.find_element(By.XPATH, "//a[@href='/']").click()
         self.assertEqual(environment + "/", driver.current_url)
-        driver.close()
     
 class TestGrid(TestPartOfSite):
 
@@ -85,7 +88,6 @@ class TestGrid(TestPartOfSite):
         #Click previous page
         driver.find_element(By.CLASS_NAME, "pagination").find_elements(By.TAG_NAME, "a")[1].click()
         self.assertEqual(environment + "/" + grid_name + "?page=1", driver.current_url)
-        driver.close()
     
 class TestGames(TestGrid):
 
@@ -99,8 +101,50 @@ class TestArticles(TestGrid):
 
     grid_name = "articles"
 
+class TestGameRelations(TestPartOfSite):
+
+    def part(self):
+        driver = self.driver
+        environment = self.environment
+        time_to_sleep = self.time_to_sleep
+        driver.get(environment + "/games/126")
+        time.sleep(time_to_sleep)
+        driver.find_element(By.XPATH, "//a[@href='/developers/291']").click()
+        self.assertEqual(environment + "/developers/291", driver.current_url)
+        driver.back()
+        driver.find_element(By.XPATH, "//a[@href='/articles/9480']").click()
+        self.assertEqual(environment + "/articles/9480", driver.current_url)
+    
+class TestDeveloperRelations(TestPartOfSite):
+
+    def part(self):
+        driver = self.driver
+        environment = self.environment
+        time_to_sleep = self.time_to_sleep
+        driver.get(environment + "/developers/291")
+        time.sleep(time_to_sleep)
+        driver.find_element(By.XPATH, "//a[@href='/games/126']").click()
+        self.assertEqual(environment + "/games/126", driver.current_url)
+        driver.back()
+        driver.find_element(By.XPATH, "//a[@href='/articles/9480']").click()
+        self.assertEqual(environment + "/articles/9480", driver.current_url)
+    
+class TestArticleRelations(TestPartOfSite):
+
+    def part(self):
+        driver = self.driver
+        environment = self.environment
+        time_to_sleep = self.time_to_sleep
+        driver.get(environment + "/articles/9480")
+        time.sleep(time_to_sleep)
+        driver.find_element(By.XPATH, "//a[@href='/games/126']").click()
+        self.assertEqual(environment + "/games/126", driver.current_url)
+        driver.back()
+        driver.find_element(By.XPATH, "//a[@href='/developers/291']").click()
+        self.assertEqual(environment + "/developers/291", driver.current_url)
+
 if __name__ == '__main__':
-    classes = [TestHomepage, TestNavbar, TestGames, TestDevelopers, TestArticles]
+    classes = [TestHomepage, TestNavbar, TestGames, TestDevelopers, TestArticles, TestGameRelations, TestDeveloperRelations, TestArticleRelations]
     loader = unittest.TestLoader()
     tests = []
     for test_class in classes:
