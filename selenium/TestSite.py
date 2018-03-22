@@ -26,6 +26,9 @@ class TestPartOfSite(unittest.TestCase):
         self.time_to_sleep = 0
         self.do_part()
 
+    def part(self):
+        pass
+
     def do_part(self):
         try:
             self.part()
@@ -46,7 +49,7 @@ class TestNavbar(TestPartOfSite):
     def part(self):
         driver = self.driver
         environment = self.environment
-        driver.get(self.environment + "")
+        driver.get(environment)
         driver.find_element(By.XPATH, "//a[@href='/about']").click()
         self.assertEqual(environment + "/about", driver.current_url)
         driver.find_element(By.XPATH, "//a[@href='/articles']").click()
@@ -59,6 +62,8 @@ class TestNavbar(TestPartOfSite):
         self.assertEqual(environment + "/", driver.current_url)
     
 class TestGrid(TestPartOfSite):
+
+    grid_name = ""
 
     def click_page(self, driver, environment, grid_name, index, number):
         driver.find_element(By.CLASS_NAME, "pagination").find_elements(By.TAG_NAME, "a")[index].click()
@@ -99,18 +104,18 @@ class TestArticles(TestGrid):
 
 class TestRelations(TestPartOfSite):
 
-    def find_game(self):
-        time.sleep(self.time_to_sleep)
+    def find_game(self, time_to_sleep=0):
+        time.sleep(time_to_sleep)
         self.driver.find_element(By.XPATH, "//a[@href='/games/126']").click()
         self.assertEqual(self.environment + "/games/126", self.driver.current_url)
     
-    def find_developer(self):
-        time.sleep(self.time_to_sleep)
+    def find_developer(self, time_to_sleep=0):
+        time.sleep(time_to_sleep)
         self.driver.find_element(By.XPATH, "//a[@href='/developers/291']").click()
         self.assertEqual(self.environment + "/developers/291", self.driver.current_url)
     
-    def find_article(self):
-        time.sleep(self.time_to_sleep)
+    def find_article(self, time_to_sleep=0):
+        time.sleep(time_to_sleep)
         self.driver.find_element(By.XPATH, "//a[@href='/articles/9480']").click()
         self.assertEqual(self.environment + "/articles/9480", self.driver.current_url)
 
@@ -118,9 +123,9 @@ class TestGameRelations(TestRelations):
 
     def part(self):
         self.driver.get(self.environment + "/games/126")
-        self.find_developer()
-        self.find_article()
-        self.find_game()
+        self.find_developer(self.time_to_sleep)
+        self.find_article(self.time_to_sleep)
+        self.find_game(self.time_to_sleep)
         self.find_article()
         self.find_developer()
         self.find_game()
@@ -129,9 +134,9 @@ class TestDeveloperRelations(TestRelations):
 
     def part(self):
         self.driver.get(self.environment + "/developers/291")
-        self.find_game()
-        self.find_article()
-        self.find_developer()
+        self.find_game(self.time_to_sleep)
+        self.find_article(self.time_to_sleep)
+        self.find_developer(self.time_to_sleep)
         self.find_article()
         self.find_game()
         self.find_developer()
@@ -140,9 +145,9 @@ class TestArticleRelations(TestRelations):
 
     def part(self):
         self.driver.get(self.environment + "/articles/9480")
-        self.find_game()
-        self.find_developer()
-        self.find_article()
+        self.find_game(self.time_to_sleep)
+        self.find_developer(self.time_to_sleep)
+        self.find_article(self.time_to_sleep)
         self.find_developer()
         self.find_game()
         self.find_article()
