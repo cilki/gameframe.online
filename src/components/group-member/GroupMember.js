@@ -19,6 +19,7 @@ class GroupMember extends React.Component {
     name: PropTypes.string,
     issues: PropTypes.number,
     responsibilities: PropTypes.string,
+    unitTests: PropTypes.number,
 
     fetchStats: PropTypes.func.isRequired,
   };
@@ -30,6 +31,7 @@ class GroupMember extends React.Component {
     name: '',
     issues: 0,
     responsibilities: '',
+    unitTests: 0,
   };
 
   constructor(props) {
@@ -55,7 +57,7 @@ class GroupMember extends React.Component {
             <p><strong>Responsibilities: </strong>{this.props.responsibilities}</p>
             <p><strong>Commits: </strong>{this.props.commits}</p>
             <p><strong>Issues: </strong>{this.props.issues}</p>
-            <p><strong>Unit Tests: </strong>{0}</p>
+            <p><strong>Unit Tests: </strong>{this.props.unitTests}</p>
           </div>
         </Thumbnail>
       </Col>

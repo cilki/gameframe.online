@@ -333,6 +333,7 @@ const contributors = handleActions({
       name: data.name,
       bio: data.bio,
       responsibilities: data.responsibilities,
+      unitTests: data.unitTests,
       statsError: null,
     });
   },

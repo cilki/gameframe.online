@@ -19,6 +19,7 @@ class AboutPage extends React.Component {
 
     totalCommits: PropTypes.number,
     totalIssues: PropTypes.number,
+    totalUnitTests: PropTypes.number,
 
     fetchDescription: PropTypes.func.isRequired,
     fetchExplanation: PropTypes.func.isRequired,
@@ -33,6 +34,7 @@ class AboutPage extends React.Component {
 
     totalCommits: 0,
     totalIssues: 0,
+    totalUnitTests: 0,
   };
 
   constructor(props) {
@@ -90,7 +92,7 @@ class AboutPage extends React.Component {
                 <h2><strong>Team Stats</strong></h2>
                 <p><strong>Commits: </strong>{this.props.totalCommits}</p>
                 <p><strong>Issues: </strong>{this.props.totalIssues}</p>
-                <p><strong>Unit Tests: </strong>{0}</p>
+                <p><strong>Unit Tests: </strong>{this.props.totalUnitTests}</p>
               </Col>
               {/* GitHub and GitBook */}
               <Col md={4} sm={4}>

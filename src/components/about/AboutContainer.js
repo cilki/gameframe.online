@@ -21,6 +21,7 @@ import {
   getExplanation,
   getTotalIssues,
   getTotalCommits,
+  getTotalUnitTests,
 } from './AboutSelectors';
 import {
   fetchContributors,
@@ -54,6 +55,7 @@ function mapStateToProps(state) {
 
     totalIssues: getTotalIssues(state),
     totalCommits: getTotalCommits(state),
+    totalUnitTests: getTotalUnitTests(state),
   };
 }
 

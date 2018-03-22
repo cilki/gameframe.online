@@ -171,6 +171,23 @@ const getTotalCommits = createSelector(
   },
 );
 
+/**
+ * @description - Returns the total number of unit tests
+ * @returns {Function}
+ */
+const getTotalUnitTests = createSelector(
+  [getAllContributors],
+  (contributors) => {
+    let total = 0;
+    contributors.forEach((contributor) => {
+      const unitTests = contributor.get('unitTests');
+      total += unitTests;
+    });
+
+    return total;
+  },
+);
+
 export { //eslint-disable-line
   getContributorsRequested,
   getContributors,
@@ -191,4 +208,5 @@ export { //eslint-disable-line
 
   getTotalIssues,
   getTotalCommits,
+  getTotalUnitTests,
 };
