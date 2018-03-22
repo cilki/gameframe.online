@@ -112,7 +112,11 @@ function Grid(props) {
   const { children, ...rest } = props;
   return (
     <div>
-      <div style={{ display: 'flex', justifyContent: 'center' }}>
+      <div style={{
+        display: 'flex',
+        justifyContent: 'center',
+        filter:'hue-rotate(170deg) invert(90%) saturate(300%) brightness(90%) grayscale(25%)'
+      }}>
         <GridPagination {...rest} />
       </div>
       <div style={[Styles.grid]}>
