@@ -8,11 +8,11 @@ import { normalize } from 'normalizr';
 import {
   fetchArticleRequest,
   fetchArticleResponse,
-  fetchDeveloperResponse,
+  fetchDevelopersResponse,
   fetchGamesResponse,
 } from '../Actions';
 import { articles as articleSchema } from '../Schemas';
-import { getArticle } from './ArticleSelectors';
+// import { getArticle } from './ArticleSelectors';
 
 /**
  * @description - Predicate function to determine if the given
@@ -21,9 +21,10 @@ import { getArticle } from './ArticleSelectors';
  * @param {Number} articleId
  * @returns {Boolean}
  */
-function shouldFetchArticle(state, articleId) {
-  const result = getArticle(state, { id: articleId });
-  return !result;
+function shouldFetchArticle(state, articleId) { //eslint-disable-line
+  // const result = getArticle(state, { id: articleId });
+  // return !result;
+  return true;
 }
 
 /**
@@ -40,9 +41,19 @@ function fetchArticle(articleId) {
         .then(response => response.json())
         .then(json => normalize(json, articleSchema))
         .then((data) => {
-          dispatch(fetchDeveloperResponse(Object.values(data.entities.developers)));
-          dispatch(fetchGamesResponse(Object.values(data.entities.games)));
-          dispatch(fetchArticleResponse(articleId, data.entities.articles[articleId]));
+          if (!data.entities) {
+            return Promise.resolve();
+          }
+          if (data.entities.developers) {
+            dispatch(fetchDevelopersResponse(Object.values(data.entities.developers)));
+          }
+          if (data.entities.games) {
+            dispatch(fetchGamesResponse(Object.values(data.entities.games)));
+          }
+          if (data.entities.articles && data.entities.articles[articleId]) {
+            dispatch(fetchArticleResponse(articleId, data.entities.articles[articleId]));
+          }
+          return Promise.resolve();
         })
         .catch(err => dispatch(fetchArticleResponse(articleId, err)));
     }

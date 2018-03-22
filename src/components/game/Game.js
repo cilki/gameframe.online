@@ -166,9 +166,11 @@ class Game extends React.Component {
     const screenshots = this.props.screenshots ? this.props.screenshots : [];
     const coverURL = this.props.cover && this.props.cover.indexOf('http') < 0 ? `https://${this.props.cover}` : this.props.cover;
     return (
-      <div style={[
-        GameStyles.main
-      ]}>
+      <div
+        style={[
+          GameStyles.main,
+        ]}
+      >
         <div style={[
             CommonAssets.stripeOverlay,
             CommonAssets.fillBackground,

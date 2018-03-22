@@ -126,7 +126,7 @@ class Article extends React.Component {
               <h3>Developer:</h3>
               {
                 this.props.developers.length > 0 &&
-                <p>
+                <span>
                   <ListGroup>
                     {
                       this.props.developers.map(developer => link({
@@ -136,7 +136,7 @@ class Article extends React.Component {
                       }))
                     }
                   </ListGroup>
-                </p>
+                </span>
               }
             </div>
 
@@ -144,7 +144,7 @@ class Article extends React.Component {
               <h3>Game:</h3>
               {
                 this.props.games.length > 0 &&
-                <p>
+                <span>
                   <ListGroup>
                     {
                       this.props.games.map(game => link({
@@ -154,7 +154,7 @@ class Article extends React.Component {
                       }))
                     }
                   </ListGroup>
-                </p>
+                </span>
               }
             </div>
           </div>

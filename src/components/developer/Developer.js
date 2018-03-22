@@ -88,7 +88,7 @@ class Developer extends React.Component {
     this.state = {
     };
 
-    this.iso = require('iso-3166-1');
+    this.iso = require('iso-3166-1'); //eslint-disable-line
   }
 
   componentDidMount() {
@@ -135,7 +135,7 @@ class Developer extends React.Component {
             <h3>Games:</h3>
             {
               this.props.games.length > 0 &&
-              <p>
+              <span>
                 <ListGroup>
                   {
                     this.props.games.map(game => link({
@@ -145,7 +145,7 @@ class Developer extends React.Component {
                     }))
                   }
                 </ListGroup>
-              </p>
+              </span>
             }
           </div>
 
@@ -153,7 +153,7 @@ class Developer extends React.Component {
             <h3>Articles:</h3>
             {
               this.props.articles.length > 0 &&
-              <p>
+              <span>
                 <ListGroup>
                   {
                     this.props.articles.map(article => link({
@@ -163,7 +163,7 @@ class Developer extends React.Component {
                     }))
                   }
                 </ListGroup>
-              </p>
+              </span>
             }
           </div>
         </InstanceDetails>

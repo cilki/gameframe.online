@@ -12,7 +12,7 @@ import {
   fetchArticlesResponse,
 } from '../Actions';
 import { games as gameSchema } from '../Schemas';
-import { getGame } from './GameSelectors';
+// import { getGame } from './GameSelectors';
 
 /**
  * @description - Predicate function to determine if the given
@@ -21,9 +21,10 @@ import { getGame } from './GameSelectors';
  * @param {Number} gameId
  * @returns {Boolean}
  */
-function shouldFetchGame(state, gameId) {
-  const result = getGame(state, { id: gameId });
-  return !result;
+function shouldFetchGame(state, gameId) { //eslint-disable-line
+  // const result = getGame(state, { id: gameId });
+  // return !result;
+  return true;
 }
 
 /**

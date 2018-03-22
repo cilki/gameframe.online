@@ -169,7 +169,7 @@ const games = handleActions({
       });
     }
 
-    return state.mergeIn([id], Object.assign(
+    return state.mergeIn([String(id)], Object.assign(
       {},
       data,
       {

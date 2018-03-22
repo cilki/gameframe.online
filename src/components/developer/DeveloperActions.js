@@ -12,7 +12,7 @@ import {
   fetchGamesResponse,
 } from '../Actions';
 import { developers as developerSchema } from '../Schemas';
-import { getDeveloper } from './DeveloperSelectors';
+// import { getDeveloper } from './DeveloperSelectors';
 
 
 /**
@@ -22,8 +22,9 @@ import { getDeveloper } from './DeveloperSelectors';
  * @param {Number} id
  * @returns {Boolean}
  */
-function shouldFetchDeveloper(state, id) {
-  return !getDeveloper(state, { id });
+function shouldFetchDeveloper(state, id) { //eslint-disable-line
+  // return !getDeveloper(state, { id });
+  return true;
 }
 
 /**

@@ -19,7 +19,8 @@ import { getArticles } from '../articles/ArticlesSelectors';
  */
 function getArticle(state, { id }) {
   const articles = getArticles(state);
-  return articles[id];
+  const article = articles[id];
+  return article;
 }
 
 /**
@@ -38,6 +39,7 @@ function makeGetArticle() {
  */
 function makeGetArticleDevelopers(_articleSelector = null) {
   const articleSelector = _articleSelector === null ? makeGetArticle() : _articleSelector;
+  // const articleSelector = getArticle;
   return createSelector(
     [articleSelector, getDevelopers],
     (article, developers) => {
@@ -62,6 +64,7 @@ function makeGetArticleDevelopers(_articleSelector = null) {
  */
 function makeGetArticleGames(_articleSelector = null) {
   const articleSelector = _articleSelector === null ? makeGetArticle() : _articleSelector;
+  // const articleSelector = getArticle;
   return createSelector(
     [articleSelector, getGames],
     (article, games) => {

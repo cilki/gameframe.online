@@ -101,8 +101,9 @@ const articlesError = handleActions({
     next() {
       return null;
     },
-    throw(state, { payload: { message } }) {
-      return message;
+    throw(state, { payload }) {
+      console.error(payload); //eslint-disable-line
+      return payload.message;
     },
   },
 }, null);
@@ -166,6 +167,7 @@ const articles = handleActions({
     const { id, data, error } = payload;
 
     if (error) {
+      console.error(data); // eslint-disable-line
       return state.mergeIn([id], {
         error: data.message,
         requested: false,
@@ -174,7 +176,7 @@ const articles = handleActions({
 
     /* data.games and data.developers
      * MUST be lists of ID's using normalizr */
-    return state.mergeIn([id], Object.assign(
+    const newArticleState = Object.assign(
       {},
       data,
       {
@@ -187,7 +189,9 @@ const articles = handleActions({
       data.developers && {
         developers: List(data.developers),
       },
-    ));
+    );
+    const newState = state.mergeIn([String(id)], newArticleState);
+    return newState;
   },
 }, Map());
 
