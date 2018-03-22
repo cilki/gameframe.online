@@ -70,7 +70,7 @@ print("G. GATHER articles by developer   Download developer articles from NEWSAP
 print("H. MERGE articles                 Upload article cache into database and LINK")
 
 print("")
-print("YOUTUBE")
+print("[YOUTUBE]")
 
 with app.app_context():
 
@@ -99,10 +99,11 @@ with app.app_context():
             steam.merge_games(db)
             igdb.merge_games(db)
             igdb.merge_developers(db)
-            newsapi.merge_articles(db)
 
             igdb.link_developers(db)
             steam.link_developers(db)
+
+            newsapi.merge_articles(db)
             trim(db)
             print("[MAIN ] Rebuild completed in %d seconds" % (time() - t))
         elif action == '2':
@@ -137,6 +138,5 @@ with app.app_context():
             newsapi.gather_articles_by_developer(db)
         elif action == 'h':
             newsapi.merge_articles(db)
-
         else:
             print("Unknown Command")
