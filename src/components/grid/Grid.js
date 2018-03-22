@@ -27,10 +27,9 @@ function GridPaginationItem({
   prefix,
   label,
 }) {
+  const content = (<Pagination.Item disabled={disabled}>{label || page}</Pagination.Item>);
   return (
-    <LinkContainer to={`/${prefix}?page=${page}`}>
-      <Pagination.Item disabled={disabled}>{label || page}</Pagination.Item>
-    </LinkContainer>
+    disabled ? content : <LinkContainer to={`/${prefix}?page=${page}`}>{content}</LinkContainer>
   );
 }
 
