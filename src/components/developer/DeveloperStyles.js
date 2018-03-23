@@ -33,15 +33,18 @@ const Developer = {
     paddingLeft: '5%',
   },
   logo: {
-    display: 'inline',
-    float: 'right',
+    display: 'block',
+    float: 'left',
     paddingRight: '2%',
-    maxWidth: '25%',
-    maxHeight: '25%',
+    maxHeight: '128px',
+    maxWidth: '200px',
+    width: 'auto',
+    height: 'auto',
   },
   secondaryInfo: {
     display: 'flex',
     justifyContent: 'space-around',
+    maxWidth: '50%',
   },
   imageContainer: {
     maxWidth: '33.333333%',
@@ -77,12 +80,18 @@ const Developer = {
   },
   articles: {
     paddingLeft: '2%',
+    maxWidth: '70%',
+    maxHeight: '35vh',
+    overflow: 'scroll',
   },
   twitter: {
     paddingLeft: '2%',
   },
   games: {
     paddingLeft: '2%',
+    maxWidth: '70%',
+    maxHeight: '35vh',
+    overflow: 'scroll',
   },
   jumboTron: {
     display: 'flex',
