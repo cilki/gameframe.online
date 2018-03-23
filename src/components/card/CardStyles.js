@@ -1,6 +1,13 @@
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+ * CardStyles.js                                                             *
+ * This file contains CSS style properties intended for use with elements in *
+ * the Card.js file. Below are some parameters that may be used to quickly   *
+ * change the general appearance of the cards.                               *
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 const cornerRadius = '6px';
 const cardWidth = '256px';
 const cardHeight = '256px';
+const cardBorderColor = '#dddddd';
 
 const Card = {
   main: {
@@ -21,7 +28,7 @@ const Card = {
     height: '100%',
     overflow: 'hidden',
     borderRadius: `${cornerRadius}`,
-    backgroundColor: 'darkgray',
+    backgroundColor: `${cardBorderColor}`,
     transition: 'transform 0.2s, filter 0.3s ease',
     transform: 'scale(1.0)',
     ':hover': {
@@ -32,11 +39,7 @@ const Card = {
   },
 
   imageContainerContainer: {
-    backgroundColor: 'darkGray',
     height: `${cardHeight}`,
-    ':hover': {
-      backgroundColor: 'darkGray',
-    },
   },
 
   imageContainer: () => ({
@@ -53,7 +56,6 @@ const Card = {
     backgroundSize: '100% 100%',
     ':hover': {
       transform: 'scale(1.0)',
-      backgroundColor: 'darkgray',
     },
   }),
 
