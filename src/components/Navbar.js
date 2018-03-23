@@ -74,26 +74,15 @@ const pages = [
  */
 function NavBar() {
   return (
-    <Navbar
-      inverse
-      collapseOnSelect
-      style={{
-        borderRadius: '0',
-        background: '#272727',
-        borderLeft: 'none',
-        borderRight: 'none',
-        marginBottom: '0',
-        boxShadow: '0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23)',
-      }}
-    >
+    <Navbar inverse collapseOnSelect style={ NavbarStyles.main }>
       <Navbar.Header>
         <Navbar.Brand>
-          <div style={{height: '32px', paddingRight: '140px'}}>
-            <Link to='/' style={{textDecoration: 'none'}}>
+          <div style={[ NavbarStyles.brandContainer ]}>
+            <Link to='/' style={{ textDecoration: 'none' }}>
               <img
                 src='../../static/images/logo_black.svg'
                 alt='GameFrame.Online'
-                style={{position: 'absolute', height: '54px', filter: 'invert(50%)', transition: 'filter 0.1s linear', padding: '15px', margin: '-15px', ':hover': {filter: 'invert(90%)', transition: 'filter 0.1s linear'}}}
+                style={[ NavbarStyles.brandImage ]}
               />
             </Link>
           </div>
@@ -119,8 +108,8 @@ function NavBar() {
         <Navbar.Form pullRight>
           <FormGroup>
             <div style={{ display: 'flex' }}>
-              <FormControl type="text" placeholder="Search" />
-              <Button>
+              <FormControl type="text" placeholder="Search" style={{borderRadius: '0'}}/>
+              <Button style={{borderRadius: '0'}}>
                 <Glyphicon glyph="search" />
               </Button>
             </div>
