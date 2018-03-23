@@ -1,0 +1,12 @@
+
+# Ignore font files
+fonts/
+
+# Ignore twitter's timeline
+twitter/
+
+# Ignore test files
+*.test.js
+
+# Ignore resources, they're not code
+resources/

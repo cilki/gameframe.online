@@ -5,5 +5,17 @@ node_modules/
 static/bundle.js
 __pycache__
 
+#files crated by Selenium tests
+geckodriver.log
+debug.log
+
+#files created by Devin's text editor
+.vscode
+
 # Created by Docker container
 supervisord.pid
+
+#generated files
+static/app.bundle.js
+static/styles.css
+static/vendor.bundle.js

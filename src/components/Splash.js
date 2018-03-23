@@ -3,64 +3,108 @@
  */
 
 import React from 'react';
-import { Carousel, Image } from 'react-bootstrap'; 
-
-const games = [
-	'/static/data/games/PLAYERUNKNOWN\'S BATTLEGROUNDS.json',
-	'/static/data/games/Portal 2.json',
-	'/static/data/games/Rocket League.json',
-	'/static/data/games/TheForest.json'
-];
+import Radium from 'radium';
+import { Carousel } from 'react-bootstrap';
+import CommonAssets from '../inline-styles/CommonAssets';
 
 class SplashPage extends React.Component {
-	constructor() {
-		super();
+  constructor() {
+    super();
 
-		this.state = {
-			items: []
-		};
-	}
+    this.state = {};
+  }
 
-	componentDidMount() {
-		this.setState({
-			items: games
-		});
-	}
-
-	render() {
-
-		return (
-			<div
-				style={{
-					height: 'auto',
-					minHeight: '100%'
-				}}
-			>
-				<Carousel>
-					<Carousel.Item>
-						<a href="/games" target="_blank">
-							<img style={{margin: 'auto'}} width={900} height={500} alt="PLAYERUNKNOWN'S BATTLEGROUNDS" src="http://cdn.akamai.steamstatic.com/steam/apps/578080/header.jpg?t=1516879634" />
-						</a>
-					</Carousel.Item>
-					<Carousel.Item>
-						<a href="/games" target="_blank">
-							<img style={{margin: 'auto'}} width={900} height={500} alt="Portal 2" src="http://cdn.akamai.steamstatic.com/steam/apps/620/header.jpg?t=1512411524" />
-						</a>
-					</Carousel.Item>
-					<Carousel.Item>
-						<a href="/games" target="_blank">
-							<img style={{margin: 'auto'}} width={900} height={500} alt="Rocket League" src="http://cdn.akamai.steamstatic.com/steam/apps/252950/header.jpg?t=1512003663" />
-						</a>
-					</Carousel.Item>
-					<Carousel.Item>
-						<a href="/games" target="_blank">
-							<img style={{margin: 'auto'}} width={900} height={500} alt="The Forest" src="http://cdn.akamai.steamstatic.com/steam/apps/242760/header.jpg?t=1478631950" />
-						</a>
-					</Carousel.Item>
-				</Carousel>
-			</div>
-		);
-	}
+  render() {
+    return (
+      <div
+        style={[
+          { minHeight: '100%' },
+        ]}
+      >
+        <div
+          style={[
+            CommonAssets.fillBackground,
+            CommonAssets.horizontalGradient,
+          ]}
+        />
+        <div
+          style={[
+            CommonAssets.stripeOverlay,
+            // CommonAssets.backgroundColor,
+            CommonAssets.fillBackground,
+          ]}
+        />
+        <Carousel
+          style={{
+            padding: '0 0 0 0',
+            boxSizing: 'border-box',
+            minHeight: '100%',
+          }}
+        >
+          <Carousel.Item>
+            <a href="/games" target="_blank">
+              <img
+                style={{
+                margin: 'auto',
+                width: '100%',
+                height: '100%',
+              }}
+                width={900}
+                height={500}
+                alt="PLAYERUNKNOWN'S BATTLEGROUNDS"
+                src="https://d1wfiv6sf8d64f.cloudfront.net/static/pc/img/visual_main.jpg"
+              />
+            </a>
+          </Carousel.Item>
+          <Carousel.Item>
+            <a href="/games" target="_blank">
+              <img
+                style={{
+                margin: 'auto',
+                width: '100%',
+                height: '100%',
+              }}
+                width={900}
+                height={500}
+                alt="Portal 2"
+                src="http://cdn.akamai.steamstatic.com/steamcommunity/public/images/items/620/aae901f5cca93fb9f50fd4746535d24cd572b5b4.jpg"
+              />
+            </a>
+          </Carousel.Item>
+          <Carousel.Item>
+            <a href="/games" target="_blank">
+              <img
+                style={{
+                margin: 'auto',
+                width: '100%',
+                height: '100%',
+                }}
+                width={900}
+                height={500}
+                alt="Rocket League"
+                src="http://nintendoenthusiast.com/wp-content/uploads/2017/01/rocket-league.jpg"
+              />
+            </a>
+          </Carousel.Item>
+          <Carousel.Item>
+            <a href="/games" target="_blank">
+              <img
+                style={{
+                margin: 'auto',
+                width: '100%',
+                height: '100%',
+                }}
+                width={900}
+                height={500}
+                alt="The Forest"
+                src="https://compunit.pl/wp-content/uploads/2016/05/maxresdefault.jpg"
+              />
+            </a>
+          </Carousel.Item>
+        </Carousel>
+      </div>
+    );
+  }
 }
 
-export default SplashPage;
+export default Radium(SplashPage);

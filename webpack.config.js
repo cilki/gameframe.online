@@ -1,13 +1,17 @@
-var debug = process.env.NODE_ENV !== "production";
-var webpack = require('webpack');
+
+const webpack = require('webpack');
+const CommonsChunkPlugin = webpack.optimize.CommonsChunkPlugin;
 
 module.exports = {
   context: __dirname,
-  devtool: debug ? "inline-sourcemap" : null,
-  entry: "./src/index.js",
+  devtool: 'inline-sourcemap',
+  entry: {
+    app: './src/index.js',
+    vendor: ['react', 'react-bootstrap'],
+  },
   output: {
     path: __dirname + "/static",
-    filename: "bundle.js"
+    filename: '[name].bundle.js',
   },
 
   module: {
@@ -16,7 +20,30 @@ module.exports = {
         test: /\.js$/,
         use: "babel-loader",
         exclude: /node_modules/
+      },
+      {
+        test: /\.(css)$/,
+        use: [
+          "style-loader",
+          {
+            loader: "css-loader",
+            // options: {
+            //   modules: true,
+            //   sourceMap: true,
+            //   importLoaders: 1,
+            //   localIdentName: "[name]--[local]--[hash:base64:8]"
+            // }
+          }
+        ]
+      },
+      {
+        test: /\.(eot|svg|ttf|woff|woff2)$/, loader: 'file-loader?name=fonts/[name].[ext]'
       }
     ]
-  }
+  },
+  plugins: [
+    new CommonsChunkPlugin({
+      name: 'vendor',
+    }),
+  ]
 };
