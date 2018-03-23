@@ -108,8 +108,8 @@ function NavBar() {
         <Navbar.Form pullRight>
           <FormGroup>
             <div style={{ display: 'flex' }}>
-              <FormControl type="text" placeholder="Search" style={{borderRadius: '0'}}/>
-              <Button style={{borderRadius: '0'}}>
+              <FormControl type="text" placeholder="Search" style={ NavbarStyles.formControl }/>
+              <Button style={ NavbarStyles.button }>
                 <Glyphicon glyph="search" />
               </Button>
             </div>

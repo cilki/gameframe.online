@@ -28,6 +28,14 @@ const Navbar = {
     }
   },
 
+  formControl: {
+      borderRadius: '0'
+  },
+
+  button: {
+      borderRadius: '0'
+  },
+
   itemMain: {
     color: '#888888',
     transition: 'color 0.2s ease-out, background-color 0.3s ease-out, invert 0.3s ease-out',
@@ -43,26 +51,12 @@ const Navbar = {
       transition: 'filter 0.1s linear, background 0.1s linear'
     },
   },
+
   navImage: {
       width: '24px',
       height: '24px',
       filter: 'grayscale(100%) invert(50%)',
-      paddingRight: '4px',
-      ':hover': {
-          filter: 'invert(100%)'
-      }
-  },
-
-  brand: {
-    textDecoration: 'none',
-    color: '#595959',
-      padding: '15px',
-      margin: '-15px',
-    transition: 'color 0.15s ease-out, background-color 0.15s ease-out, invert 0.15s ease-out',
-    ':hover': {
-      color: '#f9f9f9',
-      transition: 'color 0.25s ease-out, background-color 0.15s ease-out, invert 0.15s ease-out',
-    },
+      paddingRight: '4px'
   }
 };
 
