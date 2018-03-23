@@ -124,8 +124,8 @@ class Article extends React.Component {
               <p dangerouslySetInnerHTML={{ __html: this.props.introduction }} /> {/* eslint-disable-line */}
             </div>
 
-            <div style={[ArticleStyles.developer]}>
-              <h3>Developer:</h3>
+            <div style={[ArticleStyles.games]}>
+              <h3>Developers:</h3>
               {
                 this.props.developers.length > 0 &&
                 <span>
@@ -142,8 +142,8 @@ class Article extends React.Component {
               }
             </div>
 
-            <div style={[ArticleStyles.game]}>
-              <h3>Game:</h3>
+            <div style={[ArticleStyles.games]}>
+              <h3>Games:</h3>
               {
                 this.props.games.length > 0 &&
                 <span>
