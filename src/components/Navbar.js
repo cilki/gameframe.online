@@ -88,7 +88,15 @@ function NavBar() {
     >
       <Navbar.Header>
         <Navbar.Brand>
-          <Link to="/">GameFrame.Online</Link>
+          <div style={{height: '32px', paddingRight: '140px'}}>
+            <Link to='/' style={{textDecoration: 'none'}}>
+              <img
+                src='../../static/images/logo_black.svg'
+                alt='GameFrame.Online'
+                style={{position: 'absolute', height: '54px', filter: 'invert(50%)', transition: 'filter 0.1s linear', padding: '15px', margin: '-15px', ':hover': {filter: 'invert(90%)', transition: 'filter 0.1s linear'}}}
+              />
+            </Link>
+          </div>
         </Navbar.Brand>
         <Navbar.Toggle />
       </Navbar.Header>

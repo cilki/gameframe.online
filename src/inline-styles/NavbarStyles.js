@@ -41,15 +41,7 @@ const Navbar = {
     ':hover': {
       color: '#f9f9f9',
       transition: 'color 0.25s ease-out, background-color 0.15s ease-out, invert 0.15s ease-out',
-      ':hover': {
-        color: '#f9f9f9',
-        filter: 'invert(90%)',
-        transition: 'color 0.25s ease-in, background-color 0.15s ease-in, invert 0.15s ease-in',
-      },
     },
-    ':active': {
-        color: '#f9f9f9'
-    }
   }
 };
 
