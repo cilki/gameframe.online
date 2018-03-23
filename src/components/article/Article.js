@@ -69,6 +69,7 @@ class Article extends React.Component {
     outlet: '',
     timestamp: '',
     title: '',
+    article_link: ''
   };
 
   /**
@@ -88,6 +89,8 @@ class Article extends React.Component {
       `https://${this.props.cover}` : this.props.cover;
     const outletURL = this.props.outlet && this.props.outlet.indexOf('http') < 0 ?
       `http://${this.props.outlet}` : this.props.outlet;
+    const articleURL = this.props.article_link && this.props.article_link.indexOf('http') < 0 ?
+      `http://${this.props.article_link}` : this.props.article_link;
     return (
       <div>
         <div
@@ -123,6 +126,12 @@ class Article extends React.Component {
             <div style={[ArticleStyles.summary]}>
               {/* TODO: We can do better than this. There are existing libraries to put in HTML */}
               <p dangerouslySetInnerHTML={{ __html: this.props.introduction }} /> {/* eslint-disable-line */}
+            </div>
+
+            <div>
+                <a href={articleURL}>
+                    <h2 style={{position:'relative', textAlign: 'center'}}>Read More...</h2>
+                </a>
             </div>
 
             <div style={[ArticleStyles.games]}>
