@@ -5,7 +5,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Radium from 'radium';
-import { Label } from 'react-bootstrap';
+import { Label, ListGroup, ListGroupItem } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import ReactHTMLParser from 'react-html-parser';
 
@@ -61,6 +61,7 @@ screenshot.defaultProps = {
  */
 function link({ label, url, key }) {
   return (
+    <ListGroupItem key={key}>
     <Link
       key={key}
       to={url}
@@ -92,6 +93,7 @@ function link({ label, url, key }) {
         </div>
       </Label>
     </Link>
+    </ListGroupItem>
   );
 }
 
@@ -212,9 +214,12 @@ class Game extends React.Component {
                 {ReactHTMLParser(this.props.summary)}
               </div>
             </div>
-            <div style={[GameStyles.developer]}>
-              Developer:
+            <div style={[GameStyles.articles]}>
+              <h3>Developers:</h3>
+        {
+            this.props.developers.length > 0 &&
               <span>
+        <ListGroup>
                 {
                   this.props.developers.map(developer => link({
                     label: developer.name,
@@ -222,13 +227,16 @@ class Game extends React.Component {
                     key: `developer-${developer.id}`,
                   }))
                 }
+        </ListGroup>
               </span>
+        }
             </div>
             <div style={[GameStyles.articles]}>
               <h3>Articles:</h3>
               {
                 this.props.articles.length > 0 &&
                 <span>
+                  <ListGroup>
                   {
                     this.props.articles.map(article => link({
                       label: article.title,
@@ -236,6 +244,7 @@ class Game extends React.Component {
                       key: `article-${article.id}`,
                     }))
                   }
+                  </ListGroup>
                 </span>
               }
             </div>

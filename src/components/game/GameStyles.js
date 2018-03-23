@@ -72,10 +72,11 @@ const Game = {
   },
   articles: {
     paddingLeft: '2%',
-    display: 'flex',
+    width: '70%',
+    maxHeight: '60vh',
+    overflow: 'scroll',
     flexDirection: 'row',
     flexWrap: 'wrap',
-    width: '80%',
   },
   twitter: {
     paddingLeft: '2%',
