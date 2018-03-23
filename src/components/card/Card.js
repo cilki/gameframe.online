@@ -141,15 +141,7 @@ class Card extends React.Component {
             <div style={[CardStyles.card]} key={title}>
               <div style={[CardStyles.imageContainerContainer]} key={`${title}-container`}>
                 <div style={[CardStyles.imageContainer(imageCover || '../../static/images/noImage.png')]} key={`${title}-image-container`}>
-                  <div style={{
-                    overflow: 'hidden',
-                    width: '100%',
-                    height: '100%',
-                    position: 'fixed',
-                    top: '0',
-                    left: '0',
-                    borderRadius: '10px'
-                  }}>
+                  <div style={[CardStyles.backgroundImageContainer]}>
                     <img
                       style={[CardStyles.backgroundImage]}
                       src={imageCover || '../../static/images/noImage.png'}
