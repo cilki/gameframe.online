@@ -32,7 +32,7 @@ class Card extends React.Component {
   };
 
   static defaultProps = {
-    cover: null,
+    cover: '../../static/images/noImage.png',
     origin: null,
     year: new Date().getFullYear(),
     tooltipType: 0,
@@ -50,16 +50,8 @@ class Card extends React.Component {
   constructor(props) {
     super(props);
 
-    this.state = {
-      hover: false,
-    };
-
     this.iso = require('iso-3166-1');
   }
-
-  /**
-   * @description - Mouse entry event handler
-   */
 
   render() {
     const { title } = this.props;
@@ -107,22 +99,19 @@ class Card extends React.Component {
     const country = origin ? origin.country : null;
 
     return (
-      <div
-        style={[CardStyles.main]}
-      >
+      <div style={[CardStyles.main]}>
         <p style={[CardStyles.titleText]}>
           {this.props.title}
         </p>
-
         <Link to={this.props.url} style={{ textDecoration: 'none' }}>
           <div>
             <div style={[CardStyles.card]} key={title}>
               <div style={[CardStyles.imageContainerContainer]} key={`${title}-container`}>
-                <div style={[CardStyles.imageContainer(imageCover || '../../static/images/noImage.png')]} key={`${title}-image-container`}>
+                <div style={[CardStyles.imageContainer(imageCover)]} key={`${title}-image-container`}>
                   <div style={[CardStyles.backgroundImageContainer]}>
                     <img
                       style={[CardStyles.backgroundImage]}
-                      src={imageCover || '../../static/images/noImage.png'}
+                      src={imageCover}
                       alt=""
                       onError={
                         () => { this.img.src = '../../static/images/noImage.png'; }
@@ -132,7 +121,7 @@ class Card extends React.Component {
                   <img
                     style={[CardStyles.image]}
                     key={`${title}-image`}
-                    src={imageCover || '../../static/images/noImage.png'}
+                    src={imageCover}
                     ref={(img) => { this.img = img; }}
                     alt=""
                     onError={
@@ -141,15 +130,10 @@ class Card extends React.Component {
                   />
                 </div>
               </div>
-              <div
-                style={[
-                  CardStyles.tooltip,
-                ]}
-                key={`${title}-tooltip`}
-              >
+              <div style={[CardStyles.tooltip]} key={`${title}-tooltip`}>
                 <img
                   style={[CardStyles.tooltipBackgroundImage]}
-                  src={imageCover || '../../static/images/noImage.png'}
+                  src={imageCover}
                   ref={(img) => { this.img = img; }}
                   alt=""
                   onError={
