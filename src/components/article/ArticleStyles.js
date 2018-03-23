@@ -27,7 +27,7 @@ const Article = {
     transform: 'translateZ(0) scale(1.4)',
   }),
   border: {
-    padding: '0 2% 2% 2%',
+    padding: '2% 2% 2% 2%',
   },
   title: {
     paddingLeft: '2%',
