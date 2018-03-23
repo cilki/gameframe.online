@@ -126,15 +126,9 @@ class Card extends React.Component {
         onMouseEnter={() => this.onMouseEntry}
         onMouseLeave={() => this.onMouseLeave}
       >
-        <div style={{
-          color: '#e9e9e9',
-          maxWidth: '100%',
-          whiteSpace: 'nowrap',
-          overflow: 'hidden',
-          textOverflow: 'ellipsis'
-        }}>
+        <p style={[CardStyles.titleText]}>
           {this.props.title}
-        </div>
+        </p>
 
         <Link to={this.props.url} style={{ textDecoration: 'none' }}>
           <div>
