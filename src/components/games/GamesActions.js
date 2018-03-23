@@ -163,6 +163,7 @@ const games = handleActions({
   [fetchGameResponse](state, { payload }) {
     const { id, data, error } = payload;
     if (error) {
+      console.error(data); //eslint-disable-line
       return state.mergeIn([String(id)], {
         requested: false,
         error: data.message,

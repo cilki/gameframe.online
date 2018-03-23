@@ -41,9 +41,20 @@ function fetchGame(gameId) {
         .then(response => response.json())
         .then(json => normalize(json, gameSchema))
         .then((data) => {
-          dispatch(fetchDevelopersResponse(Object.values(data.entities.developers)));
-          dispatch(fetchArticlesResponse(Object.values(data.entities.articles)));
-          dispatch(fetchGameResponse(gameId, data.entities.games[gameId]));
+          if (!data.entities) {
+            return Promise.resolve();
+          }
+          if (data.entities.developers) {
+            dispatch(fetchDevelopersResponse(Object.values(data.entities.developers)));
+          }
+          if (data.entities.articles) {
+            dispatch(fetchArticlesResponse(Object.values(data.entities.articles)));
+          }
+
+          if (data.entities.games && data.entities.games[gameId]) {
+            dispatch(fetchGameResponse(gameId, data.entities.games[gameId]));
+          }
+          return Promise.resolve();
         })
         .catch(err => dispatch(fetchGameResponse(gameId, err)));
     }
