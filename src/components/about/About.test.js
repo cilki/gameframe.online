@@ -356,6 +356,7 @@ describe('about', function() {
           bio: 'Bio',
           responsibilities: 'Responsible Developer',
           name: 'Someone\'s Name',
+          unitTests: 0,
         };
         const nextState = contributors(
           state,
