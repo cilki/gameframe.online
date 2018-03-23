@@ -1,4 +1,4 @@
-
+const cornerRadius = '10px';
 
 const Card = {
   main: {
@@ -16,7 +16,7 @@ const Card = {
     width: '100%',
     height: '100%',
     overflow: 'hidden',
-    borderRadius: '10px',
+    borderRadius: `${cornerRadius}`,
     backgroundColor: 'darkgray',
     WebkitTransition: '-webkit-transform 0.2s, -webkit-filter 0.3s ease',
     MozTransition: '-moz-transform 0.2s, -moz-filter 0.3s ease',
@@ -74,7 +74,7 @@ const Card = {
     overflowY: 'scroll',
     left: '0',
     padding: '5% 5% 0px 5%',
-    borderRadius: '10px',
+    borderRadius: `${cornerRadius}`,
     WebkitTransition: 'opacity 0.25s ease-out',
     MozTransition: 'opacity 0.25s ease-out',
     MsTransition: 'opacity 0.25s ease-out',
@@ -104,7 +104,7 @@ const Card = {
 
   imageContainer: () => ({
     overflow: 'hidden',
-    borderRadius: '10px',
+    borderRadius: `${cornerRadius}`,
     WebkitTransition: '-webkit-transform 0.2s',
     MozTransition: '-moz-transform 0.2s',
     MsTransition: '-ms-transform 0.2s',
