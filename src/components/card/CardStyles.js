@@ -55,6 +55,17 @@ const Card = {
     },
   },
 
+  tooltipBackgroundImage: {
+    maxWidth: '100%',
+    maxHeight: '100%',
+    position: 'absolute',
+    top: '0',
+    left: '0',
+    zIndex: '-2',
+    filter: 'blur(20px) saturate(1.15)',
+    transform: 'scale(5.20)'
+  },
+
   imageContainerContainer: {
     backgroundColor: 'darkGray',
     height: `${cardHeight}`,

@@ -60,20 +60,6 @@ class Card extends React.Component {
   /**
    * @description - Mouse entry event handler
    */
-  onMouseEntry() {
-    this.setState({
-      hover: true,
-    });
-  }
-
-  /**
-   * @description - Mouse leave event handler
-   */
-  onMouseLeave() {
-    this.setState({
-      hover: false,
-    });
-  }
 
   render() {
     const { title } = this.props;
@@ -123,8 +109,6 @@ class Card extends React.Component {
     return (
       <div
         style={[CardStyles.main]}
-        onMouseEnter={() => this.onMouseEntry}
-        onMouseLeave={() => this.onMouseLeave}
       >
         <p style={[CardStyles.titleText]}>
           {this.props.title}
@@ -164,16 +148,7 @@ class Card extends React.Component {
                 key={`${title}-tooltip`}
               >
                 <img
-                  style={{
-                    maxWidth: '100%',
-                    maxHeight: '100%',
-                    position: 'absolute',
-                    top: '0',
-                    left: '0',
-                    zIndex: '-2',
-                    filter: 'blur(20px) saturate(1.15)',
-                    transform: 'scale(5.20)',
-                  }}
+                  style={[CardStyles.tooltipBackgroundImage]}
                   src={imageCover || '../../static/images/noImage.png'}
                   ref={(img) => { this.img = img; }}
                   alt=""
