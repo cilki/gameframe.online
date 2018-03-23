@@ -8,6 +8,14 @@ const Card = {
     width: `${cardWidth}`,
   },
 
+  titleText: {
+    color: '#e9e9e9',
+    maxWidth: '100%',
+    whiteSpace: 'nowrap',
+    overflow: 'hidden',
+    textOverflow: 'ellipsis'
+  },
+
   card: {
     width: '100%',
     height: '100%',
@@ -21,49 +29,6 @@ const Card = {
       transform: 'scale(0.98)',
       filter: 'hue-rotate(360deg)',
     },
-  },
-
-  titleText: {
-    color: '#e9e9e9',
-    maxWidth: '100%',
-    whiteSpace: 'nowrap',
-    overflow: 'hidden',
-    textOverflow: 'ellipsis'
-  },
-
-  tooltip: {
-    display: 'flex',
-    position: 'fixed',
-    backgroundColor: 'black',
-    width: '100%',
-    height: '100%',
-    top: '0',
-    overflowX: 'hidden',
-    overflowY: 'scroll',
-    left: '0',
-    padding: '5% 5% 0px 5%',
-    borderRadius: `${cornerRadius}`,
-    transition: 'opacity 0.25s ease-out',
-    opacity: '0.0',
-    ':hover': {
-      zIndex: '100',
-      height: '100%',
-      opacity: '1.0',
-      color: 'white',
-      transition: 'opacity 0.125s ease-in',
-      textShadow: '-1px -1px 0 black, 1px -1px 0 black, -1px 1px 0 black, 1px 1px 0 black, -1px 0 0 black, 1px 0 0 black, 0 1px 0 black, 0 -1px 0 black, 0 0 2px black',
-    },
-  },
-
-  tooltipBackgroundImage: {
-    maxWidth: '100%',
-    maxHeight: '100%',
-    position: 'absolute',
-    top: '0',
-    left: '0',
-    zIndex: '-2',
-    filter: 'blur(20px) saturate(1.15)',
-    transform: 'scale(5.20)'
   },
 
   imageContainerContainer: {
@@ -126,6 +91,41 @@ const Card = {
       transition: 'transform 1.0s, filter 1.0s',
       transform: 'scale(1.05)',
     },
+  },
+
+  tooltip: {
+    display: 'flex',
+    position: 'fixed',
+    backgroundColor: 'black',
+    width: '100%',
+    height: '100%',
+    top: '0',
+    overflowX: 'hidden',
+    overflowY: 'scroll',
+    left: '0',
+    padding: '5% 5% 0px 5%',
+    borderRadius: `${cornerRadius}`,
+    transition: 'opacity 0.25s ease-out',
+    opacity: '0.0',
+    ':hover': {
+      zIndex: '100',
+      height: '100%',
+      opacity: '1.0',
+      color: 'white',
+      transition: 'opacity 0.125s ease-in',
+      textShadow: '-1px -1px 0 black, 1px -1px 0 black, -1px 1px 0 black, 1px 1px 0 black, -1px 0 0 black, 1px 0 0 black, 0 1px 0 black, 0 -1px 0 black, 0 0 2px black',
+    },
+  },
+
+  tooltipBackgroundImage: {
+    maxWidth: '100%',
+    maxHeight: '100%',
+    position: 'absolute',
+    top: '0',
+    left: '0',
+    zIndex: '-2',
+    filter: 'blur(20px) saturate(1.15)',
+    transform: 'scale(5.20)'
   },
 
   captionContainer: {
