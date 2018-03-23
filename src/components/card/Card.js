@@ -136,7 +136,7 @@ class Card extends React.Component {
           {this.props.title}
         </div>
 
-        <a href={this.props.url} style={{ textDecoration: 'none' }}>
+        <Link to={this.props.url} style={{ textDecoration: 'none' }}>
           <div>
             <div style={[CardStyles.card]} key={title}>
               <div style={[CardStyles.imageContainerContainer]} key={`${title}-container`}>
@@ -216,7 +216,7 @@ class Card extends React.Component {
               </div>
             </div>
           </div>
-        </a>
+        </Link>
       </div>
     );
   }
