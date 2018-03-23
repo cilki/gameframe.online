@@ -62,37 +62,37 @@ screenshot.defaultProps = {
 function link({ label, url, key }) {
   return (
     <ListGroupItem key={key}>
-    <Link
-      key={key}
-      to={url}
-      style={{
-        textDecoration: 'none',
-        display: 'flex',
-        flexDirection: 'row',
-        maxWidth: '100%',
-        textOverflow: 'ellipsis',
-      }}
-    >
-      <Label
+      <Link
+        key={key}
+        to={url}
         style={{
+          textDecoration: 'none',
+          display: 'flex',
+          flexDirection: 'row',
           maxWidth: '100%',
-          overflow: 'hidden',
-          whiteSpace: 'nowrap',
           textOverflow: 'ellipsis',
         }}
       >
-        <div
+        <Label
           style={{
             maxWidth: '100%',
-            textOverflow: 'ellipsis',
-            whiteSpace: 'nowrap',
             overflow: 'hidden',
+            whiteSpace: 'nowrap',
+            textOverflow: 'ellipsis',
           }}
         >
-          {label}
-        </div>
-      </Label>
-    </Link>
+          <div
+            style={{
+              maxWidth: '100%',
+              textOverflow: 'ellipsis',
+              whiteSpace: 'nowrap',
+              overflow: 'hidden',
+            }}
+          >
+            {label}
+          </div>
+        </Label>
+      </Link>
     </ListGroupItem>
   );
 }
@@ -216,20 +216,20 @@ class Game extends React.Component {
             </div>
             <div style={[GameStyles.articles]}>
               <h3>Developers:</h3>
-        {
-            this.props.developers.length > 0 &&
-              <span>
-        <ListGroup>
-                {
-                  this.props.developers.map(developer => link({
-                    label: developer.name,
-                    url: `/developers/${developer.id}`,
-                    key: `developer-${developer.id}`,
-                  }))
-                }
-        </ListGroup>
-              </span>
-        }
+              {
+                this.props.developers.length > 0 &&
+                <span>
+                  <ListGroup>
+                    {
+                      this.props.developers.map(developer => link({
+                        label: developer.name,
+                        url: `/developers/${developer.id}`,
+                        key: `developer-${developer.id}`,
+                      }))
+                    }
+                  </ListGroup>
+                </span>
+              }
             </div>
             <div style={[GameStyles.articles]}>
               <h3>Articles:</h3>
@@ -237,13 +237,13 @@ class Game extends React.Component {
                 this.props.articles.length > 0 &&
                 <span>
                   <ListGroup>
-                  {
-                    this.props.articles.map(article => link({
-                      label: article.title,
-                      url: `/articles/${article.id}`,
-                      key: `article-${article.id}`,
-                    }))
-                  }
+                    {
+                      this.props.articles.map(article => link({
+                        label: article.title,
+                        url: `/articles/${article.id}`,
+                        key: `article-${article.id}`,
+                      }))
+                    }
                   </ListGroup>
                 </span>
               }

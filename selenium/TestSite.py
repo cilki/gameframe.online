@@ -116,8 +116,8 @@ class TestRelations(TestPartOfSite):
     
     def find_article(self, time_to_sleep=0):
         time.sleep(time_to_sleep)
-        self.driver.find_element(By.XPATH, "//a[@href='/articles/9480']").click()
-        self.assertEqual(self.environment + "/articles/9480", self.driver.current_url)
+        self.driver.find_element(By.XPATH, "//a[@href='/articles/11314']").click()
+        self.assertEqual(self.environment + "/articles/11314", self.driver.current_url)
 
 class TestGameRelations(TestRelations):
 
@@ -144,7 +144,7 @@ class TestDeveloperRelations(TestRelations):
 class TestArticleRelations(TestRelations):
 
     def part(self):
-        self.driver.get(self.environment + "/articles/9480")
+        self.driver.get(self.environment + "/articles/11314")
         self.find_game(self.time_to_sleep)
         self.find_developer(self.time_to_sleep)
         self.find_article(self.time_to_sleep)
