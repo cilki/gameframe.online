@@ -42,6 +42,7 @@ link.propTypes = {
  */
 class Article extends React.Component {
   static propTypes = {
+    article_link: PropTypes.string.isRequired,
     author: PropTypes.string,
     developers: PropTypes.arrayOf(PropTypes.shape({
       id: PropTypes.number.isRequired,
@@ -83,6 +84,7 @@ class Article extends React.Component {
   }
 
   render() {
+    console.log('this.props', this.props);
     const coverURL = this.props.cover && this.props.cover.indexOf('http') < 0 ?
       `https://${this.props.cover}` : this.props.cover;
     const outletURL = this.props.outlet && this.props.outlet.indexOf('http') < 0 ?
