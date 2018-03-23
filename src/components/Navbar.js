@@ -29,9 +29,9 @@ import NavbarStyles from '../inline-styles/NavbarStyles';
  */
 function createLinkContainerNavItem(href, imageSrc, label, linkProps, navProps) {
   return (
-    <LinkContainer to={href} {...linkProps} style={{}}>
-      <NavItem {...navProps} style={{}}>
-        <div style={[NavbarStyles.itemMain]} key={`${href}`}>
+    <LinkContainer to={href} {...linkProps}>
+      <NavItem {...navProps}>
+        <div style={[ NavbarStyles.itemMain ]} key={`${href}`}>
           <img
             style={NavbarStyles.navImage}
             key={`${href}-image`}

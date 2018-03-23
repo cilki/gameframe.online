@@ -1,8 +1,17 @@
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+ * NavbarStyles.js                                                           *
+ * This file contains CSS style properties intended for use with elements in *
+ * the Navbar.js file. Below are some parameters that may be used to quickly *
+ * change the general appearance of the navigation bar.                      *
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+const navbarRoundness = '0';
+const searchFormRoundness = '2px';
+
 
 const Navbar = {
 
   main: {
-    borderRadius: '0',
+    borderRadius: `${navbarRoundness}`,
     background: '#272727',
     borderLeft: 'none',
     borderRight: 'none',
@@ -29,11 +38,11 @@ const Navbar = {
   },
 
   formControl: {
-      borderRadius: '0'
+      borderRadius: `${searchFormRoundness}`
   },
 
   button: {
-      borderRadius: '0'
+      borderRadius: `${searchFormRoundness}`
   },
 
   itemMain: {
