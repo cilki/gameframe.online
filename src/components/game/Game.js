@@ -201,7 +201,8 @@ class Game extends React.Component {
             zIndex: '-5'
             }}
           />
-        </div><InstanceDetails
+        </div>
+        <InstanceDetails
           style={{
             container: GameStyles.container(coverURL),
             border: GameStyles.border,
