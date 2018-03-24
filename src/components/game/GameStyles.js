@@ -6,7 +6,6 @@ const Game = {
       height: '100%'
   },
   container: coverURL => ({
-    backgroundImage: `url(${coverURL})`,
     backgroundSize: 'cover',
     position: 'fixed',
     left: '0',

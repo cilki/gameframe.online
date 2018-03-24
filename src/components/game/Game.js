@@ -186,14 +186,14 @@ class Game extends React.Component {
           display: 'flex',
           flexDirection: 'column',
           overflow: 'hidden',
-          zIndex: '-5'
+          zIndex: '-150'
           }}
         >
           <img src={coverURL} style={{
             width: '10%',
             height: '10%',
             imageRendering: 'pixelated',
-            filter: 'blur(2px)',
+            filter: 'saturate(200%) blur(2px)',
             display: 'block',
             position: 'relative',
             margin: 'auto',
@@ -201,7 +201,84 @@ class Game extends React.Component {
             zIndex: '-5'
             }}
           />
-        </div>
+        </div><InstanceDetails
+          style={{
+            container: GameStyles.container(coverURL),
+            border: GameStyles.border,
+            jumboTron: GameStyles.jumboTron,
+          }}
+        >
+          <div>
+            <h1 style={[GameStyles.name]}>{this.props.name}</h1>
+            <div style={[GameStyles.secondaryInfo]}>
+              <p>Released: {this.props.release} </p>
+              {/* Genre should really be a array because that's what we get from the API */}
+              Genre:
+              <span>
+                {
+                  this.props.genres.map((genre) => {
+                    return (
+                      <Label key={genre}>
+                        {genre}
+                      </Label>
+                    );
+                  })
+                }
+              </span>
+            </div>
+
+            <div style={[GameStyles.imageGallery]}>
+              {
+                screenshots.map(_screenshot => screenshot(_screenshot))
+              }
+            </div>
+            <div style={[GameStyles.summary]}>
+              <div>
+                {ReactHTMLParser(this.props.summary)}
+              </div>
+            </div>
+            <div style={[GameStyles.articles]}>
+              <h3>Developers:</h3>
+              {
+                this.props.developers.length > 0 &&
+                <span>
+                  <ListGroup>
+                    {
+                      this.props.developers.map(developer => link({
+                        label: developer.name,
+                        url: `/developers/${developer.id}`,
+                        key: `developer-${developer.id}`,
+                      }))
+                    }
+                  </ListGroup>
+                </span>
+              }
+            </div>
+            <div style={[GameStyles.articles]}>
+              <h3>Articles:</h3>
+              {
+                this.props.articles.length > 0 &&
+                <span>
+                  <ListGroup>
+                    {
+                      this.props.articles.map(article => link({
+                        label: article.title,
+                        url: `/articles/${article.id}`,
+                        key: `article-${article.id}`,
+                      }))
+                    }
+                  </ListGroup>
+                </span>
+              }
+            </div>
+            <div style={[GameStyles.youtube]}>
+              <h3>YouTube:</h3>
+            </div>
+            <div style={[GameStyles.twitch]}>
+              <h3>Twitch:</h3>
+            </div>
+          </div>
+        </InstanceDetails>
       </div>
     );
   }
