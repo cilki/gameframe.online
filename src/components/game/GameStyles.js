@@ -1,6 +1,9 @@
 
 const Game = {
   main: {
+      display: 'flex',
+      flexDirection: 'column',
+      height: '100%'
   },
   container: coverURL => ({
     backgroundImage: `url(${coverURL})`,
