@@ -140,6 +140,35 @@ function getExplanationError(state) {
   return state.about.explanationError;
 }
 
+/**
+ * @description - Input selector for the tools
+ * 'requested' state
+ * @param {Map} state
+ * @returns {Boolean}
+ */
+function getToolsRequested(state) {
+  return state.about.toolsRequested;
+}
+
+
+/**
+ * @description - Input selector for the tools
+ * @param {Map} state
+ * @returns {String|null}
+ */
+function getTools(state) {
+  return state.about.tools;
+}
+
+/**
+ * @description - Trivial selector for finding the
+ * error state of the tools
+ * @param {Map} state
+ * @returns {String|null}
+ */
+function getToolsError(state) {
+  return state.about.toolsError;
+}
 
 /**
  * @description - Returns the total number of issues
@@ -205,6 +234,10 @@ export { //eslint-disable-line
   getExplanationRequested,
   getExplanation,
   getExplanationError,
+  
+  getToolsRequested,
+  getTools,
+  getToolsError,
 
   getTotalIssues,
   getTotalCommits,

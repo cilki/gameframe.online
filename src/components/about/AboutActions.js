@@ -12,6 +12,7 @@ import {
   getIssues,
   getDescription,
   getExplanation,
+  getTools,
 } from './AboutSelectors';
 import {
   fetchStatsRequest,
@@ -29,6 +30,9 @@ const fetchDescriptionResponse = createAction('FETCH_DESCRIPTION_RESPONSE');
 
 const fetchExplanationRequest = createAction('FETCH_EXPLANATION_REQUEST');
 const fetchExplanationResponse = createAction('FETCH_EXPLANATION_RESPONSE');
+
+const fetchToolsRequest = createAction('FETCH_TOOLS_REQUEST');
+const fetchToolsResponse = createAction('FETCH_TOOLS_RESPONSE');
 
 /**
  * @description - Creator of a thunk creator for fetching from the Github repo
@@ -100,13 +104,23 @@ function shouldFetchContributors(state) {
 }
 
 /**
- * @description - Determiens if the issues have already been fetched, thus
+ * @description - Determines if the issues have already been fetched, thus
  * won't refetch them
  * @param {Map} state - the state returned from `getState()`
  * @returns {Boolean}
  */
 function shouldFetchIssues(state) {
   return getIssues(state).size <= 0;
+}
+
+/**
+ * @description - Determines if the tools have already been fetched, thus
+ * won't refetch them
+ * @param {Map} state - the state returned from `getState()`
+ * @returns {Boolean}
+ */
+function shouldFetchTools(state) {
+  return getTools(state).size <= 0;
 }
 
 /**
@@ -164,6 +178,20 @@ function fetchExplanation() {
     shouldFetchExplanation,
     fetchExplanationRequest,
     fetchExplanationResponse,
+  );
+}
+
+/**
+ * @description - Thunk creator, dispatches actions in order
+ * to retrieve the tools from Flask
+ * @returns {Function}
+ */
+function fetchTools() {
+  return fetchFile(
+    '/static/data/tools.json',
+    shouldFetchTools,
+    fetchToolsRequest,
+    fetchToolsResponse,
   );
 }
 
@@ -389,6 +417,91 @@ const issues = handleActions({
 }, List());
 
 /**
+ * @description - Reducer for the 'requested' state for
+ * tools
+ */
+const toolsRequested = handleActions({
+  [fetchToolsRequest]() {
+    return true;
+  },
+  [fetchToolsResponse]() {
+    return false;
+  },
+// default to false
+}, false);
+
+/**
+ * @description - Reducer for the error state for
+ * the fetching of tools
+ */
+const toolsError = handleActions({
+  [fetchToolsResponse]: {
+    next() {
+      return null;
+    },
+    throw(state, { payload: { message } }) {
+      return message;
+    },
+  },
+}, null);
+
+/**
+ * @description - Reducer for the tools
+ */
+const tools = handleActions({
+  [fetchToolsResponse]: {
+    next(state, { payload }) {
+      const data = {};
+      payload.forEach((tool) => {
+        data[tool.tool_id] = Map(Object.assign(
+          {},
+          tool,
+          {
+            requested: false,
+            error: null,   
+          },
+        ));
+      });
+      
+      return state.mergeDeep(data);
+    },
+    
+    throw(state, { payload }) {
+      console.error(payload); //eslint-disable-line
+      return state;
+    },
+  },
+  
+  [fetchToolsRequest](state, { payload }) {
+    const id = payload;
+    
+    return state.mergeIn([String(id)], {
+      requested: true,
+    });
+  },
+  
+  [fetchToolsResponse](state, { payload }) {
+    const { id, data, error } = payload;
+    if (error) {
+      console.error(data); //estlint-disable-line
+      return state.mergeIn([String(id)], {
+        requested: false,
+        error: data.message,
+      });
+    }
+  
+    return state.mergeIn([String(id)], Object.assign(
+      {},
+      data,
+      {
+        requested: false,
+        error: null,   
+      },
+    ));
+  },
+}, List());
+
+/**
  * @description - Combine our reducers into one, so that all of this
  * data can fall under a single state object within the hierarchy
  */
@@ -408,6 +521,10 @@ const aboutReducer = combineReducers({
   explanationRequested,
   explanationError,
   explanation,
+  
+  toolsRequested,
+  toolsError,
+  tools,
 });
 
 export { //eslint-disable-line
@@ -444,4 +561,10 @@ export { //eslint-disable-line
   issuesRequested,
   issuesError,
   issues,
+  
+  shouldFetchTools,
+  fetchTools,
+  toolsRequested,
+  toolsError,
+  tools,
 };

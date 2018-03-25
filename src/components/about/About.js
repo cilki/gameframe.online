@@ -16,6 +16,15 @@ class AboutPage extends React.Component {
     contributors: PropTypes.arrayOf(PropTypes.string),
     description: PropTypes.string,
     explanation: PropTypes.string,
+    //tools: PropTypes.arrayOf(PropTypes.shape({
+      //cover: PropTypes.string,
+      //name: PropTypes.string,
+      //phase: PropTypes.number,
+      //usage: PropTypes.string,
+      //tool_id: PropTypes.number.isRequired,
+    //})),
+    
+    tools: PropTypes.arrayOf(PropTypes.number),
 
     totalCommits: PropTypes.number,
     totalIssues: PropTypes.number,
@@ -25,12 +34,14 @@ class AboutPage extends React.Component {
     fetchExplanation: PropTypes.func.isRequired,
     fetchContributors: PropTypes.func.isRequired,
     fetchIssues: PropTypes.func.isRequired,
+    fetchTools: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
     contributors: [],
     description: '',
     explanation: '',
+    tools: [],
 
     totalCommits: 0,
     totalIssues: 0,
@@ -50,6 +61,7 @@ class AboutPage extends React.Component {
     this.props.fetchExplanation();
     this.props.fetchContributors();
     this.props.fetchIssues();
+    this.props.fetchTools();
   }
 
   render() {
@@ -123,6 +135,20 @@ class AboutPage extends React.Component {
             <Row>
               <h2><strong>Tools</strong></h2>
               <br />
+            </Row>
+            <Row>
+              {this.props.tools.map((tool) => {
+                return (
+                  <Col md={3} sm={3}>
+                  <Thumbnail
+                    src={'../../../static/data/images/noImage.png'}
+                    style={{ width: '150px', height: '150px', margin: 'auto' }}
+                  />
+                  <h3>{tool.name}</h3>
+                  <p>{tool.usage}</p>
+                  </Col>
+                );
+              })}
             </Row>
             <Row>
               <Col md={3} sm={3}>

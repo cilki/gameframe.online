@@ -19,6 +19,9 @@ import {
   getExplanationRequested,
   getExplanationError,
   getExplanation,
+  getToolsRequested,
+  getToolsError,
+  getTools,
   getTotalIssues,
   getTotalCommits,
   getTotalUnitTests,
@@ -28,6 +31,7 @@ import {
   fetchIssues,
   fetchDescription,
   fetchExplanation,
+  fetchTools,
 } from './AboutActions';
 
 /**
@@ -52,6 +56,10 @@ function mapStateToProps(state) {
     explanationRequested: getExplanationRequested(state),
     explanationError: getExplanationError(state),
     explanation: getExplanation(state),
+    
+    toolsRequested: getToolsRequested(state),
+    toolsError: getToolsError(state),
+    tools: getTools(state),
 
     totalIssues: getTotalIssues(state),
     totalCommits: getTotalCommits(state),
@@ -73,6 +81,7 @@ function mapDispatchToProps(dispatch) {
 
     fetchDescription: () => dispatch(fetchDescription()),
     fetchExplanation: () => dispatch(fetchExplanation()),
+    fetchTools: () => dispatch(fetchTools()),
   };
 }
 
