@@ -5,7 +5,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Radium from 'radium';
-import { Jumbotron, Label, ListGroup, ListGroupItem } from 'react-bootstrap';
+import { Carousel, Jumbotron, Label, ListGroup, ListGroupItem } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import ReactHTMLParser from 'react-html-parser';
 
@@ -25,21 +25,16 @@ import CommonAssets from '../../inline-styles/CommonAssets';
 function screenshot({ url, alt }) {
   const src = url.indexOf('http') >= 0 ? url : `https://${url}`;
   return (
-    <div
-      key={`${url}-div-image`}
-      style={[GameStyles.imageContainer]}
-    >
-      <div>
-        <a href={src}>
-          <img
-            key={`${url}-image`}
-            src={src}
-            alt={alt}
-            style={[GameStyles.image]}
-          />
-        </a>
-      </div>
-    </div>
+    <Carousel.Item key={`${url}-carousel-item`}>
+      <a href={src} key={`${url}-a`}>
+        <img
+          key={`${url}-image`}
+          src={src}
+          alt={alt}
+          style={[GameStyles.image]}
+        />
+      </a>
+    </Carousel.Item>
   );
 }
 
@@ -243,6 +238,18 @@ class Game extends React.Component {
                   })
                 }
               </div>
+            </div>
+            <div>
+              <Carousel
+                style={{
+                  
+                }}>
+                {
+                  screenshots.map(_screenshot => screenshot(_screenshot))
+                }
+                <Carousel.Item>
+                </Carousel.Item>
+              </Carousel>
             </div>
           </Jumbotron>
         </div>
