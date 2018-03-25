@@ -143,7 +143,7 @@ class Game extends React.Component {
     // release defaults to today's date
     release: '',
     requested: false,
-    screenshots: [],
+    screenshots: [{url: '', alt: ''}],
     summary: null,
   };
 
@@ -228,8 +228,8 @@ class Game extends React.Component {
                 {
                   this.props.genres.map((genre) => {
                     return (
-                      <span>
-                        <Label key={genre}>
+                      <span key={genre}>
+                        <Label key={`${genre}-label`}>
                           {genre}
                         </Label>
                         &nbsp;
@@ -242,13 +242,13 @@ class Game extends React.Component {
             <div>
               <Carousel
                 style={{
-                  
+                  maxWidth: '50%',
+                  overflow: 'visible',
+                  opacity: '1.2'
                 }}>
                 {
                   screenshots.map(_screenshot => screenshot(_screenshot))
                 }
-                <Carousel.Item>
-                </Carousel.Item>
               </Carousel>
             </div>
           </Jumbotron>
