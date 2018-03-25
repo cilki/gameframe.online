@@ -5,7 +5,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Radium from 'radium';
-import { Label, ListGroup, ListGroupItem } from 'react-bootstrap';
+import { Jumbotron, Label, ListGroup, ListGroupItem } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import ReactHTMLParser from 'react-html-parser';
 
@@ -195,7 +195,7 @@ class Game extends React.Component {
             width: '10%',
             height: '10%',
             imageRendering: 'pixelated',
-            filter: 'saturate(200%) blur(2px)',
+            filter: 'saturate(250%) blur(2px)',
             display: 'block',
             position: 'relative',
             margin: 'auto',
@@ -204,84 +204,48 @@ class Game extends React.Component {
             }}
           />
         </div>
-        <InstanceDetails
-          style={{
-            container: GameStyles.container(coverURL),
-            border: GameStyles.border,
-            jumboTron: GameStyles.jumboTron,
-          }}
-        >
-          <div>
-            <h1 style={[GameStyles.name]}>{this.props.name}</h1>
-            <div style={[GameStyles.secondaryInfo]}>
-              <p>Released: {this.props.release} </p>
-              {/* Genre should really be a array because that's what we get from the API */}
-              Genre:
-              <span>
+        <div style={{ padding: '20px 2% 20px 2%'}}>
+          <Jumbotron style={{
+            padding: '2% 2% 2% 2%',
+            margin: 'auto',
+            maxWidth: '98%',
+            display: 'flex',
+            flexDirection: 'column',
+            borderRadius: '4px',
+            opacity: '0.8'
+          }}>
+
+            <div style={{}}>
+              <div style={{fontSize: 'calc(24px + 2.0vw)'}}>
+                {this.props.name}
+              </div>
+            </div>
+            <div>
+              <div style={{fontSize: 'calc(16px + 0.75vw)'}}>
+                Released {this.props.release}
+              </div>
+            </div>
+            <div style={{display: 'flex'}}>
+              <div style={{fontSize: 'calc(16px + 0.5vw)'}}>
+                Genres:&nbsp;
+              </div>
+              <div style={{fontSize: 'calc(16px + 0.5vw)', display: 'flex', flexWrap: 'wrap'}}>
                 {
                   this.props.genres.map((genre) => {
                     return (
-                      <Label key={genre}>
-                        {genre}
-                      </Label>
-                    );
+                      <span>
+                        <Label key={genre}>
+                          {genre}
+                        </Label>
+                        &nbsp;
+                      </span>
+                    )
                   })
                 }
-              </span>
-            </div>
-
-            <div style={[GameStyles.imageGallery]}>
-              {
-                screenshots.map(_screenshot => screenshot(_screenshot))
-              }
-            </div>
-            <div style={[GameStyles.summary]}>
-              <div>
-                {ReactHTMLParser(this.props.summary)}
               </div>
             </div>
-            <div style={[GameStyles.articles]}>
-              <h3>Developers:</h3>
-              {
-                this.props.developers.length > 0 &&
-                <span>
-                  <ListGroup>
-                    {
-                      this.props.developers.map(developer => link({
-                        label: developer.name,
-                        url: `/developers/${developer.id}`,
-                        key: `developer-${developer.id}`,
-                      }))
-                    }
-                  </ListGroup>
-                </span>
-              }
-            </div>
-            <div style={[GameStyles.articles]}>
-              <h3>Articles:</h3>
-              {
-                this.props.articles.length > 0 &&
-                <span>
-                  <ListGroup>
-                    {
-                      this.props.articles.map(article => link({
-                        label: article.title,
-                        url: `/articles/${article.id}`,
-                        key: `article-${article.id}`,
-                      }))
-                    }
-                  </ListGroup>
-                </span>
-              }
-            </div>
-            <div style={[GameStyles.youtube]}>
-              <h3>YouTube:</h3>
-            </div>
-            <div style={[GameStyles.twitch]}>
-              <h3>Twitch:</h3>
-            </div>
-          </div>
-        </InstanceDetails>
+          </Jumbotron>
+        </div>
       </div>
     );
   }
