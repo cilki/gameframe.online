@@ -56,7 +56,7 @@ function mapStateToProps(state) {
     explanationRequested: getExplanationRequested(state),
     explanationError: getExplanationError(state),
     explanation: getExplanation(state),
-    
+
     toolsRequested: getToolsRequested(state),
     toolsError: getToolsError(state),
     tools: getTools(state),

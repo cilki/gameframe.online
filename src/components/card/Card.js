@@ -63,10 +63,12 @@ class Card extends React.Component {
      * @description - Render the tooltip associated with the type.
      * @returns {React.Component}
      */
-    function tooltip(games, price,
-                     developers,
-                     articles,
-                     link1, link2) {
+    function tooltip(
+      games, price,
+      developers,
+      articles,
+      link1, link2,
+    ) {
       if (tooltipType === 1) {
         return (
           <GameTooltip
@@ -99,18 +101,18 @@ class Card extends React.Component {
     const country = origin ? origin.country : null;
 
     return (
-      <div style={[ CardStyles.main ]}>
-        <p style={[ CardStyles.titleText ]}>
+      <div style={[CardStyles.main]}>
+        <p style={[CardStyles.titleText]}>
           {this.props.title}
         </p>
         <Link to={this.props.url} style={{ textDecoration: 'none' }}>
           <div>
-            <div style={[ CardStyles.card ]} key={title}>
-              <div style={[ CardStyles.imageContainerContainer ]} key={`${title}-container`}>
-                <div style={[ CardStyles.imageContainer(imageCover) ]} key={ `${title}-image-container` }>
-                  <div style={[ CardStyles.backgroundImageContainer ]}>
+            <div style={[CardStyles.card]} key={title}>
+              <div style={[CardStyles.imageContainerContainer]} key={`${title}-container`}>
+                <div style={[CardStyles.imageContainer(imageCover)]} key={`${title}-image-container`}>
+                  <div style={[CardStyles.backgroundImageContainer]}>
                     <img
-                      style={[ CardStyles.backgroundImage ]}
+                      style={[CardStyles.backgroundImage]}
                       src={imageCover}
                       alt=""
                       onError={
@@ -119,8 +121,8 @@ class Card extends React.Component {
                     />
                   </div>
                   <img
-                    style={[ CardStyles.image ]}
-                    key={ `${title}-image` }
+                    style={[CardStyles.image]}
+                    key={`${title}-image`}
                     src={imageCover}
                     ref={(img) => { this.img = img; }}
                     alt=""
@@ -130,9 +132,9 @@ class Card extends React.Component {
                   />
                 </div>
               </div>
-              <div style={[ CardStyles.tooltip ]} key={ `${title}-tooltip` }>
+              <div style={[CardStyles.tooltip]} key={`${title}-tooltip`}>
                 <img
-                  style={[ CardStyles.tooltipBackgroundImage ]}
+                  style={[CardStyles.tooltipBackgroundImage]}
                   src={imageCover}
                   ref={(img) => { this.img = img; }}
                   alt=""
@@ -141,19 +143,21 @@ class Card extends React.Component {
                   }
                 />
                 <div>
-                  {tooltip(this.props.games, this.props.price,
+                  {tooltip(
+this.props.games, this.props.price,
                            this.props.developers,
                            this.props.articles,
-                           this.props.link1, this.props.link2)}
+                           this.props.link1, this.props.link2,
+)}
                 </div>
               </div>
-              <div style={[ CardStyles.captionContainer ]} key={ `${title}-caption` }>
-                <div style={[ CardStyles.caption ]}>
+              <div style={[CardStyles.captionContainer]} key={`${title}-caption`}>
+                <div style={[CardStyles.caption]}>
                   <Label>
                     {country}
                   </Label>
                 </div>
-                <div style={[ CardStyles.badgeContainer ]}>
+                <div style={[CardStyles.badgeContainer]}>
                   <Badge>
                     {this.props.year}
                   </Badge>

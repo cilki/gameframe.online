@@ -31,7 +31,7 @@ function createLinkContainerNavItem(href, imageSrc, label, linkProps, navProps) 
   return (
     <LinkContainer to={href} {...linkProps}>
       <NavItem {...navProps}>
-        <div style={[ NavbarStyles.itemMain ]} key={`${href}`}>
+        <div style={[NavbarStyles.itemMain]} key={`${href}`}>
           <img
             style={NavbarStyles.navImage}
             key={`${href}-image`}
@@ -74,15 +74,15 @@ const pages = [
  */
 function NavBar() {
   return (
-    <Navbar inverse collapseOnSelect style={ NavbarStyles.main }>
+    <Navbar inverse collapseOnSelect style={NavbarStyles.main}>
       <Navbar.Header>
         <Navbar.Brand>
-          <div style={[ NavbarStyles.brandContainer ]}>
-            <Link to='/' style={{ textDecoration: 'none' }}>
+          <div style={[NavbarStyles.brandContainer]}>
+            <Link to="/" style={{ textDecoration: 'none' }}>
               <img
-                src='../../static/images/logo_black.svg'
-                alt='GameFrame.Online'
-                style={[ NavbarStyles.brandImage ]}
+                src="../../static/images/logo_black.svg"
+                alt="GameFrame.Online"
+                style={[NavbarStyles.brandImage]}
               />
             </Link>
           </div>
@@ -108,8 +108,8 @@ function NavBar() {
         <Navbar.Form pullRight>
           <FormGroup>
             <div style={{ display: 'flex' }}>
-              <FormControl type="text" placeholder="Search" style={ NavbarStyles.formControl }/>
-              <Button style={ NavbarStyles.button }>
+              <FormControl type="text" placeholder="Search" style={NavbarStyles.formControl} />
+              <Button style={NavbarStyles.button}>
                 <Glyphicon glyph="search" />
               </Button>
             </div>

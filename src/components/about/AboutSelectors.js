@@ -157,7 +157,7 @@ function getToolsRequested(state) {
  * @returns {String|null}
  */
 function getTools(state) {
-  return state.about.tools;
+  return state.about.tools.toJS();
 }
 
 /**
@@ -234,7 +234,7 @@ export { //eslint-disable-line
   getExplanationRequested,
   getExplanation,
   getExplanationError,
-  
+
   getToolsRequested,
   getTools,
   getToolsError,

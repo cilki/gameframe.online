@@ -1,9 +1,9 @@
 
 const Game = {
   main: {
-      display: 'flex',
-      flexDirection: 'column',
-      height: '100%'
+    display: 'flex',
+    flexDirection: 'column',
+    height: '100%',
   },
   container: coverURL => ({
     backgroundSize: 'cover',

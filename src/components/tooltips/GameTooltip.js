@@ -47,8 +47,9 @@ class GameTooltip extends React.Component {
           <p>
             Price:
             <Badge style={{
-              marginLeft: '5%'
-            }}>
+              marginLeft: '5%',
+            }}
+            >
               ${price}
             </Badge>
           </p>
@@ -61,13 +62,14 @@ class GameTooltip extends React.Component {
           {
             this.props.genres.length > 0 &&
             <p style={{
-              marginLeft: '5%'
-            }}>
-            {
+              marginLeft: '5%',
+            }}
+            >
+              {
               this.props.genres.map((genre) => {
                 return (
                   <Label key={genre}>
-                      {genre}
+                    {genre}
                   </Label>
                 );
               })
@@ -83,24 +85,27 @@ class GameTooltip extends React.Component {
           <p>
             Windows:
             <Badge style={{
-              marginLeft: '5%'
-            }}>
+              marginLeft: '5%',
+            }}
+            >
               Yes
             </Badge>
           </p>
           <p>
             Mac:
             <Badge style={{
-              marginLeft: '5%'
-            }}>
+              marginLeft: '5%',
+            }}
+            >
               No
             </Badge>
           </p>
           <p>
             Linux:
             <Badge style={{
-              marginLeft: '5%'
-            }}>
+              marginLeft: '5%',
+            }}
+            >
               No
             </Badge>
           </p>
@@ -113,32 +118,36 @@ class GameTooltip extends React.Component {
           <p>
             Streams:
             <Badge style={{
-              marginLeft: '5%'
-            }}>
+              marginLeft: '5%',
+            }}
+            >
               {this.props.streams}
             </Badge>
           </p>
           <p>
             Videos:
             <Badge style={{
-              marginLeft: '5%'
-            }}>
+              marginLeft: '5%',
+            }}
+            >
               {this.props.videos}
             </Badge>
           </p>
           <p>
             Tweets:
             <Badge style={{
-              marginLeft: '5%'
-            }}>
+              marginLeft: '5%',
+            }}
+            >
               {this.props.tweets}
             </Badge>
           </p>
           <p>
             Articles:
             <Badge style={{
-              marginLeft: '5%'
-            }}>
+              marginLeft: '5%',
+            }}
+            >
               {this.props.articles}
             </Badge>
           </p>

@@ -63,13 +63,19 @@ function fetchFromGithub(url, predicate, requestAction, responseAction) {
  * @param {Function} requestAction
  * @param {Function} responseAction
  */
-function fetchFile(url, predicate, requestAction, responseAction) {
+function fetchFile(
+  url,
+  predicate,
+  requestAction,
+  responseAction,
+  transform = response => response.text(),
+) {
   return (dispatch, getState) => {
     if (predicate(getState())) {
       dispatch(requestAction());
       fetch(url, { method: 'GET' }) //eslint-disable-line
-        .then(response => response.text())
-        .then(json => dispatch(responseAction(json)))
+        .then(transform)
+        .then(text => dispatch(responseAction(text)))
         .catch(err => dispatch(responseAction(err)));
     }
   };
@@ -120,7 +126,7 @@ function shouldFetchIssues(state) {
  * @returns {Boolean}
  */
 function shouldFetchTools(state) {
-  return getTools(state).size <= 0;
+  return getTools(state).length <= 0;
 }
 
 /**
@@ -192,6 +198,7 @@ function fetchTools() {
     shouldFetchTools,
     fetchToolsRequest,
     fetchToolsResponse,
+    response => response.json(),
   );
 }
 
@@ -451,53 +458,13 @@ const toolsError = handleActions({
 const tools = handleActions({
   [fetchToolsResponse]: {
     next(state, { payload }) {
-      const data = {};
-      payload.forEach((tool) => {
-        data[tool.tool_id] = Map(Object.assign(
-          {},
-          tool,
-          {
-            requested: false,
-            error: null,   
-          },
-        ));
-      });
-      
-      return state.mergeDeep(data);
+      return List(payload);
     },
-    
+
     throw(state, { payload }) {
       console.error(payload); //eslint-disable-line
       return state;
     },
-  },
-  
-  [fetchToolsRequest](state, { payload }) {
-    const id = payload;
-    
-    return state.mergeIn([String(id)], {
-      requested: true,
-    });
-  },
-  
-  [fetchToolsResponse](state, { payload }) {
-    const { id, data, error } = payload;
-    if (error) {
-      console.error(data); //estlint-disable-line
-      return state.mergeIn([String(id)], {
-        requested: false,
-        error: data.message,
-      });
-    }
-  
-    return state.mergeIn([String(id)], Object.assign(
-      {},
-      data,
-      {
-        requested: false,
-        error: null,   
-      },
-    ));
   },
 }, List());
 
@@ -521,7 +488,7 @@ const aboutReducer = combineReducers({
   explanationRequested,
   explanationError,
   explanation,
-  
+
   toolsRequested,
   toolsError,
   tools,
@@ -561,7 +528,7 @@ export { //eslint-disable-line
   issuesRequested,
   issuesError,
   issues,
-  
+
   shouldFetchTools,
   fetchTools,
   toolsRequested,

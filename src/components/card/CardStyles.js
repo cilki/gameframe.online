@@ -20,7 +20,7 @@ const Card = {
     maxWidth: '100%',
     whiteSpace: 'nowrap',
     overflow: 'hidden',
-    textOverflow: 'ellipsis'
+    textOverflow: 'ellipsis',
   },
 
   card: {
@@ -66,7 +66,7 @@ const Card = {
     position: 'fixed',
     top: '0',
     left: '0',
-    borderRadius: `${cornerRadius}`
+    borderRadius: `${cornerRadius}`,
   },
 
   backgroundImage: {
@@ -126,7 +126,7 @@ const Card = {
     left: '0',
     zIndex: '-2',
     filter: 'blur(20px) saturate(1.15)',
-    transform: 'scale(5.20)'
+    transform: 'scale(5.20)',
   },
 
   captionContainer: {
@@ -135,7 +135,7 @@ const Card = {
     justifyContent: 'space-around',
     padding: '2% 5% 2% 0%',
     transition: 'height 0.2s',
-    zIndex: '1'
+    zIndex: '1',
   },
 
   caption: {

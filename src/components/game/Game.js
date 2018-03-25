@@ -186,10 +186,12 @@ class Game extends React.Component {
           display: 'flex',
           flexDirection: 'column',
           overflow: 'hidden',
-          zIndex: '-150'
+          zIndex: '-150',
           }}
         >
-          <img src={coverURL} style={{
+          <img
+            src={coverURL}
+            style={{
             width: '10%',
             height: '10%',
             imageRendering: 'pixelated',
@@ -198,7 +200,7 @@ class Game extends React.Component {
             position: 'relative',
             margin: 'auto',
             transform: 'perspective(800px) translate3d(0, 0, 760px) scale(2)',
-            zIndex: '-5'
+            zIndex: '-5',
             }}
           />
         </div>

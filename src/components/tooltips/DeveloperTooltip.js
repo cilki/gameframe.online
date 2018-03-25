@@ -44,8 +44,9 @@ class DeveloperTooltip extends React.Component {
             <p>
               Games:
               <Badge style={{
-                marginLeft: '5%'
-              }}>
+                marginLeft: '5%',
+              }}
+              >
                 {this.props.games}
               </Badge>
             </p>
@@ -55,8 +56,9 @@ class DeveloperTooltip extends React.Component {
             <p>
               Articles:
               <Badge style={{
-                marginLeft: '5%'
-              }}>
+                marginLeft: '5%',
+              }}
+              >
                 {this.props.articles}
               </Badge>
             </p>
@@ -71,8 +73,9 @@ class DeveloperTooltip extends React.Component {
             Twitter:
             <a href={this.props.twitter}>
               <Label style={{
-                marginLeft: '5%'
-              }}>
+                marginLeft: '5%',
+              }}
+              >
                 {this.props.twitter}
               </Label>
             </a>
@@ -81,8 +84,9 @@ class DeveloperTooltip extends React.Component {
             Website:
             <a href={this.props.website}>
               <Label style={{
-                marginLeft: '5%'
-              }}>
+                marginLeft: '5%',
+              }}
+              >
                 {this.props.website}
               </Label>
             </a>

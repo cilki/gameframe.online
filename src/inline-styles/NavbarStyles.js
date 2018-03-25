@@ -16,12 +16,12 @@ const Navbar = {
     borderLeft: 'none',
     borderRight: 'none',
     marginBottom: '0',
-    boxShadow: '0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23)'
+    boxShadow: '0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23)',
   },
 
   brandContainer: {
     height: '32px',
-    paddingRight: '140px'
+    paddingRight: '140px',
   },
 
   brandImage: {
@@ -32,17 +32,17 @@ const Navbar = {
     padding: '15px',
     margin: '-15px',
     ':hover': {
-        filter: 'invert(90%)',
-        transition: 'filter 0.1s linear'
-    }
+      filter: 'invert(90%)',
+      transition: 'filter 0.1s linear',
+    },
   },
 
   formControl: {
-      borderRadius: `${searchFormRoundness}`
+    borderRadius: `${searchFormRoundness}`,
   },
 
   button: {
-      borderRadius: `${searchFormRoundness}`
+    borderRadius: `${searchFormRoundness}`,
   },
 
   itemMain: {
@@ -57,16 +57,16 @@ const Navbar = {
       padding: '15px',
       margin: '-15px',
       filter: 'brightness(200%)',
-      transition: 'filter 0.1s linear, background 0.1s linear'
+      transition: 'filter 0.1s linear, background 0.1s linear',
     },
   },
 
   navImage: {
-      width: '24px',
-      height: '24px',
-      filter: 'grayscale(100%) invert(50%)',
-      paddingRight: '4px'
-  }
+    width: '24px',
+    height: '24px',
+    filter: 'grayscale(100%) invert(50%)',
+    paddingRight: '4px',
+  },
 };
 
 export default Navbar;

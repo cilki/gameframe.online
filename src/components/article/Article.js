@@ -69,7 +69,7 @@ class Article extends React.Component {
     outlet: '',
     timestamp: '',
     title: '',
-    article_link: ''
+    article_link: '',
   };
 
   /**
@@ -129,9 +129,9 @@ class Article extends React.Component {
             </div>
 
             <div>
-                <a href={articleURL}>
-                    <h2 style={{position:'relative', textAlign: 'center'}}>Read More...</h2>
-                </a>
+              <a href={articleURL}>
+                <h2 style={{ position: 'relative', textAlign: 'center' }}>Read More...</h2>
+              </a>
             </div>
 
             <div style={[ArticleStyles.games]}>

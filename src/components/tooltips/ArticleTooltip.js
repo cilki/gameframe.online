@@ -36,18 +36,19 @@ class ArticleTooltip extends React.Component {
       <div>
         <div>
           <h4>
-            Games: 
+            Games:
           </h4>
           {
             this.props.games.length > 0 &&
             <p style={{
-              marginLeft: '5%'
-            }}>
-            {
+              marginLeft: '5%',
+            }}
+            >
+              {
               this.props.games.map((game) => {
                 return (
                   <Label key={game}>
-                      {game.name}
+                    {game.name}
                   </Label>
                 );
               })
@@ -55,21 +56,22 @@ class ArticleTooltip extends React.Component {
             </p>
           }
         </div>
-        
+
         <div>
           <h4>
-            Developers: 
+            Developers:
           </h4>
           {
             this.props.developers.length > 0 &&
             <p style={{
-              marginLeft: '5%'
-            }}>
-            {
+              marginLeft: '5%',
+            }}
+            >
+              {
               this.props.developers.map((developer) => {
                 return (
                   <Label key={developer}>
-                      {developer.name}
+                    {developer.name}
                   </Label>
                 );
               })
@@ -77,7 +79,7 @@ class ArticleTooltip extends React.Component {
             </p>
           }
         </div>
-        
+
         <div>
           <h4>
             Media
@@ -86,8 +88,9 @@ class ArticleTooltip extends React.Component {
             Source:
             <a href={this.props.article_link}>
               <Label style={{
-                marginLeft: '5px'
-              }}>
+                marginLeft: '5px',
+              }}
+              >
                 {this.props.article_link}
               </Label>
             </a>
