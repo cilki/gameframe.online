@@ -246,6 +246,19 @@ class Game extends React.Component {
                 backgroundColor: 'black',
                 overflow: 'hidden',
               }}>
+              <Carousel.Item>
+                <a href={coverURL} style={{display: 'flex', width: '100%'}}>
+                  <img
+                    src={coverURL}
+                    alt={this.props.name}
+                    style={{
+                      maxWidth: '96vw',
+                      maxHeight: '50vh',
+                      margin: 'auto'
+                    }}
+                  />
+                </a>
+              </Carousel.Item>
               {
                 screenshots.map(_screenshot => screenshot(_screenshot))
               }
@@ -258,8 +271,8 @@ class Game extends React.Component {
                 <p>{ReactHTMLParser(this.props.summary)}</p>
               </div>
             </div>
-            <div style={{display: 'flex', flexWrap: 'wrap', justifyContent: 'space-between'}}>
-              <div style={{display: 'flex', flexDirection: 'column', width: '49%'}}>
+            <div style={{display: 'flex', flexWrap: 'wrap', justifyContent: 'space-around'}}>
+              <div style={{display: 'flex', flexDirection: 'column', maxWidth: '100%'}}>
                 <div style={{fontSize: 'calc(16px + 0.75vw)'}}>
                   Developers:
                 </div>
@@ -273,7 +286,7 @@ class Game extends React.Component {
                   }
                 </ListGroup>
               </div>
-              <div style={{display: 'flex', flexDirection: 'column', width: '49%'}}>
+              <div style={{display: 'flex', flexDirection: 'column', maxWidth: '100%'}}>
                 <div style={{fontSize: 'calc(16px + 0.75vw)'}}>
                   Articles:
                 </div>
