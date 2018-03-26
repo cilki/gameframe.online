@@ -25,14 +25,20 @@ import CommonAssets from '../../inline-styles/CommonAssets';
 function screenshot({ url, alt }) {
   const src = url.indexOf('http') >= 0 ? url : `https://${url}`;
   return (
-    <Carousel.Item key={`${url}-carousel-item`}>
-      <a href={src} key={`${url}-a`}>
+    <Carousel.Item key={`${url}-carousel-item`} style={{}}>
+      <a href={src} key={`${url}-a`} style={{
+        display: 'flex',
+        width: '100%',
+      }}>
         <img
           key={`${url}-image`}
           src={src}
           alt={alt}
-          style={[GameStyles.image]}
-        />
+          style={{
+              maxWidth: '96vw',
+              maxHeight: '50vh',
+            margin: 'auto',
+          }}/>
       </a>
     </Carousel.Item>
   );
@@ -207,7 +213,7 @@ class Game extends React.Component {
             display: 'flex',
             flexDirection: 'column',
             borderRadius: '4px',
-            opacity: '0.8'
+            backgroundColor: 'rgba(238, 238, 238, 0.8)'
           }}>
 
             <div style={{}}>
@@ -239,17 +245,24 @@ class Game extends React.Component {
                 }
               </div>
             </div>
+            <Carousel
+              style={{
+                margin: '2% -2% 2% -2%',
+                width: '104%',
+                backgroundColor: 'black',
+                overflow: 'hidden',
+              }}>
+              {
+                screenshots.map(_screenshot => screenshot(_screenshot))
+              }
+            </Carousel>
             <div>
-              <Carousel
-                style={{
-                  maxWidth: '50%',
-                  overflow: 'visible',
-                  opacity: '1.2'
-                }}>
-                {
-                  screenshots.map(_screenshot => screenshot(_screenshot))
-                }
-              </Carousel>
+              <div style={{fontSize: 'calc(16px + 0.75vw)'}}>
+                Synoposis:
+              </div>
+              <div style={{overflow: 'hidden'}}>
+                <p>{ReactHTMLParser(this.props.summary)}</p>
+              </div>
             </div>
           </Jumbotron>
         </div>
