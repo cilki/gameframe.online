@@ -62,19 +62,33 @@ screenshot.defaultProps = {
  */
 function link({ label, url, key }) {
   return (
-    <ListGroupItem key={key}>
-      <Link
-        key={key}
+    <Link key={`${key}-link`}
         to={url}
+      style={{
+          textDecoration: 'none'
+    }}>
+    <div style={{borderRadius: '4px', overflow: 'hidden'}}>
+    <div key={key} style={{
+
+            background: 'rgba(238, 238, 238, 0.45)',
+            color: '#333',
+            transition: 'background 0.1s, color 0.1s',
+     ':hover': {
+        background: '#595959',
+        color: '#f9f9f9',
+        padding: '0px 10px 0px 10px',
+        margin: '0px -10px 0px -10px',
+    }
+    }}>
+      <ListGroupItem
+        key={`${key}-listGroupItem`}
         style={{
-          textDecoration: 'none',
+            background: 'none',
         }}
       >
-        <div>
           {label}
-        </div>
-      </Link>
-    </ListGroupItem>
+      </ListGroupItem>
+    </div></div></Link>
   );
 }
 
@@ -249,7 +263,7 @@ class Game extends React.Component {
                 <div style={{fontSize: 'calc(16px + 0.75vw)'}}>
                   Developers:
                 </div>
-                <ListGroup style={{maxHeight: '70vh', overflow: 'scroll'}}>
+                <ListGroup style={{maxHeight: '70vh', overflow: 'scroll', borderRadius: '4px'}}>
                   {
                     this.props.developers.map(developer => link({
                       label: developer.name,
@@ -263,7 +277,7 @@ class Game extends React.Component {
                 <div style={{fontSize: 'calc(16px + 0.75vw)'}}>
                   Articles:
                 </div>
-                <ListGroup style={{maxHeight: '70vh', overflow: 'scroll'}}>
+                <ListGroup style={{maxHeight: '70vh', overflow: 'scroll', borderRadius: '4px'}}>
                   {
                     this.props.articles.map(article => link({
                       label: article.title,
