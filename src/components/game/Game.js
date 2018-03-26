@@ -5,7 +5,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Radium from 'radium';
-import { Carousel, Jumbotron, Label, ListGroup, ListGroupItem } from 'react-bootstrap';
+import { Badge, Carousel, Jumbotron, Label, ListGroup, ListGroupItem } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import ReactHTMLParser from 'react-html-parser';
 
@@ -140,6 +140,7 @@ class Game extends React.Component {
     developers: [],
     error: null,
     genres: [],
+    price: 13.37,
     name: '',
     // release defaults to today's date
     release: '',
@@ -163,6 +164,7 @@ class Game extends React.Component {
   render() {
     const screenshots = this.props.screenshots ? this.props.screenshots : [];
     const coverURL = this.props.cover && this.props.cover.indexOf('http') < 0 ? `https://${this.props.cover}` : this.props.cover;
+    const price = this.props.price ? `\$${this.props.price / 100}` : null;
     return (
       <div
         style={[
@@ -260,7 +262,10 @@ class Game extends React.Component {
                 overflow: 'hidden',
               }}>
               <Carousel.Item>
-                <a href={coverURL} style={{display: 'flex', width: '100%'}}>
+                <a href={coverURL} style={{
+                  display: 'flex',
+                  width: '100%'
+                }}>
                   <img
                     src={coverURL}
                     alt={this.props.name}
@@ -276,6 +281,29 @@ class Game extends React.Component {
                 screenshots.map(_screenshot => screenshot(_screenshot))
               }
             </Carousel>
+
+            <div style={{
+              display: 'flex',
+              flexDirection: 'row',
+              justifyContent: 'space-between'
+            }}>
+              <div style={{
+                display: 'flex',
+                flexDirection: 'row'
+              }}>
+                <div style={{
+                  fontSize: 'calc(14px + 0.5vw)'
+                }}>
+                  {price != null ? 'Price:' : ''}&nbsp;
+                </div>
+                <div style={{
+                  fontSize: 'calc(14px + 0.5vw)',
+                  color: '#00884b'
+                }}>
+                  {price != null ? `${price}` : 'Priceless'}
+                </div>
+              </div>
+            </div>
             <div>
               <div style={{
                 fontSize: 'calc(16px + 0.75vw)'
