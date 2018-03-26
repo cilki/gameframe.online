@@ -68,31 +68,11 @@ function link({ label, url, key }) {
         to={url}
         style={{
           textDecoration: 'none',
-          display: 'flex',
-          flexDirection: 'row',
-          maxWidth: '100%',
-          textOverflow: 'ellipsis',
         }}
       >
-        <Label
-          style={{
-            maxWidth: '100%',
-            overflow: 'hidden',
-            whiteSpace: 'nowrap',
-            textOverflow: 'ellipsis',
-          }}
-        >
-          <div
-            style={{
-              maxWidth: '100%',
-              textOverflow: 'ellipsis',
-              whiteSpace: 'nowrap',
-              overflow: 'hidden',
-            }}
-          >
-            {label}
-          </div>
-        </Label>
+        <div>
+          {label}
+        </div>
       </Link>
     </ListGroupItem>
   );
@@ -262,6 +242,36 @@ class Game extends React.Component {
               </div>
               <div style={{overflow: 'hidden'}}>
                 <p>{ReactHTMLParser(this.props.summary)}</p>
+              </div>
+            </div>
+            <div style={{display: 'flex', flexWrap: 'wrap', justifyContent: 'space-between'}}>
+              <div style={{display: 'flex', flexDirection: 'column', width: '49%'}}>
+                <div style={{fontSize: 'calc(16px + 0.75vw)'}}>
+                  Developers:
+                </div>
+                <ListGroup style={{maxHeight: '70vh', overflow: 'scroll'}}>
+                  {
+                    this.props.developers.map(developer => link({
+                      label: developer.name,
+                      url: `/developers/${developer.id}`,
+                      key: `developer-${developer.id}`,
+                    }))
+                  }
+                </ListGroup>
+              </div>
+              <div style={{display: 'flex', flexDirection: 'column', width: '49%'}}>
+                <div style={{fontSize: 'calc(16px + 0.75vw)'}}>
+                  Articles:
+                </div>
+                <ListGroup style={{maxHeight: '70vh', overflow: 'scroll'}}>
+                  {
+                    this.props.articles.map(article => link({
+                      label: article.title,
+                      url: `/articles/${article.id}`,
+                      key: `article-${article.id}`,
+                    }))
+                  }
+                </ListGroup>
               </div>
             </div>
           </Jumbotron>
