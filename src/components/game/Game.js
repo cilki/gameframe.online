@@ -304,6 +304,11 @@ class Game extends React.Component {
                 </div>
               </div>
             </div>
+            <hr style={{
+               borderTop: '1px dotted #333333',
+               opacity: '0.5',
+               width: '100%',
+            }} />
             <div>
               <div style={{
                 fontSize: 'calc(16px + 0.75vw)'
@@ -314,6 +319,11 @@ class Game extends React.Component {
                 {ReactHTMLParser(this.props.summary)}
               </div>
             </div>
+            <hr style={{
+               borderTop: '1px dotted #333333',
+               opacity: '0.5',
+               width: '100%',
+            }} />
             <div style={{
               display: 'flex',
               flexWrap: 'wrap',
