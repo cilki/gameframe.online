@@ -67,25 +67,26 @@ function link({ label, url, key }) {
       style={{
           textDecoration: 'none'
     }}>
-    <div style={{borderRadius: '4px', overflow: 'hidden'}}>
-    <div key={key} style={{
-
-            background: 'rgba(238, 238, 238, 0.45)',
-            color: '#333',
-            transition: 'background 0.1s, color 0.1s',
-     ':hover': {
-        background: '#595959',
-        color: '#f9f9f9',
-        padding: '0px 10px 0px 10px',
-        margin: '0px -10px 0px -10px',
-    }
+    <div style={{
+      borderRadius: '4px',
+      overflow: 'hidden'
     }}>
-      <ListGroupItem
-        key={`${key}-listGroupItem`}
-        style={{
+      <div key={key} style={{
+        background: 'rgba(238, 238, 238, 0.45)',
+        color: '#333',
+        transition: 'background 0.1s, color 0.1s',
+        ':hover': {
+          background: '#595959',
+          color: '#f9f9f9',
+          padding: '0px 10px 0px 10px',
+          margin: '0px -10px 0px -10px',
+        }
+      }}>
+        <ListGroupItem
+          key={`${key}-listGroupItem`}
+          style={{
             background: 'none',
-        }}
-      >
+        }}>
           {label}
       </ListGroupItem>
     </div></div></Link>
@@ -199,7 +200,9 @@ class Game extends React.Component {
             }}
           />
         </div>
-        <div style={{ padding: '20px 2% 20px 2%'}}>
+        <div style={{
+          padding: '20px 2% 20px 2%'
+        }}>
           <Jumbotron style={{
             padding: '2% 2% 2% 2%',
             margin: 'auto',
@@ -211,20 +214,30 @@ class Game extends React.Component {
           }}>
 
             <div style={{}}>
-              <div style={{fontSize: 'calc(24px + 2.0vw)'}}>
+              <div style={{
+                fontSize: 'calc(24px + 2.0vw)'
+              }}>
                 {this.props.name}
               </div>
             </div>
             <div>
-              <div style={{fontSize: 'calc(16px + 0.75vw)'}}>
+              <div style={{
+                fontSize: 'calc(16px + 0.75vw)'
+              }}>
                 Released {this.props.release}
               </div>
             </div>
             <div style={{display: 'flex'}}>
-              <div style={{fontSize: 'calc(16px + 0.5vw)'}}>
+              <div style={{
+                fontSize: 'calc(16px + 0.5vw)'
+              }}>
                 Genres:&nbsp;
               </div>
-              <div style={{fontSize: 'calc(16px + 0.5vw)', display: 'flex', flexWrap: 'wrap'}}>
+              <div style={{
+                fontSize: 'calc(16px + 0.5vw)',
+                display: 'flex',
+                flexWrap: 'wrap'
+              }}>
                 {
                   this.props.genres.map((genre) => {
                     return (
@@ -264,19 +277,35 @@ class Game extends React.Component {
               }
             </Carousel>
             <div>
-              <div style={{fontSize: 'calc(16px + 0.75vw)'}}>
+              <div style={{
+                fontSize: 'calc(16px + 0.75vw)'
+              }}>
                 Synoposis:
               </div>
               <div style={{overflow: 'hidden'}}>
-                <p>{ReactHTMLParser(this.props.summary)}</p>
+                {ReactHTMLParser(this.props.summary)}
               </div>
             </div>
-            <div style={{display: 'flex', flexWrap: 'wrap', justifyContent: 'space-around'}}>
-              <div style={{display: 'flex', flexDirection: 'column', maxWidth: '100%'}}>
-                <div style={{fontSize: 'calc(16px + 0.75vw)'}}>
+            <div style={{
+              display: 'flex',
+              flexWrap: 'wrap',
+              justifyContent: 'space-around'
+            }}>
+              <div style={{
+                display: 'flex',
+                flexDirection: 'column',
+                maxWidth: '100%'
+              }}>
+                <div style={{
+                  fontSize: 'calc(16px + 0.75vw)'
+                }}>
                   Developers:
                 </div>
-                <ListGroup style={{maxHeight: '70vh', overflow: 'scroll', borderRadius: '4px'}}>
+                <ListGroup style={{
+                  maxHeight: '70vh',
+                  overflow: 'scroll',
+                  borderRadius: '4px'
+                }}>
                   {
                     this.props.developers.map(developer => link({
                       label: developer.name,
@@ -286,11 +315,21 @@ class Game extends React.Component {
                   }
                 </ListGroup>
               </div>
-              <div style={{display: 'flex', flexDirection: 'column', maxWidth: '100%'}}>
-                <div style={{fontSize: 'calc(16px + 0.75vw)'}}>
+              <div style={{
+                display: 'flex',
+                flexDirection: 'column',
+                maxWidth: '100%'
+              }}>
+                <div style={{
+                  fontSize: 'calc(16px + 0.75vw)'
+                }}>
                   Articles:
                 </div>
-                <ListGroup style={{maxHeight: '70vh', overflow: 'scroll', borderRadius: '4px'}}>
+                <ListGroup style={{
+                  maxHeight: '70vh',
+                  overflow: 'scroll',
+                  borderRadius: '4px'
+                }}>
                   {
                     this.props.articles.map(article => link({
                       label: article.title,
@@ -302,19 +341,25 @@ class Game extends React.Component {
               </div>
             </div>
             <div>
-              <div style={{fontSize: 'calc(16px + 0.75vw)'}}>
+              <div style={{
+                fontSize: 'calc(16px + 0.75vw)'
+              }}>
                 Twitter:
               </div>
               <p>Twitter is not available in your country.</p>
             </div>
             <div>
-              <div style={{fontSize: 'calc(16px + 0.75vw)'}}>
+              <div style={{
+                fontSize: 'calc(16px + 0.75vw)'
+              }}>
                 YouTube:
               </div>
               <p>This video is not available in your country.</p>
             </div>
             <div>
-              <div style={{fontSize: 'calc(16px + 0.75vw)'}}>
+              <div style={{
+                fontSize: 'calc(16px + 0.75vw)'
+              }}>
                 Twitch:
               </div>
               <p>Twitch is not available in your country.</p>
