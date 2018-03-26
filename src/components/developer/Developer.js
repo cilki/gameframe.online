@@ -97,6 +97,7 @@ class Developer extends React.Component {
 
   render() {
     const logoURL = this.props.logo && this.props.logo.indexOf('http') < 0 ? `https://${this.props.logo}` : this.props.logo;
+    const established = this.props.foundation ? this.props.foundation : 'Unknown';
     const countryNumber = `${this.props.country}`;
     const country = this.iso.whereNumeric(countryNumber);
     const countryName = country ? country.country : 'Unknown';
@@ -115,20 +116,22 @@ class Developer extends React.Component {
           }}
         >
           <div>
+            <div style={[DeveloperStyles.logo]}>
+              <img
+                style={{ maxWidth: '100%', maxHeight: '100%' }}
+                src={logoURL}
+                alt={`${this.props.name} logo`}
+              />
+            </div>
             <h1 style={[DeveloperStyles.name]}>{this.props.name}
-              <div style={[DeveloperStyles.logo]}>
-                <img
-                  style={{ maxWidth: '100%', maxHeight: '100%' }}
-                  src={logoURL}
-                  alt={`${this.props.name} logo`}
-                />
+              <div style={[DeveloperStyles.secondaryInfo]}>
+                <p style={[DeveloperStyles.infoPart]}>Established: {established}</p>
+                <p style={[DeveloperStyles.infoPart]}>Location: {countryName}</p>
+                <p style={[DeveloperStyles.infoPart]}>
+                  Website: <a href={this.props.website}>{this.props.website}</a>
+                </p>
               </div>
             </h1>
-            <div style={[DeveloperStyles.secondaryInfo]}>
-              <p>Established: {this.props.foundation}</p>
-              <p>Location: {countryName}</p>
-              <p>Website: <a href={this.props.website}>{this.props.website}</a></p>
-            </div>
           </div>
           <div style={[DeveloperStyles.games]}>
             <h3>Games:</h3>
