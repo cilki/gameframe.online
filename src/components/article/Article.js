@@ -107,30 +107,27 @@ class Article extends React.Component {
           }}
         >
           <div>
+            <div style={[ArticleStyles.logo]}>
+              <img
+                style={{ maxWidth: '100%', maxHeight: '100%' }}
+                src={coverURL}
+                alt={`${this.props.author} thumbnail`}
+              />
+            </div>
             <h1 style={[ArticleStyles.title]}>{this.props.title}
-              <div style={[ArticleStyles.logo]}>
-                <img
-                  style={{ maxWidth: '100%', maxHeight: '100%' }}
-                  src={coverURL}
-                  alt={`${this.props.author} thumbnail`}
-                />
+              <div style={[ArticleStyles.secondaryInfo]}>
+                <p style={[ArticleStyles.infoPart]}>Author: {this.props.author}</p>
+                <p style={[ArticleStyles.infoPart]}>Published: {this.props.timestamp}</p>
+                <p style={[ArticleStyles.infoPart]}>Outlet: <a href={outletURL}>{outletURL}</a></p>
               </div>
             </h1>
-
-            <div style={[ArticleStyles.secondaryInfo]}>
-              <p>Author: {this.props.author}</p>
-              <p>Published: {this.props.timestamp}</p>
-              <p>Outlet: <a href={outletURL}>{outletURL}</a></p>
-            </div>
-
             <div style={[ArticleStyles.summary]}>
               {/* TODO: We can do better than this. There are existing libraries to put in HTML */}
-              <p dangerouslySetInnerHTML={{ __html: this.props.introduction }} /> {/* eslint-disable-line */}
+              <p dangerouslySetInnerHTML={{ __html: this.props.introduction }} style={{ marginBottom: '0px' }} /> {/* eslint-disable-line */}
             </div>
-
             <div>
               <a href={articleURL}>
-                <h2 style={{ position: 'relative', textAlign: 'center' }}>Read More...</h2>
+                <h2 style={{ paddingLeft: '2%', marginTop: '0px' }}>Read More...</h2>
               </a>
             </div>
 
