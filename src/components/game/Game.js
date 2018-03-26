@@ -274,6 +274,24 @@ class Game extends React.Component {
                 </ListGroup>
               </div>
             </div>
+            <div>
+              <div style={{fontSize: 'calc(16px + 0.75vw)'}}>
+                Twitter:
+              </div>
+              <p>Twitter is not available in your country.</p>
+            </div>
+            <div>
+              <div style={{fontSize: 'calc(16px + 0.75vw)'}}>
+                YouTube:
+              </div>
+              <p>This video is not available in your country.</p>
+            </div>
+            <div>
+              <div style={{fontSize: 'calc(16px + 0.75vw)'}}>
+                Twitch:
+              </div>
+              <p>Twitch is not available in your country.</p>
+            </div>
           </Jumbotron>
         </div>
       </div>
