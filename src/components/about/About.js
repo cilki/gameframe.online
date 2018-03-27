@@ -1,14 +1,13 @@
-
 /**
  * Main presenter component for the about page
  */
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Grid, Row, Col, Thumbnail } from 'react-bootstrap';
+import { Grid, Row, Col, Thumbnail, Jumbotron } from 'react-bootstrap';
 import Radium from 'radium';
-
 import Styles from './AboutStyles';
+import CommonAssets from '../../inline-styles/CommonAssets';
 import GroupMember from '../group-member';
 
 class AboutPage extends React.Component {
@@ -19,6 +18,7 @@ class AboutPage extends React.Component {
     tools: PropTypes.arrayOf(PropTypes.shape({
       cover: PropTypes.string,
       name: PropTypes.string,
+      phase: PropTypes.number,
       usage: PropTypes.string,
     })),
 
@@ -67,6 +67,7 @@ class AboutPage extends React.Component {
   renderTools() {
     const toolRows = [];
     const rowLength = 4;
+    const thumbnail = Styles.thumbnail;
     for (let toolCounter = 0; toolCounter * rowLength < this.props.tools.length; ++toolCounter) {
       toolRows.push(<Row key={`tool-row-${toolCounter}`}>
         {
@@ -81,100 +82,114 @@ class AboutPage extends React.Component {
                   md={3}
                   sm={3}
                 >
-                  <Thumbnail
-                    src={tool.cover}
-                    style={{ width: '150px', height: '150px', margin: 'auto' }}
-                  />
-                  <h3>{tool.name}</h3>
-                  <p>{tool.usage}</p>
+                  <Thumbnail src={tool.cover} style={thumbnail}>
+                    <h3 style={[Styles.title]}>{tool.name}</h3>
+                    <p style={[Styles.text]}><strong>Phase: </strong>{tool.phase}</p>
+                    <p style={[Styles.text]}>{tool.usage}</p>
+                  </Thumbnail>
                 </Col>
               );
             })
-          }
-                    </Row>);
+        }
+      </Row>);
     }
-
     return toolRows;
   }
 
   render() {
     const tools = this.renderTools();
+    const container = Styles.container;
+    const thumbnail = Styles.thumbnail;
 
     return (
-      <div style={[Styles.container]}>
-        {/* Team Name */}
-        <h1>GameFrame LLC </h1>
-        <div style={[Styles.text]}>
-          {/* Description */}
-          <p>{this.props.description}</p>
-          {/* Explanation */}
-          <p>{this.props.explanation}</p>
-        </div>
-        <hr />
-        {/* Group Members */}
-        <div style={[Styles.grid]}>
-          <Grid>
-            <Row>
-              <h2><strong>Group Members</strong></h2>
-            </Row>
-            <Row>
-              {this.props.contributors.map((contributor) => {
-                return (
-                  <React.Fragment
-                    key={contributor}
-                  >
-                    <GroupMember
-                      login={contributor}
-                    />
-                  </React.Fragment>
-                );
-              })}
-            </Row>
-            <Row>
-              <hr />
-            </Row>
-            <Row>
-              {/* Total Stats */}
-              <Col md={4} sm={4}>
-                <h2><strong>Team Stats</strong></h2>
-                <p><strong>Commits: </strong>{this.props.totalCommits}</p>
-                <p><strong>Issues: </strong>{this.props.totalIssues}</p>
-                <p><strong>Unit Tests: </strong>{this.props.totalUnitTests}</p>
-              </Col>
-              {/* GitHub and GitBook */}
-              <Col md={4} sm={4}>
-                <h2><strong>Source and Documentation</strong></h2>
-                <a href="https://github.com/cilki/gameframe.online"><p>GitHub</p></a>
-                <a href="https://cilki.gitbooks.io/report/"><p>Technical Report</p></a>
-                <a href="https://cilki.gitbooks.io/api/"><p>API Documentation</p></a>
-              </Col>
-              {/* Data */}
-              <Col md={4} sm={4}>
-                <h2><strong>Data Sources</strong></h2>
-                <p><a href="https://www.igdb.com/api">IGDB</a></p>
-                <p><a href="https://newsapi.org/">News API</a></p>
-                <p><a href="https://developer.valvesoftware.com/wiki/Steam_Web_API">Steam</a></p>
-                <p><a href="https://developer.twitter.com/en/docs">Twitter</a></p>
-                <p><a href="https://developers.google.com/youtube/v3/docs/">YouTube Data API</a></p>
-                <p>
-                  {
-                    'For IGDB and Stream, we scraped data with a "GET" call on a range of ids. ' +
-                    'While, News API and YouTube Data API\'s data got scraped with a "GET" call ' +
-                    'on specific keywords related to games. Furthermore, Twitter feeds are fetched ' +
-                    ' by a plug-in that uses the name of a game as a keyword to get that game feed.'
-                  }
-                </p>
-              </Col>
-            </Row>
-            {/* Tools */}
-            <Row>
-              <h2><strong>Tools</strong></h2>
-              <br />
-            </Row>
-            {
-              tools
-            }
-          </Grid>
+      <div style={[Styles.main]}>
+        <div style={[CommonAssets.fillBackground, CommonAssets.horizontalGradient]}/>
+          <div style={[CommonAssets.stripeOverlay, CommonAssets.fillBackground]}/>
+            <div style={[Styles.pad]}>
+              <Jumbotron style={container}>
+                <img
+                  src="../../static/images/logo_black.svg"
+                  alt="GameFrame.Online"
+                  style={[Styles.brand]}
+                />
+      
+                <p style={[Styles.text]}>{this.props.description}</p>
+                <p style={[Styles.text]}>{this.props.explanation}</p>
+                
+                <div style={{padding: '0% 2% 0% 2%'}}>
+                  <hr style={[Styles.hr]}/>
+                </div>
+                
+                <div style={[Styles.grid]}>
+                  <Grid>
+                    <Row>
+                      <h2 style={[Styles.title]}><strong>Group Members</strong></h2>
+                    </Row>
+                    <Row>
+                      {this.props.contributors.map((contributor) => {
+                        return (
+                          <React.Fragment key={contributor}>
+                            <GroupMember login={contributor}/>
+                          </React.Fragment>
+                        );
+                      })}
+                    </Row>
+                    
+                    <Row>
+                      <div style={{padding: '0% 0% 2% 0%'}}>
+                        <hr style={[Styles.hr]}/>
+                      </div>
+                    </Row>
+                    
+                    <Row>
+                      <Col md={4} sm={4}>
+                        <Thumbnail src={''} style={thumbnail}>
+                          <h2 style={[Styles.title]}><strong>Team Stats</strong></h2>
+                          <p style={[Styles.text]}><strong>Commits: </strong>{this.props.totalCommits}</p>
+                          <p style={[Styles.text]}><strong>Issues: </strong>{this.props.totalIssues}</p>
+                          <p style={[Styles.text]}><strong>Unit Tests: </strong>{this.props.totalUnitTests}</p>
+                        </Thumbnail>
+                      </Col>
+                      <Col md={4} sm={4}>
+                        <Thumbnail src={''} style={thumbnail}>
+                          <h2 style={[Styles.title]}><strong>Source and Documentation</strong></h2>
+                          <a href="https://github.com/cilki/gameframe.online"><p style={[Styles.text]}>GitHub</p></a>
+                          <a href="https://cilki.gitbooks.io/report/"><p style={[Styles.text]}>Technical Report</p></a>
+                          <a href="https://cilki.gitbooks.io/api/"><p style={[Styles.text]}>API Documentation</p></a>
+                        </Thumbnail>
+                      </Col>
+                      <Col md={4} sm={4}>
+                        <Thumbnail style={thumbnail}>
+                          <h2 style={[Styles.title]}><strong>Data Sources</strong></h2>
+                          <a href="https://www.igdb.com/api"><p style={[Styles.text]}>IGDB</p></a>
+                          <a href="https://newsapi.org/"><p style={[Styles.text]}>News API</p></a>
+                          <a href="https://developer.valvesoftware.com/wiki/Steam_Web_API"><p style={[Styles.text]}>Steam</p></a>
+                          <a href="https://developer.twitter.com/en/docs"><p style={[Styles.text]}>Twitter</p></a>
+                          <a href="https://developers.google.com/youtube/v3/docs/"><p style={[Styles.text]}>YouTube Data API</p></a>
+                          <p style={[Styles.text]}>
+                            {
+                              'For IGDB and Stream, we scraped data with a "GET" call on a range of ids. ' +
+                              'While, News API and YouTube Data API\'s data got scraped with a "GET" call ' +
+                              'on specific keywords related to games. Furthermore, Twitter feeds are fetched ' +
+                              ' by a plug-in that uses the name of a game as a keyword to get that game feed.'
+                            }
+                          </p>
+                        </Thumbnail>
+                      </Col>
+                    </Row>
+                    
+                    <Row>
+                      <hr style={[Styles.hr]}/>
+                    </Row>
+                    
+                    <Row>
+                      <h2 style={[Styles.title]}><strong>Tools</strong></h2>
+                      <br />
+                    </Row>
+                    {tools}
+                  </Grid>
+                </div>
+              </Jumbotron>
         </div>
       </div>
     );
