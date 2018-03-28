@@ -70,28 +70,28 @@ class AboutPage extends React.Component {
     for (let toolCounter = 0; toolCounter * rowLength < this.props.tools.length; ++toolCounter) {
       toolRows.push(<Row key={`tool-row-${toolCounter}`}>
         {
-            this.props.tools.slice(
-              toolCounter * rowLength,
-              toolCounter * rowLength + rowLength,
-            ).map((tool) => {
-              return (
-                <Col
-                  key={tool.name}
-                  lg={3}
-                  md={3}
-                  sm={3}
-                >
-                  <Thumbnail
-                    src={tool.cover}
-                    style={{ width: '150px', height: '150px', margin: 'auto' }}
-                  />
-                  <h3>{tool.name}</h3>
-                  <p>{tool.usage}</p>
-                </Col>
-              );
-            })
-          }
-                    </Row>);
+          this.props.tools.slice(
+            toolCounter * rowLength,
+            toolCounter * rowLength + rowLength,
+          ).map((tool) => {
+            return (
+              <Col
+                key={tool.name}
+                lg={3}
+                md={3}
+                sm={3}
+              >
+                <Thumbnail
+                  src={tool.cover}
+                  style={{ width: '150px', height: '150px', margin: 'auto' }}
+                />
+                <h3>{tool.name}</h3>
+                <p>{tool.usage}</p>
+              </Col>
+            );
+          })
+        }
+      </Row>);
     }
 
     return toolRows;

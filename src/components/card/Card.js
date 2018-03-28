@@ -143,8 +143,7 @@ class Card extends React.Component {
                   }
                 />
                 <div>
-                  {tooltip(
-this.props.games, this.props.price,
+                  {tooltip(this.props.games, this.props.price,
                            this.props.developers,
                            this.props.articles,
                            this.props.link1, this.props.link2,
