@@ -9,8 +9,8 @@ import { Badge, Carousel, Jumbotron, Label, ListGroup, ListGroupItem } from 'rea
 import { Link } from 'react-router-dom';
 import ReactHTMLParser from 'react-html-parser';
 
-import GameStyles from './GameStyles';
-import InstanceDetails from '../InstanceDetails';
+import InstanceDetails from '../instance-details/InstanceDetails';
+import InstanceDetailsStyles from '../instance-details/InstanceDetailsStyles';
 
 import CommonAssets from '../../inline-styles/CommonAssets';
 
@@ -26,12 +26,12 @@ function screenshot({ url, alt }) {
   const src = url.indexOf('http') >= 0 ? url : `https://${url}`;
   return (
     <Carousel.Item key={`${url}-carousel-item`}>
-      <a href={src} key={`${url}-a`} style={[ GameStyles.carouselScreenshotLink ]}>
+      <a href={src} key={`${url}-a`} style={[ InstanceDetailsStyles.carouselScreenshotLink ]}>
         <img
           key={`${url}-image`}
           src={src}
           alt={alt}
-          style={[ GameStyles.carouselScreenshotImage ]}
+          style={[ InstanceDetailsStyles.carouselScreenshotImage ]}
         />
       </a>
     </Carousel.Item>
@@ -56,10 +56,10 @@ screenshot.defaultProps = {
  */
 function link({ label, url, cover, key }) {
   return (
-    <Link key={`${key}-link`} to={url} style={ GameStyles.minigridLink }>
-      <div key={`${key}-minicard`} style={[ GameStyles.minicard(cover) ]}>
-        <div style={[ GameStyles.minicardTextArea ]}>
-          <p style={[ GameStyles.minicardParagraph ]}>
+    <Link key={`${key}-link`} to={url} style={ InstanceDetailsStyles.minigridLink }>
+      <div key={`${key}-minicard`} style={[ InstanceDetailsStyles.minicard(cover) ]}>
+        <div style={[ InstanceDetailsStyles.minicardTextArea ]}>
+          <p style={[ InstanceDetailsStyles.minicardParagraph ]}>
             {label}
           </p>
         </div>
@@ -141,37 +141,22 @@ class Game extends React.Component {
     const coverURL = this.props.cover && this.props.cover.indexOf('http') < 0 ? `https://${this.props.cover}` : this.props.cover;
     const price = this.props.price ? `\$${this.props.price / 100}` : null;
     return (
-      <div
-        style={[
-          GameStyles.main,
-        ]}
-      >
-        <div style={[
-            CommonAssets.stripeOverlay,
-            CommonAssets.fillBackground,
-          ]}
-        />
-        <div style={[ GameStyles.blurBackgroundBefore ]}>
-          <img src={coverURL} style={[ GameStyles.blurBackgroundImage ]}/>
-        </div>
-        <div style={[ GameStyles.backgroundBorder ]}>
-          <Jumbotron style={ GameStyles.jumbotron }>
-
+        <InstanceDetails imageURL={coverURL}>
             <div style={{}}>
-              <div style={[ GameStyles.titleText ]}>
+              <div style={[ InstanceDetailsStyles.titleText ]}>
                 {this.props.name}
               </div>
             </div>
             <div>
-              <div style={[ GameStyles.releaseDate ]}>
+              <div style={[ InstanceDetailsStyles.releaseDate ]}>
                 Released {this.props.release}
               </div>
             </div>
-            <div style={[ GameStyles.genreCluster ]}>
-              <div style={[ GameStyles.genreIndicator ]}>
+            <div style={[ InstanceDetailsStyles.genreCluster ]}>
+              <div style={[ InstanceDetailsStyles.genreIndicator ]}>
                 Genres:&nbsp;
               </div>
-              <div style={[ GameStyles.genreLabelGroup ]}>
+              <div style={[ InstanceDetailsStyles.genreLabelGroup ]}>
                 {
                   this.props.genres.map((genre) => {
                     return (
@@ -186,13 +171,13 @@ class Game extends React.Component {
                 }
               </div>
             </div>
-            <Carousel style={ GameStyles.carousel }>
+            <Carousel style={ InstanceDetailsStyles.carousel }>
               <Carousel.Item>
-                <a href={coverURL} style={[ GameStyles.carouselCoverLink ]}>
+                <a href={coverURL} style={[ InstanceDetailsStyles.carouselCoverLink ]}>
                   <img
                     src={coverURL}
                     alt={this.props.name}
-                    style={[ GameStyles.carouselCoverImage ]}
+                    style={[ InstanceDetailsStyles.carouselCoverImage ]}
                   />
                 </a>
               </Carousel.Item>
@@ -200,32 +185,32 @@ class Game extends React.Component {
                   screenshots.map(_screenshot => screenshot(_screenshot))
                 }
             </Carousel>
-            <div style={[ GameStyles.secondaryDataCluster ]}>
-              <div style={[ GameStyles.priceCluster ]}>
-                <div style={[ GameStyles.priceIndicator ]}>
+            <div style={[ InstanceDetailsStyles.secondaryDataCluster ]}>
+              <div style={[ InstanceDetailsStyles.priceCluster ]}>
+                <div style={[ InstanceDetailsStyles.priceIndicator ]}>
                   {price != null ? 'Price:' : ''}&nbsp;
                 </div>
-                <div style={[ GameStyles.priceTag ]}>
+                <div style={[ InstanceDetailsStyles.priceTag ]}>
                   {price != null ? `${price}` : ''}
                 </div>
               </div>
             </div>
-            <hr style={[ GameStyles.horizontalRule ]} />
+            <hr style={[ InstanceDetailsStyles.horizontalRule ]} />
             <div>
-              <div style={[ GameStyles.synoposisIndicator ]}>
+              <div style={[ InstanceDetailsStyles.synoposisIndicator ]}>
                 Synoposis:
               </div>
-              <div style={[ GameStyles.synoposisHTMLContainer ]}>
+              <div style={[ InstanceDetailsStyles.synoposisHTMLContainer ]}>
                 {ReactHTMLParser(this.props.summary)}
               </div>
             </div>
-            <hr style={[ GameStyles.horizontalRule ]} />
-            <div style={[ GameStyles.externalGridCluster ]}>
-              <div style={[ GameStyles.developerGridCluster ]}>
-                <div style={[ GameStyles.developerIndicator ]}>
+            <hr style={[ InstanceDetailsStyles.horizontalRule ]} />
+            <div style={[ InstanceDetailsStyles.externalGridCluster ]}>
+              <div style={[ InstanceDetailsStyles.developerGridCluster ]}>
+                <div style={[ InstanceDetailsStyles.developerIndicator ]}>
                   Developers:
                 </div>
-                <div style={[ GameStyles.minigrid ]}>
+                <div style={[ InstanceDetailsStyles.minigrid ]}>
                   {
                     this.props.developers.map(developer => link({
                       label: developer.name,
@@ -236,11 +221,11 @@ class Game extends React.Component {
                   }
                 </div>
               </div>
-              <div style={[ GameStyles.articleGridCluster ]}>
-                <div style={[ GameStyles.articleIndicator ]}>
+              <div style={[ InstanceDetailsStyles.articleGridCluster ]}>
+                <div style={[ InstanceDetailsStyles.articleIndicator ]}>
                   Articles:
                 </div>
-                <div style={[ GameStyles.minigrid ]}>
+                <div style={[ InstanceDetailsStyles.minigrid ]}>
                   {
                     this.props.articles.map(article => link({
                       label: article.title,
@@ -253,26 +238,24 @@ class Game extends React.Component {
               </div>
             </div>
             <div>
-              <div style={[ GameStyles.twitterIndicator ]}>
+              <div style={[ InstanceDetailsStyles.twitterIndicator ]}>
                 Twitter:
               </div>
               <p>Twitter is not available in your country.</p>
             </div>
             <div>
-              <div style={[ GameStyles.youtubeIndicator ]}>
+              <div style={[ InstanceDetailsStyles.youtubeIndicator ]}>
                 YouTube:
               </div>
               <p>This video is not available in your country.</p>
             </div>
             <div>
-              <div style={[ GameStyles.twitchIndicator ]}>
+              <div style={[ InstanceDetailsStyles.twitchIndicator ]}>
                 Twitch:
               </div>
               <p>Twitch is not available in your country.</p>
             </div>
-          </Jumbotron>
-        </div>
-      </div>
+        </InstanceDetails>
     );
   }
 }
