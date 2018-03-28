@@ -206,7 +206,7 @@ class Game extends React.Component {
                   {price != null ? 'Price:' : ''}&nbsp;
                 </div>
                 <div style={[ GameStyles.priceTag ]}>
-                  {price != null ? `${price}` : 'Priceless'}
+                  {price != null ? `${price}` : ''}
                 </div>
               </div>
             </div>
