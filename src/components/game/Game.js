@@ -230,7 +230,7 @@ class Game extends React.Component {
                     this.props.developers.map(developer => link({
                       label: developer.name,
                       url: `/developers/${developer.id}`,
-                      cover: developer.logo,
+                      cover: (developer.logo && developer.logo.indexOf('http') < 0 ? `https://${developer.logo}` : developer.logo),
                       key: `developer-${developer.id}`,
                     }))
                   }
