@@ -7,8 +7,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Radium from 'radium';
 import { Col, Thumbnail } from 'react-bootstrap';
-
-import GroupMemberStyles from './GroupMemberStyles';
+import Styles from '../about/AboutStyles';
 
 class GroupMember extends React.Component {
   static propTypes = {
@@ -48,17 +47,16 @@ class GroupMember extends React.Component {
   }
 
   render() {
+    const thumbnail = Styles.thumbnail;
     return (
       <Col lg={4} md={6} sm={6}>
-        <Thumbnail src={this.props.avatar}>
-          <h3>{this.props.name}</h3>
-          <div style={[GroupMemberStyles.container]}>
-            <p><strong>Bio: </strong>{this.props.bio}</p>
-            <p><strong>Responsibilities: </strong>{this.props.responsibilities}</p>
-            <p><strong>Commits: </strong>{this.props.commits}</p>
-            <p><strong>Issues: </strong>{this.props.issues}</p>
-            <p><strong>Unit Tests: </strong>{this.props.unitTests}</p>
-          </div>
+        <Thumbnail src={this.props.avatar} style={thumbnail}>
+          <h3 style={[Styles.title]}>{this.props.name}</h3>
+          <p style={[Styles.text]}><strong>Bio: </strong>{this.props.bio}</p>
+          <p style={[Styles.text]}><strong>Responsibilities: </strong>{this.props.responsibilities}</p>
+          <p style={[Styles.text]}><strong>Commits: </strong>{this.props.commits}</p>
+          <p style={[Styles.text]}><strong>Issues: </strong>{this.props.issues}</p>
+          <p style={[Styles.text]}><strong>Unit Tests: </strong>{this.props.unitTests}</p>
         </Thumbnail>
       </Col>
     );
