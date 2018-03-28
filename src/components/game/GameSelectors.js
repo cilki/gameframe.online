@@ -65,6 +65,7 @@ function makeGetGameDevelopers(_gameSelector = null) {
             gameDevelopers.push({
               id: developerId,
               name: developers[developerId] ? developers[developerId].name : null,
+              logo: developers[developerId] ? developers[developerId].logo : null
             });
           }
         });
@@ -89,6 +90,7 @@ function makeGetGameArticles(_gameSelector = null) {
             gameArticles.push({
               id: articleId,
               title: articles[articleId] ? articles[articleId].title : null,
+              cover: articles[articleId] ? articles[articleId].cover : null
             });
           }
         });

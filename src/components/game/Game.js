@@ -25,20 +25,14 @@ import CommonAssets from '../../inline-styles/CommonAssets';
 function screenshot({ url, alt }) {
   const src = url.indexOf('http') >= 0 ? url : `https://${url}`;
   return (
-    <Carousel.Item key={`${url}-carousel-item`} style={{}}>
-      <a href={src} key={`${url}-a`} style={{
-        display: 'flex',
-        width: '100%',
-      }}>
+    <Carousel.Item key={`${url}-carousel-item`}>
+      <a href={src} key={`${url}-a`} style={[ GameStyles.carouselScreenshotLink ]}>
         <img
           key={`${url}-image`}
           src={src}
           alt={alt}
-          style={{
-              maxWidth: '96vw',
-              maxHeight: '50vh',
-            margin: 'auto',
-          }}/>
+          style={[ GameStyles.carouselScreenshotImage ]}
+        />
       </a>
     </Carousel.Item>
   );
@@ -60,36 +54,17 @@ screenshot.defaultProps = {
  * @param {String} props.url
  * @returns {React.Component}
  */
-function link({ label, url, key }) {
+function link({ label, url, cover, key }) {
   return (
-    <Link key={`${key}-link`}
-        to={url}
-      style={{
-          textDecoration: 'none'
-    }}>
-    <div style={{
-      borderRadius: '4px',
-      overflow: 'hidden'
-    }}>
-      <div key={key} style={{
-        background: 'rgba(238, 238, 238, 0.45)',
-        color: '#333',
-        transition: 'background 0.1s, color 0.1s',
-        ':hover': {
-          background: '#595959',
-          color: '#f9f9f9',
-          padding: '0px 10px 0px 10px',
-          margin: '0px -10px 0px -10px',
-        }
-      }}>
-        <ListGroupItem
-          key={`${key}-listGroupItem`}
-          style={{
-            background: 'none',
-        }}>
-          {label}
-      </ListGroupItem>
-    </div></div></Link>
+    <Link key={`${key}-link`} to={url} style={ GameStyles.minigridLink }>
+      <div key={`${key}-minicard`} style={[ GameStyles.minicard(cover) ]}>
+        <div style={[ GameStyles.minicardTextArea ]}>
+          <p style={[ GameStyles.minicardParagraph ]}>
+            {label}
+          </p>
+        </div>
+      </div>
+    </Link>
   );
 }
 
@@ -176,70 +151,27 @@ class Game extends React.Component {
             CommonAssets.fillBackground,
           ]}
         />
-        <div style={{
-          position: 'fixed',
-          top: '0',
-          height: '100%',
-          width: '100%',
-          display: 'flex',
-          flexDirection: 'column',
-          overflow: 'hidden',
-          zIndex: '-150',
-          }}
-        >
-          <img
-            src={coverURL}
-            style={{
-            width: '10%',
-            height: '10%',
-            imageRendering: 'pixelated',
-            filter: 'saturate(250%) blur(2px)',
-            display: 'block',
-            position: 'relative',
-            margin: 'auto',
-            transform: 'perspective(800px) translate3d(0, 0, 760px) scale(2)',
-            zIndex: '-5',
-            }}
-          />
+        <div style={[ GameStyles.blurBackgroundBefore ]}>
+          <img src={coverURL} style={[ GameStyles.blurBackgroundImage ]}/>
         </div>
-        <div style={{
-          padding: '20px 2% 20px 2%'
-        }}>
-          <Jumbotron style={{
-            padding: '2% 2% 2% 2%',
-            margin: 'auto',
-            maxWidth: '98%',
-            display: 'flex',
-            flexDirection: 'column',
-            borderRadius: '4px',
-            backgroundColor: 'rgba(238, 238, 238, 0.8)'
-          }}>
+        <div style={[ GameStyles.backgroundBorder ]}>
+          <Jumbotron style={ GameStyles.jumbotron }>
 
             <div style={{}}>
-              <div style={{
-                fontSize: 'calc(24px + 2.0vw)'
-              }}>
+              <div style={[ GameStyles.titleText ]}>
                 {this.props.name}
               </div>
             </div>
             <div>
-              <div style={{
-                fontSize: 'calc(16px + 0.75vw)'
-              }}>
+              <div style={[ GameStyles.releaseDate ]}>
                 Released {this.props.release}
               </div>
             </div>
-            <div style={{display: 'flex'}}>
-              <div style={{
-                fontSize: 'calc(16px + 0.5vw)'
-              }}>
+            <div style={[ GameStyles.genreCluster ]}>
+              <div style={[ GameStyles.genreIndicator ]}>
                 Genres:&nbsp;
               </div>
-              <div style={{
-                fontSize: 'calc(16px + 0.5vw)',
-                display: 'flex',
-                flexWrap: 'wrap'
-              }}>
+              <div style={[ GameStyles.genreLabelGroup ]}>
                 {
                   this.props.genres.map((genre) => {
                     return (
@@ -254,150 +186,86 @@ class Game extends React.Component {
                 }
               </div>
             </div>
-            <Carousel
-              style={{
-                margin: '2% -2% 2% -2%',
-                width: '104%',
-                backgroundColor: 'black',
-                overflow: 'hidden',
-              }}>
+            <Carousel style={ GameStyles.carousel }>
               <Carousel.Item>
-                <a href={coverURL} style={{
-                  display: 'flex',
-                  width: '100%'
-                }}>
+                <a href={coverURL} style={[ GameStyles.carouselCoverLink ]}>
                   <img
                     src={coverURL}
                     alt={this.props.name}
-                    style={{
-                      maxWidth: '96vw',
-                      maxHeight: '50vh',
-                      margin: 'auto'
-                    }}
+                    style={[ GameStyles.carouselCoverImage ]}
                   />
                 </a>
               </Carousel.Item>
-              {
-                screenshots.map(_screenshot => screenshot(_screenshot))
-              }
+                {
+                  screenshots.map(_screenshot => screenshot(_screenshot))
+                }
             </Carousel>
-
-            <div style={{
-              display: 'flex',
-              flexDirection: 'row',
-              justifyContent: 'space-between'
-            }}>
-              <div style={{
-                display: 'flex',
-                flexDirection: 'row'
-              }}>
-                <div style={{
-                  fontSize: 'calc(14px + 0.5vw)'
-                }}>
+            <div style={[ GameStyles.secondaryDataCluster ]}>
+              <div style={[ GameStyles.priceCluster ]}>
+                <div style={[ GameStyles.priceIndicator ]}>
                   {price != null ? 'Price:' : ''}&nbsp;
                 </div>
-                <div style={{
-                  fontSize: 'calc(14px + 0.5vw)',
-                  color: '#00884b'
-                }}>
+                <div style={[ GameStyles.priceTag ]}>
                   {price != null ? `${price}` : 'Priceless'}
                 </div>
               </div>
             </div>
-            <hr style={{
-               borderTop: '1px dotted #333333',
-               opacity: '0.5',
-               width: '100%',
-            }} />
+            <hr style={[ GameStyles.horizontalRule ]} />
             <div>
-              <div style={{
-                fontSize: 'calc(16px + 0.75vw)'
-              }}>
+              <div style={[ GameStyles.synoposisIndicator ]}>
                 Synoposis:
               </div>
-              <div style={{overflow: 'hidden'}}>
+              <div style={[ GameStyles.synoposisHTMLContainer ]}>
                 {ReactHTMLParser(this.props.summary)}
               </div>
             </div>
-            <hr style={{
-               borderTop: '1px dotted #333333',
-               opacity: '0.5',
-               width: '100%',
-            }} />
-            <div style={{
-              display: 'flex',
-              flexWrap: 'wrap',
-              justifyContent: 'space-around'
-            }}>
-              <div style={{
-                display: 'flex',
-                flexDirection: 'column',
-                maxWidth: '100%'
-              }}>
-                <div style={{
-                  fontSize: 'calc(16px + 0.75vw)'
-                }}>
+            <hr style={[ GameStyles.horizontalRule ]} />
+            <div style={[ GameStyles.externalGridCluster ]}>
+              <div style={[ GameStyles.developerGridCluster ]}>
+                <div style={[ GameStyles.developerIndicator ]}>
                   Developers:
                 </div>
-                <ListGroup style={{
-                  maxHeight: '70vh',
-                  overflow: 'scroll',
-                  borderRadius: '4px'
-                }}>
+                <div style={[ GameStyles.minigrid ]}>
                   {
                     this.props.developers.map(developer => link({
                       label: developer.name,
                       url: `/developers/${developer.id}`,
+                      cover: developer.logo,
                       key: `developer-${developer.id}`,
                     }))
                   }
-                </ListGroup>
+                </div>
               </div>
-              <div style={{
-                display: 'flex',
-                flexDirection: 'column',
-                maxWidth: '100%'
-              }}>
-                <div style={{
-                  fontSize: 'calc(16px + 0.75vw)'
-                }}>
+              <div style={[ GameStyles.articleGridCluster ]}>
+                <div style={[ GameStyles.articleIndicator ]}>
                   Articles:
                 </div>
-                <ListGroup style={{
-                  maxHeight: '70vh',
-                  overflow: 'scroll',
-                  borderRadius: '4px'
-                }}>
+                <div style={[ GameStyles.minigrid ]}>
                   {
                     this.props.articles.map(article => link({
                       label: article.title,
                       url: `/articles/${article.id}`,
+                      cover: article.cover,
                       key: `article-${article.id}`,
                     }))
                   }
-                </ListGroup>
+                </div>
               </div>
             </div>
             <div>
-              <div style={{
-                fontSize: 'calc(16px + 0.75vw)'
-              }}>
+              <div style={[ GameStyles.twitterIndicator ]}>
                 Twitter:
               </div>
               <p>Twitter is not available in your country.</p>
             </div>
             <div>
-              <div style={{
-                fontSize: 'calc(16px + 0.75vw)'
-              }}>
+              <div style={[ GameStyles.youtubeIndicator ]}>
                 YouTube:
               </div>
               <p>This video is not available in your country.</p>
             </div>
             <div>
-              <div style={{
-                fontSize: 'calc(16px + 0.75vw)'
-              }}>
+              <div style={[ GameStyles.twitchIndicator ]}>
                 Twitch:
               </div>
               <p>Twitch is not available in your country.</p>
