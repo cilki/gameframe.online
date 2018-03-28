@@ -217,12 +217,83 @@ const InstanceDetails = {
 
   twitchIndicator: {
     fontSize: 'calc(16px + 0.75vw)'
-  }
+  },
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * DEVELOPER-SPECIFIC ELEMENTS                                               *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
+  developerPrimaryDataCluster: {
+    display: 'flex',
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'space-around'
+  },
+
+  developerLogo: {
+    flexGrow: '0',
+    marginLeft: '-2%',
+    marginTop: '-2%',
+    marginRight: '2%',
+    display: 'block',
+    height: 'calc(45.6px + 9.12vw)',
+    maxWidth: '100%'
+  },
+
+  developerLogoImageBoundingBox: {
+    maxHeight: 'calc(45.6px + 9.12vw)',
+    borderBottomRightRadius: `${cornerRadius}`,
+    maxWidth: '100%',
+    objectFit: 'scale-down'
+  },
+
+  developerLogoImage: {
+    height: 'calc(45.6px + 9.12vw)',
+    width: 'auto',
+    borderBottomRightRadius: `${cornerRadius}`,
+    borderTopLeftRadius: `${cornerRadius}`
+  },
+
+  developerPrimaryInfoCluster: {
+    flexGrow: '2',
+    display: 'flex',
+    flexDirection: 'column',
+    flexWrap: 'wrap',
+    margin: 'auto',
+    justifyContent: 'flex-end'
+  },
+
+  establishDateIndicator: {
+    fontSize: 'calc(10px + 1.0vw)'
+  },
+
+  locationIndicator: {
+    fontSize: 'calc(10px + 1.0vw)'
+  },
+
+  bigButtonCluster: {
+    marginTop: '1.5%',
+    display: 'flex',
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    fontSize: 'calc(16px + 0.75vw)',
+    justifyContent: 'space-around'
+  },
+
+  bigButton: {
+    margin: 'auto',
+    padding: '0.5em 1em 0.5em 1em',
+    textDecoration: 'none',
+    color: '#eeeeee',
+    backgroundColor: 'rgba(51, 51, 51, 0.85)',
+    transition: 'all 0.2s',
+    borderRadius: `${cornerRadius}`,
+    border: '1px solid #333333',
+    ':hover': {
+      color: '#333333',
+      backgroundColor: 'rgba(238, 238, 238, 0.2)'
+    }
+  },
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * ARTICLE-SPECIFIC ELEMENTS                                                 *

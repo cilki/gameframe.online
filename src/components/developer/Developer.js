@@ -8,7 +8,8 @@ import Radium from 'radium';
 import { Label, ListGroup, ListGroupItem } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import DeveloperStyles from './DeveloperStyles';
-import InstanceDetails from '../InstanceDetails';
+import InstanceDetails from '../instance-details/InstanceDetails';
+import InstanceDetailsStyles from '../instance-details/InstanceDetailsStyles';
 import CommonAssets from '../../inline-styles/CommonAssets';
 
 /**
@@ -18,13 +19,17 @@ import CommonAssets from '../../inline-styles/CommonAssets';
  * @param {String} name
  * @returns {React.Component}
  */
-function link({ label, url, key }) {
+function link({ label, url, cover, key }) {
   return (
-    <ListGroupItem key={key}>
-      <Link to={url} style={{ textDecoration: 'none' }}>
-        <Label>{label}</Label>
-      </Link>
-    </ListGroupItem>
+    <Link key={`${key}-link`} to={url} style={ InstanceDetailsStyles.minigridLink }>
+      <div key={`${key}-minicard`} style={[ InstanceDetailsStyles.minicard(cover) ]}>
+        <div style={[ InstanceDetailsStyles.minicardTextArea ]}>
+          <p style={[ InstanceDetailsStyles.minicardParagraph ]}>
+            {label}
+          </p>
+        </div>
+      </div>
+    </Link>
   );
 }
 
@@ -102,74 +107,70 @@ class Developer extends React.Component {
     const country = this.iso.whereNumeric(countryNumber);
     const countryName = country ? country.country : 'Unknown';
     return (
-      <div>
-        <div style={[
-            CommonAssets.stripeOverlay,
-            CommonAssets.fillBackground,
-          ]}
-        />
-        <InstanceDetails
-          style={{
-            container: DeveloperStyles.container(logoURL),
-            border: DeveloperStyles.border,
-            jumboTron: DeveloperStyles.jumboTron,
-          }}
-        >
-          <div>
-            <div style={[DeveloperStyles.logo]}>
+      <InstanceDetails imageURL={logoURL}>
+        <div style={[ InstanceDetailsStyles.developerPrimaryDataCluster ]}>
+          <div style={[ InstanceDetailsStyles.developerLogo ]}>
+            <div style={[ InstanceDetailsStyles.developerLogoImageBoundingBox ]}>
               <img
-                style={{ maxWidth: '100%', maxHeight: '100%' }}
+                style={[ InstanceDetailsStyles.developerLogoImage ]}
                 src={logoURL}
                 alt={`${this.props.name} logo`}
               />
             </div>
-            <h1 style={[DeveloperStyles.name]}>{this.props.name}
-              <div style={[DeveloperStyles.secondaryInfo]}>
-                <p style={[DeveloperStyles.infoPart]}>Established: {established}</p>
-                <p style={[DeveloperStyles.infoPart]}>Location: {countryName}</p>
-                <p style={[DeveloperStyles.infoPart]}>
-                  Website: <a href={this.props.website}>{this.props.website}</a>
-                </p>
-              </div>
-            </h1>
           </div>
-          <div style={[DeveloperStyles.games]}>
-            <h3>Games:</h3>
-            {
-              this.props.games.length > 0 &&
-              <span>
-                <ListGroup>
-                  {
-                    this.props.games.map(game => link({
-                      label: game.name,
-                      url: `/games/${game.id}`,
-                      key: `game-${game.id}`,
-                    }))
-                  }
-                </ListGroup>
-              </span>
-            }
+          <div style={[ InstanceDetailsStyles.developerPrimaryInfoCluster ]}>
+            <div style={[ InstanceDetailsStyles.titleText ]}>
+              {this.props.name}
+            </div>
+            <div style={[ InstanceDetailsStyles.establishDateIndicator ]}>
+            {established != 'Unknown' ? `Established ${established}` : 'Unknown date of establishment.'}
+            </div>
+            <div style={[ InstanceDetailsStyles.locationIndicator ]}>
+              {countryName != 'Unknown' ? `Based in ${countryName}` : 'Unkown location.'}
+            </div>
           </div>
-
-          <div style={[DeveloperStyles.articles]}>
-            <h3>Articles:</h3>
-            {
-              this.props.articles.length > 0 &&
-              <span>
-                <ListGroup>
-                  {
-                    this.props.articles.map(article => link({
-                      label: article.title,
-                      url: `/articles/${article.id}`,
-                      key: `article-${article.id}`,
-                    }))
-                  }
-                </ListGroup>
-              </span>
-            }
+        </div>
+        <div style={[ InstanceDetailsStyles.bigButtonCluster ]}>
+          <a href={this.props.website} style={[ InstanceDetailsStyles.bigButton ]} key='website'>
+            Developer Website
+          </a>
+          <a href={this.props.twitter} style={[ InstanceDetailsStyles.bigButton ]} key='twitter'>
+            Developer Twitter
+          </a>
+        </div>
+        <div style={[ InstanceDetailsStyles.externalGridCluster ]}>
+          <div style={[ InstanceDetailsStyles.developerGridCluster ]}>
+            <div style={[ InstanceDetailsStyles.developerIndicator ]}>
+              Games:
+            </div>
+            <div style={[ InstanceDetailsStyles.minigrid ]}>
+              {
+                this.props.games.map(game => link({
+                  label: game.name,
+                  url: `/games/${game.id}`,
+                  cover: game.cover,
+                  key: `game-${game.id}`,
+                }))
+              }
+            </div>
           </div>
-        </InstanceDetails>
-      </div>
+          <div style={[ InstanceDetailsStyles.articleGridCluster ]}>
+            <div style={[ InstanceDetailsStyles.articleIndicator ]}>
+              Articles:
+            </div>
+            <div style={[ InstanceDetailsStyles.minigrid ]}>
+              {
+                this.props.articles.map(article => link({
+                  label: article.title,
+                  url: `/articles/${article.id}`,
+                  cover: article.cover,
+                  key: `article-${article.id}`,
+                }))
+              }
+            </div>
+          </div>
+        </div>
+      </InstanceDetails>
     );
   }
 }
