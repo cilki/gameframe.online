@@ -4,14 +4,12 @@
 
 import React from 'react';
 import Radium from 'radium';
-import {
-  Navbar, Nav, NavItem, FormGroup,
-  FormControl, Button, Glyphicon,
-} from 'react-bootstrap';
+import { Navbar, Nav, NavItem } from 'react-bootstrap';
 
 import { Link } from 'react-router-dom';
 import { LinkContainer } from 'react-router-bootstrap';
 import NavbarStyles from '../inline-styles/NavbarStyles';
+import Search from './Search';
 
 /**
  * @description - Function that generates a LinkContainer for the Navbar
@@ -106,14 +104,7 @@ function NavBar() {
           }
         </Nav>
         <Navbar.Form pullRight>
-          <FormGroup>
-            <div style={{ display: 'flex' }}>
-              <FormControl type="text" placeholder="Search" style={NavbarStyles.formControl} />
-              <Button style={NavbarStyles.button}>
-                <Glyphicon glyph="search" />
-              </Button>
-            </div>
-          </FormGroup>
+          <Search />
           {' '}
         </Navbar.Form>
       </Navbar.Collapse>
