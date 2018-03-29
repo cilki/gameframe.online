@@ -148,7 +148,7 @@ class Developer extends React.Component {
                 this.props.games.map(game => link({
                   label: game.name,
                   url: `/games/${game.id}`,
-                  cover: game.cover,
+                  cover: (game.cover && game.cover.indexOf('http') < 0 ? `https://${game.cover}` : game.cover),
                   key: `game-${game.id}`,
                 }))
               }

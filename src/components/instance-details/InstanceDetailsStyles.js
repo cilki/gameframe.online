@@ -187,6 +187,7 @@ const InstanceDetails = {
     height: '100%',
     borderRadius: `${cornerRadius}`,
     backgroundImage: `url(${cover})`,
+    backgroundColor: 'rgba(0, 0, 0, 0.7)',
     backgroundSize: 'cover',
     backgroundPosition: 'center',
     transition: 'all 0.2s',
