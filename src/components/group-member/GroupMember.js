@@ -47,10 +47,10 @@ class GroupMember extends React.Component {
   }
 
   render() {
-    const thumbnail = Styles.thumbnail;
+    const member = Styles.member;
     return (
       <Col lg={4} md={6} sm={6}>
-        <Thumbnail src={this.props.avatar} style={thumbnail}>
+        <Thumbnail src={this.props.avatar} style={member}>
           <h3 style={[Styles.title]}>{this.props.name}</h3>
           <p style={[Styles.text]}><strong>Bio: </strong>{this.props.bio}</p>
           <p style={[Styles.text]}><strong>Responsibilities: </strong>{this.props.responsibilities}</p>

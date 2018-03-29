@@ -67,7 +67,7 @@ class AboutPage extends React.Component {
   renderTools() {
     const toolRows = [];
     const rowLength = 4;
-    const thumbnail = Styles.thumbnail;
+    const t = Styles.tool;
     for (let toolCounter = 0; toolCounter * rowLength < this.props.tools.length; ++toolCounter) {
       toolRows.push(<Row key={`tool-row-${toolCounter}`}>
         {
@@ -82,7 +82,7 @@ class AboutPage extends React.Component {
                   md={3}
                   sm={3}
                 >
-                  <Thumbnail src={tool.cover} style={thumbnail}>
+                  <Thumbnail src={tool.cover} style={t}>
                     <h3 style={[Styles.title]}>{tool.name}</h3>
                     <p style={[Styles.text]}><strong>Phase: </strong>{tool.phase}</p>
                     <p style={[Styles.text]}>{tool.usage}</p>
@@ -99,7 +99,7 @@ class AboutPage extends React.Component {
   render() {
     const tools = this.renderTools();
     const container = Styles.container;
-    const thumbnail = Styles.thumbnail;
+    const info = Styles.info;
 
     return (
       <div style={[Styles.main]}>
@@ -143,7 +143,7 @@ class AboutPage extends React.Component {
                     
                     <Row>
                       <Col md={4} sm={4}>
-                        <Thumbnail src={''} style={thumbnail}>
+                        <Thumbnail src={''} style={info}>
                           <h2 style={[Styles.title]}><strong>Team Stats</strong></h2>
                           <p style={[Styles.text]}><strong>Commits: </strong>{this.props.totalCommits}</p>
                           <p style={[Styles.text]}><strong>Issues: </strong>{this.props.totalIssues}</p>
@@ -151,7 +151,7 @@ class AboutPage extends React.Component {
                         </Thumbnail>
                       </Col>
                       <Col md={4} sm={4}>
-                        <Thumbnail src={''} style={thumbnail}>
+                        <Thumbnail src={''} style={info}>
                           <h2 style={[Styles.title]}><strong>Source and Documentation</strong></h2>
                           <a href="https://github.com/cilki/gameframe.online"><p style={[Styles.text]}>GitHub</p></a>
                           <a href="https://cilki.gitbooks.io/report/"><p style={[Styles.text]}>Technical Report</p></a>
@@ -159,7 +159,7 @@ class AboutPage extends React.Component {
                         </Thumbnail>
                       </Col>
                       <Col md={4} sm={4}>
-                        <Thumbnail style={thumbnail}>
+                        <Thumbnail style={info}>
                           <h2 style={[Styles.title]}><strong>Data Sources</strong></h2>
                           <a href="https://www.igdb.com/api"><p style={[Styles.text]}>IGDB</p></a>
                           <a href="https://newsapi.org/"><p style={[Styles.text]}>News API</p></a>
@@ -184,7 +184,6 @@ class AboutPage extends React.Component {
                     
                     <Row>
                       <h2 style={[Styles.title]}><strong>Tools</strong></h2>
-                      <br />
                     </Row>
                     {tools}
                   </Grid>
