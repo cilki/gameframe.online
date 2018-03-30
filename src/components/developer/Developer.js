@@ -4,7 +4,7 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import Radium from 'radium';
+import Radium, {StyleRoot} from 'radium';
 import { Label, ListGroup, ListGroupItem } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import DeveloperStyles from './DeveloperStyles';
@@ -107,6 +107,7 @@ class Developer extends React.Component {
     const country = this.iso.whereNumeric(countryNumber);
     const countryName = country ? country.country : 'Unknown';
     return (
+      <StyleRoot>
       <InstanceDetails imageURL={logoURL}>
         <div style={[ InstanceDetailsStyles.developerPrimaryDataCluster ]}>
           <div style={[ InstanceDetailsStyles.developerLogo ]}>
@@ -171,6 +172,7 @@ class Developer extends React.Component {
           </div>
         </div>
       </InstanceDetails>
+      </StyleRoot>
     );
   }
 }

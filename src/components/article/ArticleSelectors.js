@@ -50,6 +50,7 @@ function makeGetArticleDevelopers(_articleSelector = null) {
             articleDevelopers.push({
               id: developerId,
               name: developers[developerId] ? developers[developerId].name : null,
+              logo: developers[developerId] ? developers[developerId].logo : null,
             });
           }
         });
@@ -75,6 +76,7 @@ function makeGetArticleGames(_articleSelector = null) {
             articleGames.push({
               id: gameId,
               name: games[gameId] ? games[gameId].name : null,
+              cover: games[gameId] ? games[gameId].cover : null,
             });
           }
         });

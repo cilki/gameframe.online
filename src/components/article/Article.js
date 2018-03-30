@@ -168,7 +168,7 @@ class Article extends React.Component {
                   this.props.games.map(game => link({
                     label: game.name,
                     url: `/games/${game.id}`,
-                    cover: (game.cover && game.cover.indexOf('http') < 0 ? `https://${game.cover}` : game.logo),
+                    cover: (game.cover && game.cover.indexOf('http') < 0 ? `https://${game.cover}` : game.cover),
                     key: `game-${game.id}`,
                   }))
                 }
