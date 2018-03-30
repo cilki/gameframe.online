@@ -10,6 +10,8 @@ import { Link } from 'react-router-dom';
 import DeveloperStyles from './DeveloperStyles';
 import InstanceDetails from '../instance-details/InstanceDetails';
 import InstanceDetailsStyles from '../instance-details/InstanceDetailsStyles';
+import Minigrid from '../minigrid/Minigrid';
+import Minicard from '../minicard/Minicard';
 import CommonAssets from '../../inline-styles/CommonAssets';
 
 /**
@@ -21,15 +23,7 @@ import CommonAssets from '../../inline-styles/CommonAssets';
  */
 function link({ label, url, cover, key }) {
   return (
-    <Link key={`${key}-link`} to={url} style={ InstanceDetailsStyles.minigridLink }>
-      <div key={`${key}-minicard`} style={[ InstanceDetailsStyles.minicard(cover) ]}>
-        <div style={[ InstanceDetailsStyles.minicardTextArea ]}>
-          <p style={[ InstanceDetailsStyles.minicardParagraph ]}>
-            {label}
-          </p>
-        </div>
-      </div>
-    </Link>
+    <Minicard label={label} url={url} cover={cover} cardKey={`${key}-inner`} key={key}/>
   );
 }
 
@@ -144,7 +138,7 @@ class Developer extends React.Component {
             <div style={[ InstanceDetailsStyles.gameIndicator ]}>
               Games:
             </div>
-            <div style={[ InstanceDetailsStyles.minigrid ]}>
+            <Minigrid>
               {
                 this.props.games.map(game => link({
                   label: game.name,
@@ -153,13 +147,13 @@ class Developer extends React.Component {
                   key: `game-${game.id}`,
                 }))
               }
-            </div>
+            </Minigrid>
           </div>
           <div style={[ InstanceDetailsStyles.articleGridCluster ]}>
             <div style={[ InstanceDetailsStyles.articleIndicator ]}>
               Articles:
             </div>
-            <div style={[ InstanceDetailsStyles.minigrid ]}>
+            <Minigrid>
               {
                 this.props.articles.map(article => link({
                   label: article.title,
@@ -168,7 +162,7 @@ class Developer extends React.Component {
                   key: `article-${article.id}`,
                 }))
               }
-            </div>
+            </Minigrid>
           </div>
         </div>
       </InstanceDetails>

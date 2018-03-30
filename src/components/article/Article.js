@@ -12,6 +12,8 @@ import ArticleStyles from './ArticleStyles';
 import InstanceDetails from '../instance-details/InstanceDetails';
 import InstanceDetailsStyles from '../instance-details/InstanceDetailsStyles';
 import CommonAssets from '../../inline-styles/CommonAssets';
+import Minigrid from '../minigrid/Minigrid';
+import Minicard from '../minicard/Minicard';
 
 /**
  * @description - Helper method for rendering a link to a game or developer
@@ -22,15 +24,7 @@ import CommonAssets from '../../inline-styles/CommonAssets';
  */
 function link({ label, url, cover, key }) {
   return (
-    <Link key={`${key}-link`} to={url} style={ InstanceDetailsStyles.minigridLink }>
-      <div key={`${key}-minicard`} style={[ InstanceDetailsStyles.minicard(cover) ]}>
-        <div style={[ InstanceDetailsStyles.minicardTextArea ]}>
-          <p style={[ InstanceDetailsStyles.minicardParagraph ]}>
-            {label}
-          </p>
-        </div>
-      </div>
-    </Link>
+    <Minicard label={label} url={url} cover={cover} key={key} />
   );
 }
 
@@ -148,7 +142,7 @@ class Article extends React.Component {
               <div style={[ InstanceDetailsStyles.developerIndicator ]}>
                 Developers:
               </div>
-              <div style={[ InstanceDetailsStyles.minigrid ]}>
+              <Minigrid>
                 {
                   this.props.developers.map(developer => link({
                     label: developer.name,
@@ -157,13 +151,13 @@ class Article extends React.Component {
                     key: `developer-${developer.id}`,
                   }))
                 }
-              </div>
+              </Minigrid>
             </div>
             <div style={[ InstanceDetailsStyles.gameGridCluster ]}>
               <div style={[ InstanceDetailsStyles.gameIndicator ]}>
                 Games:
               </div>
-              <div style={[ InstanceDetailsStyles.minigrid ]}>
+              <Minigrid>
                 {
                   this.props.games.map(game => link({
                     label: game.name,
@@ -172,7 +166,7 @@ class Article extends React.Component {
                     key: `game-${game.id}`,
                   }))
                 }
-              </div>
+              </Minigrid>
             </div>
           </div>
         </InstanceDetails>

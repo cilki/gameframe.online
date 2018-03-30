@@ -23,23 +23,23 @@ class InstanceDetails extends React.Component {
   render() {
     const imageURL = this.props.imageURL;
     return (
-    <React.Fragment>
-      <div style={[ InstanceDetailsStyles.main ]}>
-        <div style={[
-          CommonAssets.stripeOverlay,
-          CommonAssets.fillBackground
-        ]}/>
-        <div style={[ InstanceDetailsStyles.blurBackgroundBefore ]}>
-          <img src={imageURL} style={[ InstanceDetailsStyles.blurBackgroundImage ]}/>
+      <React.Fragment>
+        <div style={[ InstanceDetailsStyles.main ]}>
+          <div style={[
+            CommonAssets.stripeOverlay,
+            CommonAssets.fillBackground
+          ]}/>
+          <div style={[ InstanceDetailsStyles.blurBackgroundBefore ]}>
+            <img src={imageURL} style={[ InstanceDetailsStyles.blurBackgroundImage ]}/>
+          </div>
+          <div style={[ InstanceDetailsStyles.backgroundBorder ]}>
+            <Jumbotron style={ InstanceDetailsStyles.jumbotron }>
+              {this.props.children}
+            </Jumbotron>
+          </div>
         </div>
-        <div style={[ InstanceDetailsStyles.backgroundBorder ]}>
-          <Jumbotron style={ InstanceDetailsStyles.jumbotron }>
-            {this.props.children}
-          </Jumbotron>
-        </div>
-      </div>
-    </React.Fragment>
-      );
+      </React.Fragment>
+    );
   }
 }
 
