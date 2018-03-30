@@ -300,7 +300,85 @@ const InstanceDetails = {
  * ARTICLE-SPECIFIC ELEMENTS                                                 *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
+  articlePrimaryDataCluster: {
+    display: 'flex',
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'space-around'
+  },
 
+  articleCover: {
+    flexGrow: '0',
+    marginLeft: '-2%',
+    marginTop: '-2%',
+    marginRight: '2%',
+    display: 'block',
+    height: 'calc(57px + 16.12vw)',
+    maxWidth: '100%',
+    '@media screen and (max-width: 668px)': {
+        height: '100%',
+        margin: 'auto',
+    }
+  },
+
+  articleCoverImageBoundingBox: {
+    maxHeight: 'calc(57px + 16.12vw)',
+    borderBottomRightRadius: `${cornerRadius}`,
+    maxWidth: '100%',
+    objectFit: 'scale-down',
+    '@media screen and (max-width: 668px)': {
+        borderBottomRightRadius: '0',
+        maxHeight: '100%',
+        margin: 'auto',
+        objectFit: 'revert'
+    }
+  },
+
+  articleCoverImage: {
+    height: 'calc(57px + 16.12vw)',
+    width: 'auto',
+    borderBottomRightRadius: `${cornerRadius}`,
+    borderTopLeftRadius: `${cornerRadius}`,
+    '@media screen and (max-width: 668px)': {
+        borderRadius: `${cornerRadius}`,
+        width: '100%',
+        height: '100%',
+    }
+  },
+
+  articlePrimaryInfoCluster: {
+    flexGrow: '1',
+    display: 'flex',
+    flexDirection: 'column',
+    flexWrap: 'wrap',
+    flexBasis: '450px',
+    margin: 'auto',
+    minWidth: '450px',
+    justifyContent: 'flex-end',
+    '@media screen and (max-width: 500px)': {
+        minWidth: '100%'
+    }
+  },
+
+  authorIndicator: {
+    fontSize: 'calc(10px + 1.0vw)'
+  },
+
+  publishDateIndicator: {
+    fontSize: 'calc(10px + 1.0vw)'
+  },
+
+  outletIndicator: {
+    fontSize: 'calc(10px + 1.0vw)'
+  },
+
+  gameGridCluster: {
+    flexGrow: '0'
+  },
+
+  gameIndicator: {
+    fontSize: 'calc(16px + 0.75vw)'
+  },
 };
 
 export default InstanceDetails;

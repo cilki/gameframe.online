@@ -139,8 +139,8 @@ class Developer extends React.Component {
           </a>
         </div>
         <div style={[ InstanceDetailsStyles.externalGridCluster ]}>
-          <div style={[ InstanceDetailsStyles.developerGridCluster ]}>
-            <div style={[ InstanceDetailsStyles.developerIndicator ]}>
+          <div style={[ InstanceDetailsStyles.gameGridCluster ]}>
+            <div style={[ InstanceDetailsStyles.gameIndicator ]}>
               Games:
             </div>
             <div style={[ InstanceDetailsStyles.minigrid ]}>

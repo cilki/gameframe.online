@@ -4,11 +4,13 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import Radium from 'radium';
+import Radium, {StyleRoot} from 'radium';
 import { Label, ListGroup, ListGroupItem } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
+import ReactHTMLParser from 'react-html-parser';
 import ArticleStyles from './ArticleStyles';
-import InstanceDetails from '../InstanceDetails';
+import InstanceDetails from '../instance-details/InstanceDetails';
+import InstanceDetailsStyles from '../instance-details/InstanceDetailsStyles';
 import CommonAssets from '../../inline-styles/CommonAssets';
 
 /**
@@ -18,13 +20,17 @@ import CommonAssets from '../../inline-styles/CommonAssets';
  * @param {String} props.url
  * @returns {React.Component}
  */
-function link({ label, url, key }) {
+function link({ label, url, cover, key }) {
   return (
-    <ListGroupItem key={key}>
-      <Link to={url} style={{ textDecoration: 'none' }}>
-        <Label>{label}</Label>
-      </Link>
-    </ListGroupItem>
+    <Link key={`${key}-link`} to={url} style={ InstanceDetailsStyles.minigridLink }>
+      <div key={`${key}-minicard`} style={[ InstanceDetailsStyles.minicard(cover) ]}>
+        <div style={[ InstanceDetailsStyles.minicardTextArea ]}>
+          <p style={[ InstanceDetailsStyles.minicardParagraph ]}>
+            {label}
+          </p>
+        </div>
+      </div>
+    </Link>
   );
 }
 
@@ -92,83 +98,85 @@ class Article extends React.Component {
     const articleURL = this.props.article_link && this.props.article_link.indexOf('http') < 0 ?
       `http://${this.props.article_link}` : this.props.article_link;
     return (
-      <div>
-        <div
-          style={[
-            CommonAssets.stripeOverlay,
-            CommonAssets.fillBackground,
-          ]}
-        />
-        <InstanceDetails
-          style={{
-            container: ArticleStyles.container(coverURL),
-            border: ArticleStyles.border,
-            jumboTron: ArticleStyles.jumboTron,
-          }}
-        >
-          <div>
-            <div style={[ArticleStyles.logo]}>
-              <img
-                style={{ maxWidth: '100%', maxHeight: '100%' }}
-                src={coverURL}
-                alt={`${this.props.author} thumbnail`}
-              />
-            </div>
-            <h1 style={[ArticleStyles.title]}>{this.props.title}
-              <div style={[ArticleStyles.secondaryInfo]}>
-                <p style={[ArticleStyles.infoPart]}>Author: {this.props.author}</p>
-                <p style={[ArticleStyles.infoPart]}>Published: {this.props.timestamp}</p>
-                <p style={[ArticleStyles.infoPart]}>Outlet: <a href={outletURL}>{outletURL}</a></p>
+      <StyleRoot>
+        <InstanceDetails imageURL={coverURL}>
+          <div style={[ InstanceDetailsStyles.articlePrimaryDataCluster ]}>
+            <div style={[ InstanceDetailsStyles.articleCover  ]}>
+              <div style={[ InstanceDetailsStyles.articleCoverImageBoundingBox ]}>
+                <a href={coverURL}>
+                  <img
+                    style={[ InstanceDetailsStyles.articleCoverImage ]}
+                    src={coverURL}
+                    alt={`${this.props.title} cover`}
+                  />
+                </a>
               </div>
-            </h1>
-            <div style={[ArticleStyles.summary]}>
+            </div>
+            <div style={[ InstanceDetailsStyles.articlePrimaryInfoCluster ]}>
+              <div style={[ InstanceDetailsStyles.titleText ]}>
+                {this.props.title}
+              </div>
+              <div style={[ InstanceDetailsStyles.authorIndicator ]}>
+                {this.props.author ? `Written by ${this.props.author}` : 'Unknown author.'}
+              </div>
+              <div style={[ InstanceDetailsStyles.publishDateIndicator ]}>
+                {this.props.timestamp ? `Published ${this.props.timestamp}` : 'Unknown publication date.'}
+              </div>
+            </div>
+          </div>
+          <hr style={[ InstanceDetailsStyles.horizontalRule ]} />
+          <div>
+            <div style={[ InstanceDetailsStyles.synoposisIndicator ]}>
+              Introduction:
+            </div>
+            <div style={[ InstanceDetailsStyles.synoposisHTMLContainer ]}>
               {/* TODO: We can do better than this. There are existing libraries to put in HTML */}
-              <p dangerouslySetInnerHTML={{ __html: this.props.introduction }} style={{ marginBottom: '0px' }} /> {/* eslint-disable-line */}
+              {ReactHTMLParser(this.props.introduction)}
             </div>
-            <div>
-              <a href={articleURL}>
-                <h2 style={{ paddingLeft: '2%', marginTop: '0px' }}>Read More...</h2>
-              </a>
+          </div>
+          <hr style={[ InstanceDetailsStyles.horizontalRule ]} />
+          <div style={[ InstanceDetailsStyles.bigButtonCluster ]}>
+            <a href={articleURL} style={[ InstanceDetailsStyles.bigButton ]} key='articleURL'>
+              Original Article
+            </a>
+            <a href={outletURL} style={[ InstanceDetailsStyles.bigButton ]} key='outletURL'>
+              Outlet Website
+            </a>
+          </div>
+          <div style={[ InstanceDetailsStyles.externalGridCluster ]}>
+            <div style={[ InstanceDetailsStyles.developerGridCluster ]}>
+              <div style={[ InstanceDetailsStyles.developerIndicator ]}>
+                Developers:
+              </div>
+              <div style={[ InstanceDetailsStyles.minigrid ]}>
+                {
+                  this.props.developers.map(developer => link({
+                    label: developer.name,
+                    url: `/developers/${developer.id}`,
+                    cover: (developer.logo && developer.logo.indexOf('http') < 0 ? `https://${developer.logo}` : developer.logo),
+                    key: `developer-${developer.id}`,
+                  }))
+                }
+              </div>
             </div>
-
-            <div style={[ArticleStyles.games]}>
-              <h3>Developers:</h3>
-              {
-                this.props.developers.length > 0 &&
-                <span>
-                  <ListGroup>
-                    {
-                      this.props.developers.map(developer => link({
-                        label: developer.name,
-                        url: `/developers/${developer.id}`,
-                        key: `developer-${developer.id}`,
-                      }))
-                    }
-                  </ListGroup>
-                </span>
-              }
-            </div>
-
-            <div style={[ArticleStyles.games]}>
-              <h3>Games:</h3>
-              {
-                this.props.games.length > 0 &&
-                <span>
-                  <ListGroup>
-                    {
-                      this.props.games.map(game => link({
-                        label: game.name,
-                        url: `/games/${game.id}`,
-                        key: `game-${game.id}`,
-                      }))
-                    }
-                  </ListGroup>
-                </span>
-              }
+            <div style={[ InstanceDetailsStyles.gameGridCluster ]}>
+              <div style={[ InstanceDetailsStyles.gameIndicator ]}>
+                Games:
+              </div>
+              <div style={[ InstanceDetailsStyles.minigrid ]}>
+                {
+                  this.props.games.map(game => link({
+                    label: game.name,
+                    url: `/games/${game.id}`,
+                    cover: (game.cover && game.cover.indexOf('http') < 0 ? `https://${game.cover}` : game.logo),
+                    key: `game-${game.id}`,
+                  }))
+                }
+              </div>
             </div>
           </div>
         </InstanceDetails>
-      </div>
+      </StyleRoot>
     );
   }
 }
