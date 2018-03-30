@@ -7,6 +7,7 @@ import PropTypes from 'prop-types';
 import Radium, {StyleRoot} from 'radium';
 import { Label, ListGroup, ListGroupItem } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
+import { Timeline } from 'react-twitter-widgets';
 import DeveloperStyles from './DeveloperStyles';
 import InstanceDetails from '../instance-details/InstanceDetails';
 import InstanceDetailsStyles from '../instance-details/InstanceDetailsStyles';
@@ -33,6 +34,20 @@ link.propTypes = {
   key: PropTypes.oneOf([PropTypes.string, PropTypes.number]).isRequired,
 };
 
+function twitter({twitterUsername}) {
+  return (
+    <Timeline
+      dataSource={{
+        sourceType: 'profile',
+        screenName: twitterUsername,
+      }}
+      options={{
+        username: twitterUsername,
+        height: '60vh'
+      }}
+    />
+  )
+}
 
 /**
  * @description - Returns the main component to render a developer's own
@@ -100,6 +115,8 @@ class Developer extends React.Component {
     const countryNumber = `${this.props.country}`;
     const country = this.iso.whereNumeric(countryNumber);
     const countryName = country ? country.country : 'Unknown';
+    const twitterHandle = typeof(this.props.twitter) == 'string' ? `${this.props.twitter}`.replace('https://twitter.com/', '') : '';
+    const twitterDummy = twitterHandle != '' ? [this.props.twitter] : [];
     return (
       <StyleRoot>
       <InstanceDetails imageURL={logoURL}>
@@ -164,6 +181,16 @@ class Developer extends React.Component {
               }
             </Minigrid>
           </div>
+        </div>
+        <div style={{
+          paddingTop: '2%',
+          maxWidth: '50%'
+        }}>
+            {
+                twitterDummy.map(twitterURL => twitter({
+                  twitterUsername: twitterHandle
+                }))
+             }
         </div>
       </InstanceDetails>
       </StyleRoot>

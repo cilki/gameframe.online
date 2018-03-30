@@ -8,7 +8,7 @@ import Radium from 'radium';
 import { Badge, Carousel, Jumbotron, Label, ListGroup, ListGroupItem } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import ReactHTMLParser from 'react-html-parser';
-
+import { Timeline } from 'react-twitter-widgets';
 import InstanceDetails from '../instance-details/InstanceDetails';
 import InstanceDetailsStyles from '../instance-details/InstanceDetailsStyles';
 import Minigrid from '../minigrid/Minigrid';
