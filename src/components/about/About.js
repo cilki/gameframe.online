@@ -4,7 +4,7 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Grid, Row, Col, Thumbnail, Jumbotron } from 'react-bootstrap';
+import { Grid, Row, Col, Jumbotron } from 'react-bootstrap';
 import Radium from 'radium';
 import Styles from './AboutStyles';
 import CommonAssets from '../../inline-styles/CommonAssets';
@@ -67,7 +67,6 @@ class AboutPage extends React.Component {
   renderTools() {
     const toolRows = [];
     const rowLength = 4;
-    const t = Styles.tool;
     for (let toolCounter = 0; toolCounter * rowLength < this.props.tools.length; ++toolCounter) {
       toolRows.push(<Row key={`tool-row-${toolCounter}`}>
         {
@@ -82,11 +81,14 @@ class AboutPage extends React.Component {
                   md={3}
                   sm={3}
                 >
-                  <Thumbnail src={tool.cover} style={t}>
-                    <h3 style={[Styles.title]}>{tool.name}</h3>
-                    <p style={[Styles.text]}><strong>Phase: </strong>{tool.phase}</p>
-                    <p style={[Styles.text]}>{tool.usage}</p>
-                  </Thumbnail>
+                  <div style={[Styles.cardPad]}>
+                    <div style={[Styles.cardTool, Styles.cardExpand]} key={`${tool.name}-card`}>
+                      <img src={tool.cover} style={[Styles.cardImage]}/>
+                      <h3 style={[Styles.title]}>{tool.name}</h3>
+                      <p style={[Styles.text]}><strong>Phase: </strong>{tool.phase}</p>
+                      <p style={[Styles.text]}>{tool.usage}</p>
+                    </div>
+                  </div>
                 </Col>
               );
             })
@@ -99,8 +101,6 @@ class AboutPage extends React.Component {
   render() {
     const tools = this.renderTools();
     const container = Styles.container;
-    const info = Styles.info;
-
     return (
       <div style={[Styles.main]}>
         <div style={[CommonAssets.fillBackground, CommonAssets.horizontalGradient]}/>
@@ -143,38 +143,44 @@ class AboutPage extends React.Component {
                     
                     <Row>
                       <Col md={4} sm={4}>
-                        <Thumbnail src={''} style={info}>
-                          <h2 style={[Styles.title]}><strong>Team Stats</strong></h2>
-                          <p style={[Styles.text]}><strong>Commits: </strong>{this.props.totalCommits}</p>
-                          <p style={[Styles.text]}><strong>Issues: </strong>{this.props.totalIssues}</p>
-                          <p style={[Styles.text]}><strong>Unit Tests: </strong>{this.props.totalUnitTests}</p>
-                        </Thumbnail>
+                        <div style={[Styles.cardPad]}>
+                          <div style={[Styles.cardInfo]}>
+                            <h2 style={[Styles.title]}><strong>Team Stats</strong></h2>
+                            <p style={[Styles.text]}><strong>Commits: </strong>{this.props.totalCommits}</p>
+                            <p style={[Styles.text]}><strong>Issues: </strong>{this.props.totalIssues}</p>
+                            <p style={[Styles.text]}><strong>Unit Tests: </strong>{this.props.totalUnitTests}</p>
+                          </div>
+                        </div>
                       </Col>
                       <Col md={4} sm={4}>
-                        <Thumbnail src={''} style={info}>
-                          <h2 style={[Styles.title]}><strong>Source and Documentation</strong></h2>
-                          <a href="https://github.com/cilki/gameframe.online"><p style={[Styles.text]}>GitHub</p></a>
-                          <a href="https://cilki.gitbooks.io/report/"><p style={[Styles.text]}>Technical Report</p></a>
-                          <a href="https://cilki.gitbooks.io/api/"><p style={[Styles.text]}>API Documentation</p></a>
-                        </Thumbnail>
+                        <div style={[Styles.cardPad]}>
+                          <div style={[Styles.cardInfo]}>
+                            <h2 style={[Styles.title]}><strong>Source and Documentation</strong></h2>
+                            <a href="https://github.com/cilki/gameframe.online"><p style={[Styles.text]}>GitHub</p></a>
+                            <a href="https://cilki.gitbooks.io/report/"><p style={[Styles.text]}>Technical Report</p></a>
+                            <a href="https://cilki.gitbooks.io/api/"><p style={[Styles.text]}>API Documentation</p></a>
+                          </div>
+                        </div>
                       </Col>
                       <Col md={4} sm={4}>
-                        <Thumbnail style={info}>
-                          <h2 style={[Styles.title]}><strong>Data Sources</strong></h2>
-                          <a href="https://www.igdb.com/api"><p style={[Styles.text]}>IGDB</p></a>
-                          <a href="https://newsapi.org/"><p style={[Styles.text]}>News API</p></a>
-                          <a href="https://developer.valvesoftware.com/wiki/Steam_Web_API"><p style={[Styles.text]}>Steam</p></a>
-                          <a href="https://developer.twitter.com/en/docs"><p style={[Styles.text]}>Twitter</p></a>
-                          <a href="https://developers.google.com/youtube/v3/docs/"><p style={[Styles.text]}>YouTube Data API</p></a>
-                          <p style={[Styles.text]}>
-                            {
-                              'For IGDB and Stream, we scraped data with a "GET" call on a range of ids. ' +
-                              'While, News API and YouTube Data API\'s data got scraped with a "GET" call ' +
-                              'on specific keywords related to games. Furthermore, Twitter feeds are fetched ' +
-                              ' by a plug-in that uses the name of a game as a keyword to get that game feed.'
-                            }
-                          </p>
-                        </Thumbnail>
+                        <div style={[Styles.cardPad]}>
+                          <div style={[Styles.cardInfo, Styles.cardExpand]}>
+                            <h2 style={[Styles.title]}><strong>Data Sources</strong></h2>
+                            <a href="https://www.igdb.com/api"><p style={[Styles.text]}>IGDB</p></a>
+                            <a href="https://newsapi.org/"><p style={[Styles.text]}>News API</p></a>
+                            <a href="https://developer.valvesoftware.com/wiki/Steam_Web_API"><p style={[Styles.text]}>Steam</p></a>
+                            <a href="https://developer.twitter.com/en/docs"><p style={[Styles.text]}>Twitter</p></a>
+                            <a href="https://developers.google.com/youtube/v3/docs/"><p style={[Styles.text]}>YouTube Data API</p></a>
+                            <p style={[Styles.text]}>
+                              {
+                                'For IGDB and Stream, we scraped data with a "GET" call on a range of ids. ' +
+                                'While, News API and YouTube Data API\'s data got scraped with a "GET" call ' +
+                                'on specific keywords related to games. Furthermore, Twitter feeds are fetched ' +
+                                ' by a plug-in that uses the name of a game as a keyword to get that game feed.'
+                              }
+                            </p>
+                          </div>
+                        </div>
                       </Col>
                     </Row>
                     

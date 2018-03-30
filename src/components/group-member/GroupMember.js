@@ -47,17 +47,19 @@ class GroupMember extends React.Component {
   }
 
   render() {
-    const member = Styles.member;
     return (
       <Col lg={4} md={6} sm={6}>
-        <Thumbnail src={this.props.avatar} style={member}>
-          <h3 style={[Styles.title]}>{this.props.name}</h3>
-          <p style={[Styles.text]}><strong>Bio: </strong>{this.props.bio}</p>
-          <p style={[Styles.text]}><strong>Responsibilities: </strong>{this.props.responsibilities}</p>
-          <p style={[Styles.text]}><strong>Commits: </strong>{this.props.commits}</p>
-          <p style={[Styles.text]}><strong>Issues: </strong>{this.props.issues}</p>
-          <p style={[Styles.text]}><strong>Unit Tests: </strong>{this.props.unitTests}</p>
-        </Thumbnail>
+        <div style={[Styles.cardPad]}>
+          <div style={[Styles.cardMember, Styles.cardExpand]} key={`${this.props.name}-card`}>
+            <img src={this.props.avatar} style={[Styles.cardImage]}/>
+            <h3 style={[Styles.title]}>{this.props.name}</h3>
+            <p style={[Styles.text]}><strong>Bio: </strong>{this.props.bio}</p>
+            <p style={[Styles.text]}><strong>Responsibilities: </strong>{this.props.responsibilities}</p>
+            <p style={[Styles.text]}><strong>Commits: </strong>{this.props.commits}</p>
+            <p style={[Styles.text]}><strong>Issues: </strong>{this.props.issues}</p>
+            <p style={[Styles.text]}><strong>Unit Tests: </strong>{this.props.unitTests}</p>
+          </div>
+        </div>
       </Col>
     );
   }
