@@ -53,12 +53,13 @@ class GroupMember extends React.Component {
           <div style={[Styles.cardMember, Styles.cardExpand]} key={`${this.props.name}-card`}>
             <img src={this.props.avatar} style={[Styles.cardImage]}/>
             <h3 style={[Styles.title]}>{this.props.name}</h3>
-            <p style={[Styles.text]}><strong>Bio: </strong>{this.props.bio}</p>
-            <p style={[Styles.text]}><strong>Responsibilities: </strong>{this.props.responsibilities}</p>
-            <p style={[Styles.text]}><strong>Commits: </strong>{this.props.commits}</p>
-            <p style={[Styles.text]}><strong>Issues: </strong>{this.props.issues}</p>
-            <p style={[Styles.text]}><strong>Unit Tests: </strong>{this.props.unitTests}</p>
+            <p style={[Styles.paragraph]}><strong>Bio: </strong>{this.props.bio}</p>
+            <p style={[Styles.paragraph]}><strong>Responsibilities: </strong>{this.props.responsibilities}</p>
+            <p style={[Styles.paragraph]}><strong>Commits: </strong>{this.props.commits}</p>
+            <p style={[Styles.paragraph]}><strong>Issues: </strong>{this.props.issues}</p>
+            <p style={[Styles.paragraph]}><strong>Unit Tests: </strong>{this.props.unitTests}</p>
           </div>
+          <img src={"../../../static/images/arrowDown.svg"} style={[Styles.cardArrow]}/>
         </div>
       </Col>
     );

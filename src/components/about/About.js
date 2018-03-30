@@ -85,9 +85,10 @@ class AboutPage extends React.Component {
                     <div style={[Styles.cardTool, Styles.cardExpand]} key={`${tool.name}-card`}>
                       <img src={tool.cover} style={[Styles.cardImage]}/>
                       <h3 style={[Styles.title]}>{tool.name}</h3>
-                      <p style={[Styles.text]}><strong>Phase: </strong>{tool.phase}</p>
-                      <p style={[Styles.text]}>{tool.usage}</p>
+                      <p style={[Styles.paragraph]}><strong>Phase: </strong>{tool.phase}</p>
+                      <p style={[Styles.paragraph]}>{tool.usage}</p>
                     </div>
+                    <img src={"../../../static/images/arrowDown.svg"} style={[Styles.cardArrow]}/>
                   </div>
                 </Col>
               );
@@ -113,8 +114,8 @@ class AboutPage extends React.Component {
                   style={[Styles.brand]}
                 />
       
-                <p style={[Styles.text]}>{this.props.description}</p>
-                <p style={[Styles.text]}>{this.props.explanation}</p>
+                <p style={[Styles.paragraph]}>{this.props.description}</p>
+                <p style={[Styles.paragraph]}>{this.props.explanation}</p>
                 
                 <div style={{padding: '0% 2% 0% 2%'}}>
                   <hr style={[Styles.hr]}/>
@@ -146,9 +147,9 @@ class AboutPage extends React.Component {
                         <div style={[Styles.cardPad]}>
                           <div style={[Styles.cardInfo]}>
                             <h2 style={[Styles.title]}><strong>Team Stats</strong></h2>
-                            <p style={[Styles.text]}><strong>Commits: </strong>{this.props.totalCommits}</p>
-                            <p style={[Styles.text]}><strong>Issues: </strong>{this.props.totalIssues}</p>
-                            <p style={[Styles.text]}><strong>Unit Tests: </strong>{this.props.totalUnitTests}</p>
+                            <p style={[Styles.paragraph]}><strong>Commits: </strong>{this.props.totalCommits}</p>
+                            <p style={[Styles.paragraph]}><strong>Issues: </strong>{this.props.totalIssues}</p>
+                            <p style={[Styles.paragraph]}><strong>Unit Tests: </strong>{this.props.totalUnitTests}</p>
                           </div>
                         </div>
                       </Col>
@@ -156,9 +157,9 @@ class AboutPage extends React.Component {
                         <div style={[Styles.cardPad]}>
                           <div style={[Styles.cardInfo]}>
                             <h2 style={[Styles.title]}><strong>Source and Documentation</strong></h2>
-                            <a href="https://github.com/cilki/gameframe.online"><p style={[Styles.text]}>GitHub</p></a>
-                            <a href="https://cilki.gitbooks.io/report/"><p style={[Styles.text]}>Technical Report</p></a>
-                            <a href="https://cilki.gitbooks.io/api/"><p style={[Styles.text]}>API Documentation</p></a>
+                            <a href="https://github.com/cilki/gameframe.online"><p style={[Styles.label]} key={"label-1"}>GitHub</p></a>
+                            <a href="https://cilki.gitbooks.io/report/"><p style={[Styles.label]} key={"label-2"}>Technical Report</p></a>
+                            <a href="https://cilki.gitbooks.io/api/"><p style={[Styles.label]} key={"label-3"}>API Documentation</p></a>
                           </div>
                         </div>
                       </Col>
@@ -166,12 +167,12 @@ class AboutPage extends React.Component {
                         <div style={[Styles.cardPad]}>
                           <div style={[Styles.cardInfo, Styles.cardExpand]}>
                             <h2 style={[Styles.title]}><strong>Data Sources</strong></h2>
-                            <a href="https://www.igdb.com/api"><p style={[Styles.text]}>IGDB</p></a>
-                            <a href="https://newsapi.org/"><p style={[Styles.text]}>News API</p></a>
-                            <a href="https://developer.valvesoftware.com/wiki/Steam_Web_API"><p style={[Styles.text]}>Steam</p></a>
-                            <a href="https://developer.twitter.com/en/docs"><p style={[Styles.text]}>Twitter</p></a>
-                            <a href="https://developers.google.com/youtube/v3/docs/"><p style={[Styles.text]}>YouTube Data API</p></a>
-                            <p style={[Styles.text]}>
+                            <a href="https://www.igdb.com/api"><p style={[Styles.label]} key={"label-4"}>IGDB</p></a>
+                            <a href="https://newsapi.org/"><p style={[Styles.label]} key={"label-5"}>News API</p></a>
+                            <a href="https://developer.valvesoftware.com/wiki/Steam_Web_API"><p style={[Styles.label]} key={"label-6"}>Steam</p></a>
+                            <a href="https://developer.twitter.com/en/docs"><p style={[Styles.label]} key={"label-7"}>Twitter</p></a>
+                            <a href="https://developers.google.com/youtube/v3/docs/"><p style={[Styles.label]} key={"label-8"}>YouTube Data API</p></a>
+                            <p style={[Styles.paragraph]}>
                               {
                                 'For IGDB and Stream, we scraped data with a "GET" call on a range of ids. ' +
                                 'While, News API and YouTube Data API\'s data got scraped with a "GET" call ' +
@@ -180,6 +181,7 @@ class AboutPage extends React.Component {
                               }
                             </p>
                           </div>
+                          <img src={"../../../static/images/arrowDown.svg"} style={[Styles.cardArrow]}/>
                         </div>
                       </Col>
                     </Row>
