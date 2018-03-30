@@ -64,7 +64,7 @@ function createFetchModels(
     return (dispatch, getState) => {
       if (predicate(getState(), pageNumber)) {
         dispatch(requestAction());
-        fetch(
+        return fetch(
           encodeURI(`http://api.gameframe.online/v1/${pathname}?page=${pageNumber}&results_per_page=${PAGE_SIZE}`),
           { method: 'GET' },
         )

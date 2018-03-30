@@ -45,7 +45,7 @@ class Games extends React.Component {
         {...rest}
       >
         {
-          this.props.models.map((game) => {
+          models.map((game) => {
             return (
               <Card
                 key={game.game_id}
