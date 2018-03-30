@@ -1,0 +1,11 @@
+Flask==0.12.2
+Flask-SQLAlchemy==2.3.2
+PyMySQL==0.8.0
+SQLAlchemy==1.2.5
+Wand==0.4.4
+boto3==1.6.17
+multi-key-dict==2.0.3
+newsapi-python==0.0.2
+ratelimit==1.4.1
+requests==2.18.4
+tqdm==4.19.8

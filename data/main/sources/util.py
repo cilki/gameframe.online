@@ -38,8 +38,17 @@ def condition_video(keyword):
     return condition_article(keyword).replace(" ", "+")
 
 
-def is_cached(cache_path, filename):
+def cond_game_name(name):
     """
-    Returns True if the given entry exists in the cache, False otherwise.
+    Condition a game name for matching
     """
-    return os.path.isfile("%s/%s" % (cache_path, filename))
+    return name.replace("™", "").replace("®", "").replace(":", "") \
+        .replace("-", "").replace(" +", " ")
+
+
+def xappend(collection, item):
+    """
+    Append to the given collection unless the item is already present
+    """
+    if item not in collection:
+        collection.append(item)

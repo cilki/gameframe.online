@@ -9,49 +9,43 @@ import sys
 from tqdm import tqdm
 
 from aws import upload_image
-from cache import load_working_set, name_game, name_developer
+from cache import WS, reload_working_set
 from orm import Genre, Platform
 from sources import igdb, newsapi, steam
 
 
-def trim(db):
+def trim():
     """
     Remove low quality models.
     """
-    load_working_set()
 
     print("[MAIN ] Trimming database")
 
     # Remove games without covers and screenshots, with short descriptions,
-    # or a low number of primary connections
-    for name, game in tqdm(name_game.items()):
-        if game.cover is None or game.screenshots is None or len(game.screenshots) == 0 \
-            or game.summary is None or len(game.summary) < 10 or len(game.developers) == 0 \
-                or len(game.articles) == 0:
-            # TODO remove from working set
-            # Remove from database
-            db.session.delete(game)
+    # or no connections
+    for game in tqdm(list(WS.game_name.values())):
+        if game.cover is None or len(game.screenshots) == 0 \
+                or game.summary is None or len(game.summary) < 10 \
+                or (len(game.developers) == 0 and len(game.articles) == 0 and len(game.videos) == 0):
+            # Remove
+            WS.del_game(game)
 
     # Remove developers without logos, with short descriptions, or a low number
     # of primary connections
-    for name, dev in tqdm(name_developer.items()):
-        if dev.logo is None or len(dev.games) == 0 or len(dev.articles) == 0:
-            # TODO remove from working set
-            # Remove from database
-            db.session.delete(dev)
+    for dev in tqdm(list(WS.developers.values())):
+        if dev.logo is None or len(dev.logo) < 15 \
+                or (len(dev.games) == 0 and len(dev.articles) == 0):
+            # Remove
+            WS.del_developer(dev)
 
-    db.session.commit()
     print("[MAIN ] Trim complete")
-
-    # TODO remove when working set is updated
-    print("[MAIN ] Exiting")
-    sys.exit()
 
 
 def reset(db):
     """
-    Reset the database.
+    Truncate all tables and reset the database
     """
+    print("[MAIN ] Resetting database")
 
     # Delete everything
     db.reflect()
@@ -106,3 +100,7 @@ def reset(db):
         db.session.add(Platform(platform_id=i, name=n))
 
     db.session.commit()
+    print("[MAIN ] Reset complete")
+
+    # Reset working set
+    reload_working_set()

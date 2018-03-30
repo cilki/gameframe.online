@@ -12,9 +12,10 @@ from flask import Flask
 
 from aws import upload_image
 from common import METRICS
-from sources import igdb, newsapi, steam
+from sources import igdb, newsapi, steam, google
 from orm import db
 from util import reset, trim
+from cache import WS
 
 
 def sigint_handler(sig, frame):
@@ -41,36 +42,38 @@ print("")
 print("Connected to: %s" % os.environ['SQLALCHEMY_URI'])
 
 print("")
-print("0. RESET                          Drop all tables and rebuild database schema")
-print("1. REBUILD                        Reset database, merge, and link")
-print("2. FILTER                         Delete low quality entities")
+print("-------------------------------------------------------------------------------------")
+print("0. RESET                          Drop all tables and recreate database schema")
+print("1. REBUILD                        Reset the database and rebuild from the cache")
+print("2. FLUSH                          Commit the working set to the database")
 
 print("")
 print("[STEAM]")
-print("3. COLLECT games                  Download missing games from Steam")
-print("4. COLLECT headers                Download game headers from Steam")
-print("5. MERGE games                    Upload game cache into database")
-print("6. LINK developers                Compute Game-Developer links from Steam games")
-print("7. GENERATE covers                Generate game covers")
-print("8. UPLOAD covers                  Upload game covers to S3")
+print("3. COLLECT games                  Download missing games and headers from Steam")
+print("4. MERGE games                    Integrate game cache into the working set")
+print("5. LINK developers                Compute Game-Developer links")
+print("6. GENERATE covers                Generate game covers")
+print("7. UPLOAD covers                  Upload game covers to S3")
 
 print("")
 print("[IGDB]")
-print("9. COLLECT games                  Download missing games from IGDB")
-print("A. COLLECT developers             Download missing developers from IGDB")
-print("B. COLLECT covers                 Download game covers from IGDB")
-print("C. MERGE games                    Upload game cache into database")
-print("D. MERGE developers               Upload developer cache into database")
-print("E. LINK developers                Compute Game-Developer links from IGDB developers")
+print("8. COLLECT games                  Download missing games from IGDB")
+print("9. COLLECT developers             Download missing developers from IGDB")
+print("A. MERGE games                    Integrate game cache into working set")
+print("B. MERGE developers               Integrate developer cache into working set")
+print("C. LINK developers                Compute Game-Developer links")
 
 print("")
 print("[NEWSAPI]")
-print("F. GATHER articles by game        Download game articles from NEWSAPI")
-print("G. GATHER articles by developer   Download developer articles from NEWSAPI")
-print("H. MERGE articles                 Upload article cache into database and LINK")
+print("D. GATHER articles by game        Download game articles into the cache")
+print("E. GATHER articles by developer   Download developer articles into the cache")
+print("F. MERGE articles                 Integrate article cache into working set and LINK")
 
 print("")
 print("[YOUTUBE]")
+print("G. GATHER videos by game          Download game videos into the cache")
+print("H. MERGE videos                   Integrate video cache into working set and LINK")
+print("-------------------------------------------------------------------------------------")
 
 with app.app_context():
 
@@ -88,55 +91,59 @@ with app.app_context():
         cmd = cmd[1:]
 
         if action == '0':
-            print("[MAIN ] Resetting database")
             reset(db)
-            print("[MAIN ] Reset complete")
         elif action == '1':
             t = time()
             print("[MAIN ] Rebuilding database")
-
             reset(db)
-            steam.merge_games(db)
-            igdb.merge_games(db)
-            igdb.merge_developers(db)
 
-            igdb.link_developers(db)
-            steam.link_developers(db)
+            # Merge games/developers
+            steam.merge_games()
+            igdb.merge_games()
+            igdb.merge_developers()
 
-            newsapi.merge_articles(db)
-            trim(db)
+            # Link developers
+            igdb.link_developers()
+            steam.link_developers()
+
+            # Merge/Link articles
+            newsapi.merge_articles()
+            trim()
+
+            WS.flush()
             print("[MAIN ] Rebuild completed in %d seconds" % (time() - t))
         elif action == '2':
-            trim(db)
+            WS.flush()
         elif action == '3':
             steam.collect_games()
-        elif action == '4':
             steam.collect_headers()
+        elif action == '4':
+            steam.merge_games()
         elif action == '5':
-            steam.merge_games(db)
+            steam.link_developers()
         elif action == '6':
-            steam.link_developers(db)
-        elif action == '7':
             steam.generate_covers()
-        elif action == '8':
+        elif action == '7':
             steam.upload_covers()
-        elif action == '9':
+        elif action == '8':
             igdb.collect_games()
-        elif action == 'a':
+        elif action == '9':
             igdb.collect_developers()
+        elif action == 'a':
+            igdb.merge_games()
         elif action == 'b':
-            igdb.collect_covers()
+            igdb.merge_developers()
         elif action == 'c':
-            igdb.merge_games(db)
+            igdb.link_developers()
         elif action == 'd':
-            igdb.merge_developers(db)
+            newsapi.gather_articles_by_game()
         elif action == 'e':
-            igdb.link_developers(db)
+            newsapi.gather_articles_by_developer()
         elif action == 'f':
-            newsapi.gather_articles_by_game(db)
+            newsapi.merge_articles()
         elif action == 'g':
-            newsapi.gather_articles_by_developer(db)
+            google.gather_videos_by_game()
         elif action == 'h':
-            newsapi.merge_articles(db)
+            google.merge_videos()
         else:
             print("Unknown Command")

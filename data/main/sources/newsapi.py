@@ -12,11 +12,11 @@ from newsapi import NewsApiClient
 from ratelimit import rate_limited
 from tqdm import tqdm
 
-from cache import add_article, load_working_set, name_game, title_article, name_developer
-from common import CACHE_GAMEFRAME, METRICS
+from cache import WS, Cache, load_working_set
+from common import METRICS
 from orm import Article, Developer, Game
 
-from .util import condition_article, is_cached
+from .util import condition_article
 
 """
 The NEWS API keyfile
@@ -31,21 +31,19 @@ with open(API_KEYS) as h:
     KEY_ITER = iter([s.strip() for s in h.readlines()])
 
 """
-The NEWSAPI client
+The global NEWSAPI client
 """
 API = NewsApiClient(api_key=next(KEY_ITER))
 
 """
 The article-game cache
 """
-CACHE_ARTICLE_GAME = "%s/newsapi/games" % CACHE_GAMEFRAME
-assert os.path.isdir(CACHE_ARTICLE_GAME)
+CACHE_ARTICLE_GAME = Cache("/newsapi/articles.game")
 
 """
 The article-developer cache
 """
-CACHE_ARTICLE_DEVELOPER = "%s/newsapi/developers" % CACHE_GAMEFRAME
-assert os.path.isdir(CACHE_ARTICLE_DEVELOPER)
+CACHE_ARTICLE_DEVELOPER = Cache("/newsapi/articles.developer")
 
 """
 The maximum number of article pages to request
@@ -91,23 +89,19 @@ def rq_articles(query):
         for article_json in rq['articles']:
 
             # Filter title
-            title = article_json.get('title', '')
-            if title is None or len(title) < 15:
+            if len(article_json.get('title', '')) < 15:
                 continue
 
             # Filter Outlet
-            outlet = article_json.get('source', {}).get('name', '')
-            if outlet is None or outlet not in WHITELIST:
+            if article_json.get('source', {}).get('name', '') not in WHITELIST:
                 continue
 
             # Filter Introduction
-            introduction = article_json.get('description', '')
-            if introduction is None or len(introduction) < 20:
+            if len(article_json.get('description', '')) < 20:
                 continue
 
             # Filter Author
-            author = article_json.get('author', '')
-            if author is None or len(author) < 4:
+            if len(article_json.get('author', '')) < 4:
                 continue
 
             # Filter Timestamp
@@ -115,16 +109,14 @@ def rq_articles(query):
                 continue
 
             # Filter Image
-            image = article_json.get('urlToImage', '')
-            if image is None or len(image) < 20:
+            if len(article_json.get('urlToImage', '')) < 10:
                 continue
 
             # Filter Article link
-            article_link = article_json.get('url', '')
-            if article_link is None or len(article_link) < 20:
+            if len(article_json.get('url', '')) < 20:
                 continue
 
-            # Finally add the article
+            # Finally add the article if it passed
             articles.append(article_json)
 
         if rq['totalResults'] > p * 100 and p < MAX_PAGES:
@@ -137,24 +129,23 @@ def rq_articles(query):
     return articles
 
 
-def gather_articles_by_game(db):
+def gather_articles_by_game():
     """
     Search for articles related to games and download them to the cache
     """
     load_working_set()
 
     print("[NWAPI] Gathering articles by game")
-    for name, game in tqdm(name_game.items()):
-        if not is_cached(CACHE_ARTICLE_GAME, name):
+    for name, game in tqdm(WS.game_name.items()):
+        if not CACHE_ARTICLE_GAME.exists(name):
             articles = rq_articles(name)
             # Write to the cache
-            with open("%s/%s" % (CACHE_ARTICLE_GAME, name.replace("/", "\\")), 'w', 'utf8') as h:
-                h.write(json.dumps(articles, ensure_ascii=False))
+            CACHE_ARTICLE_GAME.write_json(name.replace("/", "\\"), articles)
 
     print("[NWAPI] Gather Complete")
 
 
-def gather_articles_by_developer(db):
+def gather_articles_by_developer():
     """
     Search for articles related to games and download them to the cache
     """
@@ -162,54 +153,33 @@ def gather_articles_by_developer(db):
 
     print("[NWAPI] Gathering articles by developer")
     for name, dev in tqdm(name_developer.items()):
-        if not is_cached(CACHE_ARTICLE_DEVELOPER, name):
+        if not CACHE_ARTICLE_DEVELOPER.exists(name):
             articles = rq_articles(name)
             # Write to the cache
-            with open("%s/%s" % (CACHE_ARTICLE_DEVELOPER, name.replace("/", "\\")), 'w', 'utf8') as h:
-                h.write(json.dumps(articles, ensure_ascii=False))
+            CACHE_ARTICLE_DEVELOPER.write_json(
+                name.replace("/", "\\"), articles)
 
     print("[NWAPI] Gather Complete")
 
 
-def clean_cache():
-    """
-    Scour the article cache and remove undesirable articles
-    """
-
-    for filename in os.listdir(CACHE_ARTICLE_GAME):
-        articles = []
-        with open("%s/%s" % (CACHE_ARTICLE_GAME, filename), 'r', 'utf8') as h:
-            for article_json in json.load(h):
-                if False:  # TODO condition
-                    print('Removing article: %s' % article_json['title'])
-                else:
-                    articles.append(article_json)
-
-        with open("%s/%s" % (CACHE_ARTICLE_GAME, filename), 'w', 'utf8') as h:
-            h.write(json.dumps(articles, ensure_ascii=False))
-
-
-def merge_articles(db):
+def merge_articles():
     """
     Merge cached articles into the working set and link
     """
     load_working_set()
 
     print("[NWAPI] Merging/Linking articles")
-    for filename in tqdm(os.listdir(CACHE_ARTICLE_GAME)):
+    for filename in tqdm(CACHE_ARTICLE_GAME.list_dir()):
 
-        try:
-            game = name_game[filename.replace("\\", "/")]
-        except KeyError:
+        if not filename.replace("\\", "/") in WS.game_name:
             continue
+        game = WS.game_name[filename.replace("\\", "/")]
 
-        with open("%s/%s" % (CACHE_ARTICLE_GAME, filename), 'r', 'utf8') as h:
-            articles = json.load(h)
-        for article_json in articles:
+        for article_json in CACHE_ARTICLE_GAME.read_json(filename):
 
             # Do not allow duplicate titles
-            if article_json['title'] in title_article:
-                article = title_article[article_json['title']]
+            if article_json['title'] in WS.articles:
+                article = WS.articles[article_json['title']]
                 if article not in game.articles:
                     game.articles.append(article)
                 continue
@@ -231,40 +201,7 @@ def merge_articles(db):
                     developer.articles.append(article)
 
             # Add to working set
-            add_article(article)
+            WS.add_article(article)
+    # TODO developers
 
-    # TODO reduce duplication
-    for filename in tqdm(os.listdir(CACHE_ARTICLE_DEVELOPER)):
-
-        try:
-            developer = name_developer[filename.replace("\\", "/")]
-        except KeyError:
-            continue
-
-        with open("%s/%s" % (CACHE_ARTICLE_DEVELOPER, filename), 'r', 'utf8') as h:
-            articles = json.load(h)
-        for article_json in articles:
-
-            # Do not allow duplicate titles
-            if article_json['title'] in title_article:
-                article = title_article[article_json['title']]
-                if article not in developer.articles:
-                    developer.articles.append(article)
-                continue
-
-            # Build Article
-            article = Article(
-                title=article_json['title'], outlet=article_json['source']['name'],
-                introduction=article_json['description'], author=article_json['author'],
-                timestamp=datetime.strptime(
-                    article_json['publishedAt'], "%Y-%m-%dT%H:%M:%SZ"),
-                cover=article_json['urlToImage'], article_link=article_json['url'])
-
-            # Setting up a relationship between article and developer
-            developer.articles.append(article)
-
-            # Add to working set
-            add_article(article)
-
-    db.session.commit()
     print("[NWAPI] Merge/Link Complete")

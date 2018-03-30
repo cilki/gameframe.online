@@ -19,6 +19,12 @@ assert os.path.isdir(CACHE_GAMEFRAME)
 """
 Run statistics
 """
-METRICS = {'steam.filtered.genre': 0, 'steam.filtered.no_data': 0,
-           'steam.filtered.non_game': 0, 'steam.filtered.no_name': 0,
-           'steam.filtered.failed': 0, 'steam.new_downloads': 0}
+METRICS = {'steam.filtered.genre': 0, 'steam.filtered.deficient': 0,
+           'steam.filtered.failed': 0, 'steam.new_downloads': 0,
+
+           'igdb.filtered.genre': 0, 'igdb.filtered.deficient': 0,
+           'igdb.filtered.failed': 0, 'igdb.new_downloads': 0,
+
+           'newsapi.new_downloads': 0,
+
+           'youtube.new_downloads': 0}
