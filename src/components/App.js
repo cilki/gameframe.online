@@ -61,7 +61,7 @@ function App() {
             { flexDirection: 'column' },
         ]}
         >
-          <Banner />
+          <Route path="/" exact component={Banner} />
           <Navbar />
 
           <div style={{
