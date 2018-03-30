@@ -1,4 +1,5 @@
 import React from 'react';
+import Radium from 'radium';
 import { FormControl, FormGroup, Button, Glyphicon } from 'react-bootstrap';
 import { browserHistory, withRouter } from 'react-router';//eslint-disable-line
 import NavbarStyles from '../inline-styles/NavbarStyles';
@@ -26,8 +27,8 @@ class Search extends React.Component {
         <form onSubmit={this.handleSubmit}>
           <FormGroup controlId="formBasicText">
             <FormControl type="text" value={this.state.input} placeholder="Search" onChange={this.handleChange} />
-            <Button style={[NavbarStyles.button]} onClick={this.handleSubmit}>
-              <Glyphicon glyph="search" />
+            <Button onClick={this.handleSubmit}>
+              Search
             </Button>
             <FormControl.Feedback />
           </FormGroup>
@@ -37,4 +38,4 @@ class Search extends React.Component {
   }
 }
 
-export default withRouter(Search);
+export default withRouter(Radium(Search));
