@@ -211,6 +211,10 @@ def build_game(game_json):
             # TODO deal with landscape covers
             pass
 
+    # ESRB rating
+    if game.esrb is None and 'esrb' in game_json:
+        game.esrb = game_json['esrb']['rating']
+
     return game
 
 

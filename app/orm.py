@@ -54,6 +54,9 @@ class Game(db.Model):
     # Metacritic rating
     metacritic = db.Column(db.Integer)
 
+    # ESRB rating
+    esrb = db.Column(db.Integer)
+
     tweets = db.relationship(
         'Tweet', secondary='join_game_tweet', back_populates="games")
     videos = db.relationship(
