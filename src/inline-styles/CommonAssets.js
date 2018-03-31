@@ -31,6 +31,10 @@ const CommonAssets = {
     width: '100%',
   },
 
+  highlighter: {
+    backgroundColor: '#ffd54f',
+  },
+
 };
 
 export default CommonAssets;

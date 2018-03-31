@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Radium, { StyleRoot } from 'radium';
+import Highlighter from 'react-highlight-words';
 import InstanceDetailsStyles from './instance-details/InstanceDetailsStyles';
 import Minigrid from './minigrid/Minigrid';
 import Minicard from './minicard/Minicard';
@@ -93,11 +94,7 @@ class SearchResults extends React.Component {
 
   render() {
     const query = this.state.query_string || '';
-    // For highlighting
     const searchWords = query ? query.split(' ') : [];
-    console.log(this.state.game_results.objects ? this.state.game_results.objects : 'No games');
-    console.log(this.state.developer_results.objects ? this.state.developer_results.objects : 'No developers');
-    console.log(this.state.article_results.objects ? this.state.article_results.objects : 'No articles');
     return (
       <StyleRoot>
         <div>
@@ -113,7 +110,7 @@ class SearchResults extends React.Component {
           />
           <InstanceDetails>
             <div style={[InstanceDetailsStyles.externalGridCluster]}>
-              <div style={[InstanceDetailsStyles.externalGridCluster]}>
+              <div style={[InstanceDetailsStyles.gameGridCluster('30%')]}>
                 <div style={[InstanceDetailsStyles.gameIndicator]}>
                   Game Results:
                 </div>
@@ -121,7 +118,11 @@ class SearchResults extends React.Component {
                   {
                     this.state.game_results.objects ?
                     this.state.game_results.objects.map(game => link({
-                      label: game.name,
+                      label: <Highlighter
+                        highlightStyle={[CommonAssets.highlighter]}
+                        searchWords={searchWords}
+                        textToHighlight={game.name}
+                      />,
                       url: `/games/${game.game_id}`,
                       cover: (game.cover && game.cover.indexOf('http') < 0 ? `https://${game.cover}` : game.cover),
                       key: `game-${game.game_id}`,
@@ -129,7 +130,8 @@ class SearchResults extends React.Component {
                   }
                 </Minigrid>
               </div>
-              <div style={[InstanceDetailsStyles.externalGridCluster]}>
+              <br />
+              <div style={[InstanceDetailsStyles.developerGridCluster('30%')]}>
                 <div style={[InstanceDetailsStyles.developerIndicator]}>
                   Developer Results:
                 </div>
@@ -137,7 +139,11 @@ class SearchResults extends React.Component {
                   {
                     this.state.developer_results.objects ?
                     this.state.developer_results.objects.map(developer => link({
-                      label: developer.name,
+                      label: <Highlighter
+                        highlightStyle={[CommonAssets.highlighter]}
+                        searchWords={searchWords}
+                        textToHighlight={developer.name}
+                      />,
                       url: `/developers/${developer.developer_id}`,
                       cover: (developer.logo && developer.logo.indexOf('http') < 0 ? `https://${developer.logo}` : developer.logo),
                       key: `developer-${developer.developer_id}`,
@@ -145,7 +151,8 @@ class SearchResults extends React.Component {
                   }
                 </Minigrid>
               </div>
-              <div style={[InstanceDetailsStyles.externalGridCluster]}>
+              <br />
+              <div style={[InstanceDetailsStyles.articleGridCluster('30%')]}>
                 <div style={[InstanceDetailsStyles.articleIndicator]}>
                   Article Results:
                 </div>
@@ -153,7 +160,11 @@ class SearchResults extends React.Component {
                   {
                     this.state.article_results.objects ?
                     this.state.article_results.objects.map(article => link({
-                      label: article.title,
+                      label: <Highlighter
+                        highlightStyle={[CommonAssets.highlighter]}
+                        searchWords={searchWords}
+                        textToHighlight={article.title}
+                      />,
                       url: `/articles/${article.article_id}`,
                       cover: article.cover,
                       key: `article-${article.article_id}`,
