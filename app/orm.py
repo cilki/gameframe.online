@@ -34,7 +34,7 @@ class Game(db.Model):
     cover = db.Column(db.Text)
 
     # Screenshots
-    screenshots = db.relationship('Image')
+    screenshots = db.relationship('Image', cascade='all, delete-orphan')
 
     # A summary written by Steam or IGDB
     summary = db.Column(db.Text)
