@@ -126,6 +126,22 @@ const InstanceDetails = {
     color: '#00884b'
   },
 
+  metacriticCluster: {
+    display: 'flex',
+    flexDirection: 'row'
+  },
+
+  metacriticIndicator: {
+    fontSize: 'calc(14px + 0.5vw)'
+  },
+
+  metacriticScore: score => ({
+    fontSize: 'calc(14px + 0.5vw)',
+    color: '#ff004b',
+    filter: `hue-rotate(${score / 200}turn) brightness(${score * 0.02})`,
+    textShadow: '-1px -1px 0 #333, 1px -1px 0 #333, -1px 1px 0 #333, 1px 1px 0 #333, -1px 0 0 #333, 1px 0 0 #333, 0 1px 0 #333, 0 -1px 0 #333, 0 0 2px #333'
+  }),
+
   horizontalRule: {
     borderTop: '1px dotted #333333',
     opacity: '0.5',

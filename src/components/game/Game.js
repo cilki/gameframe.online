@@ -133,6 +133,7 @@ class Game extends React.Component {
     const screenshots = this.props.screenshots ? this.props.screenshots : [];
     const coverURL = this.props.cover && this.props.cover.indexOf('http') < 0 ? `https://${this.props.cover}` : this.props.cover;
     const price = this.props.price ? `\$${this.props.price / 100}` : null;
+    console.log(this.props);
     return (
       <StyleRoot>
       <InstanceDetails imageURL={coverURL}>
@@ -187,6 +188,14 @@ class Game extends React.Component {
               </div>
               <div style={[ InstanceDetailsStyles.priceTag ]}>
                 {price != null ? `${price}` : ''}
+              </div>
+            </div>
+            <div style={[ InstanceDetailsStyles.metacriticCluster ]}>
+              <div style={[ InstanceDetailsStyles.metacriticIndicator ]}>
+                {this.props.metacritic ? 'Metacritic Score:' : ''}&nbsp;
+              </div>
+              <div style={[ InstanceDetailsStyles.metacriticScore(this.props.metacritic) ]}>
+                {this.props.metacritic ? this.props.metacritic : ''}
               </div>
             </div>
           </div>
