@@ -30,11 +30,16 @@ const Minicard = {
     padding: '2%',
     background: 'rgba(16, 16, 16, 0.9)',
     color: '#eeeeee',
+    maxHeight: '90%',
+    overflow: 'hidden',
     borderRadius: `${cornerRadius}`
   },
 
   paragraph: {
-    fontSize: 'calc(12px + 0.5vw)'
+    fontSize: 'calc(12px + 0.5vw)',
+    maxHeight: '90%',
+    overflow: 'hidden',
+    textOverflow: 'ellipsis'
   },
 
 };
