@@ -149,16 +149,32 @@ const InstanceDetails = {
   },
 
   developerGridCluster: {
-    flexGrow: '0'
+    flexGrow: '0',
+    width: '33%',
+    flexBasis: '300px',
+    minWidth: '33%',
+    '@media screen and (max-width: 300px)': {
+        minWidth: '100%',
+        margin: 'auto',
+    }
   },
 
   developerIndicator: {
     fontSize: 'calc(16px + 0.75vw)'
   },
 
-  articleGridCluster: {
-    flexGrow: '0'
-  },
+  articleGridCluster: portion => ({
+    flexGrow: '0',
+    width: portion,
+    flexBasis: '350px',
+    minWidth: portion,
+    '@media screen and (max-width: 350px)': {
+        minWidth: '100%',
+        width: '100%',
+        flexBasis: '100%',
+        margin: 'auto',
+    }
+  }),
 
   articleIndicator: {
     fontSize: 'calc(16px + 0.75vw)'
@@ -372,9 +388,18 @@ const InstanceDetails = {
     fontSize: 'calc(10px + 1.0vw)'
   },
 
-  gameGridCluster: {
-    flexGrow: '0'
-  },
+  gameGridCluster: portion => ({
+    flexGrow: '0',
+    width: portion,
+    flexBasis: '350px',
+    minWidth: portion,
+    '@media screen and (max-width: 350px)': {
+        minWidth: '100%',
+        width: '100%',
+        flexBasis: '100%',
+        margin: 'auto',
+    }
+  }),
 
   gameIndicator: {
     fontSize: 'calc(16px + 0.75vw)'

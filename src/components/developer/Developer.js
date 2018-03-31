@@ -45,6 +45,7 @@ function twitter({twitterUsername}) {
         username: twitterUsername,
         height: '60vh'
       }}
+      key={`${twitterUsername}-timeline`}
     />
   )
 }
@@ -151,7 +152,7 @@ class Developer extends React.Component {
           </a>
         </div>
         <div style={[ InstanceDetailsStyles.externalGridCluster ]}>
-          <div style={[ InstanceDetailsStyles.gameGridCluster ]}>
+          <div style={[ InstanceDetailsStyles.gameGridCluster('50%') ]}>
             <div style={[ InstanceDetailsStyles.gameIndicator ]}>
               Games:
             </div>
@@ -166,7 +167,7 @@ class Developer extends React.Component {
               }
             </Minigrid>
           </div>
-          <div style={[ InstanceDetailsStyles.articleGridCluster ]}>
+          <div style={[ InstanceDetailsStyles.articleGridCluster('50%') ]}>
             <div style={[ InstanceDetailsStyles.articleIndicator ]}>
               Articles:
             </div>
