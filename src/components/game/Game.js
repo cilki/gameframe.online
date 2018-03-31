@@ -4,7 +4,7 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import Radium from 'radium';
+import Radium, {StyleRoot} from 'radium';
 import { Badge, Carousel, Jumbotron, Label, ListGroup, ListGroupItem } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import ReactHTMLParser from 'react-html-parser';
@@ -134,6 +134,7 @@ class Game extends React.Component {
     const coverURL = this.props.cover && this.props.cover.indexOf('http') < 0 ? `https://${this.props.cover}` : this.props.cover;
     const price = this.props.price ? `\$${this.props.price / 100}` : null;
     return (
+      <StyleRoot>
       <InstanceDetails imageURL={coverURL}>
         <div style={[ InstanceDetailsStyles.gamePrimaryDataCluster]}>
           <div style={{}}>
@@ -200,7 +201,7 @@ class Game extends React.Component {
           </div>
           <hr style={[ InstanceDetailsStyles.horizontalRule ]} />
           <div style={[ InstanceDetailsStyles.externalGridCluster ]}>
-            <div style={[ InstanceDetailsStyles.developerGridCluster ]}>
+            <div style={[ InstanceDetailsStyles.developerGridCluster('30%') ]}>
               <div style={[ InstanceDetailsStyles.developerIndicator ]}>
                 Developers:
               </div>
@@ -215,7 +216,7 @@ class Game extends React.Component {
                 }
               </Minigrid>
             </div>
-            <div style={[ InstanceDetailsStyles.articleGridCluster ]}>
+            <div style={[ InstanceDetailsStyles.articleGridCluster('60%') ]}>
               <div style={[ InstanceDetailsStyles.articleIndicator ]}>
                 Articles:
               </div>
@@ -251,6 +252,7 @@ class Game extends React.Component {
           <p>Twitch is not available in your country.</p>
         </div>
       </InstanceDetails>
+      </StyleRoot>
     );
   }
 }

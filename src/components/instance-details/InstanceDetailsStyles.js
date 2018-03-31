@@ -148,16 +148,18 @@ const InstanceDetails = {
     justifyContent: 'space-around'
   },
 
-  developerGridCluster: {
+  developerGridCluster: portion => ({
     flexGrow: '0',
-    width: '33%',
-    flexBasis: '300px',
-    minWidth: '33%',
-    '@media screen and (max-width: 300px)': {
+    width: portion,
+    flexBasis: '350px',
+    minWidth: portion,
+    '@media screen and (max-width: 350px)': {
         minWidth: '100%',
+        width: '100%',
+        flexBasis: '100%',
         margin: 'auto',
     }
-  },
+  }),
 
   developerIndicator: {
     fontSize: 'calc(16px + 0.75vw)'
