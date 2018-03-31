@@ -1,7 +1,33 @@
 import React from 'react';
-import Radium from 'radium';
-
+import PropTypes from 'prop-types';
+import Radium, { StyleRoot } from 'radium';
+import InstanceDetailsStyles from './instance-details/InstanceDetailsStyles';
+import Minigrid from './minigrid/Minigrid';
+import Minicard from './minicard/Minicard';
 import CommonAssets from '../inline-styles/CommonAssets';
+import InstanceDetails from './instance-details/InstanceDetails';
+
+/**
+ * @description - Helper method for rendering a link to a developer or article
+ * @param {Object} props
+ * @param {String} props.label
+ * @param {String} props.url
+ * @returns {React.Component}
+ */
+function link({
+  label, url, cover, key,
+}) {
+  return (
+    <Minicard label={label} url={url} cover={cover} cardKey={`${key}-inner`} key={key} />
+  );
+}
+
+link.propTypes = {
+  label: PropTypes.string.isRequired,
+  url: PropTypes.string.isRequired,
+  cover: PropTypes.string.isRequired,
+  key: PropTypes.oneOf([PropTypes.string, PropTypes.number]).isRequired,
+};
 
 class SearchResults extends React.Component {
   constructor(props) {
@@ -34,7 +60,7 @@ class SearchResults extends React.Component {
 
   updateGameItems() {
     fetch(//eslint-disable-line
-      encodeURI('http://api.gameframe.online/v1/game?q={"filters":[{"name":"name","op":"like","val":"%' + this.state.query_string + '%"}]}'),
+      encodeURI(`http://api.gameframe.online/v1/game?q={"filters":[{"name":"name","op":"like","val":"%${this.state.query_string}%"}]}`),
       { method: 'GET' },
     )
       .then(response => response.json())
@@ -45,7 +71,7 @@ class SearchResults extends React.Component {
 
   updateDeveloperItems() {
     fetch(//eslint-disable-line
-      encodeURI('http://api.gameframe.online/v1/developer?q={"filters":[{"name":"name","op":"like","val":"%' + this.state.query_string + '%"}]}'),
+      encodeURI(`http://api.gameframe.online/v1/developer?q={"filters":[{"name":"name","op":"like","val":"%${this.state.query_string}%"}]}`),
       { method: 'GET' },
     )
       .then(response => response.json())
@@ -56,7 +82,7 @@ class SearchResults extends React.Component {
 
   updateArticleItems() {
     fetch(//eslint-disable-line
-      encodeURI('http://api.gameframe.online/v1/article?q={"filters":[{"name":"title","op":"like","val":"%' + this.state.query_string + '%"}]}'),
+      encodeURI(`http://api.gameframe.online/v1/article?q={"filters":[{"name":"title","op":"like","val":"%${this.state.query_string}%"}]}`),
       { method: 'GET' },
     )
       .then(response => response.json())
@@ -69,30 +95,76 @@ class SearchResults extends React.Component {
     const query = this.state.query_string || '';
     // For highlighting
     const searchWords = query ? query.split(' ') : [];
-    console.log(this.state.game_results);
-    console.log(this.state.developer_results);
-    console.log(this.state.article_results);
+    console.log(this.state.game_results.objects ? this.state.game_results.objects : 'No games');
+    console.log(this.state.developer_results.objects ? this.state.developer_results.objects : 'No developers');
+    console.log(this.state.article_results.objects ? this.state.article_results.objects : 'No articles');
     return (
-      <div>
-        <div style={[
-          CommonAssets.fillBackground,
-          CommonAssets.horizontalGradient,
-        ]}
-        />
-        <div style={[
-          CommonAssets.stripeOverlay,
-          CommonAssets.fillBackground,
-        ]}
-        />
+      <StyleRoot>
         <div>
-          <h2>Game Results:</h2>
-          {/* mini-grid for games */}
-          <h2>Developer Results:</h2>
-          {/* mini-grid for developers */}
-          <h2>Article Results:</h2>
-          {/* mini-grid for articles */}
+          <div style={[
+            CommonAssets.fillBackground,
+            CommonAssets.horizontalGradient,
+          ]}
+          />
+          <div style={[
+            CommonAssets.stripeOverlay,
+            CommonAssets.fillBackground,
+          ]}
+          />
+          <InstanceDetails>
+            <div style={[InstanceDetailsStyles.externalGridCluster]}>
+              <div style={[InstanceDetailsStyles.externalGridCluster]}>
+                <div style={[InstanceDetailsStyles.gameIndicator]}>
+                  Game Results:
+                </div>
+                <Minigrid>
+                  {
+                    this.state.game_results.objects ?
+                    this.state.game_results.objects.map(game => link({
+                      label: game.name,
+                      url: `/games/${game.game_id}`,
+                      cover: (game.cover && game.cover.indexOf('http') < 0 ? `https://${game.cover}` : game.cover),
+                      key: `game-${game.game_id}`,
+                    })) : ['No games']
+                  }
+                </Minigrid>
+              </div>
+              <div style={[InstanceDetailsStyles.externalGridCluster]}>
+                <div style={[InstanceDetailsStyles.developerIndicator]}>
+                  Developer Results:
+                </div>
+                <Minigrid>
+                  {
+                    this.state.developer_results.objects ?
+                    this.state.developer_results.objects.map(developer => link({
+                      label: developer.name,
+                      url: `/developers/${developer.developer_id}`,
+                      cover: (developer.logo && developer.logo.indexOf('http') < 0 ? `https://${developer.logo}` : developer.logo),
+                      key: `developer-${developer.developer_id}`,
+                    })) : ['No developers']
+                  }
+                </Minigrid>
+              </div>
+              <div style={[InstanceDetailsStyles.externalGridCluster]}>
+                <div style={[InstanceDetailsStyles.articleIndicator]}>
+                  Article Results:
+                </div>
+                <Minigrid>
+                  {
+                    this.state.article_results.objects ?
+                    this.state.article_results.objects.map(article => link({
+                      label: article.title,
+                      url: `/articles/${article.article_id}`,
+                      cover: article.cover,
+                      key: `article-${article.article_id}`,
+                    })) : ['No articles']
+                  }
+                </Minigrid>
+              </div>
+            </div>
+          </InstanceDetails>
         </div>
-      </div>
+      </StyleRoot>
     );
   }
 }

@@ -1,8 +1,7 @@
 import React from 'react';
 import Radium from 'radium';
-import { FormControl, FormGroup, Button, Glyphicon } from 'react-bootstrap';
+import { FormControl, FormGroup, Button } from 'react-bootstrap';
 import { browserHistory, withRouter } from 'react-router';//eslint-disable-line
-import NavbarStyles from '../inline-styles/NavbarStyles';
 
 class Search extends React.Component {
   constructor(props) {
