@@ -199,6 +199,9 @@ class Game extends React.Component {
                 {this.props.metacritic ? this.props.metacritic : ''}
               </div>
             </div>
+            <div>
+              GameFrame_Score_Placeholder
+            </div>
           </div>
           <hr style={[ InstanceDetailsStyles.horizontalRule ]} />
           <div>
