@@ -70,7 +70,7 @@ def build_video(video_json):
     """
 
     # Match by title
-    if video_json["snippet"]["title"] in WS.videos:
+    if video_json['snippet']['title'] in WS.videos:
         video = WS.videos[video_json['title']]
 
     # Build new Video
@@ -79,19 +79,27 @@ def build_video(video_json):
 
     # YouTube ID
     if video.youtube_id is None:
-        video.youtube_id = video_json["id"]['videoId']
+        video.youtube_id = video_json['id']['videoId']
 
     # Name
     if video.name is None:
-        video.name = video_json["snippet"]["title"]
+        video.name = video_json['snippet']['title']
+
+    # Thumbnail
+    if video.thumbnail is None:
+        video.thumbnail = video_json['snippet']['thumbnails']['medium']['url']
+
+    # Description
+    if video.description is None:
+        video.description = video_json['snippet']['description']
 
     # Timestamp
     if video.timestamp is None:
-        video.timestamp = video_json["snippet"]["publishedAt"]
+        video.timestamp = video_json['snippet']['publishedAt']
 
     # Channel
     if video.channel is None:
-        video.channel = video_json["snippet"]["channelTitle"]
+        video.channel = video_json['snippet']['channelTitle']
 
     # Video Link
     if video.video_link is None:
@@ -111,8 +119,7 @@ def gather_videos_by_game():
     for game in tqdm(WS.game_name.values()):
         name = game.name.replace("/", "\\")
         if not CACHE_VIDEO.exists(name):
-            CACHE_VIDEO.write_json(
-                name, rq_videos(condition_video(game.name)))
+            CACHE_VIDEO.write_json(name, rq_videos(game))
 
     print("[GOOGLE] Gather complete")
 

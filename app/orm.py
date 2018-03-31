@@ -171,9 +171,11 @@ class Video(db.Model):
     video_id = db.Column(db.Integer, primary_key=True)
     youtube_id = db.Column(db.Text)
     name = db.Column(db.Text)
+    description = db.Column(db.Text)
     channel = db.Column(db.Text)
     timestamp = db.Column(db.DateTime)
     video_link = db.Column(db.Text)
+    thumbnail = db.Column(db.Text)
 
     games = db.relationship(
         'Game', secondary='join_game_video', back_populates="videos")
