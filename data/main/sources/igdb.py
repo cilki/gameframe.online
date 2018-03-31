@@ -197,10 +197,11 @@ def build_game(game_json):
             game_json['first_release_date'] // 1000)
 
     # Screenshots
-    for screenshot in game_json.get('screenshots', []):
-        url = screenshot['url'][2:].replace("t_thumb", "t_original")
-        if next((x for x in game.screenshots if x.url == url), None) is None:
-            game.screenshots.append(Image(url=url))
+    if game.steam_id is None or len(game.screenshots) == 0:
+        for screenshot in game_json.get('screenshots', []):
+            url = screenshot['url'][2:].replace("t_thumb", "t_original")
+            if next((x for x in game.screenshots if x.url == url), None) is None:
+                game.screenshots.append(Image(url=url))
 
     # Cover
     if game.cover is None and 'cover' in game_json:
