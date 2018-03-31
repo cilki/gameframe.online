@@ -6,7 +6,7 @@ const Game = {
     height: '100%',
   },
 
-    blurBackgroundBefore: {
+  blurBackgroundBefore: {
     position: 'fixed',
     top: '0',
     height: '100%',

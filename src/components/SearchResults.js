@@ -69,9 +69,6 @@ class SearchResults extends React.Component {
     const query = this.state.query_string || '';
     // For highlighting
     const searchWords = query ? query.split(' ') : [];
-    console.log(this.state.game_results);
-    console.log(this.state.developer_results);
-    console.log(this.state.article_results);
     return (
       <div>
         <div style={[

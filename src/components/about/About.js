@@ -67,12 +67,13 @@ class AboutPage extends React.Component {
   renderTools() {
     const toolRows = [];
     const rowLength = 4;
-    for (let toolCounter = 0; toolCounter * rowLength < this.props.tools.length; ++toolCounter) {
-      toolRows.push(<Row key={`tool-row-${toolCounter}`}>
-        {
+    for (let toolCounter = 0; toolCounter * rowLength < this.props.tools.length; ++toolCounter) { //eslint-disable-line
+      toolRows.push( //eslint-disable-line
+        <Row key={`tool-row-${toolCounter}`}>
+          {
             this.props.tools.slice(
               toolCounter * rowLength,
-              toolCounter * rowLength + rowLength,
+              toolCounter * rowLength + rowLength, //eslint-disable-line
             ).map((tool) => {
               return (
                 <Col
@@ -93,9 +94,10 @@ class AboutPage extends React.Component {
                 </Col>
               );
             })
-        }
-      </Row>);
-    }
+          }
+        </Row>,
+      ); //eslint-disable-line
+    } 
     return toolRows;
   }
 

@@ -26,7 +26,13 @@ describe('about', function() {
     /**
      * This generates three tests for `<About />`'s prop functions
      */
-    const propFunctions = ['fetchDescription', 'fetchExplanation', 'fetchContributors', 'fetchIssues'];
+    const propFunctions = [
+      'fetchDescription',
+      'fetchExplanation',
+      'fetchContributors',
+      'fetchIssues',
+      'fetchTools',
+    ];
     for (let fun of propFunctions) {
       it('Calls `' + fun + '()` when it mounts', function() {
         let requiredProps = {},

@@ -5,9 +5,11 @@
 
 import { createSelector } from 'reselect';
 
-import { getGames } from '../games/GamesSelectors';
-import { getDevelopers } from '../developers/DevelopersSelectors';
-import { getArticles } from '../articles/ArticlesSelectors';
+import {
+  getDevelopers,
+  getArticles,
+  getGames,
+} from '../Selectors';
 
 /**
  * @description - Input selector for returning a single article

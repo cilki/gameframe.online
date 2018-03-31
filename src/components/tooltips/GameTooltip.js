@@ -7,14 +7,13 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Radium from 'radium';
 import { Badge, Label } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
 /* import TooltipStyles from './TooltipStyles'; */
 
 class GameTooltip extends React.Component {
   static propTypes = {
     price: PropTypes.number,
     genres: PropTypes.arrayOf(PropTypes.string),
-    platforms: PropTypes.arrayOf(PropTypes.string),
+    // platforms: PropTypes.arrayOf(PropTypes.string),
     streams: PropTypes.number,
     videos: PropTypes.number,
     tweets: PropTypes.number,
@@ -24,7 +23,7 @@ class GameTooltip extends React.Component {
   static defaultProps = {
     price: 0,
     genres: [],
-    platforms: [],
+    // platforms: [],
     streams: 0,
     videos: 0,
     tweets: 0,
