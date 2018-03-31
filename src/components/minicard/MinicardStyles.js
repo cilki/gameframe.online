@@ -5,8 +5,8 @@ const Minicard = {
   link: {
     textDecoration: 'none',
     borderRadius: `${cornerRadius}`,
-    width: 'calc((100vh + 20vw) / 4)',
-    height: 'calc((20vh + 20vw) / 2)',
+    width: 'calc((100vh + 20vw) / 8)',
+    height: 'calc((20vh + 20vw) / 3)',
     margin: 'calc((1vw + 1vh) / 2)',
     flex: 'auto'
   },
