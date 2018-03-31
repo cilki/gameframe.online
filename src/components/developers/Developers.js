@@ -44,7 +44,7 @@ class Developers extends React.Component {
     const { models, ...rest } = this.props;
     return (
       <GenericGrid
-        prefix='developers'
+        prefix="developers"
         {...rest}
       >
         {

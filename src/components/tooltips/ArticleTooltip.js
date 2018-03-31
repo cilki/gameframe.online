@@ -6,8 +6,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Radium from 'radium';
-import { Badge, Label } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
+import { Label } from 'react-bootstrap';
 /* import TooltipStyles from './TooltipStyles'; */
 
 class ArticleTooltip extends React.Component {

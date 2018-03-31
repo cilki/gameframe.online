@@ -20,7 +20,7 @@ import { PAGE_SIZE } from '../Constants';
 function createPredicate(selector) {
   return (state, pageNumber) => {
     return selector(state, { page: pageNumber }).length < PAGE_SIZE;
-  }
+  };
 }
 
 /**
@@ -29,7 +29,7 @@ function createPredicate(selector) {
  * @param {Object} schema - A schema defined using normalizr standards
  * @param {String} pathname - the pathname to input into the API
  * @param {String} modelName - the name of the model as identified in the schema
- * @param {Object} actions - an object of actions that the thunk must dispatch. 
+ * @param {Object} actions - an object of actions that the thunk must dispatch.
  * This argument is deconstructed within the argument list
  * @param {Array} secondaryModels - a list of secondary models and actions associated
  * with them that allow us to store these other models in the store without making an extra fetch
@@ -64,7 +64,7 @@ function createFetchModels(
     return (dispatch, getState) => {
       if (predicate(getState(), pageNumber)) {
         dispatch(requestAction());
-        return fetch(
+        return fetch( //eslint-disable-line
           encodeURI(`http://api.gameframe.online/v1/${pathname}?page=${pageNumber}&results_per_page=${PAGE_SIZE}`),
           { method: 'GET' },
         )
@@ -78,18 +78,15 @@ function createFetchModels(
             if (!data.entities) {
               return Promise.resolve();
             }
-            secondaryModels.forEach(
-              ({
-                secondaryModelName,
-                secondaryModelResponseAction,
-              }) => {
-                if (data.entities[secondaryModelName]) {
-                  dispatch(
-                    secondaryModelResponseAction(Object.values(data.entities[secondaryModelName]))
-                  );
-                }
+            secondaryModels.forEach(({
+              secondaryModelName,
+              secondaryModelResponseAction,
+            }) => {
+              if (data.entities[secondaryModelName]) {
+                const actionData = Object.values(data.entities[secondaryModelName]);
+                dispatch(secondaryModelResponseAction(actionData));
               }
-            );
+            });
 
             if (data.entities[modelName]) {
               dispatch(responseAction(Object.values(data.entities[modelName])));
@@ -103,6 +100,7 @@ function createFetchModels(
           })
           .catch(err => dispatch(responseAction(err)));
       }
+      return Promise.resolve();
     };
   };
 }
@@ -131,7 +129,7 @@ function createReducer(
   multipleResponse,
   setSinglePage,
   setTotalPages,
-  secondaryModels
+  secondaryModels,
 ) {
   const models = handleActions({
     [multipleResponse]: {
@@ -163,47 +161,43 @@ function createReducer(
         const newIdState = Object.assign({}, state[id], { requested: true });
         return Object.assign({}, state, { id: newIdState });
       }
-      else {
-        return Object.assign({}, state, { id: { requested: true } });
-      }
+      return Object.assign({}, state, { id: { requested: true } });
     },
 
     [singleResponse](state, { payload }) {
       const { id, data, error } = payload;
-      
+
       const newDataArgs = [
         {},
         data,
         {
           requested: false,
-          error: error ? data.message : null
+          error: error ? data.message : null,
         },
       ];
 
       if (error) {
         console.error(data); //eslint-disable-line
-      }
+      } //eslint-disable-line
       else {
-        secondaryModels.forEach(
-          (secondaryModel) => {
-            if (data[secondaryModel]) {
-              newDataArgs.push({
-                [secondaryModel]: data[secondaryModel]
-              });
-            }
+        secondaryModels.forEach((secondaryModel) => {
+          if (data[secondaryModel]) {
+            newDataArgs.push({
+              [secondaryModel]: data[secondaryModel],
+            });
           }
-        );
+        });
       }
 
       const newStateArgs = [
         {},
         state,
         {
-          [id]: Object.assign.apply({}, newDataArgs)
-        }
+          [id]: Object.assign.apply({}, newDataArgs),
+        },
       ];
-      return Object.assign.apply({}, newStateArgs); 
-    }
+      return Object.assign.apply({}, newStateArgs);
+    },
   }, {});
 
   const requested = handleActions({
@@ -212,7 +206,7 @@ function createReducer(
     },
     [multipleResponse]() {
       return false;
-    }
+    },
   }, false);
 
   const error = handleActions({
@@ -229,7 +223,7 @@ function createReducer(
   const totalPages = handleActions({
     [setTotalPages](state, { payload }) {
       return payload;
-    }
+    },
   }, 0);
 
   const pages = handleActions({

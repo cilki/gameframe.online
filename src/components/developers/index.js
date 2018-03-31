@@ -25,7 +25,7 @@ const Developers = createContainer(
   {
     requestAction: fetchDevelopersRequest,
     responseAction: fetchDevelopersResponse,
-    setPageAction: setPageAction,
+    setPageAction,
     setTotalPageAction: setTotalPagesAction,
   },
   [

@@ -47,17 +47,17 @@ const Navbar = {
 
   itemMain: {
     color: '#888888',
-    transition: 'color 0.2s ease-out, background-color 0.3s ease-out, invert 0.3s ease-out',
+    transition: 'color 0.2s ease-out, background-color 0.3s ease-out, invert 0.3s ease-out', //eslint-disable-line
     padding: '15px',
     margin: '-15px',
-    transition: 'filter 0.1s linear',
+    transition: 'filter 0.1s linear', //eslint-disable-line
     ':hover': {
       backgroundColor: '#333333',
-      transition: 'color 0.25s ease-out, background-color 0.15s ease-out, invert 0.15s ease-out',
+      transition: 'color 0.25s ease-out, background-color 0.15s ease-out, invert 0.15s ease-out', //eslint-disable-line
       padding: '15px',
       margin: '-15px',
       filter: 'brightness(200%)',
-      transition: 'filter 0.1s linear, background 0.1s linear',
+      transition: 'filter 0.1s linear, background 0.1s linear', //eslint-disable-line
     },
   },
 

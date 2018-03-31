@@ -5,7 +5,7 @@ const Game = {
     flexDirection: 'column',
     height: '100%',
   },
-  container: coverURL => ({
+  container: () => ({
     backgroundSize: 'cover',
     position: 'fixed',
     left: '0',

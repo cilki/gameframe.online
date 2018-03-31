@@ -1,4 +1,4 @@
-  
+
 /**
  * A file for common actions that need to be shared
  * between many files. This is used because otherwise

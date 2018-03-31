@@ -43,7 +43,7 @@ class Articles extends React.Component {
     const { models, ...rest } = this.props;
     return (
       <GenericGrid
-        prefix='articles'
+        prefix="articles"
         {...rest}
       >
         {

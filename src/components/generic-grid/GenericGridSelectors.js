@@ -114,7 +114,7 @@ function createSelectors(modelName) {
     getTotalPages,
     getPages,
     getPageIndices,
-    getModelsByPage
+    getModelsByPage,
   };
 }
 

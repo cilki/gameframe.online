@@ -25,7 +25,7 @@ const Games = createContainer(
   {
     requestAction: fetchGamesRequest,
     responseAction: fetchGamesResponse,
-    setPageAction: setPageAction,
+    setPageAction,
     setTotalPageAction: setTotalPagesAction,
   },
   [

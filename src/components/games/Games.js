@@ -41,7 +41,7 @@ class Games extends React.Component {
     const { models, ...rest } = this.props;
     return (
       <GenericGrid
-        prefix='games'
+        prefix="games"
         {...rest}
       >
         {

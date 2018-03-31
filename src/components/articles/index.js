@@ -25,7 +25,7 @@ const Articles = createContainer(
   {
     requestAction: fetchArticlesRequest,
     responseAction: fetchArticlesResponse,
-    setPageAction: setPageAction,
+    setPageAction,
     setTotalPageAction: setTotalPagesAction,
   },
   [

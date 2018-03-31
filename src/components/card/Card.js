@@ -7,6 +7,8 @@ import PropTypes from 'prop-types';
 import Radium from 'radium';
 import { Badge, Label } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
+import iso from 'iso-3166-1';
+
 import CardStyles from './CardStyles';
 import GameTooltip from '../tooltips/GameTooltip';
 import DeveloperTooltip from '../tooltips/DeveloperTooltip';
@@ -49,8 +51,7 @@ class Card extends React.Component {
    */
   constructor(props) {
     super(props);
-
-    this.iso = require('iso-3166-1');
+    this.state = {};
   }
 
   render() {
@@ -97,7 +98,7 @@ class Card extends React.Component {
       return <div>Error: No tooltipType defined!</div>;
     }
 
-    const origin = this.props.origin ? this.iso.whereNumeric(this.props.origin) : '';
+    const origin = this.props.origin ? iso.whereNumeric(this.props.origin) : '';
     const country = origin ? origin.country : null;
 
     return (
