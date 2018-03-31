@@ -156,6 +156,20 @@ const InstanceDetails = {
     overflow: 'hidden'
   },
 
+  platformCluster: {
+    display: 'flex'
+  },
+
+  platformIndicator: {
+      fontSize: 'calc(16px + 0.5vw)'
+  },
+
+  platformLabelGroup: {
+    fontSize: 'calc(16px + 0.5vw)',
+    display: 'flex',
+    flexWrap: 'wrap'
+  },
+
   externalGridCluster: {
     display: 'flex',
     flexWrap: 'wrap',

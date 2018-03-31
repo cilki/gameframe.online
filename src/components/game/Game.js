@@ -133,6 +133,7 @@ class Game extends React.Component {
     const screenshots = this.props.screenshots ? this.props.screenshots : [];
     const coverURL = this.props.cover && this.props.cover.indexOf('http') < 0 ? `https://${this.props.cover}` : this.props.cover;
     const price = this.props.price ? `\$${this.props.price / 100}` : null;
+    const platforms = this.props.platforms ? this.props.platforms : [];
     console.log(this.props);
     return (
       <StyleRoot>
@@ -209,6 +210,28 @@ class Game extends React.Component {
             </div>
           </div>
           <hr style={[ InstanceDetailsStyles.horizontalRule ]} />
+          <div style={[ InstanceDetailsStyles.platformCluster ]}>
+            <div style={[ InstanceDetailsStyles.platformIndicator ]}>
+              Platforms:&nbsp;
+            </div>
+            <div style={[ InstanceDetailsStyles.platformLabelGroup ]}>
+              {
+                platforms.map((platform) => {
+                  return (
+                    <span key={platform.name}>
+                      <Label key={`${platform.name}-label`}>
+                        {platform.name}
+                      </Label>
+                      &nbsp;
+                    </span>
+                  )
+                })
+              }
+              {
+                platforms == [] ? 'Unknown' : ''
+              }
+            </div>
+          </div>
           <div style={[ InstanceDetailsStyles.externalGridCluster ]}>
             <div style={[ InstanceDetailsStyles.developerGridCluster('30%') ]}>
               <div style={[ InstanceDetailsStyles.developerIndicator ]}>
