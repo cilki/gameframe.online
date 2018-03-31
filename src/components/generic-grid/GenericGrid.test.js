@@ -301,6 +301,47 @@ function testModelGrid(modelName, ) {
             })
             .then(done);
         });
+
+        it('Should dispatch an error action when the promise fails', function(done) {
+          const predicate = sinon.stub().returns(true);
+          const responseAction = sinon.stub();
+          const module = getActionsModule({
+            normalizr: {
+              normalize: sinon.stub().throws(),
+            },
+          });
+          const fetchFunction = module.createFetchModels(
+            predicate,
+            {},
+            null,
+            'model1',
+            // babel does arugment deconstruction before function logic, so this has to be here
+            {
+              requestAction: sinon.stub(),
+              responseAction,
+              setPageAction: sinon.stub(),
+              setTotalPageAction: sinon.stub(),
+            },
+            [],
+          );
+
+          stubFetch(() => Promise.resolve({ json: () => {} }));
+          const thunk = fetchFunction(0);
+          thunk(sinon.stub(), sinon.stub())
+            .then(() => {
+              assert(responseAction.called, '`responseAction()` was never called for the model');
+              assert.instanceOf(responseAction.getCall(0).args[0], Error, '`responseAction()` wasn\'t called with an Error');
+            })
+            .catch((err) => Promise.resolve(err))
+            .then((err) => {
+              restoreFetch();
+              if (err && err instanceof Error) {
+                return err;
+              }
+
+            })
+            .then(done);
+        });
       });
     });
 
