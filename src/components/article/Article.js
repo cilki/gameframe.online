@@ -138,7 +138,7 @@ class Article extends React.Component {
             </a>
           </div>
           <div style={[ InstanceDetailsStyles.externalGridCluster ]}>
-            <div style={[ InstanceDetailsStyles.developerGridCluster ]}>
+            <div style={[ InstanceDetailsStyles.developerGridCluster('30%') ]}>
               <div style={[ InstanceDetailsStyles.developerIndicator ]}>
                 Developers:
               </div>
@@ -153,7 +153,7 @@ class Article extends React.Component {
                 }
               </Minigrid>
             </div>
-            <div style={[ InstanceDetailsStyles.gameGridCluster ]}>
+            <div style={[ InstanceDetailsStyles.gameGridCluster('60%') ]}>
               <div style={[ InstanceDetailsStyles.gameIndicator ]}>
                 Games:
               </div>
