@@ -57,6 +57,9 @@ class Game(db.Model):
     # ESRB rating
     esrb = db.Column(db.Integer)
 
+    # Visibility Index
+    vindex = db.Column(db.Integer)
+
     tweets = db.relationship(
         'Tweet', secondary='join_game_tweet', back_populates="games")
     videos = db.relationship(
