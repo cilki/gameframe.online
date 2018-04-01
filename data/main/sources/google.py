@@ -12,7 +12,7 @@ from tqdm import tqdm
 from cache import WS, Cache, load_working_set
 from orm import Game, Video
 
-from .util import condition_video, xappend
+from .util import condition_heavy, keywordize, xappend
 
 """
 The API key
@@ -23,39 +23,54 @@ API_KEY = os.environ['KEY_YOUTUBE']
 """
 The video cache for games
 """
-CACHE_VIDEO = Cache("/youtube/videos.game")
+CACHE_VIDEO = Cache("/youtube/videos")
 
 
-def rq_videos(keyword):
+def rq_videos(game):
     """
     Request video metadata according to a game using the YouTube API
     """
 
     rq = requests.get("https://www.googleapis.com/youtube/v3/search",
-                      params={'q': keyword, 'order': 'relevance',
-                              'part': 'snippet', 'type': 'video', 'maxResults': 20, 'key': API_KEY})
+                      params={'q': keywordize(game).replace(" ", "+"),
+                              'order': 'relevance', 'part': 'snippet',
+                              'type': 'video', 'maxResults': 50, 'key': API_KEY,
+                              'videoCategoryId': 20})
 
     assert rq.status_code == requests.codes.ok
+    assert 'error' not in rq
 
     videos = []
     for video_json in rq.json()['items']:
 
-        # YouTube ID
+        # Filter YouTube ID
         if 'id' not in video_json:
             continue
 
-        # Title
+        # Filter title
         if "snippet" not in video_json or "title" not in video_json["snippet"]:
             continue
 
-        # Title relevancy
+        # Filter description
+        if "description" not in video_json["snippet"]:
+            continue
 
-        # Timestamp
+        # Filter thumbnail
+        if "thumbnails" not in video_json["snippet"]:
+            continue
+
+        # Filter timestamp
         if "publishedAt" not in video_json["snippet"]:
             continue
 
-        # Channel
+        # Filter channel
         if "channelTitle" not in video_json["snippet"]:
+            continue
+
+        # Filter video relevancy
+        name = condition_heavy(game.name)
+        if name not in condition_heavy(video_json['snippet']['title']) and \
+                name not in condition_heavy(video_json['snippet']['description']):
             continue
 
         # Finally add the video
@@ -71,7 +86,7 @@ def build_video(video_json):
 
     # Match by title
     if video_json['snippet']['title'] in WS.videos:
-        video = WS.videos[video_json['title']]
+        video = WS.videos[video_json['snippet']['title']]
 
     # Build new Video
     else:

@@ -16,7 +16,7 @@ from cache import WS, Cache, load_working_set
 from common import METRICS
 from orm import Article, Developer, Game
 
-from .util import condition_article
+from .util import condition, condition_developer, condition_heavy, keywordize
 
 """
 The NEWS API keyfile
@@ -68,9 +68,9 @@ WHITELIST = ['Nintendolife.com', 'Gonintendo.com', 'Playstation.com', 'IGN',
              'Phoronix.com', 'Omgubuntu.co.uk', 'Idownloadblog.com']
 
 
-def rq_articles(query):
+def rq_articles(model):
     """
-    Request articles from NewsAPI according to a query
+    Request articles from NewsAPI
     """
 
     global API
@@ -79,7 +79,7 @@ def rq_articles(query):
 
     while True:
         rq = API.get_everything(language='en', sort_by='relevancy', page_size=100,
-                                page=p, q=query)
+                                page=p, q=keywordize(model))
 
         if rq['status'] == 'error':
             API = NewsApiClient(api_key=next(KEY_ITER))
@@ -101,19 +101,28 @@ def rq_articles(query):
                 continue
 
             # Filter Author
-            if len(article_json.get('author', '')) < 4:
+            if not article_json.get('author'):
                 continue
 
             # Filter Timestamp
-            if "publishedAt" not in article_json:
+            if not article_json.get('publishedAt'):
                 continue
 
             # Filter Image
-            if len(article_json.get('urlToImage', '')) < 10:
+            if not article_json.get('urlToImage'):
                 continue
 
             # Filter Article link
-            if len(article_json.get('url', '')) < 20:
+            if not article_json.get('url'):
+                continue
+
+            # Filter relevancy
+            if type(model) is Developer:
+                name = condition_heavy(condition_developer(model.name))
+            else:
+                name = condition_heavy(model.name)
+            if name not in condition_heavy(article_json['title']) and \
+                    name not in condition_heavy(article_json['description']):
                 continue
 
             # Finally add the article if it passed
@@ -136,28 +145,29 @@ def gather_articles_by_game():
     load_working_set()
 
     print("[NWAPI] Gathering articles by game")
-    for name, game in tqdm(WS.game_name.items()):
-        if not CACHE_ARTICLE_GAME.exists(name):
-            articles = rq_articles(name)
+    for game in tqdm(WS.game_name.values()):
+        if not CACHE_ARTICLE_GAME.exists(game.name):
+            articles = rq_articles(game)
             # Write to the cache
-            CACHE_ARTICLE_GAME.write_json(name.replace("/", "\\"), articles)
+            CACHE_ARTICLE_GAME.write_json(
+                game.name.replace("/", "\\"), articles)
 
     print("[NWAPI] Gather Complete")
 
 
 def gather_articles_by_developer():
     """
-    Search for articles related to games and download them to the cache
+    Search for articles related to developers and download them to the cache
     """
     load_working_set()
 
     print("[NWAPI] Gathering articles by developer")
-    for name, dev in tqdm(name_developer.items()):
-        if not CACHE_ARTICLE_DEVELOPER.exists(name):
-            articles = rq_articles(name)
+    for dev in tqdm(WS.developers.values()):
+        if not CACHE_ARTICLE_DEVELOPER.exists(dev.name):
+            articles = rq_articles(dev)
             # Write to the cache
             CACHE_ARTICLE_DEVELOPER.write_json(
-                name.replace("/", "\\"), articles)
+                dev.name.replace("/", "\\"), articles)
 
     print("[NWAPI] Gather Complete")
 

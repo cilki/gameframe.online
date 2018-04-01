@@ -18,7 +18,7 @@ from cache import WS, Cache, load_working_set
 from common import METRICS
 from orm import Developer, Game, Genre, Image, Platform
 
-from .util import cond_game_name, xappend
+from .util import condition, xappend
 
 """
 The API key
@@ -160,8 +160,8 @@ def build_game(game_json):
         game = WS.game_igdb[game_json['id']]
 
     # Exact name matching
-    elif cond_game_name(game_json['name']) in WS.game_name:
-        game = WS.game_name[cond_game_name(game_json['name'])]
+    elif condition(game_json['name']) in WS.game_name:
+        game = WS.game_name[condition(game_json['name'])]
 
     # Build new Game
     else:
@@ -347,7 +347,7 @@ def merge_games():
 
 def merge_developers():
     """
-    Merge cached developers into the working set and flush the database.
+    Merge cached developers into the working set
     """
     load_working_set()
 
