@@ -15,7 +15,6 @@ import Minigrid from '../minigrid/Minigrid';
 import Minicard from '../minicard/Minicard';
 import CommonAssets from '../../inline-styles/CommonAssets';
 
-
 /**
  * @description - Helper method for generating a component
  * to hold a screenshot
@@ -131,6 +130,7 @@ class Game extends React.Component {
 
   componentDidMount() {
     this.props.fetchGame();
+
   }
 
   render() {
@@ -142,6 +142,9 @@ class Game extends React.Component {
     //  console.log(result);
     //});
     const steamApiKey = 'B742258BCF24425642B7E0C770450FC2';
+    const trendName = encodeURI(this.props.name);
+    const trendsURL = `https://trends.google.com:443/trends/embed/explore/TIMESERIES?req=%7B%22comparisonItem%22%3A%5B%7B%22keyword%22%3A%22${trendName}%22%2C%22geo%22%3A%22%22%2C%22time%22%3A%22all%22%7D%5D%2C%22category%22%3A0%2C%22property%22%3A%22%22%7D&tz=300&amp;eq=date%3Dall%26q%3D${trendName}`;
+      console.log(trendsURL)
     return (
       <StyleRoot>
       <InstanceDetails imageURL={coverURL}>
@@ -241,6 +244,22 @@ class Game extends React.Component {
                 platforms == [] ? 'Unknown' : ''
               }
             </div>
+          </div>
+          <div style={{display: 'block'}}>
+            <iframe
+              id="trends-widget-1"
+              src={trendsURL}
+              width="100%"
+              frameBorder="0"
+              scrolling="0"
+              style={{
+                borderRadius: '4px',
+                boxShadow: 'rgba(0, 0, 0, 0.12) 0px 0px 2px 0px, rgba(0, 0, 0, 0.24) 0px 2px 2px 0px',
+                height: '423px',
+                marginTop: '2%',
+                opacity: '0.9'
+              }}
+            />
           </div>
           <div style={[ InstanceDetailsStyles.externalGridCluster ]}>
             <div style={[ InstanceDetailsStyles.developerGridCluster('30%') ]}>
