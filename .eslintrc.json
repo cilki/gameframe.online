@@ -6,6 +6,7 @@
       "react/jsx-filename-extension": ["off"],
       "react/jsx-first-prop-line": ["off"],
       "jsx-a11y/anchor-is-valid": ["off"],
-      "arrow-body-style": ["off", "as-needed", { "requireReturnForObjectLiteral": true }]
+      "arrow-body-style": ["off", "as-needed", { "requireReturnForObjectLiteral": true }],
+      "prefer-destructuring": ["off"]
     }
 }

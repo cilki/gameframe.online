@@ -24,7 +24,7 @@ function link({
 }
 
 link.propTypes = {
-  label: PropTypes.string.isRequired,
+  label: PropTypes.object.isRequired,//eslint-disable-line
   url: PropTypes.string.isRequired,
   cover: PropTypes.string.isRequired,
   key: PropTypes.oneOf([PropTypes.string, PropTypes.number]).isRequired,
@@ -61,7 +61,7 @@ class SearchResults extends React.Component {
 
   updateGameItems() {
     fetch(//eslint-disable-line
-      encodeURI(`http://api.gameframe.online/v1/game?q={"filters":[{"name":"name","op":"like","val":"%${this.state.query_string}%"}]}`),
+      encodeURI(`http://api.gameframe.online/v1/game?q={"filters":[{"name":"name","op":"like","val":"%${this.state.query_string}%"}],"order_by":[{"field":"metacritic","direction":"desc"}]}&results_per_page=1000`),
       { method: 'GET' },
     )
       .then(response => response.json())
@@ -72,7 +72,7 @@ class SearchResults extends React.Component {
 
   updateDeveloperItems() {
     fetch(//eslint-disable-line
-      encodeURI(`http://api.gameframe.online/v1/developer?q={"filters":[{"name":"name","op":"like","val":"%${this.state.query_string}%"}]}`),
+      encodeURI(`http://api.gameframe.online/v1/developer?q={"filters":[{"name":"name","op":"like","val":"%${this.state.query_string}%"}],"order_by":[{"field":"name","direction":"asc"}]}&results_per_page=1000`),
       { method: 'GET' },
     )
       .then(response => response.json())
@@ -83,7 +83,7 @@ class SearchResults extends React.Component {
 
   updateArticleItems() {
     fetch(//eslint-disable-line
-      encodeURI(`http://api.gameframe.online/v1/article?q={"filters":[{"name":"title","op":"like","val":"%${this.state.query_string}%"}]}`),
+      encodeURI(`http://api.gameframe.online/v1/article?q={"filters":[{"name":"title","op":"like","val":"%${this.state.query_string}%"}],"order_by":[{"field":"title","direction":"asc"}]}&results_per_page=1000]}`),
       { method: 'GET' },
     )
       .then(response => response.json())
@@ -119,14 +119,14 @@ class SearchResults extends React.Component {
                     this.state.game_results.objects ?
                     this.state.game_results.objects.map(game => link({
                       label: <Highlighter
-                        highlightStyle={[CommonAssets.highlighter]}
+                        highlightStyle={{ backgroundColor: '#ffd54f' }}
                         searchWords={searchWords}
                         textToHighlight={game.name}
                       />,
                       url: `/games/${game.game_id}`,
                       cover: (game.cover && game.cover.indexOf('http') < 0 ? `https://${game.cover}` : game.cover),
                       key: `game-${game.game_id}`,
-                    })) : ['No games']
+                    })) : ['Loading games']
                   }
                 </Minigrid>
               </div>
@@ -140,14 +140,14 @@ class SearchResults extends React.Component {
                     this.state.developer_results.objects ?
                     this.state.developer_results.objects.map(developer => link({
                       label: <Highlighter
-                        highlightStyle={[CommonAssets.highlighter]}
+                        highlightStyle={{ backgroundColor: '#ffd54f' }}
                         searchWords={searchWords}
                         textToHighlight={developer.name}
                       />,
                       url: `/developers/${developer.developer_id}`,
                       cover: (developer.logo && developer.logo.indexOf('http') < 0 ? `https://${developer.logo}` : developer.logo),
                       key: `developer-${developer.developer_id}`,
-                    })) : ['No developers']
+                    })) : ['Loading developers']
                   }
                 </Minigrid>
               </div>
@@ -161,14 +161,14 @@ class SearchResults extends React.Component {
                     this.state.article_results.objects ?
                     this.state.article_results.objects.map(article => link({
                       label: <Highlighter
-                        highlightStyle={[CommonAssets.highlighter]}
+                        highlightStyle={{ backgroundColor: '#ffd54f' }}
                         searchWords={searchWords}
                         textToHighlight={article.title}
                       />,
                       url: `/articles/${article.article_id}`,
                       cover: article.cover,
                       key: `article-${article.article_id}`,
-                    })) : ['No articles']
+                    })) : ['Loading articles']
                   }
                 </Minigrid>
               </div>
