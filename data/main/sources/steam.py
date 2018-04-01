@@ -5,6 +5,7 @@
 
 import json
 import os
+import re
 from codecs import open
 from functools import lru_cache
 from itertools import chain
@@ -88,6 +89,9 @@ def rq_articles(appid):
     rq = requests.get("https://api.steampowered.com/ISteamNews/GetNewsForApp/v2",
                       {'appid': appid, 'count': 500})
 
+    if rq.status_code == requests.codes.forbidden:
+        return []
+
     assert rq.status_code == requests.codes.ok
     return rq.json()['appnews']['newsitems']
 
@@ -100,9 +104,10 @@ def rq_player_count(appid):
     rq = requests.get("https://api.steampowered.com/ISteamUserStats/GetNumberOfCurrentPlayers/v1",
                       {'appid': appid})
 
-    if rq.status_code == 404:
+    if rq.status_code == requests.codes.not_found:
         return 0
 
+    assert rq.status_code == requests.codes.ok
     return rq.json()['response'].get('player_count', 0)
 
 
@@ -235,37 +240,48 @@ def build_article(article_json):
     article = Article()
 
     # Title
-    if 'title' in article_json:
+    if article_json.get('title') is not None:
         article.title = article_json['title']
     else:
         return None
 
     # Introduction
-    if 'contents' in article_json:
+    if article_json.get('contents') is not None:
         article.introduction = article_json['contents']
     else:
         return None
 
+    # Cover
+    match = re.search(r'src="([^"]+)"', article.introduction)
+    if match is not None:
+        article.cover = match[1]
+
+        # Remove the image from description because it's now the cover
+        re.sub(r"<img[.+]src=\"%s\"[.*]/>" %
+               article.cover, '', article.introduction)
+    else:
+        return None
+
     # Author
-    if 'author' in article_json:
+    if article_json.get('author') is not None:
         article.author = article_json['author']
     else:
         return None
 
     # URL
-    if 'url' in article_json:
+    if article_json.get('url') is not None:
         article.article_link = article_json['url']
     else:
         return None
 
     # Timestamp
-    if 'date' in article_json:
+    if article_json.get('date') is not None:
         article.timestamp = datetime.fromtimestamp(article_json['date'])
     else:
         return None
 
     # Outlet
-    if 'feedlabel' in article_json:
+    if article_json.get('feedlabel') is not None:
         article.outlet = article_json['feedlabel']
     else:
         return None
@@ -400,6 +416,8 @@ def merge_articles():
 
         for article_json in articles:
             article = build_article(article_json)
+            if article is None:
+                continue
 
             xappend(game.articles, article)
 
