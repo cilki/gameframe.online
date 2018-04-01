@@ -56,6 +56,7 @@
   },
   "dependencies": {
     "express": "^4.16.2",
+    "fs": "0.0.1-security",
     "immutable": "^3.8.2",
     "iso-3166-1": "^1.1.0",
     "normalizr": "^3.2.4",
@@ -77,6 +78,7 @@
     "redux": "^3.7.2",
     "redux-actions": "^2.2.1",
     "redux-thunk": "^2.2.0",
-    "reselect": "^3.0.1"
+    "reselect": "^3.0.1",
+    "steam-api": "^1.1.3"
   }
 }

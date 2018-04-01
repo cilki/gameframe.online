@@ -15,6 +15,7 @@ import Minigrid from '../minigrid/Minigrid';
 import Minicard from '../minicard/Minicard';
 import CommonAssets from '../../inline-styles/CommonAssets';
 
+
 /**
  * @description - Helper method for generating a component
  * to hold a screenshot
@@ -123,6 +124,9 @@ class Game extends React.Component {
   constructor(props) {
     super(props);
     this.state = {};
+
+    //this.steamApi = require('steam-api');
+    //this.userStats = new this.steamApi.UserStats('B742258BCF24425642B7E0C770450FC2');
   }
 
   componentDidMount() {
@@ -134,7 +138,10 @@ class Game extends React.Component {
     const coverURL = this.props.cover && this.props.cover.indexOf('http') < 0 ? `https://${this.props.cover}` : this.props.cover;
     const price = this.props.price ? `\$${this.props.price / 100}` : null;
     const platforms = this.props.platforms ? this.props.platforms : [];
-    console.log(this.props);
+    //this.userStats.GetNumberOfCurrentPlayers('3600').done(function(result){
+    //  console.log(result);
+    //});
+    const steamApiKey = 'B742258BCF24425642B7E0C770450FC2';
     return (
       <StyleRoot>
       <InstanceDetails imageURL={coverURL}>

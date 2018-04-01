@@ -52,7 +52,7 @@ const InstanceDetails = {
     display: 'flex',
     flexDirection: 'column',
     borderRadius: `${cornerRadius}`,
-    backgroundColor: 'rgba(238, 238, 238, 0.8)'
+    background: 'linear-gradient(to bottom, rgba(238, 238, 238, 0.8), rgba(255, 255, 255, 0.6))'
   },
 
   titleText: {

@@ -13,6 +13,9 @@ module.exports = {
     path: __dirname + "/static",
     filename: '[name].bundle.js',
   },
+  node: {
+    fs: "empty"
+  },
 
   module: {
     rules: [
