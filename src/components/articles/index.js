@@ -43,6 +43,7 @@ const Articles = createContainer(
 export default Articles;
 export const reducer = createReducer(
   'article_id',
+  'articles',
   fetchArticleRequest,
   fetchArticleResponse,
   fetchArticlesRequest,

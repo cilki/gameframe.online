@@ -31,6 +31,7 @@ function createContainer(
     getModelsByPage,
     getCurrentPage,
     getTotalPages,
+    getFilters,
   } = createSelectors(modelName);
 
   function mapStateToProps(state, props) {
@@ -40,6 +41,7 @@ function createContainer(
       models: getModelsByPage(state, props),
       currentPage: getCurrentPage(state, props),
       totalPages: getTotalPages(state),
+      filters: getFilters(state),
     };
   }
 
@@ -59,7 +61,7 @@ function createContainer(
   );
   function mapDispatchToProps(dispatch) {
     return {
-      fetchModels: page => dispatch(fetchFunction(page)),
+      fetchModels: (page, filters, override) => dispatch(fetchFunction(page, filters, override)),
     };
   }
 

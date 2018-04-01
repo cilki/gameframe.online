@@ -9,6 +9,7 @@ import { handleActions } from 'redux-actions';
 import { combineReducers } from 'redux';
 
 import { PAGE_SIZE } from '../Constants';
+import { setGridFilterAction } from '../grid-select';
 
 /**
  * @description - Creates the predicate function to use
@@ -21,6 +22,37 @@ function createPredicate(selector) {
   return (state, pageNumber) => {
     return selector(state, { page: pageNumber }).length < PAGE_SIZE;
   };
+}
+
+/**
+ * @description - Collects the filters within a format that's more useful
+ * for passing them to Flask Restless
+ * @param {Array} filters
+ * @returns {Object}
+ */
+// function collectFilters(filters) {
+//   const filterObject = {};
+//   filters.forEach((filter) => {
+//     const subfilterList = filterObject[filter.value]
+//   });
+//   return 
+// }
+
+/**
+ * @description - Formats the filters into a string for Flask Restless
+ * @param {Array} filters
+ * @returns {Object}
+ */
+function formatFilters(filters) {
+  return [{
+    and: filters.map((filter) => {
+      return {
+        name: 'genres__name',
+        op: 'any',
+        val: filter.subfilter,
+      };
+    }),
+  }];
 }
 
 /**
@@ -52,9 +84,26 @@ function createFetchModels(
    * @description - This is the actual fetch function/thunk creator we're returning
    * that produces thunks that can be dispatched to the redux store
    * @param {Number} pageNumber
+   * @param {Array} filters
+   * @param {Boolean} override
    * @returns {Function}
    */
-  return (pageNumber = 1) => {
+  return (pageNumber = 1, filters = [], override = false) => {
+    const queryObject = {};
+    if (filters.length > 0) {
+      queryObject.filters = formatFilters(filters);
+    }
+
+    /* We can put in more here, such as sorting and searching */
+
+    let uri;
+    if (Object.keys(queryObject) > 0) {
+      uri = `http://api.gameframe.online/v1/${pathname}?page=${pageNumber}&results_per_page=${PAGE_SIZE}`;
+    }
+    else {
+      uri = `http://api.gameframe.online/v1/${pathname}?q=${JSON.stringify(queryObject)}&page=${pageNumber}&results_per_page=${PAGE_SIZE}`;
+      console.log('uri', uri);
+    }
     /**
      * @description - This is the thunk itself, which dispatches it's own synchronous actions
      * as it resolves it's own asynchronous action
@@ -62,10 +111,10 @@ function createFetchModels(
      * @param {Function} getState
      */
     return (dispatch, getState) => {
-      if (predicate(getState(), pageNumber)) {
+      if (override || predicate(getState(), pageNumber)) {
         dispatch(requestAction());
         return fetch( //eslint-disable-line
-          encodeURI(`http://api.gameframe.online/v1/${pathname}?page=${pageNumber}&results_per_page=${PAGE_SIZE}`),
+          encodeURI(uri),
           { method: 'GET' },
         )
           .then(response => response.json())
@@ -123,6 +172,7 @@ function createFetchModels(
  */
 function createReducer(
   idName,
+  modelNamePlural,
   singleRequest,
   singleResponse,
   multipleRequest,
@@ -232,12 +282,25 @@ function createReducer(
     },
   }, {});
 
+  const filter = handleActions({
+    [setGridFilterAction](state, { payload }) {
+      const { model, value } = payload;
+      
+      // ignore it if it wasn't meant for this model
+      if (model !== modelNamePlural) {
+        return state;
+      }
+      return value;
+    }
+  }, []);
+
   return combineReducers({
     models,
     requested,
     error,
     totalPages,
     pages,
+    filter,
   });
 }
 

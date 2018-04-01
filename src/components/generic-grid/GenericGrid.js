@@ -14,6 +14,10 @@ class GenericGrid extends React.Component {
   static propTypes = {
     children: PropTypes.arrayOf(PropTypes.node),
     currentPage: PropTypes.number.isRequired,
+    filters: PropTypes.arrayOf(PropTypes.shape({
+      value: PropTypes.string.isRequired,
+      subfilter: PropTypes.string.isRequired,
+    })),
     prefix: PropTypes.string.isRequired,
     totalPages: PropTypes.number.isRequired,
 
@@ -22,6 +26,7 @@ class GenericGrid extends React.Component {
 
   static defaultProps = {
     children: [],
+    filters: [],
   };
 
   constructor(props) {
@@ -33,7 +38,7 @@ class GenericGrid extends React.Component {
    * @description - React lifecycle method used to fetch the data
    */
   componentDidMount() {
-    this.props.fetchModels(this.props.currentPage);
+    this.props.fetchModels(this.props.currentPage, this.props.filters);
   }
 
   /**
@@ -42,8 +47,13 @@ class GenericGrid extends React.Component {
    * @param {Object} prevProps
    */
   componentDidUpdate(prevProps) {
+    console.log('this.props.filters', this.props.filters);
     if (prevProps.currentPage !== this.props.currentPage) {
-      this.props.fetchModels(this.props.currentPage);
+      this.props.fetchModels(this.props.currentPage, this.props.filters);
+    }
+    else if (prevProps.filters.length !== this.props.filters.length) {
+      console.log('fetching')
+      this.props.fetchModels(this.props.currentPage, this.props.filters, true);
     }
   }
 

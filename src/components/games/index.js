@@ -43,6 +43,7 @@ const Games = createContainer(
 export default Games;
 export const reducer = createReducer(
   'game_id',
+  'games',
   fetchGameRequest,
   fetchGameResponse,
   fetchGamesRequest,

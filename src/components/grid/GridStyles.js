@@ -8,5 +8,6 @@ export default {
     justifyContent: 'space-around',
     maxWidth: '100%',
     paddingTop: '2%',
+    zIndex: -1,
   },
 };

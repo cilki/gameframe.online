@@ -43,6 +43,7 @@ const Developers = createContainer(
 export default Developers;
 export const reducer = createReducer(
   'developer_id',
+  'developers',
   fetchDeveloperRequest,
   fetchDeveloperResponse,
   fetchDevelopersRequest,
