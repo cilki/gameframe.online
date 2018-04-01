@@ -11,7 +11,6 @@ import {
   getAllContributors,
   getIssues,
   getDescription,
-  getExplanation,
   getTools,
 } from './AboutSelectors';
 import {
@@ -27,9 +26,6 @@ const fetchIssuesResponse = createAction('FETCH_ISSUES_RESPONSE');
 
 const fetchDescriptionRequest = createAction('FETCH_DESCRIPTION_REQUEST');
 const fetchDescriptionResponse = createAction('FETCH_DESCRIPTION_RESPONSE');
-
-const fetchExplanationRequest = createAction('FETCH_EXPLANATION_REQUEST');
-const fetchExplanationResponse = createAction('FETCH_EXPLANATION_RESPONSE');
 
 const fetchToolsRequest = createAction('FETCH_TOOLS_REQUEST');
 const fetchToolsResponse = createAction('FETCH_TOOLS_RESPONSE');
@@ -88,15 +84,6 @@ function fetchFile(
  */
 function shouldFetchDescription(state) {
   return getDescription(state) === null;
-}
-
-/**
- * @description - Determines if the explanation needs to be fetched
- * @param {Map} state
- * @returns {Boolean}
- */
-function shouldFetchExplanation(state) {
-  return getExplanation(state) === null;
 }
 
 /**
@@ -175,20 +162,6 @@ function fetchDescription() {
 
 /**
  * @description - Thunk creator, dispatches actions in order
- * to retrieve the explanation from Flask
- * @returns {Function}
- */
-function fetchExplanation() {
-  return fetchFile(
-    '/static/data/explanation.txt',
-    shouldFetchExplanation,
-    fetchExplanationRequest,
-    fetchExplanationResponse,
-  );
-}
-
-/**
- * @description - Thunk creator, dispatches actions in order
  * to retrieve the tools from Flask
  * @returns {Function}
  */
@@ -239,47 +212,6 @@ const descriptionError = handleActions({
  */
 const description = handleActions({
   [fetchDescriptionResponse]: {
-    next(state, { payload }) {
-      return payload;
-    },
-    throw() {
-      return null;
-    },
-  },
-}, null);
-
-/**
- * @description - Reducer for the 'requested' state of the
- * explanantion
- */
-const explanationRequested = handleActions({
-  [fetchExplanationRequest]() {
-    return true;
-  },
-  [fetchExplanationResponse]() {
-    return false;
-  },
-}, false);
-
-/**
- * @description - Reducer for the 'error' state of the explanation
- */
-const explanationError = handleActions({
-  [fetchExplanationResponse]: {
-    next() {
-      return null;
-    },
-    throw(state, { payload: { message } }) {
-      return message;
-    },
-  },
-}, null);
-
-/**
- * @description - Reducer for the explanation of the website
- */
-const explanation = handleActions({
-  [fetchExplanationResponse]: {
     next(state, { payload }) {
       return payload;
     },
@@ -485,10 +417,6 @@ const aboutReducer = combineReducers({
   descriptionError,
   description,
 
-  explanationRequested,
-  explanationError,
-  explanation,
-
   toolsRequested,
   toolsError,
   tools,
@@ -498,28 +426,20 @@ export { //eslint-disable-line
   fetchContributors,
   fetchIssues,
   fetchDescription,
-  fetchExplanation,
   aboutReducer,
 
   fetchFromGithub,
   fetchFile,
   shouldFetchDescription,
-  shouldFetchExplanation,
   shouldFetchContributors,
   shouldFetchIssues,
 
   fetchDescriptionRequest,
   fetchDescriptionResponse,
-  fetchExplanationRequest,
-  fetchExplanationResponse,
 
   descriptionRequested,
   descriptionError,
   description,
-
-  explanationRequested,
-  explanationError,
-  explanation,
 
   contributorsRequested,
   contributorsError,

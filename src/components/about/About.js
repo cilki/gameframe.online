@@ -14,7 +14,6 @@ class AboutPage extends React.Component {
   static propTypes = {
     contributors: PropTypes.arrayOf(PropTypes.string),
     description: PropTypes.string,
-    explanation: PropTypes.string,
     tools: PropTypes.arrayOf(PropTypes.shape({
       cover: PropTypes.string,
       name: PropTypes.string,
@@ -27,7 +26,6 @@ class AboutPage extends React.Component {
     totalUnitTests: PropTypes.number,
 
     fetchDescription: PropTypes.func.isRequired,
-    fetchExplanation: PropTypes.func.isRequired,
     fetchContributors: PropTypes.func.isRequired,
     fetchIssues: PropTypes.func.isRequired,
     fetchTools: PropTypes.func.isRequired,
@@ -36,7 +34,6 @@ class AboutPage extends React.Component {
   static defaultProps = {
     contributors: [],
     description: '',
-    explanation: '',
     tools: [],
 
     totalCommits: 0,
@@ -54,7 +51,6 @@ class AboutPage extends React.Component {
    */
   componentDidMount() {
     this.props.fetchDescription();
-    this.props.fetchExplanation();
     this.props.fetchContributors();
     this.props.fetchIssues();
     this.props.fetchTools();
@@ -115,14 +111,13 @@ class AboutPage extends React.Component {
                   alt="GameFrame.Online"
                   style={[Styles.brand]}
                 />
-      
+
                 <p style={[Styles.paragraph]}>{this.props.description}</p>
-                <p style={[Styles.paragraph]}>{this.props.explanation}</p>
-                
+
                 <div style={{padding: '0% 2% 0% 2%'}}>
                   <hr style={[Styles.hr]}/>
                 </div>
-                
+
                 <div style={[Styles.grid]}>
                   <Grid>
                     <Row>

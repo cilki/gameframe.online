@@ -111,36 +111,6 @@ function getDescriptionError(state) {
 }
 
 /**
- * @description - Input selector for the explanation
- * 'requested' state
- * @param {Map} state
- * @returns {Boolean}
- */
-function getExplanationRequested(state) {
-  return state.about.explanationRequested;
-}
-
-
-/**
- * @description - Input selector for the explanation
- * @param {Map} state
- * @returns {String|null}
- */
-function getExplanation(state) {
-  return state.about.explanation;
-}
-
-/**
- * @description - Trivial selector for finding the
- * error state of the explanation
- * @param {Map} state
- * @returns {String|null}
- */
-function getExplanationError(state) {
-  return state.about.explanationError;
-}
-
-/**
  * @description - Input selector for the tools
  * 'requested' state
  * @param {Map} state
@@ -230,10 +200,6 @@ export { //eslint-disable-line
   getDescriptionRequested,
   getDescription,
   getDescriptionError,
-
-  getExplanationRequested,
-  getExplanation,
-  getExplanationError,
 
   getToolsRequested,
   getTools,
