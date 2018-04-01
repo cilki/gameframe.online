@@ -11,13 +11,14 @@ from itertools import chain
 
 import requests
 from ratelimit import rate_limited
+from datetime import datetime
 from tqdm import tqdm
 
 from aws import upload_image
 from cache import WS, Cache, load_working_set
 from cdgen.steam import generate
 from common import METRICS, CDN_URI
-from orm import Developer, Game, Genre, Image, Platform
+from orm import Developer, Game, Article, Genre, Image, Platform
 
 from .util import parse_steam_date, xappend
 
@@ -68,7 +69,7 @@ def rq_app_list():
 @rate_limited(period=35, every=60)
 def rq_game(appid):
     """
-    Request game metadata using the store API.
+    Request game metadata from Steam
     """
 
     rq = requests.get("http://store.steampowered.com/api/appdetails",
@@ -81,7 +82,7 @@ def rq_game(appid):
 @rate_limited(period=35, every=60)
 def rq_articles(appid):
     """
-    Request game news using the store API.
+    Request game news from Steam
     """
 
     rq = requests.get("https://api.steampowered.com/ISteamNews/GetNewsForApp/v2",
@@ -89,6 +90,20 @@ def rq_articles(appid):
 
     assert rq.status_code == requests.codes.ok
     return rq.json()['appnews']['newsitems']
+
+
+def rq_player_count(appid):
+    """
+    Request the current number of players
+    """
+
+    rq = requests.get("https://api.steampowered.com/ISteamUserStats/GetNumberOfCurrentPlayers/v1",
+                      {'appid': appid})
+
+    if rq.status_code == 404:
+        return 0
+
+    return rq.json()['response'].get('player_count', 0)
 
 
 def load_game_json(appid):
@@ -338,6 +353,7 @@ def gather_articles():
     """
     Search for articles related to games and download them to the cache
     """
+    load_working_set()
 
     print("[STEAM] Gathering articles by game")
     for appid, game in tqdm(WS.game_steam.items()):
@@ -350,7 +366,7 @@ def gather_articles():
 
 def merge_games():
     """
-    Merge cached games into the working set and flush the database
+    Merge cached games into the working set
     """
     load_working_set()
     apps = rq_app_list()
@@ -365,6 +381,30 @@ def merge_games():
 
         # Add to working set
         WS.add_game(game)
+
+    print("[STEAM] Merge complete")
+
+
+def merge_articles():
+    """
+    Merge cached articles into the working set and link
+    """
+    load_working_set()
+
+    print("[STEAM] Merging articles")
+    for appid in tqdm(CACHE_ARTICLE.list_dir()):
+        if int(appid) not in WS.game_steam:
+            continue
+        game = WS.game_steam[int(appid)]
+        articles = CACHE_ARTICLE.read_json(appid)
+
+        for article_json in articles:
+            article = build_article(article_json)
+
+            xappend(game.articles, article)
+
+            # Add to working set
+            WS.add_article(article)
 
     print("[STEAM] Merge complete")
 
