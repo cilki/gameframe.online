@@ -133,12 +133,12 @@ function Grid(props) {
         }}>
           <h4>Include</h4>
           <div style={{minWidth: '40%'}}>
-            <GridSelect  style={{marginTop: '20px'}}model={prefix} />
+            <GridSelect style={{marginTop: '20px'}}model={prefix} />
           </div>
           <span style={{minWidth: '15px'}} />
           <h4>Exclude</h4>
           <div style={{minWidth: '40%'}}>
-            <GridSelect  style={{marginTop: '20px'}}model={prefix} />
+            <GridSelect style={{marginTop: '20px'}}model={prefix} />
           </div>
         </div>
         <div style={{flex: 1}} />
