@@ -62,6 +62,7 @@ function App() {
         ]}
         >
           <Route path="/" exact component={Banner} />
+          <Route path="/about" exact component={Banner} />
           <Navbar />
 
           <div style={{

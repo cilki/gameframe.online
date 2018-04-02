@@ -104,12 +104,6 @@ class AboutPage extends React.Component {
           <div style={[CommonAssets.stripeOverlay, CommonAssets.fillBackground]}/>
             <div style={[Styles.pad]}>
               <Jumbotron style={container}>
-                <img
-                  src="../../static/images/logo_black.svg"
-                  alt="GameFrame.Online"
-                  style={[Styles.brand]}
-                />
-
                 <p style={[Styles.paragraph]}>{this.props.description}</p>
 
                 <div style={{padding: '0% 2% 0% 2%'}}>

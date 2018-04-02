@@ -21,7 +21,8 @@ export default {
     backgroundColor: '#ffffff',
   },
   brand: {
-    margin: '2% 2% 2% 2%',    
+    margin: '2% 2% 2% 2%',
+    opacity: '0.8',    
   },
   title: {
     padding: '0% 2% 0% 2%',
@@ -41,9 +42,9 @@ export default {
     backgroundColor: '#A9A9A9',
     borderColor: '#A9A9A9',
     borderRadius: '4px',
-    opacity: '0.2',
+    opacity: '0.5',
     ':hover': {
-      opacity: '0.8',
+      opacity: '0.25',
     },
   },
   hr: {
@@ -59,7 +60,7 @@ export default {
      padding: '2% 2% 2% 2%', 
   },
   cardMember: {
-    height: '75vh',
+    height: 'calc(300px + 15vw)',
     overflow: 'hidden',
     backgroundColor: '#ffffff',
     border: '1px solid #A9A9A9',
@@ -67,14 +68,14 @@ export default {
     padding: '2% 2% 2% 2%',
   },
   cardInfo: {
-    height: '40vh',
+    height: 'calc(200px + 10vw)',
     overflow: 'hidden',
     backgroundColor: '#ffffff',
     border: '1px solid #A9A9A9',
     borderRadius: '4px',     
   },
   cardTool: {
-    height: '40vh',
+    height: 'calc(200px + 10vw)',
     overflow: 'hidden',
     backgroundColor: '#ffffff',
     border: '1px solid #A9A9A9',
