@@ -13,6 +13,7 @@ import InstanceDetails from '../instance-details/InstanceDetails';
 import InstanceDetailsStyles from '../instance-details/InstanceDetailsStyles';
 import Minigrid from '../minigrid/Minigrid';
 import Minicard from '../minicard/Minicard';
+import ExternalMinicard from '../minicard/ExternalMinicard';
 import CommonAssets from '../../inline-styles/CommonAssets';
 
 /**
@@ -68,6 +69,28 @@ link.propTypes = {
 };
 
 /**
+ * @description - Helper method for rendering a link to an external source
+ * @param {Object} props
+ * @param {String} props.label
+ * @param {String} props.url
+ * @returns {React.Component}
+ */
+function exLink({
+  label, url, cover, key,
+}) {
+  return (
+    <ExternalMinicard label={label} url={url} cover={cover} cardKey={`${key}-inner`} key={key} />
+  );
+}
+
+exLink.propTypes = {
+  label: PropTypes.object.isRequired,//eslint-disable-line
+  url: PropTypes.string.isRequired,
+  cover: PropTypes.string.isRequired,
+  key: PropTypes.oneOf([PropTypes.string, PropTypes.number]).isRequired,
+};
+
+/**
  * @description - Returns the main component to render a game's own
  * page
  * @param {Object} props
@@ -98,6 +121,12 @@ class Game extends React.Component {
       alt: PropTypes.string,
     })),
     summary: PropTypes.string,
+    videos: PropTypes.arrayOf(PropTypes.shape({
+      id: PropTypes.number.isRequired,
+      name: PropTypes.string.isRequired,
+      url: PropTypes.string.isRequired,
+      thumbnail: PropTypes.string.isRequired,
+    })),
 
     fetchGame: PropTypes.func.isRequired,
   };
@@ -115,6 +144,7 @@ class Game extends React.Component {
     requested: false,
     screenshots: [{url: '', alt: ''}],
     summary: null,
+    videos: [],
   };
 
   /**
@@ -298,13 +328,24 @@ class Game extends React.Component {
           <p>Twitter is not available in your country.</p>
         </div>
         <div>
-          <div style={[ InstanceDetailsStyles.youtubeIndicator ]}>
-            YouTube:
+          <div style={[InstanceDetailsStyles.videoGridCluster('80%')]}>
+            <div style={[InstanceDetailsStyles.youtubeIndicator]}>
+              Vidoes:
+            </div>
+            <Minigrid>
+              {
+                this.props.videos.map(video => link({
+                  label: video.name,
+                  url: video.url,
+                  cover: video.thumbnail,
+                  key: `article-${video.id}`,
+                }))
+              }
+            </Minigrid>
           </div>
-          <p>This video is not available in your country.</p>
         </div>
         <div>
-          <div style={[ InstanceDetailsStyles.twitchIndicator ]}>
+          <div style={[InstanceDetailsStyles.twitchIndicator]}>
             Twitch:
           </div>
           <p>Twitch is not available in your country.</p>
