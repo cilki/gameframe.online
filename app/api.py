@@ -22,10 +22,10 @@ def generate_api(app, db):
     api_manager.create_api(Platform, methods=['GET'], url_prefix='/v1')
     api_manager.create_api(Genre, methods=['GET'], url_prefix='/v1')
 
-    # Generate grid API endpoints
+    # Generate optimized grid endpoints
     api_manager.create_api(Game, methods=['GET'], url_prefix='/v1/grid',
-                           include_columns=['name', 'price', 'cover', 'platforms', 'release'])
+                           include_columns=['game_id', 'name', 'price', 'cover', 'platforms', 'release'])
     api_manager.create_api(Developer, methods=['GET'], url_prefix='/v1/grid',
-                           include_columns=['logo', 'website', 'twitter', 'name'])
+                           include_columns=['developer_id', 'name', 'logo', 'website', 'twitter'])
     api_manager.create_api(Article, methods=['GET'], url_prefix='/v1/grid',
-                           include_columns=['title', 'cover', 'article_link'])
+                           include_columns=['article_id', 'title', 'cover', 'article_link'])
