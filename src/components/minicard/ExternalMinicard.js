@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Radium from 'radium';
-import { Link } from 'react-router-dom';
 import MinicardStyles from './MinicardStyles';
 
 class ExternalMinicard extends React.Component {
@@ -30,7 +29,7 @@ class ExternalMinicard extends React.Component {
     const cover = this.props.cover;
     const cardKey = this.props.cardKey;
     return (
-      <a key={cardKey} href={url} style={MinicardStyles.link}>
+      <a key={cardKey} href={url} style={MinicardStyles.link} target="_blank">
         <div key={`${cardKey}-minicard`} style={[MinicardStyles.minicard(cover)]}>
           <div style={[MinicardStyles.textArea]}>
             <p style={[MinicardStyles.paragraph]}>
