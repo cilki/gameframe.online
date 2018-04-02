@@ -39,7 +39,6 @@ class GridSelect extends React.Component {
           minWidth: '20%',
         }}
       >
-        <h3>{'Filter'}</h3>
         <Select
           placeholder={`Filter ${this.props.model}`}
           options={this.props.options}
@@ -47,6 +46,7 @@ class GridSelect extends React.Component {
           value={this.props.value}
           multi
           deepFilter
+          closeOnSelect={false}
         />
       </div>
     );
