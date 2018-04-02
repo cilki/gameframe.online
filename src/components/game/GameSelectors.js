@@ -22,7 +22,6 @@ import {
 function getGame(state, { id }) {
   const games = getGames(state);
   const game = games[id];
-
   return game;
 }
 
