@@ -134,7 +134,6 @@ class Game extends React.Component {
     const coverURL = this.props.cover && this.props.cover.indexOf('http') < 0 ? `https://${this.props.cover}` : this.props.cover;
     const price = this.props.price ? `\$${this.props.price / 100}` : null;
     const platforms = this.props.platforms ? this.props.platforms : [];
-    console.log(this.props);
     return (
       <StyleRoot>
       <InstanceDetails imageURL={coverURL}>
