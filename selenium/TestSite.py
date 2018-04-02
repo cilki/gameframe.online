@@ -33,7 +33,7 @@ class TestPartOfSite(unittest.TestCase):
         try:
             self.part()
         except Exception as e:
-            self.fail(e)
+            raise e
         finally:
             self.driver.close()
 
@@ -58,7 +58,7 @@ class TestNavbar(TestPartOfSite):
         self.assertEqual(environment + "/developers", driver.current_url)
         driver.find_element(By.XPATH, "//a[@href='/games']").click()
         self.assertEqual(environment + "/games", driver.current_url)
-        driver.find_element(By.XPATH, "//a[@href='/']").click()
+        driver.find_elements(By.TAG_NAME, "img")[0].click()
         self.assertEqual(environment + "/", driver.current_url)
     
 class TestGrid(TestPartOfSite):
