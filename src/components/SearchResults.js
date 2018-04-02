@@ -5,11 +5,12 @@ import Highlighter from 'react-highlight-words';
 import InstanceDetailsStyles from './instance-details/InstanceDetailsStyles';
 import Minigrid from './minigrid/Minigrid';
 import Minicard from './minicard/Minicard';
+import ExternalMinicard from './minicard/ExternalMinicard';
 import CommonAssets from '../inline-styles/CommonAssets';
 import InstanceDetails from './instance-details/InstanceDetails';
 
 /**
- * @description - Helper method for rendering a link to a developer or article
+ * @description - Helper method for rendering a link to a game, developer, or article
  * @param {Object} props
  * @param {String} props.label
  * @param {String} props.url
@@ -30,23 +31,49 @@ link.propTypes = {
   key: PropTypes.oneOf([PropTypes.string, PropTypes.number]).isRequired,
 };
 
+/**
+ * @description - Helper method for rendering a link to an external source
+ * @param {Object} props
+ * @param {String} props.label
+ * @param {String} props.url
+ * @returns {React.Component}
+ */
+function exLink({
+  label, url, cover, key,
+}) {
+  return (
+    <ExternalMinicard label={label} url={url} cover={cover} cardKey={`${key}-inner`} key={key} />
+  );
+}
+
+exLink.propTypes = {
+  label: PropTypes.object.isRequired,//eslint-disable-line
+  url: PropTypes.string.isRequired,
+  cover: PropTypes.string.isRequired,
+  key: PropTypes.oneOf([PropTypes.string, PropTypes.number]).isRequired,
+};
+
 class SearchResults extends React.Component {
   constructor(props) {
     super(props);
+    // this.api_env = "api.gameframe.online";
+    this.api_env = 'cilk.io:2500';
     this.state = {
       query_string: decodeURI(window.location.href.substring(window.location.href.lastIndexOf('=') + 1)),//eslint-disable-line
       game_results: {},
       developer_results: {},
       article_results: {},
-      // video_results: {},
-      // twitter_results {},
+      video_results: {},
+      // tweet_results {},
     };
     this.updateGameItems = this.updateGameItems.bind(this);
     this.updateDeveloperItems = this.updateDeveloperItems.bind(this);
     this.updateArticleItems = this.updateArticleItems.bind(this);
+    this.updateVideoItems = this.updateVideoItems.bind(this);
     this.updateGameItems();
     this.updateDeveloperItems();
     this.updateArticleItems();
+    this.updateVideoItems();
   }
 
   componentDidUpdate() {
@@ -61,7 +88,7 @@ class SearchResults extends React.Component {
 
   updateGameItems() {
     fetch(//eslint-disable-line
-      encodeURI(`http://api.gameframe.online/v1/game?q={"filters":[{"name":"name","op":"like","val":"%${this.state.query_string}%"}],"order_by":[{"field":"metacritic","direction":"desc"}]}&results_per_page=1000`),
+      encodeURI(`http://${this.api_env}/v1/grid/game?q={"filters":[{"or":[{"name":"name","op":"like","val":"%${this.state.query_string}%"},{"name":"summary","op":"like","val":"%20${this.state.query_string}%20"}]}],"order_by":[{"field":"metacritic","direction":"desc"}]}&results_per_page=100`),
       { method: 'GET' },
     )
       .then(response => response.json())
@@ -72,7 +99,7 @@ class SearchResults extends React.Component {
 
   updateDeveloperItems() {
     fetch(//eslint-disable-line
-      encodeURI(`http://api.gameframe.online/v1/developer?q={"filters":[{"name":"name","op":"like","val":"%${this.state.query_string}%"}],"order_by":[{"field":"name","direction":"asc"}]}&results_per_page=1000`),
+      encodeURI(`http://${this.api_env}/v1/grid/developer?q={"filters":[{"name":"name","op":"like","val":"%${this.state.query_string}%"}],"order_by":[{"field":"name","direction":"asc"}]}&results_per_page=100`),
       { method: 'GET' },
     )
       .then(response => response.json())
@@ -83,12 +110,23 @@ class SearchResults extends React.Component {
 
   updateArticleItems() {
     fetch(//eslint-disable-line
-      encodeURI(`http://api.gameframe.online/v1/article?q={"filters":[{"name":"title","op":"like","val":"%${this.state.query_string}%"}],"order_by":[{"field":"title","direction":"asc"}]}&results_per_page=1000]}`),
+      encodeURI(`http://${this.api_env}/v1/grid/article?q={"filters":[{"or":[{"name":"title","op":"like","val":"%${this.state.query_string}%"},{"name":"introduction","op":"like","val":"%20${this.state.query_string}%20"}]}],"order_by":[{"field":"title","direction":"asc"}]}&results_per_page=100`),
       { method: 'GET' },
     )
       .then(response => response.json())
       .then((data) => {
         this.setState({ article_results: data });
+      });
+  }
+
+  updateVideoItems() {
+    fetch(//eslint-disable-line
+      encodeURI(`http://${this.api_env}/v1/video?q={"filters":[{"name":"name","op":"like","val":"%${this.state.query_string}%"}],"order_by":[{"field":"name","direction":"asc"}]}&results_per_page=1000`),
+      { method: 'GET' },
+    )
+      .then(response => response.json())
+      .then((data) => {
+        this.setState({ video_results: data });
       });
   }
 
@@ -110,7 +148,7 @@ class SearchResults extends React.Component {
           />
           <InstanceDetails>
             <div style={[InstanceDetailsStyles.externalGridCluster]}>
-              <div style={[InstanceDetailsStyles.gameGridCluster('30%')]}>
+              <div style={[InstanceDetailsStyles.gameGridCluster('45%')]}>
                 <div style={[InstanceDetailsStyles.gameIndicator]}>
                   Game Results:
                 </div>
@@ -119,7 +157,8 @@ class SearchResults extends React.Component {
                     this.state.game_results.objects ?
                     this.state.game_results.objects.map(game => link({
                       label: <Highlighter
-                        highlightStyle={{ backgroundColor: '#ffd54f' }}
+                        highlightStyle={{ backgroundColor: '#ffd54f', color: '#000' }}
+                        highlightTag="span"
                         searchWords={searchWords}
                         textToHighlight={game.name}
                       />,
@@ -130,8 +169,7 @@ class SearchResults extends React.Component {
                   }
                 </Minigrid>
               </div>
-              <br />
-              <div style={[InstanceDetailsStyles.developerGridCluster('30%')]}>
+              <div style={[InstanceDetailsStyles.developerGridCluster('45%')]}>
                 <div style={[InstanceDetailsStyles.developerIndicator]}>
                   Developer Results:
                 </div>
@@ -140,7 +178,8 @@ class SearchResults extends React.Component {
                     this.state.developer_results.objects ?
                     this.state.developer_results.objects.map(developer => link({
                       label: <Highlighter
-                        highlightStyle={{ backgroundColor: '#ffd54f' }}
+                        highlightStyle={{ backgroundColor: '#ffd54f', color: '#000' }}
+                        highlightTag="span"
                         searchWords={searchWords}
                         textToHighlight={developer.name}
                       />,
@@ -151,8 +190,7 @@ class SearchResults extends React.Component {
                   }
                 </Minigrid>
               </div>
-              <br />
-              <div style={[InstanceDetailsStyles.articleGridCluster('30%')]}>
+              <div style={[InstanceDetailsStyles.articleGridCluster('45%')]}>
                 <div style={[InstanceDetailsStyles.articleIndicator]}>
                   Article Results:
                 </div>
@@ -161,7 +199,8 @@ class SearchResults extends React.Component {
                     this.state.article_results.objects ?
                     this.state.article_results.objects.map(article => link({
                       label: <Highlighter
-                        highlightStyle={{ backgroundColor: '#ffd54f' }}
+                        highlightStyle={{ backgroundColor: '#ffd54f', color: '#000' }}
+                        highlightTag="span"
                         searchWords={searchWords}
                         textToHighlight={article.title}
                       />,
@@ -169,6 +208,27 @@ class SearchResults extends React.Component {
                       cover: article.cover,
                       key: `article-${article.article_id}`,
                     })) : ['Loading articles']
+                  }
+                </Minigrid>
+              </div>
+              <div style={[InstanceDetailsStyles.videoGridCluster('45%')]}>
+                <div style={[InstanceDetailsStyles.videoIndicator]}>
+                  Video Results:
+                </div>
+                <Minigrid>
+                  {
+                    this.state.video_results.objects ?
+                    this.state.video_results.objects.map(video => exLink({
+                      label: <Highlighter
+                        highlightStyle={{ backgroundColor: '#ffd54f', color: '#000' }}
+                        highlightTag="span"
+                        searchWords={searchWords}
+                        textToHighlight={video.name}
+                      />,
+                      url: `${video.video_link}`,
+                      cover: video.thumbnail,
+                      key: `video-${video.video_id}`,
+                    })) : ['Loading videos']
                   }
                 </Minigrid>
               </div>

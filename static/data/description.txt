@@ -1,1 +1,16 @@
-This project was born out of all of our love of video games. It connects games to their developers and news articles to both games and developers. The purpose is to get as much data as possible about a game in the same place. We hope the site will be used by others like us with the same love of gaming and thirst for knowledge.\nBy choosing these three models, we will eventually (in later phases) be able to determine a notion of popularity of different games by combining metrics such as Steam ratings, number of tweets, YouTube videos, Twitch streams, etc. This will give us insight as to where the industry might be heading next, as well as information on how scandals such as the recent rise of microtransactions in games such as Destiny 2 and Star Wars Battlefront II.
+GameFrame is an open-source online database containing video games and their associated
+publishers, developers, news articles, videos, and tweets. This information is conveniently
+organized into pages similar to IMDb where related entities are readily accessible
+from one another. Games can be filtered and sorted according to name, genre, number
+of related videos, and many more interesting criteria.<br><br>
+
+In addition to providing high quality information and media on thousands of games,
+GameFrame analyzes relationships and metadata to obtain statistics on a game's
+visibility and popularity. This information can be used to answer questions like:
+"What bad games have too much publicity?", "What good games deserve more publicity?",
+and "What are the most popular genres, tags, etc?".<br><br>
+
+Everything on GameFrame is publicly available through a convenient REST API. For
+more information, see the <a href="https://cilki.gitbooks.io/api/">API documentation</a>.
+We hope this site is helpful to those wanting to browse through detailed information
+on many games from diverse platforms, backgrounds, and time periods.

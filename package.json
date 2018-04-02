@@ -10,7 +10,7 @@
     "server": "node Server.js",
     "lint": "eslint ./src/**",
     "lint:fix": "eslint --fix ./src/**",
-    "test": "mocha --require babel-register src/**/*.test.js"
+    "test": "mocha --require babel-register 'src/**/*.test.js'"
   },
   "repository": {
     "type": "git",

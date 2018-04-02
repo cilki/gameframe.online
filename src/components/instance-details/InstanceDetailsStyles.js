@@ -18,7 +18,7 @@ const InstanceDetails = {
     height: '100%',
   },
 
-    blurBackgroundBefore: {
+  blurBackgroundBefore: {
     position: 'fixed',
     top: '0',
     height: '100%',
@@ -26,7 +26,7 @@ const InstanceDetails = {
     display: 'flex',
     flexDirection: 'column',
     overflow: 'hidden',
-    zIndex: '-150'
+    zIndex: '-150',
   },
 
   blurBackgroundImage: {
@@ -38,11 +38,11 @@ const InstanceDetails = {
     position: 'relative',
     margin: 'auto',
     transform: 'perspective(800px) translate3d(0, 0, 760px) scale(2)',
-    zIndex: '-5'
+    zIndex: '-5',
   },
 
   backgroundBorder: {
-    padding: '20px 2% 20px 2%'
+    padding: '20px 2% 20px 2%',
   },
 
   jumbotron: {
@@ -52,41 +52,41 @@ const InstanceDetails = {
     display: 'flex',
     flexDirection: 'column',
     borderRadius: `${cornerRadius}`,
-    background: 'linear-gradient(to bottom, rgba(238, 238, 238, 0.8), rgba(255, 255, 255, 0.6))'
+    background: 'linear-gradient(to bottom, rgba(238, 238, 238, 0.8), rgba(255, 255, 255, 0.6))',
   },
 
   titleText: {
-    fontSize: 'calc(24px + 2.0vw)'
+    fontSize: 'calc(24px + 2.0vw)',
   },
 
   releaseDate: {
-    fontSize: 'calc(16px + 0.75vw)'
+    fontSize: 'calc(16px + 0.75vw)',
   },
 
   genreCluster: {
-    display: 'flex'
+    display: 'flex',
   },
 
   genreIndicator: {
-      fontSize: 'calc(16px + 0.5vw)'
+    fontSize: 'calc(16px + 0.5vw)',
   },
 
   genreLabelGroup: {
     fontSize: 'calc(16px + 0.5vw)',
     display: 'flex',
-    flexWrap: 'wrap'
+    flexWrap: 'wrap',
   },
 
   carousel: {
     margin: '2% -2% 2% -2%',
     width: '104%',
     backgroundColor: 'black',
-    overflow: 'hidden'
+    overflow: 'hidden',
   },
 
   carouselCoverLink: {
     display: 'flex',
-    width: '100%'
+    width: '100%',
   },
 
   carouselCoverImage: {
@@ -97,77 +97,77 @@ const InstanceDetails = {
 
   carouselScreenshotLink: {
     display: 'flex',
-    width: '100%'
+    width: '100%',
   },
 
   carouselScreenshotImage: {
     maxWidth: '96vw',
     maxHeight: '50vh',
-    margin: 'auto'
+    margin: 'auto',
   },
 
   secondaryDataCluster: {
     display: 'flex',
     flexDirection: 'row',
-    justifyContent: 'space-between'
+    justifyContent: 'space-between',
   },
 
   priceCluster: {
     display: 'flex',
-    flexDirection: 'row'
+    flexDirection: 'row',
   },
 
   priceIndicator: {
-    fontSize: 'calc(14px + 0.5vw)'
+    fontSize: 'calc(14px + 0.5vw)',
   },
 
   priceTag: {
     fontSize: 'calc(14px + 0.5vw)',
-    color: '#00884b'
+    color: '#00884b',
   },
 
   metacriticCluster: {
     display: 'flex',
-    flexDirection: 'row'
+    flexDirection: 'row',
   },
 
   metacriticIndicator: {
-    fontSize: 'calc(14px + 0.5vw)'
+    fontSize: 'calc(14px + 0.5vw)',
   },
 
   metacriticScore: score => ({
     fontSize: 'calc(14px + 0.5vw)',
     color: '#ff004b',
     filter: `hue-rotate(${score / 200}turn) brightness(${score * 0.02})`,
-    textShadow: '-1px -1px 0 #333, 1px -1px 0 #333, -1px 1px 0 #333, 1px 1px 0 #333, -1px 0 0 #333, 1px 0 0 #333, 0 1px 0 #333, 0 -1px 0 #333, 0 0 2px #333'
+    textShadow: '-1px -1px 0 #333, 1px -1px 0 #333, -1px 1px 0 #333, 1px 1px 0 #333, -1px 0 0 #333, 1px 0 0 #333, 0 1px 0 #333, 0 -1px 0 #333, 0 0 2px #333',
   }),
 
   horizontalRule: {
     borderTop: '1px dotted #333333',
     opacity: '0.5',
-    width: '100%'
+    width: '100%',
   },
 
   synoposisIndicator: {
-    fontSize: 'calc(16px + 0.75vw)'
+    fontSize: 'calc(16px + 0.75vw)',
   },
 
   synoposisHTMLContainer: {
-    overflow: 'hidden'
+    overflow: 'hidden',
   },
 
   platformCluster: {
-    display: 'flex'
+    display: 'flex',
   },
 
   platformIndicator: {
-      fontSize: 'calc(16px + 0.5vw)'
+    fontSize: 'calc(16px + 0.5vw)',
   },
 
   platformLabelGroup: {
     fontSize: 'calc(16px + 0.5vw)',
     display: 'flex',
-    flexWrap: 'wrap'
+    flexWrap: 'wrap',
   },
 
   externalGridCluster: {
@@ -175,7 +175,7 @@ const InstanceDetails = {
     flexWrap: 'wrap',
     flexDirection: 'column',
     flexFlow: 'row wrap',
-    justifyContent: 'space-around'
+    justifyContent: 'space-around',
   },
 
   developerGridCluster: portion => ({
@@ -184,15 +184,15 @@ const InstanceDetails = {
     flexBasis: '350px',
     minWidth: portion,
     '@media screen and (max-width: 350px)': {
-        minWidth: '100%',
-        width: '100%',
-        flexBasis: '100%',
-        margin: 'auto',
-    }
+      minWidth: '100%',
+      width: '100%',
+      flexBasis: '100%',
+      margin: 'auto',
+    },
   }),
 
   developerIndicator: {
-    fontSize: 'calc(16px + 0.75vw)'
+    fontSize: 'calc(16px + 0.75vw)',
   },
 
   articleGridCluster: portion => ({
@@ -201,15 +201,32 @@ const InstanceDetails = {
     flexBasis: '350px',
     minWidth: portion,
     '@media screen and (max-width: 350px)': {
-        minWidth: '100%',
-        width: '100%',
-        flexBasis: '100%',
-        margin: 'auto',
-    }
+      minWidth: '100%',
+      width: '100%',
+      flexBasis: '100%',
+      margin: 'auto',
+    },
   }),
 
   articleIndicator: {
-    fontSize: 'calc(16px + 0.75vw)'
+    fontSize: 'calc(16px + 0.75vw)',
+  },
+
+  videoGridCluster: portion => ({
+    flexGrow: '0',
+    width: portion,
+    flexBasis: '350px',
+    minWidth: portion,
+    '@media screen and (max-width: 350px)': {
+      minWidth: '100%',
+      width: '100%',
+      flexBasis: '100%',
+      margin: 'auto',
+    },
+  }),
+
+  videoIndicator: {
+    fontSize: 'calc(16px + 0.75vw)',
   },
 
   minigrid: {
@@ -218,7 +235,7 @@ const InstanceDetails = {
     borderRadius: `${cornerRadius}`,
     display: 'flex',
     flexDirection: 'column',
-    flexFlow: 'row wrap'
+    flexFlow: 'row wrap',
   },
 
   minigridLink: {
@@ -227,7 +244,7 @@ const InstanceDetails = {
     width: 'calc((100vh + 20vw) / 4)',
     height: 'calc((20vh + 20vw) / 2)',
     margin: 'calc((1vw + 1vh) / 2)',
-    flex: 'auto'
+    flex: 'auto',
   },
 
   minicard: cover => ({
@@ -241,42 +258,42 @@ const InstanceDetails = {
     transition: 'all 0.2s',
     ':hover': {
       filter: 'brightness(150%)',
-      boxShadow: '0 14px 20px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22)'
-    }
+      boxShadow: '0 14px 20px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22)',
+    },
   }),
 
   minicardTextArea: {
     padding: '2%',
     background: 'rgba(16, 16, 16, 0.9)',
     color: '#eeeeee',
-    borderRadius: `${cornerRadius}`
+    borderRadius: `${cornerRadius}`,
   },
 
   minicardParagraph: {
-    fontSize: 'calc(12px + 0.5vw)'
+    fontSize: 'calc(12px + 0.5vw)',
   },
 
   twitterIndicator: {
-    fontSize: 'calc(16px + 0.75vw)'
+    fontSize: 'calc(16px + 0.75vw)',
   },
 
   youtubeIndicator: {
-    fontSize: 'calc(16px + 0.75vw)'
+    fontSize: 'calc(16px + 0.75vw)',
   },
 
   twitchIndicator: {
-    fontSize: 'calc(16px + 0.75vw)'
+    fontSize: 'calc(16px + 0.75vw)',
   },
 
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
- * DEVELOPER-SPECIFIC ELEMENTS                                               *
- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+  /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+   * DEVELOPER-SPECIFIC ELEMENTS                                               *
+   * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
   developerPrimaryDataCluster: {
     display: 'flex',
     flexDirection: 'row',
     flexWrap: 'wrap',
-    justifyContent: 'space-around'
+    justifyContent: 'space-around',
   },
 
   developerLogo: {
@@ -286,21 +303,21 @@ const InstanceDetails = {
     marginRight: '2%',
     display: 'block',
     height: 'calc(45.6px + 9.12vw)',
-    maxWidth: '100%'
+    maxWidth: '100%',
   },
 
   developerLogoImageBoundingBox: {
     maxHeight: 'calc(45.6px + 9.12vw)',
     borderBottomRightRadius: `${cornerRadius}`,
     maxWidth: '100%',
-    objectFit: 'scale-down'
+    objectFit: 'scale-down',
   },
 
   developerLogoImage: {
     height: 'calc(45.6px + 9.12vw)',
     width: 'auto',
     borderBottomRightRadius: `${cornerRadius}`,
-    borderTopLeftRadius: `${cornerRadius}`
+    borderTopLeftRadius: `${cornerRadius}`,
   },
 
   developerPrimaryInfoCluster: {
@@ -309,15 +326,15 @@ const InstanceDetails = {
     flexDirection: 'column',
     flexWrap: 'wrap',
     margin: 'auto',
-    justifyContent: 'flex-end'
+    justifyContent: 'flex-end',
   },
 
   establishDateIndicator: {
-    fontSize: 'calc(10px + 1.0vw)'
+    fontSize: 'calc(10px + 1.0vw)',
   },
 
   locationIndicator: {
-    fontSize: 'calc(10px + 1.0vw)'
+    fontSize: 'calc(10px + 1.0vw)',
   },
 
   bigButtonCluster: {
@@ -326,7 +343,7 @@ const InstanceDetails = {
     flexDirection: 'row',
     flexWrap: 'wrap',
     fontSize: 'calc(16px + 0.75vw)',
-    justifyContent: 'space-around'
+    justifyContent: 'space-around',
   },
 
   bigButton: {
@@ -340,19 +357,19 @@ const InstanceDetails = {
     border: '1px solid #333333',
     ':hover': {
       color: '#333333',
-      backgroundColor: 'rgba(238, 238, 238, 0.2)'
-    }
+      backgroundColor: 'rgba(238, 238, 238, 0.2)',
+    },
   },
 
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
- * ARTICLE-SPECIFIC ELEMENTS                                                 *
- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+  /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+   * ARTICLE-SPECIFIC ELEMENTS                                                 *
+   * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
   articlePrimaryDataCluster: {
     display: 'flex',
     flexDirection: 'row',
     flexWrap: 'wrap',
-    justifyContent: 'space-around'
+    justifyContent: 'space-around',
   },
 
   articleCover: {
@@ -364,9 +381,9 @@ const InstanceDetails = {
     height: 'calc(57px + 16.12vw)',
     maxWidth: '100%',
     '@media screen and (max-width: 668px)': {
-        height: '100%',
-        margin: 'auto',
-    }
+      height: '100%',
+      margin: 'auto',
+    },
   },
 
   articleCoverImageBoundingBox: {
@@ -375,11 +392,11 @@ const InstanceDetails = {
     maxWidth: '100%',
     objectFit: 'scale-down',
     '@media screen and (max-width: 668px)': {
-        borderBottomRightRadius: '0',
-        maxHeight: '100%',
-        margin: 'auto',
-        objectFit: 'revert'
-    }
+      borderBottomRightRadius: '0',
+      maxHeight: '100%',
+      margin: 'auto',
+      objectFit: 'revert',
+    },
   },
 
   articleCoverImage: {
@@ -388,10 +405,10 @@ const InstanceDetails = {
     borderBottomRightRadius: `${cornerRadius}`,
     borderTopLeftRadius: `${cornerRadius}`,
     '@media screen and (max-width: 668px)': {
-        borderRadius: `${cornerRadius}`,
-        width: '100%',
-        height: '100%',
-    }
+      borderRadius: `${cornerRadius}`,
+      width: '100%',
+      height: '100%',
+    },
   },
 
   articlePrimaryInfoCluster: {
@@ -404,20 +421,20 @@ const InstanceDetails = {
     minWidth: '450px',
     justifyContent: 'flex-end',
     '@media screen and (max-width: 500px)': {
-        minWidth: '100%'
-    }
+      minWidth: '100%',
+    },
   },
 
   authorIndicator: {
-    fontSize: 'calc(10px + 1.0vw)'
+    fontSize: 'calc(10px + 1.0vw)',
   },
 
   publishDateIndicator: {
-    fontSize: 'calc(10px + 1.0vw)'
+    fontSize: 'calc(10px + 1.0vw)',
   },
 
   outletIndicator: {
-    fontSize: 'calc(10px + 1.0vw)'
+    fontSize: 'calc(10px + 1.0vw)',
   },
 
   gameGridCluster: portion => ({
@@ -426,15 +443,15 @@ const InstanceDetails = {
     flexBasis: '350px',
     minWidth: portion,
     '@media screen and (max-width: 350px)': {
-        minWidth: '100%',
-        width: '100%',
-        flexBasis: '100%',
-        margin: 'auto',
-    }
+      minWidth: '100%',
+      width: '100%',
+      flexBasis: '100%',
+      margin: 'auto',
+    },
   }),
 
   gameIndicator: {
-    fontSize: 'calc(16px + 0.75vw)'
+    fontSize: 'calc(16px + 0.75vw)',
   },
 };
 
