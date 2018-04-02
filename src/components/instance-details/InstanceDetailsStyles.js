@@ -212,6 +212,23 @@ const InstanceDetails = {
     fontSize: 'calc(16px + 0.75vw)',
   },
 
+  videoGridCluster: portion => ({
+    flexGrow: '0',
+    width: portion,
+    flexBasis: '350px',
+    minWidth: portion,
+    '@media screen and (max-width: 350px)': {
+      minWidth: '100%',
+      width: '100%',
+      flexBasis: '100%',
+      margin: 'auto',
+    },
+  }),
+
+  videoIndicator: {
+    fontSize: 'calc(16px + 0.75vw)',
+  },
+
   minigrid: {
     maxHeight: '70vh',
     overflowY: 'scroll',
@@ -259,19 +276,6 @@ const InstanceDetails = {
   twitterIndicator: {
     fontSize: 'calc(16px + 0.75vw)',
   },
-
-  youtubeGridCluster: portion => ({
-    flexGrow: '0',
-    width: portion,
-    flexBasis: '350px',
-    minWidth: portion,
-    '@media screen and (max-width: 350px)': {
-      minWidth: '100%',
-      width: '100%',
-      flexBasis: '100%',
-      margin: 'auto',
-    },
-  }),
 
   youtubeIndicator: {
     fontSize: 'calc(16px + 0.75vw)',
