@@ -25,4 +25,12 @@ pm.test("Response Content", function() {
   pm.expect(json.summary).to.not.be.null;
   pm.expect(json.genres).to.not.be.null;
   pm.expect(json.platforms).to.not.be.null;
+  pm.expect(json.articles).to.not.be.null;
+  pm.expect(json.developers).to.not.be.null;
+});
+
+pm.test("Response Links", function() {
+  var json = pm.response.json();
+  pm.expect(json.articles.length).to.be.above(0);
+  pm.expect(json.developers.length).to.be.above(0);
 });

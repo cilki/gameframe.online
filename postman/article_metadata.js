@@ -24,4 +24,12 @@ pm.test("Response Content", function() {
   pm.expect(json.timestamp).to.not.be.null;
   pm.expect(json.image).to.not.be.null;
   pm.expect(json.introduction).to.not.be.null;
+  pm.expect(json.games).to.not.be.null;
+  pm.expect(json.developers).to.not.be.null;
+});
+
+pm.test("Response Links", function() {
+  var json = pm.response.json();
+  pm.expect(json.games.length).to.be.above(0);
+  pm.expect(json.developers.length).to.be.above(0);
 });
