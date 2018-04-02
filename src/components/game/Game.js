@@ -108,7 +108,7 @@ class Game extends React.Component {
     developers: [],
     error: null,
     genres: [],
-    price: 13.37,
+    price: 350,
     name: '',
     // release defaults to today's date
     release: '',
