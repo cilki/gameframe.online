@@ -9,6 +9,7 @@ import Radium from 'radium';
 import Styles from './AboutStyles';
 import CommonAssets from '../../inline-styles/CommonAssets';
 import GroupMember from '../group-member';
+import ReactHTMLParser from 'react-html-parser';
 
 class AboutPage extends React.Component {
   static propTypes = {
@@ -104,7 +105,7 @@ class AboutPage extends React.Component {
           <div style={[CommonAssets.stripeOverlay, CommonAssets.fillBackground]}/>
             <div style={[Styles.pad]}>
               <Jumbotron style={container}>
-                <p style={[Styles.paragraph]}>{this.props.description}</p>
+                <p style={[Styles.paragraph]}>{ReactHTMLParser(this.props.description)}</p>
 
                 <div style={{padding: '0% 2% 0% 2%'}}>
                   <hr style={[Styles.hr]}/>

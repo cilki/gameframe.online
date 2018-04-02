@@ -8,6 +8,8 @@ import PropTypes from 'prop-types';
 import Radium from 'radium';
 import { Col, Thumbnail } from 'react-bootstrap';
 import Styles from '../about/AboutStyles';
+import Minigrid from '../minigrid/Minigrid';
+import Minicard from '../minicard/Minicard';
 
 class GroupMember extends React.Component {
   static propTypes = {
@@ -19,6 +21,7 @@ class GroupMember extends React.Component {
     issues: PropTypes.number,
     responsibilities: PropTypes.string,
     unitTests: PropTypes.number,
+    favGames: PropTypes.arrayOf(PropTypes.number),
 
     fetchStats: PropTypes.func.isRequired,
   };
@@ -31,6 +34,7 @@ class GroupMember extends React.Component {
     issues: 0,
     responsibilities: '',
     unitTests: 0,
+    favGames: [],
   };
 
   constructor(props) {
@@ -58,6 +62,16 @@ class GroupMember extends React.Component {
             <p style={[Styles.paragraph]}><strong>Issues: </strong>{this.props.issues}</p>
             <p style={[Styles.paragraph]}><strong>Unit Tests: </strong>{this.props.unitTests}</p>
             <p style={[Styles.paragraph]}><strong>Bio: </strong>{this.props.bio}</p>
+            <Minigrid>
+              {
+                this.props.favGames.map(favGame => link({
+                  label: favGame.name,
+                  url: `/games/${favGame.id}`,
+                  cover: favGame.cover,
+                  key: `favGame-${favGame.id}`,
+                }))                  
+              }
+            </Minigrid>
           </div>
           <img src={"../../../static/images/arrowDown.svg"} style={[Styles.cardArrow]}/>
         </div>
