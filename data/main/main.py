@@ -15,7 +15,8 @@ from common import METRICS
 from sources import igdb, newsapi, steam, google
 from orm import db
 from util import reset, trim
-from cache import WS
+from cache import WS, load_working_set
+import vindex
 
 
 def sigint_handler(sig, frame):
@@ -50,29 +51,40 @@ print("2. FLUSH                          Commit the working set to the database"
 print("")
 print("[STEAM]")
 print("3. COLLECT games                  Download missing games and headers from Steam")
-print("4. MERGE games                    Integrate game cache into the working set")
-print("5. LINK developers                Compute Game-Developer links")
-print("6. GENERATE covers                Generate game covers")
-print("7. UPLOAD covers                  Upload game covers to S3")
+print("4. GATHER articles                Download articles from Steam")
+print("5. MERGE games                    Integrate game cache into the working set")
+print("6. MERGE articles                 Integrate article cache into the working set")
+print("7. LINK developers                Compute Game-Developer links")
+print("8. GENERATE covers                Generate game covers")
+print("9. UPLOAD covers                  Upload game covers to S3")
 
 print("")
 print("[IGDB]")
-print("8. COLLECT games                  Download missing games from IGDB")
-print("9. COLLECT developers             Download missing developers from IGDB")
-print("A. MERGE games                    Integrate game cache into working set")
-print("B. MERGE developers               Integrate developer cache into working set")
-print("C. LINK developers                Compute Game-Developer links")
+print("A. COLLECT games                  Download missing games from IGDB")
+print("B. COLLECT developers             Download missing developers from IGDB")
+print("C. MERGE games                    Integrate game cache into working set")
+print("D. MERGE developers               Integrate developer cache into working set")
+print("E. LINK developers                Compute Game-Developer links")
 
 print("")
 print("[NEWSAPI]")
-print("D. GATHER articles by game        Download game articles into the cache")
-print("E. GATHER articles by developer   Download developer articles into the cache")
-print("F. MERGE articles                 Integrate article cache into working set and LINK")
+print("I. GATHER articles by game        Download game articles into the cache")
+print("J. MERGE articles                 Integrate article cache into working set and LINK")
 
 print("")
 print("[YOUTUBE]")
-print("G. GATHER videos by game          Download game videos into the cache")
-print("H. MERGE videos                   Integrate video cache into working set and LINK")
+print("M. GATHER videos by game          Download game videos into the cache")
+print("N. MERGE videos                   Integrate video cache into working set and LINK")
+
+print("")
+print("[TWITTER]")
+print("Q. GATHER tweets by game          Download game tweets into the cache")
+print("R. MERGE tweets                   Integrate tweet cache into working set and LINK")
+
+print("")
+print("[VINDEX]")
+print("Y. BENCHMARK                      Compute and print visibility index for a few games")
+print("Z. COMPUTE game vindex            Compute visibility index for all games")
 print("-------------------------------------------------------------------------------------")
 
 with app.app_context():
@@ -94,7 +106,6 @@ with app.app_context():
             reset(db)
         elif action == '1':
             t = time()
-            print("[MAIN ] Rebuilding database")
             reset(db)
 
             # Merge games/developers
@@ -107,7 +118,12 @@ with app.app_context():
             steam.link_developers()
 
             # Merge/Link articles
+            steam.merge_articles()
             newsapi.merge_articles()
+
+            # Merge/Link videos
+            google.merge_videos()
+
             trim()
 
             WS.flush()
@@ -118,32 +134,50 @@ with app.app_context():
             steam.collect_games()
             steam.collect_headers()
         elif action == '4':
-            steam.merge_games()
+            steam.gather_articles()
         elif action == '5':
-            steam.link_developers()
+            steam.merge_games()
         elif action == '6':
-            steam.generate_covers()
+            steam.merge_articles()
         elif action == '7':
-            steam.upload_covers()
+            steam.link_developers()
         elif action == '8':
-            igdb.collect_games()
+            steam.generate_covers()
         elif action == '9':
-            igdb.collect_developers()
+            steam.upload_covers()
         elif action == 'a':
-            igdb.merge_games()
+            igdb.collect_games()
         elif action == 'b':
-            igdb.merge_developers()
+            igdb.collect_developers()
         elif action == 'c':
-            igdb.link_developers()
+            igdb.merge_games()
         elif action == 'd':
-            newsapi.gather_articles_by_game()
+            igdb.merge_developers()
         elif action == 'e':
-            newsapi.gather_articles_by_developer()
-        elif action == 'f':
+            igdb.link_developers()
+        elif action == 'i':
+            newsapi.gather_articles()
+        elif action == 'j':
             newsapi.merge_articles()
-        elif action == 'g':
+        elif action == 'm':
             google.gather_videos_by_game()
-        elif action == 'h':
+        elif action == 'n':
             google.merge_videos()
+        elif action == 'q':
+            pass
+        elif action == 'r':
+            pass
+        elif action == 'y':
+            load_working_set()
+            vindex.precompute()
+
+            # Compute benchmark games
+            for appid in [578080, 570, 359550, 271590, 552520, 477160, 50300]:
+                game = WS.game_steam[appid]
+                vindex.compute(game)
+                print("Computed VINDEX: %d for game: %s" %
+                      (game.vindex, game.name))
+        elif action == 'z':
+            vindex.compute_all()
         else:
             print("Unknown Command")
