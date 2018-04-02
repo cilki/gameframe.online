@@ -173,6 +173,7 @@ def build_game(game_json):
     # Title
     if game.name is None:
         game.name = game_json['name']
+        game.c_name = condition(game.name)
 
     # Genre
     for numeric_genre in game_json.get('genres', []):

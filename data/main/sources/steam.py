@@ -21,7 +21,7 @@ from cdgen.steam import generate
 from common import METRICS, CDN_URI
 from orm import Developer, Game, Article, Genre, Image, Platform
 
-from .util import parse_steam_date, xappend
+from .util import condition, condition_heavy, parse_steam_date, xappend
 
 """
 The game cache
@@ -177,6 +177,7 @@ def build_game(game_json):
     # Title
     if game.name is None:
         game.name = game_json['name']
+        game.c_name = condition(game.name)
 
     # Summary
     if game.summary is None and 'detailed_description' in game_json:
@@ -242,12 +243,14 @@ def build_article(article_json):
     # Title
     if article_json.get('title'):
         article.title = article_json['title']
+        article.c_title = condition_heavy(article.title)
     else:
         return None
 
     # Introduction
     if article_json.get('contents'):
         article.introduction = article_json['contents']
+        article.c_content = condition_heavy(article.introduction)
     else:
         return None
 

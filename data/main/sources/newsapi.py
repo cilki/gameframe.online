@@ -138,11 +138,18 @@ def build_article(model, article_json):
             name not in condition_heavy(article_json['description']):
         return None
 
-    return Article(title=article_json['title'], outlet=article_json['source']['name'],
-                   introduction=article_json['description'], author=article_json['author'],
-                   timestamp=datetime.strptime(
-                       article_json['publishedAt'], "%Y-%m-%dT%H:%M:%SZ"),
-                   cover=article_json['urlToImage'], article_link=article_json['url'])
+    article = Article()
+    article.title = article_json['title']
+    article.c_title = condition_heavy(article_json['title'])
+    article.outlet = article_json['source']['name']
+    article.introduction = article_json['description']
+    article.c_content = condition_heavy(article.introduction)
+    article.author = article_json['author']
+    article.timestamp = datetime.strptime(
+        article_json['publishedAt'], "%Y-%m-%dT%H:%M:%SZ")
+    article.cover = article_json['urlToImage']
+    article.article_link = article_json['url']
+    return article
 
 
 def gather_articles():

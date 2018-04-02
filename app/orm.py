@@ -24,6 +24,9 @@ class Game(db.Model):
     # The game's user-friendly title
     name = db.Column(db.Text)
 
+    # The game's conditioned title
+    c_name = db.Column(db.Text)
+
     # The game's website
     website = db.Column(db.Text)
 
@@ -81,6 +84,9 @@ class Article(db.Model):
     # The article's title
     title = db.Column(db.Text)
 
+    # The article's conditioned title
+    c_title = db.Column(db.Text)
+
     # The name of the article's outlet
     outlet = db.Column(db.Text)
 
@@ -92,6 +98,9 @@ class Article(db.Model):
 
     # The first few sentences of the article
     introduction = db.Column(db.Text)
+
+    # The article's conditioned content
+    c_content = db.Column(db.Text)
 
     # The article's cover image
     cover = db.Column(db.Text)
