@@ -79,13 +79,11 @@ class AboutPage extends React.Component {
                   sm={3}
                 >
                   <div style={[Styles.cardPad]}>
-                    <div style={[Styles.cardTool, Styles.cardExpand]} key={`${tool.name}-card`}>
-                      <img src={tool.cover} style={[Styles.cardImage]}/>
-                      <h3 style={[Styles.title]}>{tool.name}</h3>
-                      <p style={[Styles.paragraph]}><strong>Phase: </strong>{tool.phase}</p>
-                      <p style={[Styles.paragraph]}>{tool.usage}</p>
+                    <div style={[Styles.cardTool]}>
+                      <img src={tool.cover} style={[Styles.cardToolImage]}/>
+                      <h3 style={[Styles.cardToolTitle]}>{tool.name}</h3>
+                      <p style={[Styles.cardToolParagraph]}>{tool.usage}</p>
                     </div>
-                    <img src={"../../../static/images/arrowDown.svg"} style={[Styles.cardArrow]}/>
                   </div>
                 </Col>
               );

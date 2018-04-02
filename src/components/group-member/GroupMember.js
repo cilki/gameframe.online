@@ -51,7 +51,7 @@ class GroupMember extends React.Component {
       <Col lg={4} md={6} sm={6}>
         <div style={[Styles.cardPad]}>
           <div style={[Styles.cardMember, Styles.cardExpand]} key={`${this.props.name}-card`}>
-            <img src={this.props.avatar} style={[Styles.cardImage]}/>
+            <img src={this.props.avatar} style={[Styles.cardMemberImage]}/>
             <h3 style={[Styles.title]}>{this.props.name}</h3>
             <p style={[Styles.paragraph]}><strong>Bio: </strong>{this.props.bio}</p>
             <p style={[Styles.paragraph]}><strong>Responsibilities: </strong>{this.props.responsibilities}</p>
