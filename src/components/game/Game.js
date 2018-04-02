@@ -144,50 +144,47 @@ class Game extends React.Component {
     const steamApiKey = 'B742258BCF24425642B7E0C770450FC2';
     const trendName = encodeURI(this.props.name);
     const trendsURL = `https://trends.google.com:443/trends/embed/explore/TIMESERIES?req=%7B%22comparisonItem%22%3A%5B%7B%22keyword%22%3A%22${trendName}%22%2C%22geo%22%3A%22%22%2C%22time%22%3A%22all%22%7D%5D%2C%22category%22%3A0%2C%22property%22%3A%22%22%7D&tz=300&amp;eq=date%3Dall%26q%3D${trendName}`;
-      console.log(trendsURL)
     return (
       <StyleRoot>
       <InstanceDetails imageURL={coverURL}>
         <div style={[ InstanceDetailsStyles.gamePrimaryDataCluster]}>
-          <div style={{}}>
+          <div style={[ InstanceDetailsStyles.gameCover ]}>
+            <div style={[ InstanceDetailsStyles.gameCoverImageBoundingBox ]}>
+              <img
+                style={[ InstanceDetailsStyles.gameCoverImage ]}
+                src={coverURL}
+                alt={`${this.props.name} logo`}
+              />
+            </div>
+          </div>
+          <div style={[ InstanceDetailsStyles.gamePrimaryInfoCluster ]}>
             <div style={[ InstanceDetailsStyles.titleText ]}>
               {this.props.name}
             </div>
-          </div>
-          <div>
             <div style={[ InstanceDetailsStyles.releaseDate ]}>
               Released {this.props.release}
             </div>
-          </div>
-          <div style={[ InstanceDetailsStyles.genreCluster ]}>
-            <div style={[ InstanceDetailsStyles.genreIndicator ]}>
-              Genres:&nbsp;
-            </div>
-            <div style={[ InstanceDetailsStyles.genreLabelGroup ]}>
-              {
-                this.props.genres.map((genre) => {
-                  return (
-                    <span key={genre}>
-                      <Label key={`${genre}-label`}>
-                        {genre}
-                      </Label>
-                      &nbsp;
-                    </span>
-                  )
-                })
-              }
+            <div style={[ InstanceDetailsStyles.genreCluster ]}>
+              <div style={[ InstanceDetailsStyles.genreIndicator ]}>
+                Genres:&nbsp;
+              </div>
+              <div style={[ InstanceDetailsStyles.genreLabelGroup ]}>
+                {
+                  this.props.genres.map((genre) => {
+                    return (
+                      <span key={genre}>
+                        <Label key={`${genre}-label`}>
+                          {genre}
+                        </Label>
+                        &nbsp;
+                      </span>
+                    )
+                  })
+                }
+              </div>
             </div>
           </div>
           <Carousel style={ InstanceDetailsStyles.carousel }>
-            <Carousel.Item>
-              <a href={coverURL} style={[ InstanceDetailsStyles.carouselCoverLink ]}>
-                <img
-                  src={coverURL}
-                  alt={this.props.name}
-                  style={[ InstanceDetailsStyles.carouselCoverImage ]}
-                />
-              </a>
-            </Carousel.Item>
               {
                 screenshots.map(_screenshot => screenshot(_screenshot))
               }
