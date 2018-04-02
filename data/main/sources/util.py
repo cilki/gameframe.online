@@ -4,7 +4,28 @@
 # --------------------------------
 
 import os
+import re
 from datetime import datetime
+
+from orm import Game, Developer
+
+"""
+Extra keywords that make relevancy matching difficult and should be carefully
+filtered in some circumstances.
+"""
+DEVELOPER_EXTRA = ['llc', 'ltd', 'co', 'inc', 'company', 'interactive',
+                   'entertainment', 'studios', 'studio', 'games', 'publishing']
+
+"""
+A compiled regex that matches strings in DEVELOPER_EXTRA
+"""
+CONDITION_DEVELOPER = re.compile(
+    "[\W+]" + "[\W*]|[\W+]".join(DEVELOPER_EXTRA) + "[\W*]")
+
+"""
+A compiled regex that performs heavy conditioning
+"""
+CONDITION_HEAVY = re.compile(r'<sup>|</sup>|[ ]|\W')
 
 
 def parse_steam_date(d):
@@ -23,27 +44,33 @@ def parse_steam_date(d):
     return None
 
 
-def condition_article(keyword):
+def condition(keyword):
     """
-    Condition an article keyword for searching
+    Condition a general keyword for searching
     """
-    return keyword.replace("™", "").replace("®", "").replace("<sup>", "") \
-        .replace("</sup>", "").replace(":", "").replace("-", "")
+    keyword = re.sub(r'™|®|<sup>|</sup>', '', keyword).strip().lower()
+    return re.sub(r'[ +]', ' ', keyword)
 
 
-def condition_video(keyword):
+def condition_heavy(keyword):
     """
-    Condition a video keyword for searching
+    Heavily condition a keyword for relevancy detection
     """
-    return condition_article(keyword).replace(" ", "+")
+    return CONDITION_HEAVY.sub('', keyword).lower()
 
 
-def cond_game_name(name):
+def condition_developer(name):
     """
-    Condition a game name for matching
+    Condition a developer's name
     """
-    return name.replace("™", "").replace("®", "").replace(":", "") \
-        .replace("-", "").replace(" +", " ")
+    return CONDITION_DEVELOPER.sub('', name).lower()
+
+
+def keywordize(model):
+    """
+    Reduce a model to a keyword string
+    """
+    return condition(model.name)
 
 
 def xappend(collection, item):
