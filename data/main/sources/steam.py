@@ -243,14 +243,12 @@ def build_article(article_json):
     # Title
     if article_json.get('title'):
         article.title = article_json['title']
-        article.c_title = condition_heavy(article.title)
     else:
         return None
 
     # Introduction
     if article_json.get('contents'):
         article.introduction = article_json['contents']
-        article.c_content = condition_heavy(article.introduction)
     else:
         return None
 

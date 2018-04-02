@@ -140,10 +140,8 @@ def build_article(model, article_json):
 
     article = Article()
     article.title = article_json['title']
-    article.c_title = condition_heavy(article_json['title'])
     article.outlet = article_json['source']['name']
     article.introduction = article_json['description']
-    article.c_content = condition_heavy(article.introduction)
     article.author = article_json['author']
     article.timestamp = datetime.strptime(
         article_json['publishedAt'], "%Y-%m-%dT%H:%M:%SZ")
