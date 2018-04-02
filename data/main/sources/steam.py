@@ -240,13 +240,13 @@ def build_article(article_json):
     article = Article()
 
     # Title
-    if article_json.get('title') is not None:
+    if article_json.get('title'):
         article.title = article_json['title']
     else:
         return None
 
     # Introduction
-    if article_json.get('contents') is not None:
+    if article_json.get('contents'):
         article.introduction = article_json['contents']
     else:
         return None
@@ -263,25 +263,25 @@ def build_article(article_json):
         return None
 
     # Author
-    if article_json.get('author') is not None:
+    if article_json.get('author'):
         article.author = article_json['author']
     else:
         return None
 
     # URL
-    if article_json.get('url') is not None:
+    if article_json.get('url'):
         article.article_link = article_json['url']
     else:
         return None
 
     # Timestamp
-    if article_json.get('date') is not None:
+    if article_json.get('date'):
         article.timestamp = datetime.fromtimestamp(article_json['date'])
     else:
         return None
 
     # Outlet
-    if article_json.get('feedlabel') is not None:
+    if article_json.get('feedlabel'):
         article.outlet = article_json['feedlabel']
     else:
         return None
