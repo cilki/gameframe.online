@@ -47,12 +47,10 @@ class GenericGrid extends React.Component {
    * @param {Object} prevProps
    */
   componentDidUpdate(prevProps) {
-    console.log('this.props.filters', this.props.filters);
     if (prevProps.currentPage !== this.props.currentPage) {
       this.props.fetchModels(this.props.currentPage, this.props.filters);
     }
     else if (prevProps.filters.length !== this.props.filters.length) {
-      console.log('fetching')
       this.props.fetchModels(this.props.currentPage, this.props.filters, true);
     }
   }
