@@ -5,8 +5,8 @@ import unittest, time
 
 class TestPartOfSite(unittest.TestCase):
 
-    #Some test/browser combinations require extra time for the page to load
-    time_to_sleep = 2
+    #Some tests require extra time for the page to load
+    time_to_sleep = 4
 
     #Which environment to test
     #environment = "http://gameframe.online"
@@ -22,8 +22,6 @@ class TestPartOfSite(unittest.TestCase):
     
     def test_firefox(self):
         self.driver = webdriver.Firefox()
-        #Firefox doesn't need to sleep for some reason
-        self.time_to_sleep = 0
         self.do_part()
 
     def part(self):
@@ -104,28 +102,28 @@ class TestArticles(TestGrid):
 
 class TestRelations(TestPartOfSite):
 
-    def find_game(self, time_to_sleep=0):
-        time.sleep(time_to_sleep)
+    def find_game(self):
+        time.sleep(self.time_to_sleep)
         self.driver.find_element(By.XPATH, "//a[@href='/games/126']").click()
         self.assertEqual(self.environment + "/games/126", self.driver.current_url)
     
-    def find_developer(self, time_to_sleep=0):
-        time.sleep(time_to_sleep)
+    def find_developer(self):
+        time.sleep(self.time_to_sleep)
         self.driver.find_element(By.XPATH, "//a[@href='/developers/291']").click()
         self.assertEqual(self.environment + "/developers/291", self.driver.current_url)
     
-    def find_article(self, time_to_sleep=0):
-        time.sleep(time_to_sleep)
-        self.driver.find_element(By.XPATH, "//a[@href='/articles/11314']").click()
-        self.assertEqual(self.environment + "/articles/11314", self.driver.current_url)
+    def find_article(self):
+        time.sleep(self.time_to_sleep)
+        self.driver.find_element(By.XPATH, "//a[@href='/articles/11324']").click()
+        self.assertEqual(self.environment + "/articles/11324", self.driver.current_url)
 
 class TestGameRelations(TestRelations):
 
     def part(self):
         self.driver.get(self.environment + "/games/126")
-        self.find_developer(self.time_to_sleep)
-        self.find_article(self.time_to_sleep)
-        self.find_game(self.time_to_sleep)
+        self.find_developer()
+        self.find_article()
+        self.find_game()
         self.find_article()
         self.find_developer()
         self.find_game()
@@ -134,9 +132,9 @@ class TestDeveloperRelations(TestRelations):
 
     def part(self):
         self.driver.get(self.environment + "/developers/291")
-        self.find_game(self.time_to_sleep)
-        self.find_article(self.time_to_sleep)
-        self.find_developer(self.time_to_sleep)
+        self.find_game()
+        self.find_article()
+        self.find_developer()
         self.find_article()
         self.find_game()
         self.find_developer()
@@ -145,9 +143,9 @@ class TestArticleRelations(TestRelations):
 
     def part(self):
         self.driver.get(self.environment + "/articles/11314")
-        self.find_game(self.time_to_sleep)
-        self.find_developer(self.time_to_sleep)
-        self.find_article(self.time_to_sleep)
+        self.find_game()
+        self.find_developer()
+        self.find_article()
         self.find_developer()
         self.find_game()
         self.find_article()
