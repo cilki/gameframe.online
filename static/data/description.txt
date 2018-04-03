@@ -1,16 +1,20 @@
-GameFrame is an open-source online database containing video games and their associated
-publishers, developers, news articles, videos, and tweets. This information is conveniently
-organized into pages similar to IMDb where related entities are readily accessible
-from one another. Games can be filtered and sorted according to name, genre, number
-of related videos, and many more interesting criteria.<br><br>
+GameFrame is an open-source online database containing video games and their
+associated publishers, developers, news articles, videos, and tweets. This 
+information is conveniently organized into pages similar to IMDb where related 
+entities are readily accessible from one another. Games can be filtered and 
+sorted according to name, genre, number of related videos, and many more 
+interesting criteria.<br>
 
-In addition to providing high quality information and media on thousands of games,
-GameFrame analyzes relationships and metadata to obtain statistics on a game's
-visibility and popularity. This information can be used to answer questions like:
-"What bad games have too much publicity?", "What good games deserve more publicity?",
-and "What are the most popular genres, tags, etc?".<br><br>
+<br>In addition to providing high quality information and media on thousands 
+of games, GameFrame analyzes relationships and metadata to obtain statistics 
+on a game's visibility and popularity. This information can be used to answer 
+questions like: "What bad games have too much publicity?", "What good games 
+deserve more publicity?", and "What are the most popular genres, tags, 
+etc?".<br>
 
-Everything on GameFrame is publicly available through a convenient REST API. For
-more information, see the <a href="https://cilki.gitbooks.io/api/">API documentation</a>.
-We hope this site is helpful to those wanting to browse through detailed information
-on many games from diverse platforms, backgrounds, and time periods.
+<br>Everything on GameFrame is publicly available through a convenient REST 
+API. For more information, see the 
+<a href="https://cilki.gitbooks.io/api/">API documentation</a>.
+We hope this site is helpful to those wanting to browse through detailed 
+information on many games from diverse platforms, backgrounds, and time 
+periods.

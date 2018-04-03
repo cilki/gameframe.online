@@ -20,10 +20,6 @@ export default {
     borderRadius: '4px',
     backgroundColor: '#ffffff',
   },
-  brand: {
-    margin: '2% 2% 2% 2%',
-    opacity: '0.8',    
-  },
   title: {
     padding: '0% 2% 0% 2%',
     fontSize: 'calc(16px + 1vw)',
@@ -39,12 +35,14 @@ export default {
     width: '96%',
     fontSize: 'calc(6px + 1vw)',
     color: '#000000',
-    backgroundColor: '#A9A9A9',
-    borderColor: '#A9A9A9',
+    backgroundColor: '#F0F0F0',
+    borderColor: '#F0F0F0',
     borderRadius: '4px',
-    opacity: '0.5',
+    opacity: '1.0',
     ':hover': {
-      opacity: '0.25',
+      opacity: '0.8',
+      backgroundColor: '#D3D3D3',
+      borderColor: '#D3D3D3',
     },
   },
   hr: {
@@ -60,7 +58,8 @@ export default {
      padding: '2% 2% 2% 2%', 
   },
   cardMember: {
-    height: 'calc(300px + 15vw)',
+    //height: 'calc(300px + 15vw)',
+    height: '75vh',
     overflow: 'hidden',
     backgroundColor: '#ffffff',
     border: '1px solid #A9A9A9',
@@ -68,14 +67,16 @@ export default {
     padding: '2% 2% 2% 2%',
   },
   cardInfo: {
-    height: 'calc(200px + 10vw)',
+    //height: 'calc(200px + 10vw)',
+    height: '45vh',
     overflow: 'hidden',
     backgroundColor: '#ffffff',
     border: '1px solid #A9A9A9',
     borderRadius: '4px',     
   },
   cardTool: {
-    height: 'calc(200px + 10vw)',
+    //height: 'calc(200px + 10vw)',
+    height: '45vh',
     overflow: 'hidden',
     backgroundColor: '#ffffff',
     border: '1px solid #A9A9A9',
