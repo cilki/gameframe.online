@@ -151,20 +151,21 @@ def build_game(game_json):
     """
 
     # Steam ID matching
-    if 'external' in game_json and 'steam' in game_json['external'] \
-            and int(game_json['external']['steam']) in WS.game_steam:
-        game = WS.game_steam[int(game_json['external']['steam'])]
+    if 'external' in game_json and 'steam' in game_json['external']:
+        game = WS.game_steam.get(int(game_json['external']['steam']))
+    else:
+        game = None
 
     # IGDB ID matching
-    elif game_json['id'] in WS.game_igdb:
-        game = WS.game_igdb[game_json['id']]
+    if game is None:
+        game = WS.game_igdb.get(game_json['id'])
 
     # Exact name matching
-    elif condition(game_json['name']) in WS.game_name:
-        game = WS.game_name[condition(game_json['name'])]
+    if game is None:
+        game = WS.game_name.get(condition(game_json['name']))
 
     # Build new Game
-    else:
+    if game is None:
         game = Game()
 
     # IGDB ID (overwrite)

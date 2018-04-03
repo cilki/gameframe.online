@@ -160,11 +160,15 @@ def build_game(game_json):
     previous Games.
     """
 
-    game = WS.game_steam.get(game_json['steam_appid'], None)
+    # Steam ID matching
+    game = WS.game_steam.get(game_json['steam_appid'])
+
+    # Exact name matching
     if game is None:
-        game = WS.game_name.get(game_json['name'], None)
+        game = WS.game_name.get(condition(game_json['name']))
+
+    # Build new Game
     if game is None:
-        # Build new Game
         game = Game()
 
     if game.steam_id is not None and game.igdb_id is None:
