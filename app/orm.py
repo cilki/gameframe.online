@@ -150,6 +150,9 @@ class Developer(db.Model):
     # The developer's title
     name = db.Column(db.Text)
 
+    # The developers's conditioned title
+    c_name = db.Column(db.Text)
+
     # The developer's country of origin
     country = db.Column(db.Text)
 

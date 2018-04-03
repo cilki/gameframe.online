@@ -69,7 +69,8 @@ class WorkingSet ():
         print("[MAIN ] Loading working set")
 
         # All games
-        self.game_name = {}
+        # [name, c_name] => Developer
+        self.game_name = multi_key_dict()
 
         # Games that have a Steam ID
         self.game_steam = {}
@@ -117,7 +118,7 @@ class WorkingSet ():
         """
         Add a game to the working set
         """
-        self.game_name[game.name] = game
+        self.game_name[game.name, game.c_name] = game
         if game.igdb_id is not None:
             self.game_igdb[game.igdb_id] = game
         if game.steam_id is not None:
@@ -141,7 +142,7 @@ class WorkingSet ():
         """
         Add a developer to the working set
         """
-        self.developers[dev.name, dev.igdb_id] = dev
+        self.developers[dev.name, dev.c_name, dev.igdb_id] = dev
 
     def del_developer(self, dev):
         """

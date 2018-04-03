@@ -18,7 +18,7 @@ from cache import WS, Cache, load_working_set
 from common import METRICS
 from orm import Developer, Game, Genre, Image, Platform
 
-from .util import condition, xappend
+from .util import condition, condition_developer, xappend
 
 """
 The API key
@@ -228,15 +228,14 @@ def build_dev(dev_json):
 
     # Name matching
     # This is necessary because some developers from IGDB are duplicated
-    if dev_json['name'] in WS.developers:
-        dev = WS.developers[dev_json['name']]
+    dev = WS.developers.get(condition_developer(dev_json['name']))
 
     # IGDB ID matching
-    elif dev_json['id'] in WS.developers:
-        dev = WS.developers[dev_json['id']]
+    if dev is None:
+        dev = WS.developers.get(dev_json['id'])
 
     # Build new Developer
-    else:
+    if dev is None:
         dev = Developer()
 
     # IGDB ID
@@ -246,6 +245,7 @@ def build_dev(dev_json):
     # Name
     if dev.name is None:
         dev.name = dev_json['name']
+        dev.c_name = condition_developer(dev.name)
 
     # Description
     if dev.description is None and 'description' in dev_json:

@@ -21,7 +21,7 @@ from cdgen.steam import generate
 from common import METRICS, CDN_URI
 from orm import Developer, Game, Article, Genre, Image, Platform
 
-from .util import condition, condition_heavy, parse_steam_date, xappend
+from .util import condition, condition_developer, condition_heavy, parse_steam_date, xappend
 
 """
 The game cache
@@ -446,10 +446,9 @@ def link_developers():
             continue
 
         for name in chain(game_json.get('publishers', []), game_json.get('developers', [])):
-            if name in WS.developers:
-                # Link the models if not already linked
-                dev = WS.developers[name]
-                if not dev in game.developers:
-                    dev.games.append(game)
+            dev = WS.developers.get(condition_developer(name))
+            if dev is not None:
+                # Link the models
+                xappend(game.developers, dev)
 
     print("[STEAM] Link complete")
