@@ -1,13 +1,7 @@
 /**
- * Index.js file for the DeveloperTooltip component
+ * Index.js file for the Tooltip component
  */
 
-import GameTooltip from './GameTooltip';
-import DeveloperTooltip from './DeveloperTooltip';
-import ArticleTooltip from './ArticleTooltip';
+import Tooltip from './Tooltip';
 
-export {
-  GameTooltip,
-  DeveloperTooltip,
-  ArticleTooltip,
-};
+export default Tooltip;

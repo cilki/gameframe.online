@@ -8,11 +8,8 @@ import Radium from 'radium';
 import { Badge, Label } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import iso from 'iso-3166-1';
-
 import CardStyles from './CardStyles';
-import GameTooltip from '../tooltips/GameTooltip';
-import DeveloperTooltip from '../tooltips/DeveloperTooltip';
-import ArticleTooltip from '../tooltips/ArticleTooltip';
+import Tooltip from '../tooltips/Tooltip';
 
 /**
  * A single card instance within the InstanceGrid
@@ -38,7 +35,7 @@ class Card extends React.Component {
     origin: null,
     year: new Date().getFullYear(),
     tooltipType: 0,
-    price: 0,
+    price: -1,
     link1: '',
     link2: '',
     articles: [],
@@ -58,46 +55,6 @@ class Card extends React.Component {
     const { title } = this.props;
     const imageCover = this.props.cover !== null && this.props.cover.search('http') < 0 ?
       `https://${this.props.cover}` : this.props.cover;
-    const tooltipType = this.props.tooltipType;
-
-    /**
-     * @description - Render the tooltip associated with the type.
-     * @returns {React.Component}
-     */
-    function tooltip(
-      games, price,
-      developers,
-      articles,
-      link1, link2,
-    ) {
-      if (tooltipType === 1) {
-        return (
-          <GameTooltip
-            price={price}
-            articles={articles.length}
-          />
-        );
-      } else if (tooltipType === 2) {
-        return (
-          <DeveloperTooltip
-            games={games.length}
-            articles={articles.length}
-            twitter={link1}
-            website={link2}
-          />
-        );
-      } else if (tooltipType === 3) {
-        return (
-          <ArticleTooltip
-            games={games}
-            developers={developers}
-            article_link={link1}
-          />
-        );
-      }
-      return <div>Error: No tooltipType defined!</div>;
-    }
-
     const origin = this.props.origin ? iso.whereNumeric(this.props.origin) : '';
     const country = origin ? origin.country : null;
 
@@ -143,12 +100,19 @@ class Card extends React.Component {
                     () => { this.img.src = '../../static/images/noImage.png'; }
                   }
                 />
+
                 <div>
-                  {tooltip(this.props.games, this.props.price,
-                           this.props.developers,
-                           this.props.articles,
-                           this.props.link1, this.props.link2,
-)}
+                  <Tooltip
+                    price={this.props.price}
+                    
+                    games={this.props.games.length}
+                    developers={this.props.developers.length}
+                    articles={this.props.articles.length}
+                    
+                    twitter={this.props.link1}
+                    website={this.props.link2}
+                    source={this.props.link1}
+                  />
                 </div>
               </div>
               <div style={[CardStyles.captionContainer]} key={`${title}-caption`}>
