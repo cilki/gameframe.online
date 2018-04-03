@@ -26,17 +26,18 @@ def trim():
     for game in tqdm(list(WS.game_name.values())):
         if game.cover is None or len(game.screenshots) == 0 \
                 or game.summary is None or len(game.summary) < 10 \
-                or (len(game.developers) == 0 and len(game.articles) == 0 and len(game.videos) == 0):
+                or len(game.developers) == 0 or (len(game.articles) == 0 and len(game.videos) == 0):
             # Remove
             WS.del_game(game)
+            assert game.name not in WS.game_name
 
     # Remove developers without logos, with short descriptions, or a low number
     # of primary connections
     for dev in tqdm(list(WS.developers.values())):
-        if dev.logo is None or len(dev.logo) < 15 \
-                or (len(dev.games) == 0 and len(dev.articles) == 0):
+        if dev.logo is None or len(dev.logo) < 15 or len(dev.games) == 0:
             # Remove
             WS.del_developer(dev)
+            assert dev.name not in WS.developers
 
     print("[MAIN ] Trim complete")
 
