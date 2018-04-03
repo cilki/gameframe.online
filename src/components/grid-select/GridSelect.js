@@ -18,6 +18,8 @@ class GridSelect extends React.Component {
         value: PropTypes.string.isRequired,
         label: PropTypes.string.isRequired,
       })),
+      type: PropTypes.string.isRequired,
+      subfilterId: PropTypes.string.isRequired,
     })),
 
     setFilterValue: PropTypes.func.isRequired,

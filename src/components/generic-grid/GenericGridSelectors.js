@@ -93,7 +93,7 @@ function createSelectors(modelName) {
    * @returns {Array}
    */
   const getFilters = (state) => {
-    return state[modelName].filter
+    return state[modelName].filters
       .map((filter) => {
         if (!(typeof filter.value === 'object')) {
           return null;

@@ -7,6 +7,7 @@
 import { normalize } from 'normalizr';
 import { handleActions } from 'redux-actions';
 import { combineReducers } from 'redux';
+import QueryString from 'query-string';
 
 import { PAGE_SIZE } from '../Constants';
 import { setGridFilterAction } from '../grid-select';
@@ -46,11 +47,13 @@ function createPredicate(selector) {
 function formatFilters(filters) {
   return [{
     and: filters.map((filter) => {
-      return {
-        name: 'genres__name',
-        op: 'any',
-        val: filter.subfilter,
-      };
+      if (filter.type === 'array') {
+        return {
+          name: `${filter.value}__${filter.subfilterId}`,
+          op: 'any',
+          val: filter.subfilter,
+        };
+      }
     }),
   }];
 }
@@ -102,7 +105,6 @@ function createFetchModels(
     }
     else {
       uri = `http://api.gameframe.online/v1/${pathname}?q=${JSON.stringify(queryObject)}&page=${pageNumber}&results_per_page=${PAGE_SIZE}`;
-      console.log('uri', uri);
     }
     /**
      * @description - This is the thunk itself, which dispatches it's own synchronous actions
@@ -113,20 +115,30 @@ function createFetchModels(
     return (dispatch, getState) => {
       if (override || predicate(getState(), pageNumber)) {
         dispatch(requestAction());
-        return fetch( //eslint-disable-line
-          encodeURI(uri),
-          { method: 'GET' },
-        )
+        let page;
+        return Promise.resolve(pageNumber)
+          .then((_page) => {
+            page = _page;
+            return fetch( //eslint-disable-line
+              encodeURI(uri),
+              { method: 'GET' },
+            )
+          })
           .then(response => response.json())
           .then(json => normalize(json, schema))
           .then((data) => {
-            if (data.result && data.result.total_pages) {
+            if (data.result && data.result.total_pages !== undefined) {
               dispatch(setTotalPageAction(data.result.total_pages));
             }
 
             if (!data.entities) {
+              dispatch(setPageAction({
+                pageNumber: page,
+                indices: [],
+              }));
               return Promise.resolve();
             }
+
             secondaryModels.forEach(({
               secondaryModelName,
               secondaryModelResponseAction,
@@ -140,14 +152,20 @@ function createFetchModels(
             if (data.entities[modelName]) {
               dispatch(responseAction(Object.values(data.entities[modelName])));
               dispatch(setPageAction({
-                pageNumber,
+                pageNumber: page,
                 indices: Object.keys(data.entities[modelName]),
+              }));
+            }
+            else {
+              dispatch(setPageAction({
+                pageNumber: page,
+                indices: [],
               }));
             }
 
             return Promise.resolve();
           })
-          .catch(err => dispatch(responseAction(err)));
+          .catch((err) => { console.error(err); dispatch(responseAction(err)); });
       }
       return Promise.resolve();
     };
@@ -282,7 +300,7 @@ function createReducer(
     },
   }, {});
 
-  const filter = handleActions({
+  const filters = handleActions({
     [setGridFilterAction](state, { payload }) {
       const { model, value } = payload;
       
@@ -300,12 +318,30 @@ function createReducer(
     error,
     totalPages,
     pages,
-    filter,
+    filters,
   });
+}
+
+/**
+ * @description 
+ */
+function resetPage(search, totalPages, push, fetchFunction) {
+  if (!search) {
+    return;
+  }
+  const parsed = QueryString.parse(search);
+  if (parsed.page > totalPages) {
+    // minimum is 1
+    parsed.page = totalPages ? totalPages : 1;
+    push(`${window.location.pathname}?${QueryString.stringify(parsed)}`);
+    return isNaN(Number(parsed.page)) ? null : Number(parsed.page);
+  }
+  return null;
 }
 
 export {
   createPredicate,
   createFetchModels,
   createReducer,
+  resetPage,
 };

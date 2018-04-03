@@ -6,7 +6,7 @@
 
 import { connect } from 'react-redux';
 
-import { createFetchModels, createPredicate } from './GenericGridActions';
+import { createFetchModels, createPredicate, resetPage } from './GenericGridActions';
 import createSelectors from './GenericGridSelectors';
 
 /**
@@ -59,9 +59,13 @@ function createContainer(
     },
     secondaryModels,
   );
-  function mapDispatchToProps(dispatch) {
+  function mapDispatchToProps(dispatch, props) {
     return {
       fetchModels: (page, filters, override) => dispatch(fetchFunction(page, filters, override)),
+      resetPage: (totalPages, push, filters) => {
+        const page = resetPage(window.location ? window.location.search : null, totalPages, push);
+        if (page) dispatch(fetchFunction(page, filters, true));
+      },
     };
   }
 

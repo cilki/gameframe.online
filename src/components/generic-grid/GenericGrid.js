@@ -22,6 +22,7 @@ class GenericGrid extends React.Component {
     totalPages: PropTypes.number.isRequired,
 
     fetchModels: PropTypes.func.isRequired,
+    resetPage: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
@@ -29,8 +30,12 @@ class GenericGrid extends React.Component {
     filters: [],
   };
 
-  constructor(props) {
-    super(props);
+  static contextTypes = {
+    router: PropTypes.object.isRequired, //eslint-disable-line
+  };
+
+  constructor(props, context) {
+    super(props, context);
     this.state = {};
   }
 
@@ -47,6 +52,10 @@ class GenericGrid extends React.Component {
    * @param {Object} prevProps
    */
   componentDidUpdate(prevProps) {
+    if (this.props.currentPage > 1 && this.props.currentPage > this.props.totalPages) {
+      this.props.resetPage(this.props.totalPages, this.props.history.push, this.props.filters);
+    }
+
     if (prevProps.currentPage !== this.props.currentPage) {
       this.props.fetchModels(this.props.currentPage, this.props.filters);
     }
