@@ -119,8 +119,8 @@ class Card extends React.Component {
                     developers={this.props.developers.length}
                     articles={this.props.articles.length}
                     
-                    twitter={this.props.link1}
-                    website={this.props.link2}
+                    twitter={this.props.twitter}
+                    website={this.props.website}
                     source={this.props.source}
                   />
                 </div>
