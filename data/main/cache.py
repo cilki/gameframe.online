@@ -191,12 +191,32 @@ class WorkingSet ():
         print("")
         print("[MAIN ] Flushing working set")
         for game in self.game_name.values():
+
+            # Update link counts
+            game.tweet_count = len(game.tweets)
+            game.video_count = len(game.videos)
+            game.article_count = len(game.articles)
+            game.developer_count = len(game.developers)
+
+            # Write
             self.db.session.add(game)
 
         for dev in self.developers.values():
+
+            # Update link counts
+            dev.game_count = len(dev.games)
+            dev.article_count = len(dev.articles)
+
+            # Write
             self.db.session.add(dev)
 
         for article in self.articles.values():
+
+            # Update link counts
+            article.game_count = len(article.games)
+            article.developer_count = len(article.developers)
+
+            # Write
             self.db.session.add(article)
 
         self.db.session.commit()
