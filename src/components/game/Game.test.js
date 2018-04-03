@@ -73,6 +73,46 @@ describe('game', function() {
         assert.isOk(fetchGame(), '`fetchGame()` returned false');
       });
     });
+  });
 
+  describe('GameSelectors.js', function() {
+    /**
+     * @description - Convenience method for retrieving the Game module
+     * with a clean slate using proxyquire
+     * @param {Object=} [{}] overrides
+     * @returns {Object}
+     */
+    function getGameSelectors() {
+      return proxyquire('./GameSelectors.js', {});
+    }
+
+    describe('`getGame()`', function() {
+      it('Returns a JS element for a single game', function() {
+        const { getGame } = getGameSelectors();
+        const state = {
+          'games': {
+            'models': {
+              '1': {
+                'id': {
+                'requested': true
+                }
+              }
+            }
+          }
+        };
+
+        const id = '1';
+
+        const result = getGame(state, { id });
+        assert.deepEqual(
+          result,
+          {
+            'id': {
+              'requested': true
+            }
+          }
+        );
+      });
+    });
   });
 });

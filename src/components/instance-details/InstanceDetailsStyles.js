@@ -55,6 +55,61 @@ const InstanceDetails = {
     background: 'linear-gradient(to bottom, rgba(238, 238, 238, 0.8), rgba(255, 255, 255, 0.6))',
   },
 
+  gamePrimaryDataCluster: {
+    display: 'flex',
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'space-around',
+  },
+
+  gameCover: {
+    flexGrow: '0',
+    marginLeft: '-2%',
+    marginTop: '-2%',
+    marginRight: '2%',
+    display: 'block',
+    height: 'calc(45.6px + 9.12vw)',
+    maxWidth: '100%',
+    '@media screen and (max-width: 668px)': {
+      height: '100%',
+      margin: 'auto',
+    },
+  },
+
+  gameCoverImageBoundingBox: {
+    maxHeight: 'calc(45.6px + 9.12vw)',
+    borderBottomRightRadius: `${cornerRadius}`,
+    maxWidth: '100%',
+    objectFit: 'scale-down',
+    '@media screen and (max-width: 668px)': {
+      borderBottomRightRadius: '0',
+      maxHeight: '100%',
+      margin: 'auto',
+      objectFit: 'revert',
+    },
+  },
+
+  gameCoverImage: {
+    height: 'calc(45.6px + 9.12vw)',
+    width: 'auto',
+    borderBottomRightRadius: `${cornerRadius}`,
+    borderTopLeftRadius: `${cornerRadius}`,
+    '@media screen and (max-width: 668px)': {
+      borderRadius: `${cornerRadius}`,
+      width: '100%',
+      height: '100%',
+    },
+  },
+
+  gamePrimaryInfoCluster: {
+    flexGrow: '2',
+    display: 'flex',
+    flexDirection: 'column',
+    flexWrap: 'wrap',
+    margin: 'auto',
+    justifyContent: 'flex-start',
+  },
+
   titleText: {
     fontSize: 'calc(24px + 2.0vw)',
   },

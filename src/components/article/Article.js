@@ -4,33 +4,32 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import Radium, {StyleRoot} from 'radium';
-import { Label, ListGroup, ListGroupItem } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
+import Radium, { StyleRoot } from 'radium';
 import ReactHTMLParser from 'react-html-parser';
-import ArticleStyles from './ArticleStyles';
 import InstanceDetails from '../instance-details/InstanceDetails';
 import InstanceDetailsStyles from '../instance-details/InstanceDetailsStyles';
-import CommonAssets from '../../inline-styles/CommonAssets';
 import Minigrid from '../minigrid/Minigrid';
 import Minicard from '../minicard/Minicard';
 
 /**
- * @description - Helper method for rendering a link to a game or developer
+ * @description - Helper method for rendering a link to a game, developer, or article
  * @param {Object} props
- * @param {Object} props.label
+ * @param {String} props.label
  * @param {String} props.url
  * @returns {React.Component}
  */
-function link({ label, url, cover, key }) {
+function link({
+  label, url, cover, key,
+}) {
   return (
-    <Minicard label={label} url={url} cover={cover} key={key} />
+    <Minicard label={label} url={url} cover={cover} cardKey={`${key}-inner`} key={key} />
   );
 }
 
 link.propTypes = {
-  label: PropTypes.string.isRequired,
+  label: PropTypes.object.isRequired,//eslint-disable-line
   url: PropTypes.string.isRequired,
+  cover: PropTypes.string.isRequired,
   key: PropTypes.oneOf([PropTypes.string, PropTypes.number]).isRequired,
 };
 
@@ -94,52 +93,52 @@ class Article extends React.Component {
     return (
       <StyleRoot>
         <InstanceDetails imageURL={coverURL}>
-          <div style={[ InstanceDetailsStyles.articlePrimaryDataCluster ]}>
-            <div style={[ InstanceDetailsStyles.articleCover  ]}>
-              <div style={[ InstanceDetailsStyles.articleCoverImageBoundingBox ]}>
+          <div style={[InstanceDetailsStyles.articlePrimaryDataCluster]}>
+            <div style={[InstanceDetailsStyles.articleCover]}>
+              <div style={[InstanceDetailsStyles.articleCoverImageBoundingBox]}>
                 <a href={coverURL}>
                   <img
-                    style={[ InstanceDetailsStyles.articleCoverImage ]}
+                    style={[InstanceDetailsStyles.articleCoverImage]}
                     src={coverURL}
                     alt={`${this.props.title} cover`}
                   />
                 </a>
               </div>
             </div>
-            <div style={[ InstanceDetailsStyles.articlePrimaryInfoCluster ]}>
-              <div style={[ InstanceDetailsStyles.titleText ]}>
+            <div style={[InstanceDetailsStyles.articlePrimaryInfoCluster]}>
+              <div style={[InstanceDetailsStyles.titleText]}>
                 {this.props.title}
               </div>
-              <div style={[ InstanceDetailsStyles.authorIndicator ]}>
+              <div style={[InstanceDetailsStyles.authorIndicator]}>
                 {this.props.author ? `Written by ${this.props.author}` : 'Unknown author.'}
               </div>
-              <div style={[ InstanceDetailsStyles.publishDateIndicator ]}>
+              <div style={[InstanceDetailsStyles.publishDateIndicator]}>
                 {this.props.timestamp ? `Published ${this.props.timestamp}` : 'Unknown publication date.'}
               </div>
             </div>
           </div>
-          <hr style={[ InstanceDetailsStyles.horizontalRule ]} />
+          <hr style={[InstanceDetailsStyles.horizontalRule]} />
           <div>
-            <div style={[ InstanceDetailsStyles.synoposisIndicator ]}>
+            <div style={[InstanceDetailsStyles.synoposisIndicator]}>
               Introduction:
             </div>
-            <div style={[ InstanceDetailsStyles.synoposisHTMLContainer ]}>
+            <div style={[InstanceDetailsStyles.synoposisHTMLContainer]}>
               {/* TODO: We can do better than this. There are existing libraries to put in HTML */}
               {ReactHTMLParser(this.props.introduction)}
             </div>
           </div>
-          <hr style={[ InstanceDetailsStyles.horizontalRule ]} />
-          <div style={[ InstanceDetailsStyles.bigButtonCluster ]}>
-            <a href={articleURL} style={[ InstanceDetailsStyles.bigButton ]} key='articleURL'>
+          <hr style={[InstanceDetailsStyles.horizontalRule]} />
+          <div style={[InstanceDetailsStyles.bigButtonCluster]}>
+            <a href={articleURL} style={[InstanceDetailsStyles.bigButton]} key="articleURL">
               Original Article
             </a>
-            <a href={outletURL} style={[ InstanceDetailsStyles.bigButton ]} key='outletURL'>
+            <a href={outletURL} style={[InstanceDetailsStyles.bigButton]} key="outletURL">
               Outlet Website
             </a>
           </div>
-          <div style={[ InstanceDetailsStyles.externalGridCluster ]}>
-            <div style={[ InstanceDetailsStyles.developerGridCluster('30%') ]}>
-              <div style={[ InstanceDetailsStyles.developerIndicator ]}>
+          <div style={[InstanceDetailsStyles.externalGridCluster]}>
+            <div style={[InstanceDetailsStyles.developerGridCluster('30%')]}>
+              <div style={[InstanceDetailsStyles.developerIndicator]}>
                 Developers:
               </div>
               <Minigrid>
@@ -153,8 +152,8 @@ class Article extends React.Component {
                 }
               </Minigrid>
             </div>
-            <div style={[ InstanceDetailsStyles.gameGridCluster('60%') ]}>
-              <div style={[ InstanceDetailsStyles.gameIndicator ]}>
+            <div style={[InstanceDetailsStyles.gameGridCluster('60%')]}>
+              <div style={[InstanceDetailsStyles.gameIndicator]}>
                 Games:
               </div>
               <Minigrid>
