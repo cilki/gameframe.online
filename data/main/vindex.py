@@ -33,7 +33,7 @@ Experimentally chosen weights for each score. They must sum to 1 for the convex
 combination (weighted average) calculation to be correct.
 """
 WEIGHTS = {'esrb': 0.05, 'website': 0.05, 'metacritic': 0.05, 'steam_igdb': 0.05,
-           'players': 0.15, 'articles': 0.30, 'videos': 0.20, 'tweets': 0.15}
+           'players': 0.15, 'articles': 0.40, 'videos': 0.25, 'tweets': 0.0}
 assert isclose(sum(WEIGHTS.values()), 1)
 
 """
@@ -143,7 +143,7 @@ def precompute():
         print("[MAIN ]     ARTICLE_AVE: %d VIDEO_AVE: %d TWEET_AVE: %d" %
               (article_average, video_average, tweet_average))
 
-        # Reduce the references to 85%
+        # Set the references to 85% of the maximum
         REFERENCES['article'] = int(round(0.85 * article_max))
         REFERENCES['video'] = int(round(0.85 * video_max))
         REFERENCES['tweet'] = int(round(0.85 * tweet_max))
