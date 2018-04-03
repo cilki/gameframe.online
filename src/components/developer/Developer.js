@@ -4,37 +4,36 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import Radium, {StyleRoot} from 'radium';
-import { Label, ListGroup, ListGroupItem } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
+import Radium, { StyleRoot } from 'radium';
 import { Timeline } from 'react-twitter-widgets';
-import DeveloperStyles from './DeveloperStyles';
 import InstanceDetails from '../instance-details/InstanceDetails';
 import InstanceDetailsStyles from '../instance-details/InstanceDetailsStyles';
 import Minigrid from '../minigrid/Minigrid';
 import Minicard from '../minicard/Minicard';
-import CommonAssets from '../../inline-styles/CommonAssets';
 
 /**
- * @description - Helper method for rendering a link to a game or article
+ * @description - Helper method for rendering a link to a developer or article
  * @param {Object} props
- * @param {String} url
- * @param {String} name
+ * @param {String} props.label
+ * @param {String} props.url
  * @returns {React.Component}
  */
-function link({ label, url, cover, key }) {
+function link({
+  label, url, cover, key,
+}) {
   return (
-    <Minicard label={label} url={url} cover={cover} cardKey={`${key}-inner`} key={key}/>
+    <Minicard label={label} url={url} cover={cover} cardKey={`${key}-inner`} key={key} />
   );
 }
 
 link.propTypes = {
   label: PropTypes.string.isRequired,
   url: PropTypes.string.isRequired,
+  cover: PropTypes.string.isRequired,
   key: PropTypes.oneOf([PropTypes.string, PropTypes.number]).isRequired,
 };
 
-function twitter({twitterUsername}) {
+function twitter({ twitterUsername }) {
   return (
     <Timeline
       dataSource={{
@@ -43,12 +42,16 @@ function twitter({twitterUsername}) {
       }}
       options={{
         username: twitterUsername,
-        height: '60vh'
+        height: '60vh',
       }}
       key={`${twitterUsername}-timeline`}
     />
-  )
+  );
 }
+
+twitter.propTypes = {
+  twitterUsername: PropTypes.string.isRequired,
+};
 
 /**
  * @description - Returns the main component to render a developer's own
@@ -116,84 +119,84 @@ class Developer extends React.Component {
     const countryNumber = `${this.props.country}`;
     const country = this.iso.whereNumeric(countryNumber);
     const countryName = country ? country.country : 'Unknown';
-    const twitterHandle = typeof(this.props.twitter) == 'string' ? `${this.props.twitter}`.replace('https://twitter.com/', '') : '';
-    const twitterDummy = twitterHandle != '' ? [this.props.twitter] : [];
+    const twitterHandle = typeof this.props.twitter === 'string' ? `${this.props.twitter}`.replace('https://twitter.com/', '') : '';
+    const twitterDummy = twitterHandle !== '' ? [this.props.twitter] : [];
     return (
       <StyleRoot>
-      <InstanceDetails imageURL={logoURL}>
-        <div style={[ InstanceDetailsStyles.developerPrimaryDataCluster ]}>
-          <div style={[ InstanceDetailsStyles.developerLogo ]}>
-            <div style={[ InstanceDetailsStyles.developerLogoImageBoundingBox ]}>
-              <img
-                style={[ InstanceDetailsStyles.developerLogoImage ]}
-                src={logoURL}
-                alt={`${this.props.name} logo`}
-              />
+        <InstanceDetails imageURL={logoURL}>
+          <div style={[InstanceDetailsStyles.developerPrimaryDataCluster]}>
+            <div style={[InstanceDetailsStyles.developerLogo]}>
+              <div style={[InstanceDetailsStyles.developerLogoImageBoundingBox]}>
+                <img
+                  style={[InstanceDetailsStyles.developerLogoImage]}
+                  src={logoURL}
+                  alt={`${this.props.name} logo`}
+                />
+              </div>
+            </div>
+            <div style={[InstanceDetailsStyles.developerPrimaryInfoCluster]}>
+              <div style={[InstanceDetailsStyles.titleText]}>
+                {this.props.name}
+              </div>
+              <div style={[InstanceDetailsStyles.establishDateIndicator]}>
+                {established !== 'Unknown' ? `Established ${established}` : 'Unknown date of establishment.'}
+              </div>
+              <div style={[InstanceDetailsStyles.locationIndicator]}>
+                {countryName !== 'Unknown' ? `Based in ${countryName}` : 'Unkown location.'}
+              </div>
             </div>
           </div>
-          <div style={[ InstanceDetailsStyles.developerPrimaryInfoCluster ]}>
-            <div style={[ InstanceDetailsStyles.titleText ]}>
-              {this.props.name}
+          <div style={[InstanceDetailsStyles.bigButtonCluster]}>
+            <a href={this.props.website} style={[InstanceDetailsStyles.bigButton]} key="website">
+              Developer Website
+            </a>
+            <a href={this.props.twitter} style={[InstanceDetailsStyles.bigButton]} key="twitter">
+              Developer Twitter
+            </a>
+          </div>
+          <div style={[InstanceDetailsStyles.externalGridCluster]}>
+            <div style={[InstanceDetailsStyles.gameGridCluster('50%')]}>
+              <div style={[InstanceDetailsStyles.gameIndicator]}>
+                Games:
+              </div>
+              <Minigrid>
+                {
+                  this.props.games.map(game => link({
+                    label: game.name,
+                    url: `/games/${game.id}`,
+                    cover: (game.cover && game.cover.indexOf('http') < 0 ? `https://${game.cover}` : game.cover),
+                    key: `game-${game.id}`,
+                  }))
+                }
+              </Minigrid>
             </div>
-            <div style={[ InstanceDetailsStyles.establishDateIndicator ]}>
-            {established != 'Unknown' ? `Established ${established}` : 'Unknown date of establishment.'}
-            </div>
-            <div style={[ InstanceDetailsStyles.locationIndicator ]}>
-              {countryName != 'Unknown' ? `Based in ${countryName}` : 'Unkown location.'}
+            <div style={[InstanceDetailsStyles.articleGridCluster('50%')]}>
+              <div style={[InstanceDetailsStyles.articleIndicator]}>
+                Articles:
+              </div>
+              <Minigrid>
+                {
+                  this.props.articles.map(article => link({
+                    label: article.title,
+                    url: `/articles/${article.id}`,
+                    cover: article.cover,
+                    key: `article-${article.id}`,
+                  }))
+                }
+              </Minigrid>
             </div>
           </div>
-        </div>
-        <div style={[ InstanceDetailsStyles.bigButtonCluster ]}>
-          <a href={this.props.website} style={[ InstanceDetailsStyles.bigButton ]} key='website'>
-            Developer Website
-          </a>
-          <a href={this.props.twitter} style={[ InstanceDetailsStyles.bigButton ]} key='twitter'>
-            Developer Twitter
-          </a>
-        </div>
-        <div style={[ InstanceDetailsStyles.externalGridCluster ]}>
-          <div style={[ InstanceDetailsStyles.gameGridCluster('50%') ]}>
-            <div style={[ InstanceDetailsStyles.gameIndicator ]}>
-              Games:
-            </div>
-            <Minigrid>
-              {
-                this.props.games.map(game => link({
-                  label: game.name,
-                  url: `/games/${game.id}`,
-                  cover: (game.cover && game.cover.indexOf('http') < 0 ? `https://${game.cover}` : game.cover),
-                  key: `game-${game.id}`,
-                }))
-              }
-            </Minigrid>
-          </div>
-          <div style={[ InstanceDetailsStyles.articleGridCluster('50%') ]}>
-            <div style={[ InstanceDetailsStyles.articleIndicator ]}>
-              Articles:
-            </div>
-            <Minigrid>
-              {
-                this.props.articles.map(article => link({
-                  label: article.title,
-                  url: `/articles/${article.id}`,
-                  cover: article.cover,
-                  key: `article-${article.id}`,
-                }))
-              }
-            </Minigrid>
-          </div>
-        </div>
-        <div style={{
-          paddingTop: '2%',
-          maxWidth: '50%'
+          <div style={{
+            paddingTop: '2%',
+            maxWidth: '50%',
         }}>
             {
-                twitterDummy.map(twitterURL => twitter({
-                  twitterUsername: twitterHandle
-                }))
-             }
-        </div>
-      </InstanceDetails>
+              twitterDummy.map(twitterURL => twitter({
+                twitterUsername: twitterHandle
+              }))
+            }
+          </div>
+        </InstanceDetails>
       </StyleRoot>
     );
   }
