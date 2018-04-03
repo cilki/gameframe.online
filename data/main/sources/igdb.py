@@ -267,6 +267,10 @@ def build_dev(dev_json):
     if dev.logo is None and 'logo' in dev_json:
         dev.logo = dev_json['logo']['url'][2:].replace("t_thumb", "t_original")
 
+    # Foundation Date
+    if dev.foundation is None and 'start_date' in dev_json:
+        dev.foundation = datetime.fromtimestamp(dev_json['start_date'] // 1000)
+
     return dev
 
 
