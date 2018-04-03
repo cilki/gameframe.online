@@ -54,12 +54,12 @@ class Articles extends React.Component {
                 title={article.title}
                 url={`/articles/${article.article_id}`}
                 cover={article.cover}
-                origin={article.author}
+                author={article.author}
                 year={new Date(article.timestamp).getFullYear()}
-                tooltipType={3}
+                
                 games={article.games}
                 developers={article.developers}
-                link1={article.article_link}
+                source={article.article_link}
               />
             );
           })

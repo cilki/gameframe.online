@@ -19,28 +19,38 @@ class Card extends React.Component {
     title: PropTypes.string.isRequired,
     url: PropTypes.string.isRequired,
     cover: PropTypes.string,
+    developer: PropTypes.string,
     origin: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
-    tooltipType: PropTypes.number,
+    author: PropTypes.string,
     year: PropTypes.number,
+    
     price: PropTypes.number,
-    link1: PropTypes.string,
-    link2: PropTypes.string,
+
     articles: PropTypes.arrayOf(PropTypes.number),
     developers: PropTypes.arrayOf(PropTypes.number),
     games: PropTypes.arrayOf(PropTypes.number),
+    
+    twitter: PropTypes.string,
+    website: PropTypes.string,
+    source: PropTypes.string,
   };
 
   static defaultProps = {
     cover: '../../static/images/noImage.png',
+    developer: null,
     origin: null,
+    author: null,
     year: new Date().getFullYear(),
-    tooltipType: 0,
+    
     price: -1,
-    link1: '',
-    link2: '',
+
     articles: [],
     developers: [],
     games: [],
+    
+    twitter: null,
+    website: null,
+    source: null,
   };
 
   /**
@@ -111,7 +121,7 @@ class Card extends React.Component {
                     
                     twitter={this.props.link1}
                     website={this.props.link2}
-                    source={this.props.link1}
+                    source={this.props.source}
                   />
                 </div>
               </div>
@@ -119,6 +129,12 @@ class Card extends React.Component {
                 <div style={[CardStyles.caption]}>
                   <Label>
                     {country}
+                  </Label>
+                  <Label>
+                    {this.props.developer}
+                  </Label>
+                  <Label>
+                    {this.props.author}
                   </Label>
                 </div>
                 <div style={[CardStyles.badgeContainer]}>

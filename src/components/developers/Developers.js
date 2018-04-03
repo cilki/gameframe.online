@@ -56,12 +56,12 @@ class Developers extends React.Component {
                 url={`/developers/${developer.developer_id}`}
                 cover={developer.logo}
                 origin={developer.country ? Number(developer.country) : null}
-                year={developer.foundation}
-                tooltipType={2}
+                year={new Date(developer.foundation).getFullYear()}
+                
                 articles={developer.articles}
                 games={developer.games}
-                link1={developer.twitter}
-                link2={developer.website}
+                twitter={developer.twitter}
+                website={developer.website}
               />
             );
           })
