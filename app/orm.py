@@ -71,6 +71,7 @@ class Game(db.Model):
         'Article',  secondary='join_game_article', back_populates="games")
     developers = db.relationship(
         'Developer',  secondary='join_game_developer', back_populates="games")
+    videos = db.relationship('Video',  secondary='join_game_video')
 
 
 class Article(db.Model):
@@ -182,9 +183,6 @@ class Video(db.Model):
     timestamp = db.Column(db.DateTime)
     video_link = db.Column(db.Text)
     thumbnail = db.Column(db.Text)
-
-    games = db.relationship(
-        'Game', secondary='join_game_video', back_populates="videos")
 
 
 class Genre(db.Model):
