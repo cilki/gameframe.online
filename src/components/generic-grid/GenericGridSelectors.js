@@ -86,6 +86,23 @@ function createSelectors(modelName) {
     },
   );
 
+  /**
+   * @description - Input selector for retrieving the filters
+   * for this model
+   * @param {Object} state
+   * @returns {Array}
+   */
+  const getFilters = (state) => {
+    return state[modelName].filters
+      .map((filter) => {
+        if (!(typeof filter.value === 'object')) {
+          return null;
+        }
+        return filter.value;
+      })
+      .filter(_filter => _filter !== null);
+  };
+
   /* Memoized selector for retrieving the models within
    * the current page */
   const getModelsByPage = createSelector(
@@ -101,7 +118,6 @@ function createSelectors(modelName) {
           modelsToReturn.push(models[index]);
         }
       });
-
       return modelsToReturn;
     },
   );
@@ -115,6 +131,7 @@ function createSelectors(modelName) {
     getPages,
     getPageIndices,
     getModelsByPage,
+    getFilters,
   };
 }
 

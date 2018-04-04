@@ -14,18 +14,28 @@ class GenericGrid extends React.Component {
   static propTypes = {
     children: PropTypes.arrayOf(PropTypes.node),
     currentPage: PropTypes.number.isRequired,
+    filters: PropTypes.arrayOf(PropTypes.shape({
+      value: PropTypes.string.isRequired,
+      subfilter: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
+    })),
     prefix: PropTypes.string.isRequired,
     totalPages: PropTypes.number.isRequired,
 
     fetchModels: PropTypes.func.isRequired,
+    resetPage: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
     children: [],
+    filters: [],
   };
 
-  constructor(props) {
-    super(props);
+  static contextTypes = {
+    router: PropTypes.object.isRequired, //eslint-disable-line
+  };
+
+  constructor(props, context) {
+    super(props, context);
     this.state = {};
   }
 
@@ -33,7 +43,7 @@ class GenericGrid extends React.Component {
    * @description - React lifecycle method used to fetch the data
    */
   componentDidMount() {
-    this.props.fetchModels(this.props.currentPage);
+    this.props.fetchModels(this.props.currentPage, this.props.filters);
   }
 
   /**
@@ -42,8 +52,15 @@ class GenericGrid extends React.Component {
    * @param {Object} prevProps
    */
   componentDidUpdate(prevProps) {
+    if (this.props.currentPage > 1 && this.props.currentPage > this.props.totalPages) {
+      this.props.resetPage(this.props.totalPages, this.props.history.push, this.props.filters);
+    }
+
     if (prevProps.currentPage !== this.props.currentPage) {
-      this.props.fetchModels(this.props.currentPage);
+      this.props.fetchModels(this.props.currentPage, this.props.filters);
+    }
+    else if (prevProps.filters.length !== this.props.filters.length) {
+      this.props.fetchModels(this.props.currentPage, this.props.filters, true);
     }
   }
 

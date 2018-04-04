@@ -7,8 +7,10 @@
 import { normalize } from 'normalizr';
 import { handleActions } from 'redux-actions';
 import { combineReducers } from 'redux';
+import QueryString from 'query-string';
 
 import { PAGE_SIZE } from '../Constants';
+import { setGridFilterAction, setGridFilterOptions } from '../grid-select';
 
 /**
  * @description - Creates the predicate function to use
@@ -21,6 +23,55 @@ function createPredicate(selector) {
   return (state, pageNumber) => {
     return selector(state, { page: pageNumber }).length < PAGE_SIZE;
   };
+}
+
+/**
+ * @description - Collects the filters within a format that's more useful
+ * for passing them to Flask Restless
+ * @param {Array} filters
+ * @returns {Object}
+ */
+// function collectFilters(filters) {
+//   const filterObject = {};
+//   filters.forEach((filter) => {
+//     const subfilterList = filterObject[filter.value]
+//   });
+//   return 
+// }
+
+/**
+ * @description - Formats the filters into a string for Flask Restless
+ * @param {Array} filters
+ * @returns {Object}
+ */
+function formatFilters(filters) {
+  return [{
+    and: filters.map((filter) => {
+      if (filter.type === 'array') {
+        return {
+          name: `${filter.value}__${filter.subfilterId}`,
+          op: 'any',
+          val: filter.subfilter,
+        };
+      }
+      else if (filter.type === 'number') {
+        return {
+          name: filter.value,
+          op: filter.op,
+          val: filter.subfilter,
+        }
+      }
+      else if (filter.type === 'date') {
+        const date = new Date();
+        date.setFullYear(date.getFullYear() - filter.subfilter);
+        return {
+          name: filter.value,
+          op: filter.op,
+          val: date.toISOString(),
+        };
+      }
+    }),
+  }];
 }
 
 /**
@@ -47,14 +98,31 @@ function createFetchModels(
     setTotalPageAction,
   },
   secondaryModels,
+  defaultFilterOptions,
 ) {
   /**
    * @description - This is the actual fetch function/thunk creator we're returning
    * that produces thunks that can be dispatched to the redux store
    * @param {Number} pageNumber
+   * @param {Array} filters
+   * @param {Boolean} override
    * @returns {Function}
    */
-  return (pageNumber = 1) => {
+  return (pageNumber = 1, filters = [], override = false) => {
+    const queryObject = {};
+    if (filters.length > 0) {
+      queryObject.filters = formatFilters(filters);
+    }
+
+    /* We can put in more here, such as sorting and searching */
+
+    let uri;
+    if (Object.keys(queryObject) > 0) {
+      uri = `${process.env.API_HOST}/v1/grid/${pathname}?page=${pageNumber}&results_per_page=${PAGE_SIZE}`;
+    }
+    else {
+      uri = `${process.env.API_HOST}/v1/grid/${pathname}?q=${JSON.stringify(queryObject)}&page=${pageNumber}&results_per_page=${PAGE_SIZE}`;
+    }
     /**
      * @description - This is the thunk itself, which dispatches it's own synchronous actions
      * as it resolves it's own asynchronous action
@@ -62,22 +130,32 @@ function createFetchModels(
      * @param {Function} getState
      */
     return (dispatch, getState) => {
-      if (predicate(getState(), pageNumber)) {
+      if (override || predicate(getState(), pageNumber)) {
         dispatch(requestAction());
-        return fetch( //eslint-disable-line
-          encodeURI(`http://api.gameframe.online/v1/${pathname}?page=${pageNumber}&results_per_page=${PAGE_SIZE}`),
-          { method: 'GET' },
-        )
+        let page;
+        return Promise.resolve(pageNumber)
+          .then((_page) => {
+            page = _page;
+            return fetch( //eslint-disable-line
+              encodeURI(uri),
+              { method: 'GET' },
+            )
+          })
           .then(response => response.json())
           .then(json => normalize(json, schema))
           .then((data) => {
-            if (data.result && data.result.total_pages) {
+            if (data.result && data.result.total_pages !== undefined) {
               dispatch(setTotalPageAction(data.result.total_pages));
             }
 
             if (!data.entities) {
+              dispatch(setPageAction({
+                pageNumber: page,
+                indices: [],
+              }));
               return Promise.resolve();
             }
+
             secondaryModels.forEach(({
               secondaryModelName,
               secondaryModelResponseAction,
@@ -91,14 +169,20 @@ function createFetchModels(
             if (data.entities[modelName]) {
               dispatch(responseAction(Object.values(data.entities[modelName])));
               dispatch(setPageAction({
-                pageNumber,
+                pageNumber: page,
                 indices: Object.keys(data.entities[modelName]),
+              }));
+            }
+            else {
+              dispatch(setPageAction({
+                pageNumber: page,
+                indices: [],
               }));
             }
 
             return Promise.resolve();
           })
-          .catch(err => dispatch(responseAction(err)));
+          .catch((err) => { console.error(err); dispatch(responseAction(err)); });
       }
       return Promise.resolve();
     };
@@ -123,6 +207,7 @@ function createFetchModels(
  */
 function createReducer(
   idName,
+  modelNamePlural,
   singleRequest,
   singleResponse,
   multipleRequest,
@@ -130,6 +215,7 @@ function createReducer(
   setSinglePage,
   setTotalPages,
   secondaryModels,
+  defaultFilterOptions,
 ) {
   const models = handleActions({
     [multipleResponse]: {
@@ -232,17 +318,68 @@ function createReducer(
     },
   }, {});
 
+  const filters = handleActions({
+    [setGridFilterAction](state, { payload }) {
+      const { model, value } = payload;
+      
+      // ignore it if it wasn't meant for this model
+      if (model !== modelNamePlural) {
+        return state;
+      }
+      return value;
+    }
+  }, []);
+
+  const filterOptions = handleActions({
+    [setGridFilterOptions](state, { payload }) {
+      const { model, value } = payload;
+
+      //ignore it if it wasn't meant for this model
+      if (model !== modelNamePlural) {
+        return state;
+      }
+      return value;
+    }
+  }, defaultFilterOptions);
+
   return combineReducers({
     models,
     requested,
     error,
     totalPages,
     pages,
+    filters,
+    filterOptions,
   });
+}
+
+/**
+ * @description - Used to reset the page whenever the user
+ * is currently on a page that doesn't exist in the current filter's 
+ * he/she's applied
+ * @param {String} search - search string, retrieved from window.location.search
+ * @param {Number} totalPages - the total pages that the latest request retrieved
+ * @param {Function} push - a function retrieved from the ReactRouter, this allows
+ * us to change the URL without causing a page load
+ * @returns {Number} - the page number to fetch
+ */
+function resetPage(search, totalPages, push) {
+  if (!search) {
+    return;
+  }
+  const parsed = QueryString.parse(search);
+  if (parsed.page > totalPages) {
+    // minimum is 1
+    parsed.page = totalPages ? totalPages : 1;
+    push(`${window.location.pathname}?${QueryString.stringify(parsed)}`);
+    return isNaN(Number(parsed.page)) ? null : Number(parsed.page);
+  }
+  return null;
 }
 
 export {
   createPredicate,
   createFetchModels,
   createReducer,
+  resetPage,
 };

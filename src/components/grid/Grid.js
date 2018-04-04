@@ -10,6 +10,7 @@ import { LinkContainer } from 'react-router-bootstrap';
 import { Pagination } from 'react-bootstrap';
 
 import Styles from './GridStyles';
+import GridSelect from '../grid-select';
 
 /**
  * @description - Convience function for a single
@@ -108,17 +109,34 @@ GridPagination.defaultProps = {
  * @returns {React.Component}
  */
 function Grid(props) {
-  const { children, ...rest } = props;
+  const { children, prefix, ...rest } = props;
   return (
     <div>
       <div
         style={{
+          position: 'relative',
           display: 'flex',
           justifyContent: 'center',
           filter: 'hue-rotate(170deg) invert(90%) saturate(300%) brightness(90%) grayscale(25%)',
+          zIndex: 10,
         }}
       >
-        <GridPagination {...rest} />
+        <div style={{flex: 1}} />
+        <div style={{flex: 1}}>
+          <GridPagination prefix={prefix} {...rest} />
+        </div>
+        <div style={{
+          marginTop: '20px',
+          justifyContent: 'center',
+          flex: 1,
+          display: 'flex',
+        }}>
+          <h4>Include</h4>
+          <div style={{minWidth: '80%'}}>
+            <GridSelect style={{marginTop: '20px'}}model={prefix} />
+          </div>
+        </div>
+        <div style={{flex: 1}} />
       </div>
       <div style={[Styles.grid]}>
         {children}

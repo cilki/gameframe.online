@@ -37,7 +37,7 @@ function fetchArticle(articleId) {
   return (dispatch, getState) => {
     if (shouldFetchArticle(getState(), articleId)) {
       dispatch(fetchArticleRequest(articleId));
-      fetch(`http://api.gameframe.online/v1/article/${articleId}`, { method: 'GET' }) //eslint-disable-line
+      fetch(`${process.env.API_HOST}/v1/article/${articleId}`, { method: 'GET' }) //eslint-disable-line
         .then(response => response.json())
         .then(json => normalize(json, articleSchema))
         .then((data) => {

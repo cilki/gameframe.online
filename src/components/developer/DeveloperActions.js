@@ -37,7 +37,7 @@ function fetchDeveloper(developerId) {
   return (dispatch, getState) => {
     if (shouldFetchDeveloper(getState(), developerId)) {
       dispatch(fetchDeveloperRequest(developerId));
-      fetch(`http://api.gameframe.online/v1/developer/${developerId}`, { method: 'GET' }) //eslint-disable-line
+      fetch(`${process.env.API_HOST}/v1/developer/${developerId}`, { method: 'GET' }) //eslint-disable-line
         .then(response => response.json())
         .then(json => normalize(json, developerSchema))
         .then((data) => {

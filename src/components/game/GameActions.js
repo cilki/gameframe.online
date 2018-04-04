@@ -37,7 +37,7 @@ function fetchGame(gameId) {
   return (dispatch, getState) => {
     if (shouldFetchGame(getState(), gameId)) {
       dispatch(fetchGameRequest(gameId));
-      fetch(`http://api.gameframe.online/v1/game/${gameId}`, { method: 'GET' }) //eslint-disable-line
+      fetch(`${process.env.API_HOST}/v1/game/${gameId}`, { method: 'GET' }) //eslint-disable-line
         .then(response => response.json())
         .then(json => normalize(json, gameSchema))
         .then((data) => {
