@@ -213,7 +213,16 @@ const InstanceDetails = {
   },
 
   platformCluster: {
-    display: 'flex',
+    display: 'block',
+    maxWidth: '100%',
+    minWidth: '50%',
+    flexBasis: '50%',
+    '@media screen and (max-width: 600px)': {
+      minWidth: '100%',
+      width: '100%',
+      flexBasis: '100%',
+      margin: 'auto',
+    },
   },
 
   platformIndicator: {
@@ -223,6 +232,7 @@ const InstanceDetails = {
   platformLabelGroup: {
     fontSize: 'calc(16px + 0.5vw)',
     display: 'flex',
+    justifyContent: 'flex-start',
     flexWrap: 'wrap',
   },
 
