@@ -116,36 +116,44 @@ function Grid(props) {
       <div
         style={{
           position: 'relative',
+          width: '100vw',
           display: 'flex',
-          justifyContent: 'center',
+          flexDirection: 'row',
+          justifyContent: 'space-around',
           filter: 'hue-rotate(170deg) invert(90%) saturate(300%) brightness(90%) grayscale(25%)',
           zIndex: 10,
         }}
       >
         <div 
           style={{
-            flex: 1,
-            justifyContent: 'center',
+            margin: 'auto',
+            maxWidth: '33%',
             marginTop: '20px',
+            flexGrow: '1'
           }}
         >
           <GridSort model={prefix} />
         </div>
-        <div>
+        <div style={{paddingLeft: '2%', paddingRight: '2%'}}>
           <GridPagination prefix={prefix} {...rest} />
         </div>
         <div style={{
-          marginTop: '20px',
-          justifyContent: 'center',
-          flex: 1,
-          display: 'flex',
+            margin: 'auto',
+            marginTop: '20px',
+            maxWidth: '33%',
+            display: 'flex',
+            flexGrow: '1'
         }}>
-          <h4>Include</h4>
-          <div style={{minWidth: '80%'}}>
+          <h4>Include&nbsp;</h4>
+          <div style={{
+              margin: 'auto',
+            maxWidth: '100%',
+              display: 'block',
+              flexGrow: '1'
+          }}>
             <GridSelect style={{marginTop: '20px'}} model={prefix} />
           </div>
         </div>
-        <div style={{flex: 1}} />
       </div>
       <div style={[Styles.grid]}>
         {children}

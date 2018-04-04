@@ -33,7 +33,7 @@ function GridSort({
       }}
     >
       <h4>
-        Sort
+        Sort&nbsp;
       </h4>
       <div
         style={{flex: 1}}
