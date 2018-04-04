@@ -43,6 +43,7 @@ function GridSort({
         onChange={onChangeAttribute}
         placeholder="Filter By..."
         value={currentAttribute}
+        style={{borderTopRightRadius: '0', borderBottomRightRadius: '0'}}
       />
       </div>
       <div
@@ -54,6 +55,7 @@ function GridSort({
         onChange={onChangeOrdering}
         placeholder="Ascending/Descending"
         value={sortType}
+        style={{borderTopLeftRadius: '0', borderBottomLeftRadius: '0', borderLeft: 'none'}}
       />
       </div>
     </div>
