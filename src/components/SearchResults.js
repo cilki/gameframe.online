@@ -56,8 +56,6 @@ exLink.propTypes = {
 class SearchResults extends React.Component {
   constructor(props) {
     super(props);
-    // this.api_env = "api.gameframe.online";
-    this.api_env = 'cilk.io:2500';
     this.state = {
       query_string: decodeURI(window.location.href.substring(window.location.href.lastIndexOf('=') + 1)),//eslint-disable-line
       game_results: {},
@@ -83,12 +81,16 @@ class SearchResults extends React.Component {
       this.updateGameItems();
       this.updateDeveloperItems();
       this.updateArticleItems();
+      this.updateVideoItems();
     }
   }
 
   updateGameItems() {
     fetch(//eslint-disable-line
-      encodeURI(`http://${this.api_env}/v1/grid/game?q={"filters":[{"or":[{"name":"name","op":"like","val":"%${this.state.query_string}%"},{"name":"summary","op":"like","val":"%20${this.state.query_string}%20"}]}],"order_by":[{"field":"metacritic","direction":"desc"}]}&results_per_page=100`),
+      encodeURI(`http://api.gameframe.online/v1/grid/game?q={"filters":[{"or":[{"name":"c_name","op":"like","val":"%${this.state.query_string}%"},
+                                                                               {"name":"summary","op":"like","val":"%20${this.state.query_string}%20"},
+                                                                               {"name":"website","op":"like","val":"%${this.state.query_string}%"}]}],
+                                                             "order_by":[{"field":"metacritic","direction":"desc"}]}&results_per_page=1000`),
       { method: 'GET' },
     )
       .then(response => response.json())
@@ -99,7 +101,7 @@ class SearchResults extends React.Component {
 
   updateDeveloperItems() {
     fetch(//eslint-disable-line
-      encodeURI(`http://${this.api_env}/v1/grid/developer?q={"filters":[{"name":"name","op":"like","val":"%${this.state.query_string}%"}],"order_by":[{"field":"name","direction":"asc"}]}&results_per_page=100`),
+      encodeURI(`http://api.gameframe.online/v1/grid/developer?q={"filters":[{"name":"name","op":"like","val":"%${this.state.query_string}%"}],"order_by":[{"field":"name","direction":"asc"}]}&results_per_page=1000`),
       { method: 'GET' },
     )
       .then(response => response.json())
@@ -110,7 +112,7 @@ class SearchResults extends React.Component {
 
   updateArticleItems() {
     fetch(//eslint-disable-line
-      encodeURI(`http://${this.api_env}/v1/grid/article?q={"filters":[{"or":[{"name":"title","op":"like","val":"%${this.state.query_string}%"},{"name":"introduction","op":"like","val":"%20${this.state.query_string}%20"}]}],"order_by":[{"field":"title","direction":"asc"}]}&results_per_page=100`),
+      encodeURI(`http://api.gameframe.online/v1/grid/article?q={"filters":[{"or":[{"name":"title","op":"like","val":"%${this.state.query_string}%"},{"name":"introduction","op":"like","val":"%20${this.state.query_string}%20"}]}],"order_by":[{"field":"title","direction":"asc"}]}&results_per_page=1000`),
       { method: 'GET' },
     )
       .then(response => response.json())
@@ -121,7 +123,7 @@ class SearchResults extends React.Component {
 
   updateVideoItems() {
     fetch(//eslint-disable-line
-      encodeURI(`http://${this.api_env}/v1/video?q={"filters":[{"name":"name","op":"like","val":"%${this.state.query_string}%"}],"order_by":[{"field":"name","direction":"asc"}]}&results_per_page=1000`),
+      encodeURI(`http://api.gameframe.online/v1/video?q={"filters":[{"name":"name","op":"like","val":"%${this.state.query_string}%"}],"order_by":[{"field":"name","direction":"asc"}]}&results_per_page=10000`),
       { method: 'GET' },
     )
       .then(response => response.json())
