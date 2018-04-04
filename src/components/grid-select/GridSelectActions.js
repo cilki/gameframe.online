@@ -30,16 +30,32 @@ function fetchOptions(
       return;
     }
 
+    let uri;
+    if (option.url) {
+      uri = option.url;
+    }
+    else {
+      if (!option.path) {
+        console.error(new Error(`Neither \`uri\` nor \`path\` was provided for option: ${option.label}`));
+      }
+      uri = `${process.env.API_HOST}/v1/list/${option.path}`
+    }
+
     fetch(
-      encodeURI(`${process.env.API_HOST}/v1/list/${option.path}`),
+      encodeURI(uri),
       { method: 'GET', },
     )
       .then(response => response.json())
       .then((json) => {
-        json.objects.forEach((object) => {
-          const value = object[option.subfilterId];
+        const iterate = json.objects ? json.objects : json;
+        iterate.forEach((object) => {
+          let value = object[option.subfilterId];
+          if (option.type === 'number') {
+            value = Number(value);
+          }
+          const label = option.subfilterLabel ? object[option.subfilterLabel] : value;
           option.options.push({
-            label: value,
+            label,
             value,
           });
         });

@@ -43,7 +43,7 @@ const gameFilters = [
         { label: 'Less than $60.00', value: 6000, },
       ],
       type: 'number',
-      op: 'less than',
+      op: 'leq',
     },
     {
       label: 'Release',
@@ -56,7 +56,7 @@ const gameFilters = [
         { label: 'Less than 10 years old', value: 10, },
       ],
       type: 'date',
-      op: 'greater than',
+      op: 'geq',
     },
     {
       label: 'Metacritic',
@@ -69,10 +69,79 @@ const gameFilters = [
         { label: 'Score greater than 90', value: 90, },
       ],
       type: 'number',
-      op: 'greater than',
+      op: 'geq',
     },
+];
+
+const developerFilters = [
+  {
+    label: 'Established',
+    value: 'foundation',
+    options: [
+      { label: 'Less than a year ago', value: 1, },
+      { label: 'Less than 5 years ago', value: 5, },
+      { label: 'Less than 8 years ago', value: 8, },
+      { label: 'Less than 10 years ago', value: 10, },
+      { label: 'Less than 20 years ago', value: 20, },
+    ],
+    type: 'date',
+    op: 'geq',
+  },
+  {
+    label: 'Country',
+    value: 'country',
+    url: 'https://raw.githubusercontent.com/lukes/ISO-3166-Countries-with-Regional-Codes/master/slim-3/slim-3.json',
+    options: [],
+    type: 'number',
+    op: 'eq',
+    subfilterId: 'country-code',
+    subfilterLabel: 'name',
+  },
+  {
+    label: 'Games Made',
+    value: 'game_count',
+    options: [
+      { label: 'At least 1 game', value: 1, },
+      { label: 'At least 2 games', value: 2, },
+      { label: 'At least 5 games', value: 5, },
+      { label: 'At least 10 games', value: 10, },
+      { label: 'At least 20 games', value: 20, },
+      { label: 'At least 100 games', value: 100, },
+    ],
+    op: 'geq',
+    type: 'number',
+  }
+];
+
+const articleFilters = [
+  {
+    label: 'Developers Referenced',
+    value: 'developer_count',
+    options: [
+      { label: 'At least 1', value: 1, },
+      { label: 'At least 2', value: 2, },
+      { label: 'At least 5', value: 5, },
+      { label: 'At least 10', value: 10, },
+    ],
+    op: 'geq',
+    type: 'number',
+  },
+  {
+    label: 'Games Referenced',
+    value: 'game_count',
+    options: [
+      { label: 'At least 1 game', value: 1, },
+      { label: 'At least 2 games', value: 2, },
+      { label: 'At least 5 games', value: 5, },
+      { label: 'At least 10 games', value: 10, },
+    ],
+    op: 'geq',
+    type: 'number',
+  },
 ];
 
 export {
   gameFilters,
+  developerFilters,
+  articleFilters,
 };

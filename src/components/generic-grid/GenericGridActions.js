@@ -55,20 +55,18 @@ function formatFilters(filters) {
         };
       }
       else if (filter.type === 'number') {
-        const operator = filter.op === 'less than' ? 'leq' : 'geq';
         return {
           name: filter.value,
-          op: operator,
+          op: filter.op,
           val: filter.subfilter,
         }
       }
       else if (filter.type === 'date') {
         const date = new Date();
         date.setFullYear(date.getFullYear() - filter.subfilter);
-        const operator = filter.op === 'less than' ? 'leq' : 'geq';
         return {
           name: filter.value,
-          op: operator,
+          op: filter.op,
           val: date.toISOString(),
         };
       }
@@ -120,10 +118,10 @@ function createFetchModels(
 
     let uri;
     if (Object.keys(queryObject) > 0) {
-      uri = `${process.env.API_HOST}/v1/${pathname}?page=${pageNumber}&results_per_page=${PAGE_SIZE}`;
+      uri = `${process.env.API_HOST}/v1/grid/${pathname}?page=${pageNumber}&results_per_page=${PAGE_SIZE}`;
     }
     else {
-      uri = `${process.env.API_HOST}/v1/${pathname}?q=${JSON.stringify(queryObject)}&page=${pageNumber}&results_per_page=${PAGE_SIZE}`;
+      uri = `${process.env.API_HOST}/v1/grid/${pathname}?q=${JSON.stringify(queryObject)}&page=${pageNumber}&results_per_page=${PAGE_SIZE}`;
     }
     /**
      * @description - This is the thunk itself, which dispatches it's own synchronous actions
