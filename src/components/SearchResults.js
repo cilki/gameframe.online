@@ -149,7 +149,7 @@ class SearchResults extends React.Component {
             <div style={[InstanceDetailsStyles.externalGridCluster]}>
               <div style={[InstanceDetailsStyles.gameGridCluster('45%')]}>
                 <div style={[InstanceDetailsStyles.gameIndicator]}>
-                  Game Results:
+                  {this.state.game_results.num_results} Game Results:
                 </div>
                 <Minigrid>
                   {
@@ -170,7 +170,7 @@ class SearchResults extends React.Component {
               </div>
               <div style={[InstanceDetailsStyles.developerGridCluster('45%')]}>
                 <div style={[InstanceDetailsStyles.developerIndicator]}>
-                  Developer Results:
+                  {this.state.developer_results.num_results} Developer Results:
                 </div>
                 <Minigrid>
                   {
@@ -191,7 +191,7 @@ class SearchResults extends React.Component {
               </div>
               <div style={[InstanceDetailsStyles.articleGridCluster('45%')]}>
                 <div style={[InstanceDetailsStyles.articleIndicator]}>
-                  Article Results:
+                  {this.state.article_results.num_results} Article Results:
                 </div>
                 <Minigrid>
                   {
@@ -212,7 +212,7 @@ class SearchResults extends React.Component {
               </div>
               <div style={[InstanceDetailsStyles.videoGridCluster('45%')]}>
                 <div style={[InstanceDetailsStyles.videoIndicator]}>
-                  Video Results:
+                  {this.state.video_results.num_results} Video Results:
                 </div>
                 <Minigrid>
                   {
