@@ -8,7 +8,7 @@ const Minicard = {
     width: 'calc((100vh + 20vw) / 8)',
     height: 'calc((20vh + 20vw) / 3)',
     margin: 'calc((1vw + 1vh) / 2)',
-    flex: 'auto'
+    flex: 'auto',
   },
 
   minicard: cover => ({
@@ -32,14 +32,25 @@ const Minicard = {
     color: '#eeeeee',
     maxHeight: '90%',
     overflow: 'hidden',
-    borderRadius: `${cornerRadius}`
+    borderRadius: `${cornerRadius}`,
   },
 
   paragraph: {
-    fontSize: 'calc(12px + 0.5vw)',
+    fontSize: 'calc(10px + 0.5vw)',
+    whiteSpace: 'nowrap',
     maxHeight: '90%',
+    marginBottom: '0',
     overflow: 'hidden',
-    textOverflow: 'ellipsis'
+    textOverflow: 'ellipsis',
+    WebkitTransition: 'height 0.2s',
+    transition: 'all 0.2s',
+    ':hover': {
+      transition: 'all 0.2s',
+      whiteSpace: 'initial',
+      height: 'initial',
+      textOverflow: 'initial',
+      overflow: 'scroll'
+    }
   },
 
 };
