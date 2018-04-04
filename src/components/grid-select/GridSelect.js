@@ -5,7 +5,7 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import Select from 'react-select';
+import { Async } from 'react-select';
 import 'react-select/dist/react-select.css';
 
 class GridSelect extends React.Component {
@@ -23,6 +23,7 @@ class GridSelect extends React.Component {
     })),
 
     setFilterValue: PropTypes.func.isRequired,
+    getOptions: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
@@ -31,7 +32,25 @@ class GridSelect extends React.Component {
 
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      isLoading: false,
+    };
+  }
+
+  getOptions(value, currentValue, callback) {
+    this.setState({
+      isLoading: true,
+    });
+
+    const self = this;
+    const _callback = (err, options) => {
+      self.setState({
+        isLoading: false,
+      });
+      callback(err, options);
+    };
+
+    this.props.getOptions(this.props.options, value, currentValue, _callback);
   }
 
   render() {
@@ -41,12 +60,14 @@ class GridSelect extends React.Component {
           minWidth: '20%',
         }}
       >
-        <Select
+        <Async
           placeholder={`Filter ${this.props.model}`}
           options={this.props.options}
+          loadOptions={() => this.getOptions}
           onChange={(_value) => this.props.setFilterValue(_value)}
           value={this.props.value}
           multi
+          cache={false}
           deepFilter
           closeOnSelect={false}
         />

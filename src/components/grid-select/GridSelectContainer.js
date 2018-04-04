@@ -10,7 +10,7 @@ import {
   getFilterValue,
   getFilterOptions,
 } from './GridSelectSelectors';
-import { setGridFilterAction } from './GridSelectActions';
+import { setGridFilterAction, setGridFilterOptions, } from './GridSelectActions';
 
 /**
  * @description - Function used to create a mapStateToProps function that
@@ -41,8 +41,11 @@ function createMapStateToProps() {
  */
 function mapDispatchToProps(dispatch, props) {
   const setFilterValue = setGridFilterAction.bind({}, props.model);
+  const setFilterOptions = setGridFilterOptions.bind({}, props.model);
   return {
     setFilterValue: (value) => dispatch(setFilterValue(value)),
+    getOptions: fetchOptions.bind({}, dispatch, props.model),
+    // getOptions: (dispatch, currentOptions, value, currentValue, callback) => fetchOptions(,
   };
 }
 

@@ -82,6 +82,7 @@ function createFetchModels(
     setTotalPageAction,
   },
   secondaryModels,
+  defaultFilterOptions,
 ) {
   /**
    * @description - This is the actual fetch function/thunk creator we're returning
@@ -101,10 +102,10 @@ function createFetchModels(
 
     let uri;
     if (Object.keys(queryObject) > 0) {
-      uri = `http://api.gameframe.online/v1/${pathname}?page=${pageNumber}&results_per_page=${PAGE_SIZE}`;
+      uri = `${process.env.API_HOST}/v1/${pathname}?page=${pageNumber}&results_per_page=${PAGE_SIZE}`;
     }
     else {
-      uri = `http://api.gameframe.online/v1/${pathname}?q=${JSON.stringify(queryObject)}&page=${pageNumber}&results_per_page=${PAGE_SIZE}`;
+      uri = `${process.env.API_HOST}/v1/${pathname}?q=${JSON.stringify(queryObject)}&page=${pageNumber}&results_per_page=${PAGE_SIZE}`;
     }
     /**
      * @description - This is the thunk itself, which dispatches it's own synchronous actions
@@ -312,6 +313,18 @@ function createReducer(
     }
   }, []);
 
+  const filterOptions = handleActions({
+    [setGridFilterOptions](state, { payload }) {
+      const { model, value } = payload;
+
+      //ignore it if it wasn't meant for this model
+      if (model !== modelNamePlural) {
+        return state;
+      }
+      return value;
+    }
+  }, defaultFilterOptions);
+
   return combineReducers({
     models,
     requested,
@@ -323,9 +336,16 @@ function createReducer(
 }
 
 /**
- * @description 
+ * @description - Used to reset the page whenever the user
+ * is currently on a page that doesn't exist in the current filter's 
+ * he/she's applied
+ * @param {String} search - search string, retrieved from window.location.search
+ * @param {Number} totalPages - the total pages that the latest request retrieved
+ * @param {Function} push - a function retrieved from the ReactRouter, this allows
+ * us to change the URL without causing a page load
+ * @returns {Number} - the page number to fetch
  */
-function resetPage(search, totalPages, push, fetchFunction) {
+function resetPage(search, totalPages, push) {
   if (!search) {
     return;
   }

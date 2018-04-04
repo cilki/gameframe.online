@@ -12,6 +12,7 @@ import {
   fetchDevelopersResponse,
   fetchArticlesResponse,
 } from '../Actions';
+import { gameFilters as defaultFilterOptions } from '../FilterOptions';
 
 const gamesResponse = { objects: [gamesSchema] };
 const setPageAction = createAction('SET_GAME_PAGE');
@@ -51,4 +52,5 @@ export const reducer = createReducer(
   setPageAction,
   setTotalPagesAction,
   ['developers', 'articles'],
+  gameFilters,
 );
