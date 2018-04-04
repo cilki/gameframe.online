@@ -25,6 +25,14 @@ class Card extends React.Component {
     year: PropTypes.number,
     
     price: PropTypes.number,
+    genres: PropTypes.arrayOf(PropTypes.shape({
+      name: PropTypes.string,
+      genre_id: PropTypes.number,
+    })),
+    platforms: PropTypes.arrayOf(PropTypes.shape({
+      name: PropTypes.string,
+      platform_id: PropTypes.number,
+    })),
 
     articles: PropTypes.arrayOf(PropTypes.number),
     developers: PropTypes.arrayOf(PropTypes.number),
@@ -43,6 +51,8 @@ class Card extends React.Component {
     year: new Date().getFullYear(),
     
     price: -1,
+    genres: [],
+    platforms: [],
 
     articles: [],
     developers: [],
@@ -111,9 +121,11 @@ class Card extends React.Component {
                   }
                 />
 
-                <div>
+                <div style=({transformStyle: 'flat'}}>
                   <Tooltip
                     price={this.props.price}
+                    genres={this.props.genres}
+                    platforms={this.props.platforms}
                     
                     games={this.props.games.length}
                     developers={this.props.developers.length}

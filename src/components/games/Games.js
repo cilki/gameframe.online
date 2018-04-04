@@ -19,6 +19,14 @@ class Games extends React.Component {
       name: PropTypes.string.isRequired,
       price: PropTypes.number,
       release: PropTypes.string,
+      genres: PropTypes.arrayOf(PropTypes.shape({
+        name: PropTypes.string,
+        genre_id: PropTypes.number,
+      })),
+      platforms: PropTypes.arrayOf(PropTypes.shape({
+        name: PropTypes.string,
+        platform_id: PropTypes.number,
+      })),
     })),
     error: PropTypes.string, //eslint-disable-line
     requested: PropTypes.bool, //eslint-disable-line
@@ -57,6 +65,8 @@ class Games extends React.Component {
                 
                 price={game.price}
                 articles={game.articles}
+                genres={game.genres}
+                platforms={game.platforms}
               />
             );
           })
