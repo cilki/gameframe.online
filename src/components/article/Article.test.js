@@ -1,6 +1,6 @@
 
 /**
- * Unit test script for Game
+ * Unit test script for Article
  */
 
 const proxyquire = require('proxyquire').noPreserveCache().noCallThru();
@@ -10,24 +10,24 @@ const sinon = require('sinon');
 const { assert } = require('chai');
 const { List, Map } = require('immutable');
 
-describe('game', function() {
-  describe('<Game />', function() {
+describe('article', function() {
+  describe('<Article />', function() {
     /**
      * @description - Uses proxyquire to retrieve the react component while mocking
      * the relevant dependencies
      * @returns {React.Component}
      */
-    function getGame() {
-      return proxyquire('./Game.js', {
+    function getArticle() {
+      return proxyquire('./Article.js', {
         'radium': component => component
       }).default;
     }
 
     /**
-     * This generates three tests for `<Game />`'s prop functions
+     * This generates three tests for `<Article />`'s prop functions
      */
     const propFunctions = [
-      'fetchGame',
+      'fetchArticle',
     ];
     for (let fun of propFunctions) {
       it('Calls `' + fun + '()` when it mounts', function() {
@@ -43,54 +43,54 @@ describe('game', function() {
             requiredProps[requiredProp] = propStub;
           }
         }
-        const Game = getGame();
-        const wrapper = shallow(<Game {...requiredProps} />);
+        const Article = getArticle();
+        const wrapper = shallow(<Article {...requiredProps} />);
         assert(propStub.called, '`' + fun + '()` was never called');
       });
     }
   });
 
-  describe('GameActions.js', function() {
+  describe('ArticleActions.js', function() {
     /**
-     * @description - Convenience method for retrieving the Game module
+     * @description - Convenience method for retrieving the Article module
      * with a clean slate using proxyquire
      * @param {Object=} [{}] overrides
      * @returns {Object}
      */
-    function getGameActions(overrides = {}) {
-      return proxyquire('./GameActions.js', overrides);
+    function getArticleActions(overrides = {}) {
+      return proxyquire('./ArticleActions.js', overrides);
     }
 
-    describe('`fetchGame()`', function() {
-      it('Returns true if `getGame()` returns null', function() {
-        const getGameStub = sinon.stub().returns(null);
-        const { fetchGame } = getGameActions({
-          './GameSelectors': {
-            getGame: getGameStub
+    describe('`fetchArticle()`', function() {
+      it('Returns true if `getArticle()` returns null', function() {
+        const getArticleStub = sinon.stub().returns(null);
+        const { fetchArticle } = getArticleActions({
+          './ArticleSelectors': {
+            getArticle: getArticleStub
           }
         });
 
-        assert.isOk(fetchGame(), '`fetchGame()` returned false');
+        assert.isOk(fetchArticle(), '`fetchArticle()` returned false');
       });
     });
   });
 
-  describe('GameSelectors.js', function() {
+  describe('ArticleSelectors.js', function() {
     /**
-     * @description - Convenience method for retrieving the Game module
+     * @description - Convenience method for retrieving the Article module
      * with a clean slate using proxyquire
      * @param {Object=} [{}] overrides
      * @returns {Object}
      */
-    function getGameSelectors() {
-      return proxyquire('./GameSelectors.js', {});
+    function getArticleSelectors() {
+      return proxyquire('./ArticleSelectors.js', {});
     }
 
-    describe('`getGame()`', function() {
-      it('Returns a JS element for a single game', function() {
-        const { getGame } = getGameSelectors();
+    describe('`getArticle()`', function() {
+      it('Returns a JS element for a single article', function() {
+        const { getArticle } = getArticleSelectors();
         const state = {
-          'games': {
+          'articles': {
             'models': {
               '1': {
                 'id': {
@@ -103,7 +103,7 @@ describe('game', function() {
 
         const id = '1';
 
-        const result = getGame(state, { id });
+        const result = getArticle(state, { id });
         assert.deepEqual(
           result,
           {
@@ -114,10 +114,10 @@ describe('game', function() {
         );
       });
 
-      it('Returns undefined when there are no games', function() {
-        const { getGame } = getGameSelectors();
+      it('Returns undefined when there are no articles', function() {
+        const { getArticle } = getArticleSelectors();
         const state = {
-          'games': {
+          'articles': {
             'models': {
             }
           }
@@ -125,17 +125,17 @@ describe('game', function() {
 
         const id = '1';
 
-        const result = getGame(state, { id });
+        const result = getArticle(state, { id });
         assert.deepEqual(
           result,
           undefined
         );
       });
 
-      it('Returns a JS element for a single game when there is more than one game in the state', function() {
-        const { getGame } = getGameSelectors();
+      it('Returns a JS element for a single article when there is more than one article in the state', function() {
+        const { getArticle } = getArticleSelectors();
         const state = {
-          'games': {
+          'articles': {
             'models': {
               '1': {
                 'id': {
@@ -153,7 +153,7 @@ describe('game', function() {
 
         const id = '1';
 
-        const result = getGame(state, { id });
+        const result = getArticle(state, { id });
         assert.deepEqual(
           result,
           {
@@ -165,9 +165,9 @@ describe('game', function() {
       });
 
       it('Returns a JS element that is a subset of the state', function() {
-        const { getGame } = getGameSelectors();
+        const { getArticle } = getArticleSelectors();
         const state = {
-          'games': {
+          'articles': {
             'models': {
               '1': {
                 'id': {
@@ -186,7 +186,7 @@ describe('game', function() {
 
         const id = '1';
 
-        const result = getGame(state, { id });
+        const result = getArticle(state, { id });
         assert.deepEqual(
           result,
           {
@@ -198,10 +198,10 @@ describe('game', function() {
         );
       });
 
-      it('Returns undefined when there is more than one game in the state but none match the requested id', function() {
-        const { getGame } = getGameSelectors();
+      it('Returns undefined when there is more than one article in the state but none match the requested id', function() {
+        const { getArticle } = getArticleSelectors();
         const state = {
-          'games': {
+          'articles': {
             'models': {
               '1': {
                 'id': {
@@ -219,7 +219,7 @@ describe('game', function() {
 
         const id = '3';
 
-        const result = getGame(state, { id });
+        const result = getArticle(state, { id });
         assert.deepEqual(
           result,
           undefined
@@ -227,9 +227,9 @@ describe('game', function() {
       });
 
       it('Returns undefined when the requested id is negative', function() {
-        const { getGame } = getGameSelectors();
+        const { getArticle } = getArticleSelectors();
         const state = {
-          'games': {
+          'articles': {
             'models': {
               '1': {
                 'id': {
@@ -247,7 +247,7 @@ describe('game', function() {
 
         const id = '-24';
 
-        const result = getGame(state, { id });
+        const result = getArticle(state, { id });
         assert.deepEqual(
           result,
           undefined
@@ -255,9 +255,9 @@ describe('game', function() {
       });
 
       it('Returns undefined when the requested id is not a number', function() {
-        const { getGame } = getGameSelectors();
+        const { getArticle } = getArticleSelectors();
         const state = {
-          'games': {
+          'articles': {
             'models': {
               '1': {
                 'id': {
@@ -275,7 +275,7 @@ describe('game', function() {
 
         const id = 'Twenty Four';
 
-        const result = getGame(state, { id });
+        const result = getArticle(state, { id });
         assert.deepEqual(
           result,
           undefined
@@ -283,9 +283,9 @@ describe('game', function() {
       });
 
       it('Returns undefined when the requested id is not an integer', function() {
-        const { getGame } = getGameSelectors();
+        const { getArticle } = getArticleSelectors();
         const state = {
-          'games': {
+          'articles': {
             'models': {
               '1': {
                 'id': {
@@ -303,7 +303,7 @@ describe('game', function() {
 
         const id = '2.0';
 
-        const result = getGame(state, { id });
+        const result = getArticle(state, { id });
         assert.deepEqual(
           result,
           undefined
@@ -311,9 +311,9 @@ describe('game', function() {
       });
 
       it('Returns a JS element that is a subset of the state as long as the id exists (even if it is not an integer)', function() {
-        const { getGame } = getGameSelectors();
+        const { getArticle } = getArticleSelectors();
         const state = {
-          'games': {
+          'articles': {
             'models': {
               'Twenty Four': {
                 'id': {
@@ -332,7 +332,7 @@ describe('game', function() {
 
         const id = 'Twenty Four';
 
-        const result = getGame(state, { id });
+        const result = getArticle(state, { id });
         assert.deepEqual(
           result,
           {
@@ -345,11 +345,11 @@ describe('game', function() {
       });
     });
 
-    describe('`makeGetGame()`', function() {
-      it('Returns a selector for returning games.', function() {
-        const { makeGetGame } = getGameSelectors();
+    describe('`makeGetArticle()`', function() {
+      it('Returns a selector for returning articles.', function() {
+        const { makeGetArticle } = getArticleSelectors();
 
-        const result = makeGetGame();
+        const result = makeGetArticle();
         assert.deepEqual(
           `${result}`,
             'function () {\n    if (!areArgumentsShallowlyEqual(equalityCheck, lastArgs, arguments)) {\n      \/\/ apply arguments instead of spreading for performance.\n      lastResult = func.apply(null, arguments);\n    }\n\n    lastArgs = arguments;\n    return lastResult;\n  }'
@@ -357,63 +357,31 @@ describe('game', function() {
       });
     });
 
-    describe('`makeGetGameGenres()`', function() {
-      it('Returns a selector for returning game genres.', function() {
-        const { makeGetGameGenres } = getGameSelectors();
+    describe('`makeGetArticleGames()`', function() {
+      it('Returns a selector for returning article games.', function() {
+        const { makeGetArticleGames } = getArticleSelectors();
 
-        const result = makeGetGameGenres(null);
+        const result = makeGetArticleGames(null);
         assert.deepEqual(
           `${result}`,
             'function () {\n    if (!areArgumentsShallowlyEqual(equalityCheck, lastArgs, arguments)) {\n      \/\/ apply arguments instead of spreading for performance.\n      lastResult = func.apply(null, arguments);\n    }\n\n    lastArgs = arguments;\n    return lastResult;\n  }'
         );
       });
 
-      it('Returns a selector for returning game genres when a game selector is passed in.', function() {
-        const { makeGetGameGenres, makeGetGame } = getGameSelectors();
+      it('Returns a selector for returning article games when a article selector is passed in.', function() {
+        const { makeGetArticleGames, makeGetArticle } = getArticleSelectors();
 
-        const result = makeGetGameGenres(makeGetGame());
+        const result = makeGetArticleGames(makeGetArticle());
         assert.deepEqual(
           `${result}`,
             'function () {\n    if (!areArgumentsShallowlyEqual(equalityCheck, lastArgs, arguments)) {\n      \/\/ apply arguments instead of spreading for performance.\n      lastResult = func.apply(null, arguments);\n    }\n\n    lastArgs = arguments;\n    return lastResult;\n  }'
         );
       });
 
-      it('Returns a selector for returning game genres when nothing is passed in (default to null).', function() {
-        const { makeGetGameGenres } = getGameSelectors();
+      it('Returns a selector for returning article games when nothing is passed in (default to null).', function() {
+        const { makeGetArticleGames } = getArticleSelectors();
 
-        const result = makeGetGameGenres();
-        assert.deepEqual(
-          `${result}`,
-            'function () {\n    if (!areArgumentsShallowlyEqual(equalityCheck, lastArgs, arguments)) {\n      \/\/ apply arguments instead of spreading for performance.\n      lastResult = func.apply(null, arguments);\n    }\n\n    lastArgs = arguments;\n    return lastResult;\n  }'
-        );
-      });
-    });
-
-    describe('`makeGetGameDevelopers()`', function() {
-      it('Returns a selector for returning game developers.', function() {
-        const { makeGetGameDevelopers } = getGameSelectors();
-
-        const result = makeGetGameDevelopers(null);
-        assert.deepEqual(
-          `${result}`,
-            'function () {\n    if (!areArgumentsShallowlyEqual(equalityCheck, lastArgs, arguments)) {\n      \/\/ apply arguments instead of spreading for performance.\n      lastResult = func.apply(null, arguments);\n    }\n\n    lastArgs = arguments;\n    return lastResult;\n  }'
-        );
-      });
-
-      it('Returns a selector for returning game developers when a game selector is passed in.', function() {
-        const { makeGetGameDevelopers, makeGetGame } = getGameSelectors();
-
-        const result = makeGetGameDevelopers(makeGetGame());
-        assert.deepEqual(
-          `${result}`,
-            'function () {\n    if (!areArgumentsShallowlyEqual(equalityCheck, lastArgs, arguments)) {\n      \/\/ apply arguments instead of spreading for performance.\n      lastResult = func.apply(null, arguments);\n    }\n\n    lastArgs = arguments;\n    return lastResult;\n  }'
-        );
-      });
-
-      it('Returns a selector for returning game developers when nothing is passed in (default to null).', function() {
-        const { makeGetGameDevelopers } = getGameSelectors();
-
-        const result = makeGetGameDevelopers();
+        const result = makeGetArticleGames();
         assert.deepEqual(
           `${result}`,
             'function () {\n    if (!areArgumentsShallowlyEqual(equalityCheck, lastArgs, arguments)) {\n      \/\/ apply arguments instead of spreading for performance.\n      lastResult = func.apply(null, arguments);\n    }\n\n    lastArgs = arguments;\n    return lastResult;\n  }'
@@ -421,31 +389,31 @@ describe('game', function() {
       });
     });
 
-    describe('`makeGetGameArticles()`', function() {
-      it('Returns a selector for returning game articles.', function() {
-        const { makeGetGameArticles } = getGameSelectors();
+    describe('`makeGetArticleDevelopers()`', function() {
+      it('Returns a selector for returning article developers.', function() {
+        const { makeGetArticleDevelopers } = getArticleSelectors();
 
-        const result = makeGetGameArticles(null);
+        const result = makeGetArticleDevelopers(null);
         assert.deepEqual(
           `${result}`,
             'function () {\n    if (!areArgumentsShallowlyEqual(equalityCheck, lastArgs, arguments)) {\n      \/\/ apply arguments instead of spreading for performance.\n      lastResult = func.apply(null, arguments);\n    }\n\n    lastArgs = arguments;\n    return lastResult;\n  }'
         );
       });
 
-      it('Returns a selector for returning game articles when a game selector is passed in.', function() {
-        const { makeGetGameArticles, makeGetGame } = getGameSelectors();
+      it('Returns a selector for returning article developers when a article selector is passed in.', function() {
+        const { makeGetArticleDevelopers, makeGetArticle } = getArticleSelectors();
 
-        const result = makeGetGameArticles(makeGetGame());
+        const result = makeGetArticleDevelopers(makeGetArticle());
         assert.deepEqual(
           `${result}`,
             'function () {\n    if (!areArgumentsShallowlyEqual(equalityCheck, lastArgs, arguments)) {\n      \/\/ apply arguments instead of spreading for performance.\n      lastResult = func.apply(null, arguments);\n    }\n\n    lastArgs = arguments;\n    return lastResult;\n  }'
         );
       });
 
-      it('Returns a selector for returning game articles when nothing is passed in (default to null).', function() {
-        const { makeGetGameArticles} = getGameSelectors();
+      it('Returns a selector for returning article developers when nothing is passed in (default to null).', function() {
+        const { makeGetArticleDevelopers} = getArticleSelectors();
 
-        const result = makeGetGameArticles();
+        const result = makeGetArticleDevelopers();
         assert.deepEqual(
           `${result}`,
             'function () {\n    if (!areArgumentsShallowlyEqual(equalityCheck, lastArgs, arguments)) {\n      \/\/ apply arguments instead of spreading for performance.\n      lastResult = func.apply(null, arguments);\n    }\n\n    lastArgs = arguments;\n    return lastResult;\n  }'
