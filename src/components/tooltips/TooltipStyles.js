@@ -3,9 +3,6 @@
  */
 
 export default {
-  indent: {
-    marginLeft: '2%',
-  },
   label: {
     marginLeft: '2%', 
     padding: '2% 2% 2% 2%', 
@@ -16,5 +13,6 @@ export default {
     whiteSpace: 'nowrap', 
     overflow: 'hidden', 
     textOverflow: 'ellipsis',
+    fontSize: '12px',
   }
 }

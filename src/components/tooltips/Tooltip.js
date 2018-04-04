@@ -53,16 +53,24 @@ class Tooltip extends React.Component {
   }
 
   render() {
-    const indent = Styles.indent;
     var references = 0;
     var medias = 0;
     
+    /**
+     * @description - Conditionally render the price of a game.
+     * A USD price will only show up if a number > 0 is supplied.
+     * If number is supplied 0, then the game is considered free.
+     * Otherwise, no price will appear.
+     * @param {number} price
+     * @return {React.component|null}
+     */
     function showPrice(price) {
       if (price == 0) {
         return (
           <p>
-            Price: 
-              <Badge style={indent}>
+            Price:
+            &nbsp;
+              <Badge>
                 free
               </Badge>
           </p>
@@ -71,8 +79,9 @@ class Tooltip extends React.Component {
         price = price / 100;
         return (
           <p>
-            Price: 
-              <Badge style={indent}>
+            Price:
+            &nbsp;
+              <Badge>
                 ${price}
               </Badge>
           </p>
@@ -82,65 +91,69 @@ class Tooltip extends React.Component {
       }
     }
     
-    function showGenres(genres) {
-      if (genres.length > 0) {
+    /**
+     * @description - Conditionally render up to a maximum number 
+     * (maxLimit) of items from a named field.
+     * @param {name} string
+     * @param {maxLimit} number
+     * @param {items} array
+     * @return {React.component|null}
+     */
+    function showItems(name, maxLimit, items) {
+      if (items.length > 0) {
         return (
           <div>
             <h4>
-              Genres
+              {name}
             </h4>
-            {
-            genres.map((genre) => {
-              return (
-                <span key={genre.name}>
-                  <Label key={`${genre.name}-tooltip-label`}>
-                    {genre.name}
-                  </Label>
-                  &nbsp;
-                </span>
-              );
-            })
-            }
+            {getItems(maxLimit, items)}
           </div>
         );
       } else {
         return (null);
-      }        
+      }
     }
     
-    function showPlatforms(platforms) {
-      if (platforms.length > 0) {
-        return (
-          <div>
-            <h4>
-              Platforms
-            </h4>
-            {
-            platforms.map((platform) => {
-              return (
-                <span key={platform.name}>
-                  <Label key={`${platform.name}-tooltip-label`}>
-                    {platform.name}
-                  </Label>
-                  &nbsp;
-                </span>
-              );
-            })
-            }
+    /**
+     * @description - Helper method to showItems().
+     * @param {maxLimit} number
+     * @param {items} array
+     * @return {array}
+     */
+    function getItems(maxLimit, items) {
+      var subItems = [];
+      var limit = items.length;
+      
+      if (limit > maxLimit) {
+        limit = maxLimit;
+      }
+      
+      for(let i = 0; i < limit; i++) {
+        subItems.push(
+          <div key={`item-${i}`} style={[Styles.label]}>
+            {items[i].name}  
           </div>
         );
-      } else {
-        return (null);
-      }        
+      }
+      return subItems;      
     }
     
+    /**
+     * @description - Conditionally render a 
+     * named reference's number amount.
+     * @param {name} string
+     * @param {number} number
+     * @return {React.component|null}
+     */
     function showReference(name, number) {
       if (number > 0) {
         references += 1;
         return (
-          <p style={indent}>
-            {name}: 
-              <Badge style={indent}>
+          <p>
+            &nbsp;
+            {name}:
+            &nbsp;
+              <Badge>
                 {number}
               </Badge>
           </p>
@@ -150,6 +163,13 @@ class Tooltip extends React.Component {
       }
     }
     
+    /**
+     * @description - Conditionally render a 
+     * named media's url.
+     * @param {name} string
+     * @param {url} string
+     * @return {React.component|null}
+     */
     function showMedia(name, url) {
       if (url) {
         medias += 1;
@@ -163,10 +183,17 @@ class Tooltip extends React.Component {
       }
     }
     
+    /**
+     * @description - Conditionally render the word "None." 
+     * for when there are no references or medias.
+     * @param {number} number
+     * @return {React.component|null}
+     */
     function showNone(number) {
       if (number <= 0) {
         return (
-          <p style={indent}>
+          <p>
+            &nbsp;
             None.
           </p>
         );
@@ -178,8 +205,8 @@ class Tooltip extends React.Component {
     return (
       <div>
         {showPrice(this.props.price)}
-        {showGenres(this.props.genres)}
-        {showPlatforms(this.props.platforms)}
+        {showItems("Genres", 3, this.props.genres)}
+        {showItems("Platforms", 3, this.props.platforms)}
         
         <div>
           <h4>
