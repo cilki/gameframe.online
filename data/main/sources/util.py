@@ -20,7 +20,7 @@ DEVELOPER_EXTRA = ['llc', 'ltd', 'co', 'inc', 'company', 'interactive',
 A compiled regex that matches strings in DEVELOPER_EXTRA
 """
 CONDITION_DEVELOPER = re.compile(
-    "[\W+]" + "[\W*]|[\W+]".join(DEVELOPER_EXTRA) + "[\W*]")
+    "\W+" + "\W*$|\W+".join(DEVELOPER_EXTRA) + '\W*$', re.IGNORECASE)
 
 """
 A compiled regex that performs heavy conditioning
@@ -59,11 +59,24 @@ def condition_heavy(keyword):
     return CONDITION_HEAVY.sub('', keyword).lower()
 
 
-def condition_developer(name):
+def condition_developer(dev_name):
     """
     Condition a developer's name
     """
-    return CONDITION_DEVELOPER.sub('', name).lower()
+
+    # Strip parentheses
+    name = re.sub(r'[(].*[)]', '', dev_name)
+
+    # Strip DEVELOPER_EXTRA
+    match = CONDITION_DEVELOPER.search(name)
+    if match:
+        name = name[0:match.start(0)]
+
+    if len(name) < 3:
+        # The conditioning was probably too aggressive
+        return condition(dev_name)
+
+    return condition(name)
 
 
 def keywordize(model):

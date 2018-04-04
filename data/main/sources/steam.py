@@ -447,6 +447,10 @@ def link_developers():
 
         for name in chain(game_json.get('publishers', []), game_json.get('developers', [])):
             dev = WS.developers.get(condition_developer(name))
+
+            if dev is None:
+                dev = WS.developers.get(name)
+
             if dev is not None:
                 # Link the models
                 xappend(game.developers, dev)
