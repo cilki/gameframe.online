@@ -52,5 +52,5 @@ export const reducer = createReducer(
   setPageAction,
   setTotalPagesAction,
   ['developers', 'articles'],
-  gameFilters,
+  defaultFilterOptions,
 );

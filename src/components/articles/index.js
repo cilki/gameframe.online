@@ -51,4 +51,5 @@ export const reducer = createReducer(
   setPageAction,
   setTotalPagesAction,
   ['developers', 'games'],
+  [],
 );

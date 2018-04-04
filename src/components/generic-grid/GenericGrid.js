@@ -16,7 +16,7 @@ class GenericGrid extends React.Component {
     currentPage: PropTypes.number.isRequired,
     filters: PropTypes.arrayOf(PropTypes.shape({
       value: PropTypes.string.isRequired,
-      subfilter: PropTypes.string.isRequired,
+      subfilter: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
     })),
     prefix: PropTypes.string.isRequired,
     totalPages: PropTypes.number.isRequired,

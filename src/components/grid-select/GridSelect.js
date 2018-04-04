@@ -5,8 +5,10 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Async } from 'react-select';
+import VirtualizedSelect from 'react-virtualized-select';
 import 'react-select/dist/react-select.css';
+import 'react-virtualized/styles.css';
+import 'react-virtualized-select/styles.css';
 
 class GridSelect extends React.Component {
   static propTypes = {
@@ -14,12 +16,14 @@ class GridSelect extends React.Component {
     options: PropTypes.arrayOf(PropTypes.shape({
       value: PropTypes.string.isRequired,
       label: PropTypes.string.isRequired,
+      path: PropTypes.string,
       options: PropTypes.arrayOf(PropTypes.shape({
-        value: PropTypes.string.isRequired,
+        value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
         label: PropTypes.string.isRequired,
       })),
       type: PropTypes.string.isRequired,
-      subfilterId: PropTypes.string.isRequired,
+      subfilterId: PropTypes.string,
+      op: PropTypes.string,
     })),
 
     setFilterValue: PropTypes.func.isRequired,
@@ -35,6 +39,8 @@ class GridSelect extends React.Component {
     this.state = {
       isLoading: false,
     };
+
+    this.getOptions = this.getOptions.bind(this);
   }
 
   getOptions(value, currentValue, callback) {
@@ -42,15 +48,17 @@ class GridSelect extends React.Component {
       isLoading: true,
     });
 
+    const optionsCallback = typeof currentValue === 'function' ? currentValue : callback;
+    const filterCurrentValue = typeof currentValue === 'function' ? null : currentValue;
     const self = this;
     const _callback = (err, options) => {
       self.setState({
         isLoading: false,
       });
-      callback(err, options);
+      optionsCallback(err, { options, });
     };
 
-    this.props.getOptions(this.props.options, value, currentValue, _callback);
+    this.props.getOptions(this.props.options, value, filterCurrentValue, _callback);
   }
 
   render() {
@@ -60,13 +68,14 @@ class GridSelect extends React.Component {
           minWidth: '20%',
         }}
       >
-        <Async
+        <VirtualizedSelect
+          async
           placeholder={`Filter ${this.props.model}`}
-          options={this.props.options}
-          loadOptions={() => this.getOptions}
+          loadOptions={this.getOptions}
           onChange={(_value) => this.props.setFilterValue(_value)}
           value={this.props.value}
           multi
+          isLoading={this.state.isLoading}
           cache={false}
           deepFilter
           closeOnSelect={false}

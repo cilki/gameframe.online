@@ -10,7 +10,7 @@ import { combineReducers } from 'redux';
 import QueryString from 'query-string';
 
 import { PAGE_SIZE } from '../Constants';
-import { setGridFilterAction } from '../grid-select';
+import { setGridFilterAction, setGridFilterOptions } from '../grid-select';
 
 /**
  * @description - Creates the predicate function to use
@@ -52,6 +52,24 @@ function formatFilters(filters) {
           name: `${filter.value}__${filter.subfilterId}`,
           op: 'any',
           val: filter.subfilter,
+        };
+      }
+      else if (filter.type === 'number') {
+        const operator = filter.op === 'less than' ? 'leq' : 'geq';
+        return {
+          name: filter.value,
+          op: operator,
+          val: filter.subfilter,
+        }
+      }
+      else if (filter.type === 'date') {
+        const date = new Date();
+        date.setFullYear(date.getFullYear() - filter.subfilter);
+        const operator = filter.op === 'less than' ? 'leq' : 'geq';
+        return {
+          name: filter.value,
+          op: operator,
+          val: date.toISOString(),
         };
       }
     }),
@@ -199,6 +217,7 @@ function createReducer(
   setSinglePage,
   setTotalPages,
   secondaryModels,
+  defaultFilterOptions,
 ) {
   const models = handleActions({
     [multipleResponse]: {
@@ -332,6 +351,7 @@ function createReducer(
     totalPages,
     pages,
     filters,
+    filterOptions,
   });
 }
 

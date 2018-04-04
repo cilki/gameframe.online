@@ -16,7 +16,7 @@ function fetchOptions(
   currentValue,
   callback
 ) {
-  const callbackFunction = typeof currentValue === 'function' && !callback : currentValue : callback;
+  const callbackFunction = typeof currentValue === 'function' && !callback ? currentValue : callback;
   const filterCurrentValue = typeof currentValue === 'function' ? null : currentValue;
 
   if (!filterCurrentValue) {
@@ -25,6 +25,10 @@ function fetchOptions(
   else {
     // find the option the current value relates to
     const option = currentOptions.find(option => filterCurrentValue.value === option.value);
+    if (option.options.length) {
+      callbackFunction(null, currentOptions);
+      return;
+    }
 
     fetch(
       encodeURI(`${process.env.API_HOST}/v1/list/${option.path}`),
@@ -44,11 +48,12 @@ function fetchOptions(
         dispatch(setGridFilterOptions(model, currentOptions));
         callbackFunction(null, currentOptions);
       })
-      .catch(err => callbackFunction(null));
+      .catch(err => callbackFunction(err));
   }
 }
 
 export {
   setGridFilterAction,
-  setGridFilterOptions
+  setGridFilterOptions,
+  fetchOptions,
 };
