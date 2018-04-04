@@ -225,6 +225,27 @@ const InstanceDetails = {
     flexWrap: 'wrap',
   },
 
+  googleTrendsContainer: {
+    display: 'block',
+    maxWidth: '100%',
+    flexBasis: '50%',
+    minWidth: '50%',
+    '@media screen and (max-width: 600px)': {
+      minWidth: '100%',
+      width: '100%',
+      flexBasis: '100%',
+      margin: 'auto',
+    },
+  },
+
+  googleTrendsIframe: {
+    borderRadius: '4px',
+    boxShadow: 'rgba(0, 0, 0, 0.12) 0px 0px 2px 0px, rgba(0, 0, 0, 0.24) 0px 2px 2px 0px',
+    height: '423px',
+    marginTop: '2%',
+    opacity: '0.9',
+  },
+
   externalGridCluster: {
     display: 'flex',
     flexWrap: 'wrap',

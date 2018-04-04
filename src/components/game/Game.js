@@ -4,15 +4,16 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import Radium, { StyleRoot } from 'radium';
-import { Carousel, Label } from 'react-bootstrap';
+import Radium, {StyleRoot} from 'radium';
+import { Badge, Carousel, Jumbotron, Label, ListGroup, ListGroupItem } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
 import ReactHTMLParser from 'react-html-parser';
-// import { Timeline } from 'react-twitter-widgets';
+import { Timeline } from 'react-twitter-widgets';
 import InstanceDetails from '../instance-details/InstanceDetails';
 import InstanceDetailsStyles from '../instance-details/InstanceDetailsStyles';
 import Minigrid from '../minigrid/Minigrid';
 import Minicard from '../minicard/Minicard';
-import ExternalMinicard from '../minicard/ExternalMinicard';
+import CommonAssets from '../../inline-styles/CommonAssets';
 
 /**
  * @description - Helper method for generating a component
@@ -26,12 +27,12 @@ function screenshot({ url, alt }) {
   const src = url.indexOf('http') >= 0 ? url : `https://${url}`;
   return (
     <Carousel.Item key={`${url}-carousel-item`}>
-      <a href={src} key={`${url}-a`} style={[InstanceDetailsStyles.carouselScreenshotLink]}>
+      <a href={src} key={`${url}-a`} style={[ InstanceDetailsStyles.carouselScreenshotLink ]}>
         <img
           key={`${url}-image`}
           src={src}
           alt={alt}
-          style={[InstanceDetailsStyles.carouselScreenshotImage]}
+          style={[ InstanceDetailsStyles.carouselScreenshotImage ]}
         />
       </a>
     </Carousel.Item>
@@ -54,40 +55,15 @@ screenshot.defaultProps = {
  * @param {String} props.url
  * @returns {React.Component}
  */
-function link({
-  label, url, cover, key,
-}) {
+function link({ label, url, cover, key }) {
   return (
-    <Minicard label={label} url={url} cover={cover} cardKey={`${key}-inner`} key={key} />
+    <Minicard label={label} url={url} cover={cover} cardKey={`${key}-inner`} key={key}/>
   );
 }
 
 link.propTypes = {
   label: PropTypes.string.isRequired,
   url: PropTypes.string.isRequired,
-  cover: PropTypes.string.isRequired,
-  key: PropTypes.oneOf([PropTypes.string, PropTypes.number]).isRequired,
-};
-
-/**
- * @description - Helper method for rendering a link to an external source
- * @param {Object} props
- * @param {String} props.label
- * @param {String} props.url
- * @returns {React.Component}
- */
-function exLink({
-  label, url, cover, key,
-}) {
-  return (
-    <ExternalMinicard label={label} url={url} cover={cover} cardKey={`${key}-inner`} key={key} />
-  );
-}
-
-exLink.propTypes = {
-  label: PropTypes.object.isRequired,//eslint-disable-line
-  url: PropTypes.string.isRequired,
-  cover: PropTypes.string.isRequired,
   key: PropTypes.oneOf([PropTypes.string, PropTypes.number]).isRequired,
 };
 
@@ -114,12 +90,6 @@ class Game extends React.Component {
     error: PropTypes.string, //eslint-disable-line
     name: PropTypes.string,
     genres: PropTypes.arrayOf(PropTypes.string),
-    metacritic: PropTypes.number,
-    price: PropTypes.number,
-    platforms: PropTypes.arrayOf(PropTypes.shape({
-      name: PropTypes.string.isRequired,
-      platform_id: PropTypes.number.isRequired,
-    })),
     release: PropTypes.string,
     // we don't currently use this right now, but we may in the future
     requested: PropTypes.bool, //eslint-disable-line
@@ -128,12 +98,6 @@ class Game extends React.Component {
       alt: PropTypes.string,
     })),
     summary: PropTypes.string,
-    videos: PropTypes.arrayOf(PropTypes.shape({
-      id: PropTypes.number.isRequired,
-      name: PropTypes.string.isRequired,
-      url: PropTypes.string.isRequired,
-      thumbnail: PropTypes.string.isRequired,
-    })),
 
     fetchGame: PropTypes.func.isRequired,
   };
@@ -144,16 +108,13 @@ class Game extends React.Component {
     developers: [],
     error: null,
     genres: [],
-    metacritic: null,
     price: 350,
-    platforms: [],
     name: '',
     // release defaults to today's date
     release: '',
     requested: false,
-    screenshots: [{ url: '', alt: '' }],
+    screenshots: [{url: '', alt: ''}],
     summary: null,
-    videos: [],
   };
 
   /**
@@ -163,203 +124,186 @@ class Game extends React.Component {
     super(props);
     this.state = {};
 
-    // this.steamApi = require('steam-api');
-    // this.userStats = new this.steamApi.UserStats('B742258BCF24425642B7E0C770450FC2');
+    //this.steamApi = require('steam-api');
+    //this.userStats = new this.steamApi.UserStats('B742258BCF24425642B7E0C770450FC2');
   }
 
   componentDidMount() {
     this.props.fetchGame();
+
   }
 
   render() {
     const screenshots = this.props.screenshots ? this.props.screenshots : [];
     const coverURL = this.props.cover && this.props.cover.indexOf('http') < 0 ? `https://${this.props.cover}` : this.props.cover;
-    const price = this.props.price ? `${this.props.price / 100}` : null;
+    const price = this.props.price ? `\$${this.props.price / 100}` : null;
     const platforms = this.props.platforms ? this.props.platforms : [];
-    // this.userStats.GetNumberOfCurrentPlayers('3600').done(function(result){
+    //this.userStats.GetNumberOfCurrentPlayers('3600').done(function(result){
     //  console.log(result);
-    // });
-    // const steamApiKey = 'B742258BCF24425642B7E0C770450FC2';
+    //});
+    const steamApiKey = 'B742258BCF24425642B7E0C770450FC2';
     const trendName = encodeURI(this.props.name);
     const trendsURL = `https://trends.google.com:443/trends/embed/explore/TIMESERIES?req=%7B%22comparisonItem%22%3A%5B%7B%22keyword%22%3A%22${trendName}%22%2C%22geo%22%3A%22%22%2C%22time%22%3A%22all%22%7D%5D%2C%22category%22%3A0%2C%22property%22%3A%22%22%7D&tz=300&amp;eq=date%3Dall%26q%3D${trendName}`;
     return (
       <StyleRoot>
-        <InstanceDetails imageURL={coverURL}>
-          <div style={[InstanceDetailsStyles.gamePrimaryDataCluster]}>
-            <div style={[InstanceDetailsStyles.gameCover]}>
-              <div style={[InstanceDetailsStyles.gameCoverImageBoundingBox]}>
-                <img
-                  style={[InstanceDetailsStyles.gameCoverImage]}
-                  src={coverURL}
-                  alt={`${this.props.name} logo`}
-                />
-              </div>
+      <InstanceDetails imageURL={coverURL}>
+        <div style={[ InstanceDetailsStyles.gamePrimaryDataCluster]}>
+          <div style={[ InstanceDetailsStyles.gameCover ]}>
+            <div style={[ InstanceDetailsStyles.gameCoverImageBoundingBox ]}>
+              <img
+                style={[ InstanceDetailsStyles.gameCoverImage ]}
+                src={coverURL}
+                alt={`${this.props.name} logo`}
+              />
             </div>
-            <div style={[InstanceDetailsStyles.gamePrimaryInfoCluster]}>
-              <div style={[InstanceDetailsStyles.titleText]}>
-                {this.props.name}
-              </div>
-              <div style={[InstanceDetailsStyles.releaseDate]}>
-                Released {this.props.release}
-              </div>
-              <div style={[InstanceDetailsStyles.genreCluster]}>
-                <div style={[InstanceDetailsStyles.genreIndicator]}>
-                  Genres:&nbsp;
-                </div>
-                <div style={[InstanceDetailsStyles.genreLabelGroup]}>
-                  {
-                    this.props.genres.map((genre) => {
-                      return (
-                        <span key={genre}>
-                          <Label key={`${genre}-label`}>
-                            {genre}
-                          </Label>
-                          &nbsp;
-                        </span>
-                      );
-                    })
-                  }
-                </div>
-              </div>
+          </div>
+          <div style={[ InstanceDetailsStyles.gamePrimaryInfoCluster ]}>
+            <div style={[ InstanceDetailsStyles.titleText ]}>
+              {this.props.name}
             </div>
-            <Carousel style={[InstanceDetailsStyles.carousel]}>
-              {
-                screenshots.map(_screenshot => screenshot(_screenshot))
-              }
-            </Carousel>
-            <div style={[InstanceDetailsStyles.secondaryDataCluster]}>
-              <div style={[InstanceDetailsStyles.priceCluster]}>
-                <div style={[InstanceDetailsStyles.priceIndicator]}>
-                  {price != null ? 'Price:' : ''}&nbsp;
-                </div>
-                <div style={[InstanceDetailsStyles.priceTag]}>
-                  {price != null ? `${price}` : ''}
-                </div>
-              </div>
-              <div style={[InstanceDetailsStyles.metacriticCluster]}>
-                <div style={[InstanceDetailsStyles.metacriticIndicator]}>
-                  {this.props.metacritic ? 'Metacritic Score:' : ''}&nbsp;
-                </div>
-                <div style={[InstanceDetailsStyles.metacriticScore(this.props.metacritic)]}>
-                  {this.props.metacritic ? this.props.metacritic : ''}
-                </div>
-              </div>
-              <div>
-                GameFrame_Score_Placeholder
-              </div>
+            <div style={[ InstanceDetailsStyles.releaseDate ]}>
+              Released {this.props.release}
             </div>
-            <hr style={[InstanceDetailsStyles.horizontalRule]} />
-            <div>
-              <div style={[InstanceDetailsStyles.synoposisIndicator]}>
-                Synoposis:
+            <div style={[ InstanceDetailsStyles.genreCluster ]}>
+              <div style={[ InstanceDetailsStyles.genreIndicator ]}>
+                Genres:&nbsp;
               </div>
-              <div style={[InstanceDetailsStyles.synoposisHTMLContainer]}>
-                {ReactHTMLParser(this.props.summary)}
-              </div>
-            </div>
-            <hr style={[InstanceDetailsStyles.horizontalRule]} />
-            <div style={[InstanceDetailsStyles.platformCluster]}>
-              <div style={[InstanceDetailsStyles.platformIndicator]}>
-                Platforms:&nbsp;
-              </div>
-              <div style={[InstanceDetailsStyles.platformLabelGroup]}>
+              <div style={[ InstanceDetailsStyles.genreLabelGroup ]}>
                 {
-                  platforms.map((platform) => {
+                  this.props.genres.map((genre) => {
                     return (
-                      <span key={platform.name}>
-                        <Label key={`${platform.name}-label`}>
-                          {platform.name}
+                      <span key={genre}>
+                        <Label key={`${genre}-label`}>
+                          {genre}
                         </Label>
                         &nbsp;
                       </span>
-                    );
+                    )
                   })
                 }
-                {
-                  platforms === [] ? 'Unknown' : ''
-                }
-              </div>
-            </div>
-            <div style={{ display: 'block' }}>
-              <iframe
-                id="trends-widget-1"
-                title="trends-widget-1"
-                src={trendsURL}
-                width="100%"
-                frameBorder="0"
-                scrolling="0"
-                style={{
-                  borderRadius: '4px',
-                  boxShadow: 'rgba(0, 0, 0, 0.12) 0px 0px 2px 0px, rgba(0, 0, 0, 0.24) 0px 2px 2px 0px',
-                  height: '423px',
-                  marginTop: '2%',
-                  opacity: '0.9',
-                }}
-              />
-            </div>
-            <div style={[InstanceDetailsStyles.externalGridCluster]}>
-              <div style={[InstanceDetailsStyles.developerGridCluster('30%')]}>
-                <div style={[InstanceDetailsStyles.developerIndicator]}>
-                  Developers:
-                </div>
-                <Minigrid>
-                  {
-                    this.props.developers.map(developer => link({
-                      label: developer.name,
-                      url: `/developers/${developer.id}`,
-                      cover: (developer.logo && developer.logo.indexOf('http') < 0 ? `https://${developer.logo}` : developer.logo),
-                      key: `developer-${developer.id}`,
-                    }))
-                  }
-                </Minigrid>
-              </div>
-              <div style={[InstanceDetailsStyles.articleGridCluster('60%')]}>
-                <div style={[InstanceDetailsStyles.articleIndicator]}>
-                  Articles:
-                </div>
-                <Minigrid>
-                  {
-                    this.props.articles.map(article => link({
-                      label: article.title,
-                      url: `/articles/${article.id}`,
-                      cover: article.cover,
-                      key: `article-${article.id}`,
-                    }))
-                  }
-                </Minigrid>
               </div>
             </div>
           </div>
-          <div>
-            <div style={[InstanceDetailsStyles.twitterIndicator]}>
-              Twitter:
+          <Carousel style={ InstanceDetailsStyles.carousel }>
+              {
+                screenshots.map(_screenshot => screenshot(_screenshot))
+              }
+          </Carousel>
+          <div style={[ InstanceDetailsStyles.secondaryDataCluster ]}>
+            <div style={[ InstanceDetailsStyles.priceCluster ]}>
+              <div style={[ InstanceDetailsStyles.priceIndicator ]}>
+                {price != null ? 'Price:' : ''}&nbsp;
+              </div>
+              <div style={[ InstanceDetailsStyles.priceTag ]}>
+                {price != null ? `${price}` : ''}
+              </div>
             </div>
-            <p>Twitter is not available in your country.</p>
+            <div style={[ InstanceDetailsStyles.metacriticCluster ]}>
+              <div style={[ InstanceDetailsStyles.metacriticIndicator ]}>
+                {this.props.metacritic ? 'Metacritic Score:' : ''}&nbsp;
+              </div>
+              <div style={[ InstanceDetailsStyles.metacriticScore(this.props.metacritic) ]}>
+                {this.props.metacritic ? this.props.metacritic : ''}
+              </div>
+            </div>
+            <div>
+              GameFrame_Score_Placeholder
+            </div>
           </div>
+          <hr style={[ InstanceDetailsStyles.horizontalRule ]} />
           <div>
-            <div style={[InstanceDetailsStyles.videoGridCluster('80%')]}>
-              <div style={[InstanceDetailsStyles.youtubeIndicator]}>
-                Vidoes:
+            <div style={[ InstanceDetailsStyles.synoposisIndicator ]}>
+              Synoposis:
+            </div>
+            <div style={[ InstanceDetailsStyles.synoposisHTMLContainer ]}>
+              {ReactHTMLParser(this.props.summary)}
+            </div>
+          </div>
+          <hr style={[ InstanceDetailsStyles.horizontalRule ]} />
+          <div style={[ InstanceDetailsStyles.platformCluster ]}>
+            <div style={[ InstanceDetailsStyles.platformIndicator ]}>
+              Platforms:&nbsp;
+            </div>
+            <div style={[ InstanceDetailsStyles.platformLabelGroup ]}>
+              {
+                platforms.map((platform) => {
+                  return (
+                    <span key={platform.name}>
+                      <Label key={`${platform.name}-label`}>
+                        {platform.name}
+                      </Label>
+                      &nbsp;
+                    </span>
+                  )
+                })
+              }
+              {
+                platforms == [] ? 'Unknown' : ''
+              }
+            </div>
+          </div>
+          <div style={[ InstanceDetailsStyles.googleTrendsContainer ]}>
+            <iframe
+              id="trends-widget-1"
+              src={trendsURL}
+              width="100%"
+              frameBorder="0"
+              scrolling="0"
+              style={[ InstanceDetailsStyles.googleTrendsIframe ]}
+            />
+          </div>
+          <div style={[ InstanceDetailsStyles.externalGridCluster ]}>
+            <div style={[ InstanceDetailsStyles.developerGridCluster('30%') ]}>
+              <div style={[ InstanceDetailsStyles.developerIndicator ]}>
+                Developers:
               </div>
               <Minigrid>
                 {
-                  this.props.videos.map(video => link({
-                    label: video.name,
-                    url: video.url,
-                    cover: video.thumbnail,
-                    key: `article-${video.id}`,
+                  this.props.developers.map(developer => link({
+                    label: developer.name,
+                    url: `/developers/${developer.id}`,
+                    cover: (developer.logo && developer.logo.indexOf('http') < 0 ? `https://${developer.logo}` : developer.logo),
+                    key: `developer-${developer.id}`,
+                  }))
+                }
+              </Minigrid>
+            </div>
+            <div style={[ InstanceDetailsStyles.articleGridCluster('60%') ]}>
+              <div style={[ InstanceDetailsStyles.articleIndicator ]}>
+                Articles:
+              </div>
+              <Minigrid>
+                {
+                  this.props.articles.map(article => link({
+                    label: article.title,
+                    url: `/articles/${article.id}`,
+                    cover: article.cover,
+                    key: `article-${article.id}`,
                   }))
                 }
               </Minigrid>
             </div>
           </div>
-          <div>
-            <div style={[InstanceDetailsStyles.twitchIndicator]}>
-              Twitch:
-            </div>
-            <p>Twitch is not available in your country.</p>
+        </div>
+        <div>
+          <div style={[ InstanceDetailsStyles.twitterIndicator ]}>
+            Twitter:
           </div>
-        </InstanceDetails>
+          <p>Twitter is not available in your country.</p>
+        </div>
+        <div>
+          <div style={[ InstanceDetailsStyles.youtubeIndicator ]}>
+            YouTube:
+          </div>
+          <p>This video is not available in your country.</p>
+        </div>
+        <div>
+          <div style={[ InstanceDetailsStyles.twitchIndicator ]}>
+            Twitch:
+          </div>
+          <p>Twitch is not available in your country.</p>
+        </div>
+      </InstanceDetails>
       </StyleRoot>
     );
   }
