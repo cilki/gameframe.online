@@ -116,7 +116,8 @@ function Grid(props) {
       <div
         style={{
           position: 'relative',
-          width: '100vw',
+          width: '98vw',
+          margin: 'auto',
           display: 'flex',
           flexDirection: 'row',
           justifyContent: 'space-around',
