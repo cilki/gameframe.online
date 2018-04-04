@@ -7,11 +7,19 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Radium from 'radium';
 import { Badge, Label } from 'react-bootstrap';
-/* import TooltipStyles from './TooltipStyles'; */
+import Styles from './TooltipStyles';
 
 class Tooltip extends React.Component {
   static propTypes = {
     price: PropTypes.number,
+    genres: PropTypes.arrayOf(PropTypes.shape({
+      name: PropTypes.string,
+      genre_id: PropTypes.number,
+    })),
+    platforms: PropTypes.arrayOf(PropTypes.shape({
+      name: PropTypes.string,
+      platform_id: PropTypes.number,
+    })),
     
     games: PropTypes.number,
     developers: PropTypes.number,
@@ -24,6 +32,8 @@ class Tooltip extends React.Component {
 
   static defaultProps = {
     price: -1,
+    genres: [],
+    platforms: [],
     
     games: 0,
     developers: 0,
@@ -43,6 +53,7 @@ class Tooltip extends React.Component {
   }
 
   render() {
+    const indent = Styles.indent;
     var references = 0;
     var medias = 0;
     
@@ -51,7 +62,7 @@ class Tooltip extends React.Component {
         return (
           <p>
             Price: 
-              <Badge>
+              <Badge style={indent}>
                 free
               </Badge>
           </p>
@@ -61,7 +72,7 @@ class Tooltip extends React.Component {
         return (
           <p>
             Price: 
-              <Badge>
+              <Badge style={indent}>
                 ${price}
               </Badge>
           </p>
@@ -71,23 +82,65 @@ class Tooltip extends React.Component {
       }
     }
     
-    function showPlatforms() {
-      return (
-        <div>
-          <h4>
-            Platforms
-          </h4>
-        </div>
-      );      
+    function showGenres(genres) {
+      if (genres.length > 0) {
+        return (
+          <div>
+            <h4>
+              Genres
+            </h4>
+            {
+            genres.map((genre) => {
+              return (
+                <span key={genre.name}>
+                  <Label key={`${genre.name}-tooltip-label`}>
+                    {genre.name}
+                  </Label>
+                  &nbsp;
+                </span>
+              );
+            })
+            }
+          </div>
+        );
+      } else {
+        return (null);
+      }        
+    }
+    
+    function showPlatforms(platforms) {
+      if (platforms.length > 0) {
+        return (
+          <div>
+            <h4>
+              Platforms
+            </h4>
+            {
+            platforms.map((platform) => {
+              return (
+                <span key={platform.name}>
+                  <Label key={`${platform.name}-tooltip-label`}>
+                    {platform.name}
+                  </Label>
+                  &nbsp;
+                </span>
+              );
+            })
+            }
+          </div>
+        );
+      } else {
+        return (null);
+      }        
     }
     
     function showReference(name, number) {
       if (number > 0) {
         references += 1;
         return (
-          <p>
-            {name}:
-              <Badge>
+          <p style={indent}>
+            {name}: 
+              <Badge style={indent}>
                 {number}
               </Badge>
           </p>
@@ -101,7 +154,9 @@ class Tooltip extends React.Component {
       if (url) {
         medias += 1;
         return (
-          <p>{name}: <Label>{url}</Label></p>
+          <div style={[Styles.label]}>
+            {url}
+          </div>
         );
       } else {
         return (null);
@@ -111,7 +166,7 @@ class Tooltip extends React.Component {
     function showNone(number) {
       if (number <= 0) {
         return (
-          <p>
+          <p style={indent}>
             None.
           </p>
         );
@@ -123,7 +178,8 @@ class Tooltip extends React.Component {
     return (
       <div>
         {showPrice(this.props.price)}
-        {/*showPlatforms*/}
+        {showGenres(this.props.genres)}
+        {showPlatforms(this.props.platforms)}
         
         <div>
           <h4>
