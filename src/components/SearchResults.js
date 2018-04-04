@@ -87,7 +87,10 @@ class SearchResults extends React.Component {
 
   updateGameItems() {
     fetch(//eslint-disable-line
-      encodeURI(`http://api.gameframe.online/v1/grid/game?q={"filters":[{"or":[{"name":"c_name","op":"like","val":"%${this.state.query_string}%"},{"name":"summary","op":"like","val":"%20${this.state.query_string}%20"},{"name":"website","op":"like","val":"%${this.state.query_string}%"},{"name":"genres__name","op":"any","val":"${this.state.query_string}"},{"name":"platforms__name","op":"any","val":"${this.state.query_string}"},{"name":"developers__c_name","op":"any","val":"${this.state.query_string}"}]}],"order_by":[{"field":"metacritic","direction":"desc"}]}&results_per_page=1000`),
+      encodeURI(`http://api.gameframe.online/v1/grid/game?q={"filters":[{"or":[{"name":"c_name","op":"like","val":"%${this.state.query_string}%"},`
+        .concat(`{"name":"summary","op":"like","val":"%20${this.state.query_string}%20"},{"name":"website","op":"like","val":"%${this.state.query_string}%"},`)
+        .concat(`{"name":"genres__name","op":"any","val":"${this.state.query_string}"},{"name":"platforms__name","op":"any","val":"${this.state.query_string}"},`)
+        .concat(`{"name":"developers__c_name","op":"any","val":"${this.state.query_string}"}]}],"order_by":[{"field":"metacritic","direction":"desc"}]}&results_per_page=1000`)),
       { method: 'GET' },
     )
       .then(response => response.json())
@@ -98,7 +101,9 @@ class SearchResults extends React.Component {
 
   updateDeveloperItems() {
     fetch(//eslint-disable-line
-      encodeURI(`http://api.gameframe.online/v1/grid/developer?q={"filters":[{"or":[{"name":"name","op":"like","val":"%${this.state.query_string}%"},{"name":"website","op":"like","val":"%${this.state.query_string}%"},{"name":"twitter","op":"like","val":"%${this.state.query_string}%"},{"name":"games__c_name","op":"any","val":"${this.state.query_string}"}]}],"order_by":[{"field":"name","direction":"asc"}]}&results_per_page=1000`),
+      encodeURI(`http://api.gameframe.online/v1/grid/developer?q={"filters":[{"or":[{"name":"name","op":"like","val":"%${this.state.query_string}%"},`
+        .concat(`{"name":"website","op":"like","val":"%${this.state.query_string}%"},{"name":"twitter","op":"like","val":"%${this.state.query_string}%"},`)
+        .concat(`{"name":"games__c_name","op":"any","val":"${this.state.query_string}"}]}],"order_by":[{"field":"name","direction":"asc"}]}&results_per_page=1000`)),
       { method: 'GET' },
     )
       .then(response => response.json())
@@ -109,7 +114,10 @@ class SearchResults extends React.Component {
 
   updateArticleItems() {
     fetch(//eslint-disable-line
-      encodeURI(`http://api.gameframe.online/v1/grid/article?q={"filters":[{"or":[{"name":"title","op":"like","val":"%${this.state.query_string}%"},{"name":"introduction","op":"like","val":"%20${this.state.query_string}%20"},{"name":"outlet","op":"like","val":"%${this.state.query_string}%"},{"name":"author","op":"like","val":"%${this.state.query_string}%"},{"name":"games__c_name","op":"any","val":"${this.state.query_string}"},{"name":"developers__c_name","op":"any","val":"${this.state.query_string}"}]}],"order_by":[{"field":"title","direction":"asc"}]}&results_per_page=1000`),
+      encodeURI(`http://api.gameframe.online/v1/grid/article?q={"filters":[{"or":[{"name":"title","op":"like","val":"%${this.state.query_string}%"},`
+        .concat(`{"name":"introduction","op":"like","val":"%20${this.state.query_string}%20"},{"name":"outlet","op":"like","val":"%${this.state.query_string}%"},`)
+        .concat(`{"name":"author","op":"like","val":"%${this.state.query_string}%"},{"name":"games__c_name","op":"any","val":"${this.state.query_string}"},`)
+        .concat(`{"name":"developers__c_name","op":"any","val":"${this.state.query_string}"}]}],"order_by":[{"field":"title","direction":"asc"}]}&results_per_page=1000`)),
       { method: 'GET' },
     )
       .then(response => response.json())
