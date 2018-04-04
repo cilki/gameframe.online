@@ -59,7 +59,7 @@ class TestNavbar(TestPartOfSite):
         driver.find_elements(By.TAG_NAME, "img")[0].click()
         self.assertEqual(environment + "/", driver.current_url)
     
-class TestGrid(TestPartOfSite):
+class TestPagination(TestPartOfSite):
 
     grid_name = ""
 
@@ -72,8 +72,6 @@ class TestGrid(TestPartOfSite):
         environment = self.environment
         grid_name = self.grid_name
         time_to_sleep = self.time_to_sleep
-        
-        """Testing Pagination"""
         driver.get(environment + "/" + grid_name + "")
         time.sleep(time_to_sleep)
         #Click a page number
@@ -88,39 +86,45 @@ class TestGrid(TestPartOfSite):
         #Click previous page
         self.click_page(driver, environment, grid_name, 1, "1")
     
-class TestGames(TestGrid):
+class TestGamesPagination(TestPagination):
 
     grid_name = "games"
 
-class TestDevelopers(TestGrid):
+class TestDevelopersPagination(TestPagination):
 
     grid_name = "developers"
 
-class TestArticles(TestGrid):
+class TestArticlesPagination(TestPagination):
 
     grid_name = "articles"
 
 class TestRelations(TestPartOfSite):
 
+    game_id = 9669
+    dev_id = 4920
+    article_id = 13782
+
     def find_game(self):
         time.sleep(self.time_to_sleep)
-        self.driver.find_element(By.XPATH, "//a[@href='/games/126']").click()
-        self.assertEqual(self.environment + "/games/126", self.driver.current_url)
+        self.driver.find_element(By.XPATH, "//a[@href='/games/" + str(self.game_id) + "']").click()
+        self.assertEqual(self.environment + "/games/" + str(self.game_id), self.driver.current_url)
     
     def find_developer(self):
         time.sleep(self.time_to_sleep)
-        self.driver.find_element(By.XPATH, "//a[@href='/developers/291']").click()
-        self.assertEqual(self.environment + "/developers/291", self.driver.current_url)
+        self.driver.find_element(By.XPATH, "//a[@href='/developers/" + str(self.dev_id) +"']").click()
+        self.assertEqual(self.environment + "/developers/" + str(self.dev_id), self.driver.current_url)
     
     def find_article(self):
         time.sleep(self.time_to_sleep)
-        self.driver.find_element(By.XPATH, "//a[@href='/articles/11324']").click()
-        self.assertEqual(self.environment + "/articles/11324", self.driver.current_url)
+        self.driver.find_element(By.XPATH, "//a[@href='/articles/" + str(self.article_id) +"']").click()
+        self.assertEqual(self.environment + "/articles/" + str(self.article_id), self.driver.current_url)
 
 class TestGameRelations(TestRelations):
 
+    time_to_sleep = 8
+
     def part(self):
-        self.driver.get(self.environment + "/games/126")
+        self.driver.get(self.environment + "/games/" + str(self.game_id))
         self.find_developer()
         self.find_article()
         self.find_game()
@@ -131,7 +135,7 @@ class TestGameRelations(TestRelations):
 class TestDeveloperRelations(TestRelations):
 
     def part(self):
-        self.driver.get(self.environment + "/developers/291")
+        self.driver.get(self.environment + "/developers/" + str(self.dev_id))
         self.find_game()
         self.find_article()
         self.find_developer()
@@ -142,7 +146,7 @@ class TestDeveloperRelations(TestRelations):
 class TestArticleRelations(TestRelations):
 
     def part(self):
-        self.driver.get(self.environment + "/articles/11314")
+        self.driver.get(self.environment + "/articles/" + str(self.article_id))
         self.find_game()
         self.find_developer()
         self.find_article()
@@ -150,8 +154,26 @@ class TestArticleRelations(TestRelations):
         self.find_game()
         self.find_article()
 
+class TestSearch(TestRelations):
+
+    article_id = 13783
+    time_to_sleep = 10
+
+    def part(self):
+        self.driver.get(self.environment)
+        search_box = self.driver.find_element(By.TAG_NAME, "input")
+        search_box.send_keys("sniper elite")
+        search_box.send_keys(Keys.ENTER)
+        self.assertEqual(self.environment + "/search?q=sniper%20elite", self.driver.current_url)
+        self.find_game()
+        self.driver.back()
+        self.find_developer()
+        self.driver.back()
+        self.find_article()        
+
 if __name__ == '__main__':
-    classes = [TestHomepage, TestNavbar, TestGames, TestDevelopers, TestArticles, TestGameRelations, TestDeveloperRelations, TestArticleRelations]
+    classes = [TestHomepage, TestNavbar, TestGamesPagination, TestDevelopersPagination, TestArticlesPagination, TestGameRelations, TestDeveloperRelations, \
+               TestArticleRelations, TestSearch]
     loader = unittest.TestLoader()
     tests = []
     for test_class in classes:

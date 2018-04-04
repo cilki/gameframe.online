@@ -17,7 +17,7 @@ class Search extends React.Component {
 
   handleSubmit = (eventKey) => {
     eventKey.preventDefault();
-    this.props.history.push("/search?q=" + this.state.input);//eslint-disable-line
+    this.props.history.push("/search?q=" + escape(this.state.input));//eslint-disable-line
   };
 
   render() {
