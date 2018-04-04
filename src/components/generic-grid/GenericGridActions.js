@@ -11,6 +11,8 @@ import QueryString from 'query-string';
 
 import { PAGE_SIZE } from '../Constants';
 import { setGridFilterAction, setGridFilterOptions } from '../grid-select';
+import { setGridSortCurrentAttribute, setGridSortType } from '../grid-sort';
+
 
 /**
  * @description - Creates the predicate function to use
@@ -108,10 +110,16 @@ function createFetchModels(
    * @param {Boolean} override
    * @returns {Function}
    */
-  return (pageNumber = 1, filters = [], override = false) => {
+  return (pageNumber = 1, filters = [], { sortType, sortAttribute, }, override = false) => {
     const queryObject = {};
     if (filters.length > 0) {
       queryObject.filters = formatFilters(filters);
+    }
+    if (sortAttribute !== null && sortType !== null) {
+      queryObject.order_by = [{
+        field: sortAttribute.value,
+        direction: sortType.value,
+      }];
     }
 
     /* We can put in more here, such as sorting and searching */
@@ -342,6 +350,32 @@ function createReducer(
     }
   }, defaultFilterOptions);
 
+  
+
+  const currentSortAttribute = handleActions({
+    [setGridSortCurrentAttribute](state, { payload }) {
+      const { model, value } = payload;
+
+      if (model !== modelNamePlural) {
+        return state;
+      }
+
+      return value;
+    }
+  }, null);
+
+  const sortType = handleActions({
+    [setGridSortType](state, { payload }) {
+      const { model, value } = payload;
+
+      if (model !== modelNamePlural) {
+        return state;
+      }
+
+      return value;
+    }
+  }, { label: 'Ascending', value: 'asc', });
+
   return combineReducers({
     models,
     requested,
@@ -350,6 +384,8 @@ function createReducer(
     pages,
     filters,
     filterOptions,
+    currentSortAttribute,
+    sortType,
   });
 }
 
