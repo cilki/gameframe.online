@@ -5,7 +5,7 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import Radium from 'radium';
+import Radium, { StyleRoot } from 'radium';
 
 import CommonAssets from '../../inline-styles';
 import Grid from '../grid';
@@ -96,7 +96,7 @@ class GenericGrid extends React.Component {
 
   render() {
     return (
-      <div>
+      <StyleRoot>
         <div
           style={[
             CommonAssets.fillBackground,
@@ -118,7 +118,7 @@ class GenericGrid extends React.Component {
         >
           {this.props.children}
         </Grid>
-      </div>
+      </StyleRoot>
     );
   }
 }
