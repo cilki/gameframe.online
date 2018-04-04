@@ -31,6 +31,7 @@ const Card = {
     backgroundColor: `${cardBorderColor}`,
     transition: 'transform 0.2s, filter 0.3s ease',
     transform: 'scale(1.0)',
+    WebkitTransform: 'translate3d(0, 0, 0)',
     ':hover': {
       transition: 'transform 0.2s, filter 0.5s ease',
       transform: 'scale(0.98)',
@@ -63,22 +64,24 @@ const Card = {
     overflow: 'hidden',
     width: '100%',
     height: '100%',
-    position: 'fixed',
+    position: 'absolute',
     top: '0',
     left: '0',
     borderRadius: `${cornerRadius}`,
   },
 
   backgroundImage: {
-    position: 'absolute',
-    filter: 'blur(64px)',
+    willChange: 'transform',
+    backgroundColor: 'white',
+    width: '10%',
+    height: '10%',
     top: '-50%',
     left: '-50%',
-    backgroundColor: 'white',
+    imageRendering: 'pixelated',
+    filter: 'blur(2px)',
     margin: 'auto',
-    width: '200%',
-    height: '200%',
-    zIndex: '-5',
+    transform: 'perspective(800px) translate3d(0, 0, 760px) scale(2)',
+    zIndex: '-5'
   },
 
   image: {
@@ -97,7 +100,7 @@ const Card = {
 
   tooltip: {
     display: 'flex',
-    position: 'fixed',
+    position: 'absolute',
     backgroundColor: 'black',
     width: '100%',
     height: '100%',
@@ -119,14 +122,17 @@ const Card = {
   },
 
   tooltipBackgroundImage: {
-    maxWidth: '100%',
-    maxHeight: '100%',
+    width: '10%',
+    height: '10%',
+    imageRendering: 'pixelated',
+    filter: 'saturate(1.15) blur(2px)',
+    display: 'inline-block',
     position: 'absolute',
-    top: '0',
-    left: '0',
-    zIndex: '-2',
-    filter: 'blur(20px) saturate(1.15)',
-    transform: 'scale(5.20)',
+    margin: 'auto',
+    top: '50%',
+    left: '50%',
+    transform: 'scale3d(50, 50, 1)',
+    zIndex: '-5',
   },
 
   captionContainer: {

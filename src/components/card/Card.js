@@ -111,7 +111,7 @@ class Card extends React.Component {
                   }
                 />
 
-                <div>
+                <div style={{transformStyle: 'flat'}}>
                   <Tooltip
                     price={this.props.price}
                     
