@@ -57,7 +57,7 @@ class SearchResults extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      query_string: decodeURI(window.location.href.substring(window.location.href.lastIndexOf('=') + 1)),//eslint-disable-line
+      query_string: new URL(window.location.href).searchParams.get('q'),//eslint-disable-line
       game_results: {},
       developer_results: {},
       article_results: {},
@@ -75,7 +75,7 @@ class SearchResults extends React.Component {
   }
 
   componentDidUpdate() {
-    const newString = decodeURI(window.location.href.substring(window.location.href.lastIndexOf('=') + 1));//eslint-disable-line
+    const newString = new URL(window.location.href).searchParams.get('q');//eslint-disable-line
     if (newString !== this.state.query_string) {
       this.state.query_string = newString;
       this.updateGameItems();
