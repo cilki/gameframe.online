@@ -23,7 +23,7 @@ class Card extends React.Component {
     origin: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
     author: PropTypes.string,
     year: PropTypes.number,
-    
+
     price: PropTypes.number,
     genres: PropTypes.arrayOf(PropTypes.shape({
       name: PropTypes.string,
@@ -37,7 +37,7 @@ class Card extends React.Component {
     articles: PropTypes.arrayOf(PropTypes.number),
     developers: PropTypes.arrayOf(PropTypes.number),
     games: PropTypes.arrayOf(PropTypes.number),
-    
+
     twitter: PropTypes.string,
     website: PropTypes.string,
     source: PropTypes.string,
@@ -49,7 +49,7 @@ class Card extends React.Component {
     origin: null,
     author: null,
     year: new Date().getFullYear(),
-    
+
     price: -1,
     genres: [],
     platforms: [],
@@ -57,7 +57,7 @@ class Card extends React.Component {
     articles: [],
     developers: [],
     games: [],
-    
+
     twitter: null,
     website: null,
     source: null,
@@ -121,20 +121,16 @@ class Card extends React.Component {
                   }
                 />
 
-<<<<<<< HEAD
-                <div style={{transformStyle: 'flat'}}>
-=======
-                <div style=({transformStyle: 'flat'}}>
->>>>>>> 4a548c7c61cc758a643938d76daec2e127076ca0
+                <div>
                   <Tooltip
                     price={this.props.price}
                     genres={this.props.genres}
                     platforms={this.props.platforms}
-                    
+
                     games={this.props.games.length}
                     developers={this.props.developers.length}
                     articles={this.props.articles.length}
-                    
+
                     twitter={this.props.twitter}
                     website={this.props.website}
                     source={this.props.source}
