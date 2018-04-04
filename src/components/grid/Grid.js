@@ -11,6 +11,7 @@ import { Pagination } from 'react-bootstrap';
 
 import Styles from './GridStyles';
 import GridSelect from '../grid-select';
+import GridSort from '../grid-sort';
 
 /**
  * @description - Convience function for a single
@@ -121,8 +122,16 @@ function Grid(props) {
           zIndex: 10,
         }}
       >
-        <div style={{flex: 1}} />
-        <div style={{flex: 1}}>
+        <div 
+          style={{
+            flex: 1,
+            justifyContent: 'center',
+            marginTop: '20px',
+          }}
+        >
+          <GridSort model={prefix} />
+        </div>
+        <div>
           <GridPagination prefix={prefix} {...rest} />
         </div>
         <div style={{
@@ -133,7 +142,7 @@ function Grid(props) {
         }}>
           <h4>Include</h4>
           <div style={{minWidth: '80%'}}>
-            <GridSelect style={{marginTop: '20px'}}model={prefix} />
+            <GridSelect style={{marginTop: '20px'}} model={prefix} />
           </div>
         </div>
         <div style={{flex: 1}} />

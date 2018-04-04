@@ -103,6 +103,24 @@ function createSelectors(modelName) {
       .filter(_filter => _filter !== null);
   };
 
+  /**
+   * @description - Input selector for the sort type
+   * @param {Object} state
+   * @returns {String}
+   */
+  const getSortType = (state) => {
+    return state[modelName].sortType;
+  };
+
+  /**
+   * @description - Input selector for the sort attribute
+   * @param {Object} state
+   * @returns {String}
+   */
+  const getSortAttribute = (state) => {
+    return state[modelName].currentSortAttribute;
+  };
+
   /* Memoized selector for retrieving the models within
    * the current page */
   const getModelsByPage = createSelector(
@@ -132,6 +150,8 @@ function createSelectors(modelName) {
     getPageIndices,
     getModelsByPage,
     getFilters,
+    getSortType,
+    getSortAttribute,
   };
 }
 

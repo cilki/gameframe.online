@@ -43,7 +43,11 @@ class GenericGrid extends React.Component {
    * @description - React lifecycle method used to fetch the data
    */
   componentDidMount() {
-    this.props.fetchModels(this.props.currentPage, this.props.filters);
+    this.props.fetchModels(
+      this.props.currentPage,
+      this.props.filters,
+      { sortAttribute: this.props.sortAttribute, sortType: this.props.sortType }
+    );
   }
 
   /**
@@ -53,14 +57,40 @@ class GenericGrid extends React.Component {
    */
   componentDidUpdate(prevProps) {
     if (this.props.currentPage > 1 && this.props.currentPage > this.props.totalPages) {
-      this.props.resetPage(this.props.totalPages, this.props.history.push, this.props.filters);
+      this.props.resetPage(
+        this.props.totalPages,
+        this.props.history.push,
+        this.props.filters,
+        {
+          sortAttribute: this.props.sortAttribute,
+          sortType: this.props.sortType,
+        }
+      );
     }
 
     if (prevProps.currentPage !== this.props.currentPage) {
-      this.props.fetchModels(this.props.currentPage, this.props.filters);
+      this.props.fetchModels(
+        this.props.currentPage,
+        this.props.filters,
+        { sortType: this.props.sortType, sortAttribute: this.props.sortAttribute, },
+      );
     }
     else if (prevProps.filters.length !== this.props.filters.length) {
-      this.props.fetchModels(this.props.currentPage, this.props.filters, true);
+      this.props.fetchModels(
+        this.props.currentPage,
+        this.props.filters,
+        { sortType: this.props.sortType, sortAttribute: this.props.sortAttribute, },
+        true
+      );
+    }
+
+    if (prevProps.sortType !== this.props.sortType || prevProps.sortAttribute !== this.props.sortAttribute) {
+      this.props.fetchModels(
+        this.props.currentPage,
+        this.props.filters,
+        { sortType: this.props.sortType, sortAttribute: this.props.sortAttribute, },
+        true
+      );
     }
   }
 

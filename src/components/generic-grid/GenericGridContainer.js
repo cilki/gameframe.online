@@ -32,6 +32,8 @@ function createContainer(
     getCurrentPage,
     getTotalPages,
     getFilters,
+    getSortType,
+    getSortAttribute,
   } = createSelectors(modelName);
 
   function mapStateToProps(state, props) {
@@ -42,6 +44,8 @@ function createContainer(
       currentPage: getCurrentPage(state, props),
       totalPages: getTotalPages(state),
       filters: getFilters(state),
+      sortType: getSortType(state),
+      sortAttribute: getSortAttribute(state),
     };
   }
 
@@ -61,10 +65,10 @@ function createContainer(
   );
   function mapDispatchToProps(dispatch, props) {
     return {
-      fetchModels: (page, filters, override) => dispatch(fetchFunction(page, filters, override)),
-      resetPage: (totalPages, push, filters) => {
+      fetchModels: (page, filters, sort, override) => dispatch(fetchFunction(page, filters, sort, override)),
+      resetPage: (totalPages, push, filters, sort) => {
         const page = resetPage(window.location ? window.location.search : null, totalPages, push);
-        if (page) dispatch(fetchFunction(page, filters, true));
+        if (page) dispatch(fetchFunction(page, filters, sort, true));
       },
     };
   }
