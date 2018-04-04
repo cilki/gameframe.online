@@ -55,7 +55,7 @@ function GridSort({
         onChange={onChangeOrdering}
         placeholder="Ascending/Descending"
         value={sortType}
-        style={{borderTopLeftRadius: '0', borderBottomLeftRadius: '0', borderLeft: 'none'}}
+        style={{borderTopLeftRadius: '0', borderBottomLeftRadius: '0', marginLeft: '-1px', paddingLeft: '1px'}}
       />
       </div>
     </div>
