@@ -92,7 +92,7 @@ class AboutPage extends React.Component {
           }
         </Row>,
       ); //eslint-disable-line
-    } 
+    }
     return toolRows;
   }
 
@@ -114,7 +114,7 @@ class AboutPage extends React.Component {
                 <div style={[Styles.grid]}>
                   <Grid>
                     <Row>
-                      <h2 style={[Styles.title]}><strong>Group Members</strong></h2>
+                      <h2 style={[Styles.title]}><strong>The GameFrame Team</strong></h2>
                     </Row>
                     <Row>
                       {this.props.contributors.map((contributor) => {
@@ -125,13 +125,13 @@ class AboutPage extends React.Component {
                         );
                       })}
                     </Row>
-                    
+
                     <Row>
                       <div style={{padding: '0% 0% 2% 0%'}}>
                         <hr style={[Styles.hr]}/>
                       </div>
                     </Row>
-                    
+
                     <Row>
                       <Col md={4} sm={4}>
                         <div style={[Styles.cardPad]}>
@@ -162,26 +162,18 @@ class AboutPage extends React.Component {
                             <a href="https://developer.valvesoftware.com/wiki/Steam_Web_API"><p style={[Styles.label]} key={"label-6"}>Steam</p></a>
                             <a href="https://developer.twitter.com/en/docs"><p style={[Styles.label]} key={"label-7"}>Twitter</p></a>
                             <a href="https://developers.google.com/youtube/v3/docs/"><p style={[Styles.label]} key={"label-8"}>YouTube Data API</p></a>
-                            <p style={[Styles.paragraph]}>
-                              {
-                                'For IGDB and Steam, we scraped data with a "GET" call on a range of ids. ' +
-                                'While, News API and YouTube Data API\'s data got scraped with a "GET" call ' +
-                                'on specific keywords related to games. Furthermore, Twitter feeds are fetched ' +
-                                ' by a plug-in that uses the name of a game as a keyword to get that game feed.'
-                              }
-                            </p>
                           </div>
                           <img src={"../../../static/images/arrowDown.svg"} style={[Styles.cardArrow]}/>
                         </div>
                       </Col>
                     </Row>
-                    
+
                     <Row>
                       <hr style={[Styles.hr]}/>
                     </Row>
-                    
+
                     <Row>
-                      <h2 style={[Styles.title]}><strong>Tools</strong></h2>
+                      <h2 style={[Styles.title]}><strong>Tools of the Trade</strong></h2>
                     </Row>
                     {tools}
                   </Grid>
