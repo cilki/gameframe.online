@@ -113,50 +113,21 @@ function Grid(props) {
   const { children, prefix, ...rest } = props;
   return (
     <div>
-      <div
-        style={{
-          position: 'relative',
-          width: '98vw',
-          margin: 'auto',
-          display: 'flex',
-          flexDirection: 'row',
-          justifyContent: 'space-around',
-          filter: 'hue-rotate(170deg) invert(90%) saturate(300%) brightness(90%) grayscale(25%)',
-          zIndex: 10,
-        }}
-      >
-        <div 
-          style={{
-            margin: 'auto',
-            maxWidth: '33%',
-            marginTop: '20px',
-            flexGrow: '1'
-          }}
-        >
+      <div style={[ Styles.topCluster ]}>
+        <div style={[ Styles.sortContainer ]}>
           <GridSort model={prefix} />
         </div>
-        <div style={{paddingLeft: '2%', paddingRight: '2%'}}>
+        <div style={[ Styles.gridPaginationContainer ]}>
           <GridPagination prefix={prefix} {...rest} />
         </div>
-        <div style={{
-            margin: 'auto',
-            marginTop: '20px',
-            maxWidth: '33%',
-            display: 'flex',
-            flexGrow: '1'
-        }}>
+        <div style={[ Styles.filterContainer ]}>
           <h4>Include&nbsp;</h4>
-          <div style={{
-              margin: 'auto',
-            maxWidth: '100%',
-              display: 'block',
-              flexGrow: '1'
-          }}>
-            <GridSelect style={{marginTop: '20px'}} model={prefix} />
+          <div style={[ Styles.filterSelectContainer ]}>
+            <GridSelect model={prefix} />
           </div>
         </div>
       </div>
-      <div style={[Styles.grid]}>
+      <div style={[ Styles.grid ]}>
         {children}
       </div>
     </div>
