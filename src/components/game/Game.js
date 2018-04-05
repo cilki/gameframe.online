@@ -108,7 +108,7 @@ class Game extends React.Component {
     developers: [],
     error: null,
     genres: [],
-    price: 350,
+    price: 662.6070040,
     name: '',
     // release defaults to today's date
     release: '',
@@ -192,7 +192,7 @@ class Game extends React.Component {
           <div style={[ InstanceDetailsStyles.secondaryDataCluster ]}>
             <div style={[ InstanceDetailsStyles.priceCluster ]}>
               <div style={[ InstanceDetailsStyles.priceIndicator ]}>
-                {price != null ? 'Price:' : ''}&nbsp;
+                {price != null ? 'Price:' : 'Unknown Price'}&nbsp;
               </div>
               <div style={[ InstanceDetailsStyles.priceTag ]}>
                 {price != null ? `${price}` : ''}
@@ -206,8 +206,9 @@ class Game extends React.Component {
                 {this.props.metacritic ? this.props.metacritic : ''}
               </div>
             </div>
-            <div>
-              GameFrame_Score_Placeholder
+            <div style={[ InstanceDetailsStyles.currentPlayers ]}>
+                <b>{this.props.steam_id ? `${this.props.steam_id.toLocaleString()}` : ''}</b>
+                {this.props.steam_id ? ' people are playing now.' : ''}
             </div>
           </div>
           <hr style={[ InstanceDetailsStyles.horizontalRule ]} />
@@ -220,26 +221,35 @@ class Game extends React.Component {
             </div>
           </div>
           <hr style={[ InstanceDetailsStyles.horizontalRule ]} />
-          <div style={[ InstanceDetailsStyles.platformCluster ]}>
-            <div style={[ InstanceDetailsStyles.platformIndicator ]}>
-              Platforms:&nbsp;
+          <div style={{
+
+          }}>
+            <div style={[ InstanceDetailsStyles.platformCluster ]}>
+              <div style={[ InstanceDetailsStyles.platformIndicator ]}>
+                Platforms:&nbsp;
+              </div>
+              <div style={[ InstanceDetailsStyles.platformLabelGroup ]}>
+                {
+                  platforms.map((platform) => {
+                    return (
+                      <span key={platform.name}>
+                        <Label key={`${platform.name}-label`}>
+                          {platform.name}
+                        </Label>
+                        &nbsp;
+                      </span>
+                    )
+                  })
+                }
+                {
+                  platforms == [] ? 'Unknown' : ''
+                }
+              </div>
             </div>
-            <div style={[ InstanceDetailsStyles.platformLabelGroup ]}>
-              {
-                platforms.map((platform) => {
-                  return (
-                    <span key={platform.name}>
-                      <Label key={`${platform.name}-label`}>
-                        {platform.name}
-                      </Label>
-                      &nbsp;
-                    </span>
-                  )
-                })
-              }
-              {
-                platforms == [] ? 'Unknown' : ''
-              }
+            <div style={{
+
+            }}>
+             
             </div>
           </div>
           <div style={[ InstanceDetailsStyles.googleTrendsContainer ]}>
