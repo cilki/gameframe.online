@@ -6,24 +6,24 @@
   "unitTests": 33,
   "favGames": [
     {
-      "name": "The Elder Scrolls V: Skyrim",
-      "id": 16015,
-      "cover": "https://steamcdn-a.akamaihd.net/steam/news/15371/winter_promo_encore2.jpg?t=1420052376"
+      "name": "PLAYERUNKNOWN'S BATTLEGROUNDS",
+      "id": 7278,
+      "cover": "http://cdn.gameframe.online/cover/steam/578080.png"
     },
     {
-      "name": "Diablo III: Reaper of Souls",
-      "id": 600,
-      "cover": "images.igdb.com/igdb/image/upload/t_original/qbgh5zqabojbi9ftnujg.jpg", 
+      "name": "DARK SOULS™ III",
+      "id": 11595,
+      "cover": "http://cdn.gameframe.online/cover/steam/374320.png"
     },
     {
-      "name": "Half-Life: Source",
-      "id": 21327,
-      "cover": "http://cdn.gameframe.online/cover/steam/280.png"
+      "name": "Supreme Commander: Forged Alliance",
+      "id": 20241,
+      "cover": "http://cdn.gameframe.online/cover/steam/9420.png",
     },
     {
-      "name": "Tom Clancy's Ghost Recon\u00ae Wildlands",
-      "id": 18272,
-      "cover": "http://cdn.gameframe.online/cover/steam/460930.png"
+      "name": "SimCity™ 4 Deluxe Edition",
+      "id": 14386,
+      "cover": "http://cdn.gameframe.online/cover/steam/24780.png"
     }
   ]
 }
