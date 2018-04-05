@@ -53,5 +53,6 @@ export const reducer = createReducer(
   setTotalPagesAction,
   ['games', 'articles'],
   defaultFilterOptions,
+  { label: 'Games made', value: 'game_count' },
 );
 

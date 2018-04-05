@@ -101,6 +101,7 @@ function createFetchModels(
   },
   secondaryModels,
   defaultFilterOptions,
+  defaultSortAttribute = null,
 ) {
   /**
    * @description - This is the actual fetch function/thunk creator we're returning
@@ -225,6 +226,7 @@ function createReducer(
   setTotalPages,
   secondaryModels,
   defaultFilterOptions,
+  defaultSortAttribute = null,
 ) {
   const models = handleActions({
     [multipleResponse]: {
@@ -352,7 +354,6 @@ function createReducer(
   }, defaultFilterOptions);
 
   
-
   const currentSortAttribute = handleActions({
     [setGridSortCurrentAttribute](state, { payload }) {
       const { model, value } = payload;
@@ -363,7 +364,7 @@ function createReducer(
 
       return value;
     }
-  }, null);
+  }, defaultSortAttribute);
 
   const sortType = handleActions({
     [setGridSortType](state, { payload }) {
@@ -375,7 +376,7 @@ function createReducer(
 
       return value;
     }
-  }, { label: 'Ascending', value: 'asc', });
+  }, { label: 'Descending', value: 'desc', });
 
   return combineReducers({
     models,

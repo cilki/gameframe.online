@@ -53,4 +53,5 @@ export const reducer = createReducer(
   setTotalPagesAction,
   ['developers', 'games'],
   defaultFilterOptions,
+  { label: 'Published', value: 'timestamp' },
 );

@@ -71,6 +71,24 @@ const gameFilters = [
       type: 'number',
       op: 'geq',
     },
+    {
+      label: 'Visibility Index',
+      value: 'vindex',
+      options: [
+        { label: 'Greater than 10', value: 10, },
+        { label: 'Greater than 20', value: 20, },
+        { label: 'Greater than 30', value: 30, },
+        { label: 'Greater than 40', value: 40, },
+        { label: 'Greater than 50', value: 50, },
+        { label: 'Greater than 60', value: 60, },
+        { label: 'Greater than 70', value: 70, },
+        { label: 'Greater than 80', value: 80, },
+        { label: 'Greater than 90', value: 90, },
+        { label: 'Greater than 100', value: 100, },
+      ],
+      type: 'number',
+      op: 'geq',
+    },
 ];
 
 const developerFilters = [

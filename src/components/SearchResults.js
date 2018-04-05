@@ -90,7 +90,7 @@ class SearchResults extends React.Component {
       encodeURI(`http://api.gameframe.online/v1/grid/game?q={"filters":[{"or":[{"name":"c_name","op":"like","val":"%${this.state.query_string}%"},`
         .concat(`{"name":"summary","op":"like","val":"%20${this.state.query_string}%20"},{"name":"website","op":"like","val":"%${this.state.query_string}%"},`)
         .concat(`{"name":"genres__name","op":"any","val":"${this.state.query_string}"},{"name":"platforms__name","op":"any","val":"${this.state.query_string}"},`)
-        .concat(`{"name":"developers__c_name","op":"any","val":"${this.state.query_string}"}]}],"order_by":[{"field":"metacritic","direction":"desc"}]}&results_per_page=100`)),
+        .concat(`{"name":"developers__c_name","op":"any","val":"${this.state.query_string}"}]}],"order_by":[{"field":"vindex","direction":"desc"}]}&results_per_page=100`)),
       { method: 'GET' },
     )
       .then(response => response.json())

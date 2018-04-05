@@ -15,9 +15,11 @@ function getAttributeList(state, props) {
       { label: 'Price', value: 'price' },
       { label: 'Release', value: 'release' },
       { label: 'Metacritic', value: 'metacritic' },
+      { label: 'Visibility Index', value: 'vindex', },
     ];
   } else if (props.model === 'developers') {
     return [
+      { label: 'Name', value: 'name', },
       { label: 'Established', value: 'foundation' },
       { label: 'Games made', value: 'game_count' },
     ];
