@@ -188,7 +188,10 @@ const InstanceDetails = {
   },
 
   metacriticIndicator: {
-    fontSize: 'calc(14px + 0.5vw)',
+    paddingTop: 'calc(2%)',
+    marginRight: '4px',
+    height: 'calc(20px + 0.5vw)',
+    width: 'auto',
   },
 
   metacriticScore: score => ({
@@ -272,7 +275,7 @@ const InstanceDetails = {
 
   esrbRatingImage: {
     borderRadius: `${cornerRadius}`,
-    maxHeight: '100%',
+    maxHeight: '60%',
     margin: 'auto',
   },
 
