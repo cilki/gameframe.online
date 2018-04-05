@@ -41,7 +41,7 @@ function GridSort({
       <Select
         options={attributeList}
         onChange={onChangeAttribute}
-        placeholder="Filter By..."
+        placeholder="Sort By..."
         value={currentAttribute}
         style={{borderTopRightRadius: '0', borderBottomRightRadius: '0'}}
       />

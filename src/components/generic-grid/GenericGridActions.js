@@ -152,6 +152,7 @@ function createFetchModels(
           .then(response => response.json())
           .then(json => normalize(json, schema))
           .then((data) => {
+            console.log('data', data);
             if (data.result && data.result.total_pages !== undefined) {
               dispatch(setTotalPageAction(data.result.total_pages));
             }
@@ -178,7 +179,7 @@ function createFetchModels(
               dispatch(responseAction(Object.values(data.entities[modelName])));
               dispatch(setPageAction({
                 pageNumber: page,
-                indices: Object.keys(data.entities[modelName]),
+                indices: Object.values(data.result.objects),
               }));
             }
             else {
