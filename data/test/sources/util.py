@@ -61,5 +61,23 @@ class TestUtil (TestCase):
         self.assertEqual("technology™ studios" , condition_developer(
             "Technology™ Studios"))
 
+    def test_keywordize(self):
+
+        game1 = Game()
+        game1.name = "Far Cry 5"
+        self.assertEqual ("far cry 5" , keywordize(game1))
+
+        dev1 = Developer()
+        dev1.name = "Sudo Games"
+        self.assertEqual ("sudo games", keywordize(dev1))
+
+        game2 = Game()
+        game2.name = "THE ADVENTURE: GREATEST GAME OF ALL TIME!!"
+        self.assertEqual ("the adventure: greatest game of all time!!", keywordize(game2))
+
+        dev2 = Developer()
+        dev2.name = "Trademark™ Arts®"
+        self.assertEqual ("trademark arts", keywordize(dev2))
+
 if __name__ == '__main__':
     main()
