@@ -114,5 +114,14 @@ export default {
     width: '100%',
     height: '4vh',
     padding: '2% 2% 2% 2%',    
+  },
+  favGamesTitle: {
+    padding: '0% 2% 0% 2%',
+    fontSize: 'calc(8px + 0.5vw)',
+    textAlign: 'center',  
+  },
+  favGamesContainer: {
+    width: '50%',
+    padding: '1% 1% 1% 1%',
   }
 }

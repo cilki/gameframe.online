@@ -20,7 +20,9 @@ import Minicard from '../minicard/Minicard';
  */
 function link({ label, url, cover, key }) {
   return (
-    <Minicard label={label} url={url} cover={cover} cardKey={`${key}-inner`} key={key}/>
+    <div style={[Styles.favGamesContainer]} key={`${key}-container`}>
+      <Minicard label={label} url={url} cover={cover} cardKey={`${key}-inner`} key={key}/>
+    </div>
   );
 }
 
@@ -85,16 +87,21 @@ class GroupMember extends React.Component {
             <p style={[Styles.paragraph]}><strong>Issues: </strong>{this.props.issues}</p>
             <p style={[Styles.paragraph]}><strong>Unit Tests: </strong>{this.props.unitTests}</p>
             <p style={[Styles.paragraph]}><strong>Bio: </strong>{this.props.bio}</p>
-            <Minigrid>
-              {
-                this.props.favGames.map(favGame => link({
-                  label: favGame.name,
-                  url: `/games/${favGame.id}`,
-                  cover: favGame.cover,
-                  key: `favGame-${favGame.id}`,
-                }))                  
-              }
-            </Minigrid>
+            <div>
+              <h4 style={[Styles.favGamesTitle]}>
+                <strong>Favorite Games</strong>
+              </h4>
+              <Minigrid>
+                {
+                  this.props.favGames.map(favGame => link({
+                    label: favGame.name,
+                    url: `/games/${favGame.id}`,
+                    cover: favGame.cover,
+                    key: `favGame-${favGame.id}`,
+                  }))                  
+                }
+              </Minigrid>
+            </div>
           </div>
           <img src={"../../../static/images/arrowDown.svg"} style={[Styles.cardArrow]}/>
         </div>
