@@ -155,7 +155,7 @@ class AboutPage extends React.Component {
                       </Col>
                       <Col md={4} sm={4}>
                         <div style={[Styles.cardPad]}>
-                          <div style={[Styles.cardInfo, Styles.cardExpand]}>
+                          <div style={[Styles.cardInfo]}>
                             <h2 style={[Styles.title]}><strong>Data Sources</strong></h2>
                             <a href="https://www.igdb.com/api"><p style={[Styles.label]} key={"label-4"}>IGDB</p></a>
                             <a href="https://newsapi.org/"><p style={[Styles.label]} key={"label-5"}>News API</p></a>
@@ -163,7 +163,6 @@ class AboutPage extends React.Component {
                             <a href="https://developer.twitter.com/en/docs"><p style={[Styles.label]} key={"label-7"}>Twitter</p></a>
                             <a href="https://developers.google.com/youtube/v3/docs/"><p style={[Styles.label]} key={"label-8"}>YouTube Data API</p></a>
                           </div>
-                          <img src={"../../../static/images/arrowDown.svg"} style={[Styles.cardArrow]}/>
                         </div>
                       </Col>
                     </Row>

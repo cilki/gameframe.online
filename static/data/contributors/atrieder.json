@@ -3,5 +3,27 @@
   "name": "Andrew Rieder",
   "login": "atrieder",
   "responsibilities": "Frontend Developer",
-  "unitTests": 57.000000000000000
+  "unitTests": 57,
+  "favGames": [
+    {
+      "name": "The Elder Scrolls V: Skyrim",
+      "id": 16015,
+      "cover": "https://steamcdn-a.akamaihd.net/steam/news/15371/winter_promo_encore2.jpg?t=1420052376"
+    },
+    {
+      "name": "The Elder Scrolls V: Skyrim",
+      "id": 16015,
+      "cover": "https://steamcdn-a.akamaihd.net/steam/news/15371/winter_promo_encore2.jpg?t=1420052376"
+    },
+    {
+      "name": "The Elder Scrolls V: Skyrim",
+      "id": 16015,
+      "cover": "https://steamcdn-a.akamaihd.net/steam/news/15371/winter_promo_encore2.jpg?t=1420052376"
+    },
+    {
+      "name": "The Elder Scrolls V: Skyrim",
+      "id": 16015,
+      "cover": "https://steamcdn-a.akamaihd.net/steam/news/15371/winter_promo_encore2.jpg?t=1420052376"
+    }
+  ]
 }

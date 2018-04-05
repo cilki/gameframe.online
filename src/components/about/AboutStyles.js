@@ -68,7 +68,7 @@ export default {
   },
   cardInfo: {
     //height: 'calc(200px + 10vw)',
-    height: '45vh',
+    height: '35vh',
     overflow: 'hidden',
     backgroundColor: '#ffffff',
     border: '1px solid #A9A9A9',

@@ -11,6 +11,25 @@ import Styles from '../about/AboutStyles';
 import Minigrid from '../minigrid/Minigrid';
 import Minicard from '../minicard/Minicard';
 
+/**
+ * @description - Helper method for rendering a link to a developer or article
+ * @param {Object} props
+ * @param {String} props.label
+ * @param {String} props.url
+ * @returns {React.Component}
+ */
+function link({ label, url, cover, key }) {
+  return (
+    <Minicard label={label} url={url} cover={cover} cardKey={`${key}-inner`} key={key}/>
+  );
+}
+
+link.propTypes = {
+  label: PropTypes.string.isRequired,
+  url: PropTypes.string.isRequired,
+  key: PropTypes.oneOf([PropTypes.string, PropTypes.number]).isRequired,
+};
+
 class GroupMember extends React.Component {
   static propTypes = {
     avatar: PropTypes.string,
@@ -21,7 +40,11 @@ class GroupMember extends React.Component {
     issues: PropTypes.number,
     responsibilities: PropTypes.string,
     unitTests: PropTypes.number,
-    favGames: PropTypes.arrayOf(PropTypes.number),
+    favGames: PropTypes.arrayOf(PropTypes.shape({
+      name: PropTypes.string.isRequired,
+      id: PropTypes.number.isRequired,
+      cover: PropTypes.string,
+    })),
 
     fetchStats: PropTypes.func.isRequired,
   };

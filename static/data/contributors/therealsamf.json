@@ -3,5 +3,27 @@
   "name": "Sam Faulkner",
   "login": "therealsamf",
   "responsibilities": "Phase 2 Manager & Frontend Developer",
-  "unitTests": 50
+  "unitTests": 50,
+  "favGames": [
+    {
+      "name": "The Elder Scrolls V: Skyrim",
+      "id": 16015,
+      "cover": "https://steamcdn-a.akamaihd.net/steam/news/15371/winter_promo_encore2.jpg?t=1420052376"
+    },
+    {
+      "name": "The Elder Scrolls V: Skyrim",
+      "id": 16015,
+      "cover": "https://steamcdn-a.akamaihd.net/steam/news/15371/winter_promo_encore2.jpg?t=1420052376"
+    },
+    {
+      "name": "The Elder Scrolls V: Skyrim",
+      "id": 16015,
+      "cover": "https://steamcdn-a.akamaihd.net/steam/news/15371/winter_promo_encore2.jpg?t=1420052376"
+    },
+    {
+      "name": "The Elder Scrolls V: Skyrim",
+      "id": 16015,
+      "cover": "https://steamcdn-a.akamaihd.net/steam/news/15371/winter_promo_encore2.jpg?t=1420052376"
+    }
+  ]
 }
