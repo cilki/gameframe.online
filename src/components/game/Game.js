@@ -11,6 +11,7 @@ import InstanceDetails from '../instance-details/InstanceDetails';
 import InstanceDetailsStyles from '../instance-details/InstanceDetailsStyles';
 import Minigrid from '../minigrid/Minigrid';
 import Minicard from '../minicard/Minicard';
+import ExternalMinicard from '../minicard/ExternalMinicard';
 
 /**
  * @description - Helper method for generating a component
@@ -68,6 +69,25 @@ function rating({ ratingKey }) {
 function link({ label, url, cover, key }) {
   return (
     <Minicard label={label} url={url} cover={cover} cardKey={`${key}-inner`} key={key}/>
+  );
+}
+
+link.propTypes = {
+  label: PropTypes.string.isRequired,
+  url: PropTypes.string.isRequired,
+  key: PropTypes.oneOf([PropTypes.string, PropTypes.number]).isRequired,
+};
+
+/**
+ * @description - Helper method for rendering a link to an external location
+ * @param {Object} props
+ * @param {String} props.label
+ * @param {String} props.url
+ * @returns {React.Component}
+ */
+function externalLink({ label, url, cover, key }) {
+  return (
+    <ExternalMinicard label={label} url={url} cover={cover} cardKey={`${key}-inner`} key={key}/>
   );
 }
 
@@ -156,6 +176,7 @@ class Game extends React.Component {
     requested: false,
     screenshots: [{url: '', alt: ''}],
     summary: null,
+    videos: [],
   };
 
   /**
@@ -190,6 +211,7 @@ class Game extends React.Component {
     const releasePrefix = Date.parse(this.props.release) < new Date() ? 'Released ' : 'Coming ';
     const steamIDs = this.props.steam_id ? [this.props.steam_id] : [];
     const igdbLinks = this.props.igdb_link ? [this.props.igdb_link] : [];
+    console.log(this.props);
     return (
       <StyleRoot>
       <InstanceDetails imageURL={coverURL}>
@@ -344,6 +366,23 @@ class Game extends React.Component {
                 }
               </Minigrid>
             </div>
+          </div>
+        </div>
+        <div style={[ InstanceDetailsStyles.externalGridCluster ]}>
+          <div style={[ InstanceDetailsStyles.gameGridCluster('100%') ]}>
+            <div style={[ InstanceDetailsStyles.gameIndicator ]}>
+              Videos:
+            </div>
+            <Minigrid>
+              {
+                this.props.videos.map(video => externalLink({
+                  label: video.name,
+                  url: video.video_link,
+                  cover: (video.thumbnail && video.thumbnail.indexOf('http') < 0 ? `https://${video.thumbnail}` : video.thumbnail),
+                  key: `video-${video.video_id}`,
+                }))
+              }
+            </Minigrid>
           </div>
         </div>
         <div style={[ InstanceDetailsStyles.bigButtonCluster ]}>
