@@ -216,11 +216,28 @@ const InstanceDetails = {
     overflow: 'hidden',
   },
 
+  platformRatingContainer: {
+    maxWidth: '100%',
+    minWidth: '50%',
+    height: '423px',
+    flexBasis: '50%',
+    '@media screen and (max-width: 600px)': {
+      minWidth: '100%',
+      width: '100%',
+      flexBasis: '100%',
+      margin: 'auto',
+      justifyContent: 'space-around'
+    }
+  },
+
   platformCluster: {
     display: 'block',
     maxWidth: '100%',
     minWidth: '50%',
     flexBasis: '50%',
+    margin: '0',
+    padding: '0',
+    flexGrow: '1',
     '@media screen and (max-width: 600px)': {
       minWidth: '100%',
       width: '100%',
@@ -238,6 +255,37 @@ const InstanceDetails = {
     display: 'flex',
     justifyContent: 'flex-start',
     flexWrap: 'wrap',
+  },
+
+  esrbRatingContainer: {
+    display: 'block',
+    paddingTop: '4%',
+    height: '70%',
+    textAlign: 'center',
+    marginLeft: '-2%',
+  },
+
+  esrbRatingImage: {
+    borderRadius: `${cornerRadius}`,
+    maxHeight: '100%',
+    margin: 'auto',
+  },
+
+  esrbMappings: {
+    1: 'https://upload.wikimedia.org/wikipedia/commons/4/45/ESRB_2013_Rating_Pending.svg',
+    '1alt': 'Rating Pending',
+    2: 'https://upload.wikimedia.org/wikipedia/commons/0/05/ESRB_2013_Early_Childhood.svg',
+    '2alt': 'ESRB Rating: Early Childhood',
+    3: 'https://upload.wikimedia.org/wikipedia/commons/e/e0/ESRB_2013_Everyone.svg',
+    '3alt': 'ESRB Rating: Everyone',
+    4: 'https://upload.wikimedia.org/wikipedia/commons/7/70/ESRB_2013_Everyone_10%2B.svg',
+    '4alt': 'ESRB Rating: Everyone 10+',
+    5: 'https://upload.wikimedia.org/wikipedia/commons/8/8f/ESRB_2013_Teen.svg',
+    '5alt': 'ESRB Rating: Teen',
+    6: 'https://upload.wikimedia.org/wikipedia/commons/c/cb/ESRB_2013_Mature.svg',
+    '6alt': 'ESRB Rating: Mature',
+    7: 'https://upload.wikimedia.org/wikipedia/commons/8/8d/ESRB_2013_Adults_Only.svg',
+    '7alt': 'ESRB Rating: Adults Only'
   },
 
   googleTrendsContainer: {

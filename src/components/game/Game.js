@@ -48,6 +48,19 @@ screenshot.defaultProps = {
   alt: '',
 };
 
+function rating({ ratingKey }) {
+  return (
+    <a href='https://www.esrb.org/ratings/ratings_guide.aspx' key={`${ratingKey}-anchor`}>
+      <img
+        style={[ InstanceDetailsStyles.esrbRatingImage ]}
+        alt={`${InstanceDetailsStyles.esrbMappings[`${ratingKey}alt`]}`}
+        src={`${InstanceDetailsStyles.esrbMappings[ratingKey]}`}
+        key={`${ratingKey}-image`}
+      />
+    </a>
+  );
+}
+
 /**
  * @description - Helper method for rendering a link to a developer or article
  * @param {Object} props
@@ -144,6 +157,7 @@ class Game extends React.Component {
     const steamApiKey = 'B742258BCF24425642B7E0C770450FC2';
     const trendName = encodeURI(this.props.name);
     const trendsURL = `https://trends.google.com:443/trends/embed/explore/TIMESERIES?req=%7B%22comparisonItem%22%3A%5B%7B%22keyword%22%3A%22${trendName}%22%2C%22geo%22%3A%22%22%2C%22time%22%3A%22all%22%7D%5D%2C%22category%22%3A0%2C%22property%22%3A%22%22%7D&tz=300&amp;eq=date%3Dall%26q%3D${trendName}`;
+    const esrb = this.props.esrb ? [this.props.esrb] : [];
     return (
       <StyleRoot>
       <InstanceDetails imageURL={coverURL}>
@@ -221,9 +235,7 @@ class Game extends React.Component {
             </div>
           </div>
           <hr style={[ InstanceDetailsStyles.horizontalRule ]} />
-          <div style={{
-
-          }}>
+          <div style={[ InstanceDetailsStyles.platformRatingContainer ]}>
             <div style={[ InstanceDetailsStyles.platformCluster ]}>
               <div style={[ InstanceDetailsStyles.platformIndicator ]}>
                 Platforms:&nbsp;
@@ -246,10 +258,13 @@ class Game extends React.Component {
                 }
               </div>
             </div>
-            <div style={{
-
-            }}>
-             
+            <div style={[ InstanceDetailsStyles.esrbRatingContainer ]}>
+              {
+                esrb.map(esrbRating => rating({
+                  ratingKey: esrbRating,
+                  key: `esrbRating-${esrbRating}`,
+                }))
+              }
             </div>
           </div>
           <div style={[ InstanceDetailsStyles.googleTrendsContainer ]}>
