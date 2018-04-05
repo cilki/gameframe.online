@@ -125,7 +125,12 @@ describe('generic-grid', function() {
           [],
         );
 
-        assert.doesNotThrow(fetchFunction().bind({}, sinon.stub(), sinon.stub()), undefined, undefined, '`fetch()` was called');
+        assert.doesNotThrow(fetchFunction(
+          undefined,
+          undefined,
+          {},
+        ).bind({}, sinon.stub(), sinon.stub()), undefined, undefined, '`fetch()` was called');
+
       });
 
       it('Should dispatch a request action if predicate returns true', function() {
@@ -147,7 +152,11 @@ describe('generic-grid', function() {
         );
 
         stubFetch(() => Promise.resolve({ json: () => { return {}; } }));
-        const thunk = fetchFunction(0);
+        const thunk = fetchFunction(
+          0,
+          undefined,
+          {},
+        );
         thunk(sinon.stub(), sinon.stub());
         assert(requestAction.called, '`requestAction()` was never called');
         restoreFetch();
@@ -181,7 +190,11 @@ describe('generic-grid', function() {
         );
 
         stubFetch(() => Promise.resolve({ json: () => {} }));
-        const thunk = fetchFunction(0);
+        const thunk = fetchFunction(
+          0,
+          undefined,
+          {},
+        );
         thunk(sinon.stub(), sinon.stub())
           .then(() => {
             assert(setTotalPageAction.called, '`setTotalPageAction()` was never called');
@@ -230,7 +243,11 @@ describe('generic-grid', function() {
         );
 
         stubFetch(() => Promise.resolve({ json: () => {} }));
-        const thunk = fetchFunction(0);
+        const thunk = fetchFunction(
+          0,
+          undefined,
+          {},
+        );
         thunk(sinon.stub(), sinon.stub())
           .then(() => {
             assert(action1.called, '`secondaryModelResponseAction()` was never called for the first secondary model');
@@ -277,7 +294,11 @@ describe('generic-grid', function() {
         );
 
         stubFetch(() => Promise.resolve({ json: () => {} }));
-        const thunk = fetchFunction(0);
+        const thunk = fetchFunction(
+          0,
+          undefined,
+          {},
+        );
         thunk(sinon.stub(), sinon.stub())
           .then(() => {
             assert(responseAction.called, '`responseAction()` was never called for the model');
@@ -318,7 +339,11 @@ describe('generic-grid', function() {
         );
 
         stubFetch(() => Promise.resolve({ json: () => {} }));
-        const thunk = fetchFunction(0);
+        const thunk = fetchFunction(
+          0,
+          undefined,
+          {},
+        );
         thunk(sinon.stub(), sinon.stub())
           .then(() => {
             assert(responseAction.called, '`responseAction()` was never called for the model');

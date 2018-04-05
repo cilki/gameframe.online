@@ -115,7 +115,7 @@ function createFetchModels(
     if (filters.length > 0) {
       queryObject.filters = formatFilters(filters);
     }
-    if (sortAttribute !== null && sortType !== null) {
+    if (sortAttribute !== null && sortAttribute !== undefined && sortType !== null && sortAttribute !== undefined) {
       queryObject.order_by = [{
         field: sortAttribute.value,
         direction: sortType.value,

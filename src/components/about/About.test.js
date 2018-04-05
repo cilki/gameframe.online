@@ -290,6 +290,7 @@ describe('about', function() {
           responsibilities: 'Responsible Developer',
           name: 'Someone\'s Name',
           unitTests: 0,
+          favGames: [],
         };
         const nextState = contributors(
           state,
