@@ -60,9 +60,9 @@ class Games extends React.Component {
                 title={game.name}
                 url={`/games/${game.game_id}`}
                 cover={game.cover}
-                developer={"Developer"}
+                developer="Developer"
                 year={new Date(game.release).getFullYear()}
-                
+
                 price={game.price}
                 articles={game.articles}
                 genres={game.genres}

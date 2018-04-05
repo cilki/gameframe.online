@@ -4,16 +4,13 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import Radium, {StyleRoot} from 'radium';
-import { Badge, Carousel, Jumbotron, Label, ListGroup, ListGroupItem } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
+import Radium, { StyleRoot } from 'radium';
+import { Carousel, Label } from 'react-bootstrap';
 import ReactHTMLParser from 'react-html-parser';
-import { Timeline } from 'react-twitter-widgets';
 import InstanceDetails from '../instance-details/InstanceDetails';
 import InstanceDetailsStyles from '../instance-details/InstanceDetailsStyles';
 import Minigrid from '../minigrid/Minigrid';
 import Minicard from '../minicard/Minicard';
-import CommonAssets from '../../inline-styles/CommonAssets';
 
 /**
  * @description - Helper method for generating a component

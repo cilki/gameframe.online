@@ -191,8 +191,8 @@ class Developer extends React.Component {
             maxWidth: '50%',
         }}>
             {
-              twitterDummy.map(twitterURL => twitter({
-                twitterUsername: twitterHandle
+              twitterDummy.map(() => twitter({
+                twitterUsername: twitterHandle,
               }))
             }
           </div>

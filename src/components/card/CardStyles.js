@@ -81,7 +81,7 @@ const Card = {
     filter: 'blur(2px)',
     margin: 'auto',
     transform: 'perspective(800px) translate3d(0, 0, 760px) scale(2)',
-    zIndex: '-5'
+    zIndex: '-5',
   },
 
   image: {

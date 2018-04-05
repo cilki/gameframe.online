@@ -199,7 +199,7 @@ const InstanceDetails = {
   }),
 
   currentPlayers: {
-    fontSize: 'calc(14px + 0.5vw)'
+    fontSize: 'calc(14px + 0.5vw)',
   },
 
   horizontalRule: {
@@ -226,8 +226,8 @@ const InstanceDetails = {
       width: '100%',
       flexBasis: '100%',
       margin: 'auto',
-      justifyContent: 'space-around'
-    }
+      justifyContent: 'space-around',
+    },
   },
 
   platformCluster: {
@@ -285,7 +285,7 @@ const InstanceDetails = {
     6: 'https://upload.wikimedia.org/wikipedia/commons/c/cb/ESRB_2013_Mature.svg',
     '6alt': 'ESRB Rating: Mature',
     7: 'https://upload.wikimedia.org/wikipedia/commons/8/8d/ESRB_2013_Adults_Only.svg',
-    '7alt': 'ESRB Rating: Adults Only'
+    '7alt': 'ESRB Rating: Adults Only',
   },
 
   googleTrendsContainer: {

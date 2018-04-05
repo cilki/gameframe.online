@@ -22,8 +22,8 @@ const Minicard = {
     transition: 'all 0.2s',
     ':hover': {
       filter: 'brightness(150%)',
-      boxShadow: '0 14px 20px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22)'
-    }
+      boxShadow: '0 14px 20px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22)',
+    },
   }),
 
   textArea: {
@@ -49,8 +49,8 @@ const Minicard = {
       whiteSpace: 'initial',
       height: 'initial',
       textOverflow: 'initial',
-      overflow: 'scroll'
-    }
+      overflow: 'scroll',
+    },
   },
 
 };

@@ -5,7 +5,7 @@ import MinigridStyles from './MinigridStyles';
 
 class Minigrid extends React.Component {
   static propTypes = {
-    children: PropTypes.oneOfType([PropTypes.element, PropTypes.array]).isRequired
+    children: PropTypes.oneOfType([PropTypes.element, PropTypes.array]).isRequired,
   };
 
   static defaultProps = {
@@ -19,7 +19,7 @@ class Minigrid extends React.Component {
 
   render() {
     return (
-      <div style={[ MinigridStyles.main ]}>
+      <div style={[MinigridStyles.main]}>
         {this.props.children}
       </div>
     );

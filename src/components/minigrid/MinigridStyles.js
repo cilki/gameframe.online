@@ -8,7 +8,7 @@ const Minigrid = {
     borderRadius: `${cornerRadius}`,
     display: 'flex',
     flexDirection: 'column',
-    flexFlow: 'row wrap'
+    flexFlow: 'row wrap',
   },
 
   minigridLink: {
@@ -17,7 +17,7 @@ const Minigrid = {
     width: 'calc((100vh + 20vw) / 4)',
     height: 'calc((20vh + 20vw) / 2)',
     margin: 'calc((1vw + 1vh) / 2)',
-    flex: 'auto'
+    flex: 'auto',
   },
 
   minicard: cover => ({
@@ -31,19 +31,19 @@ const Minigrid = {
     transition: 'all 0.2s',
     ':hover': {
       filter: 'brightness(150%)',
-      boxShadow: '0 14px 20px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22)'
-    }
+      boxShadow: '0 14px 20px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22)',
+    },
   }),
 
   minicardTextArea: {
     padding: '2%',
     background: 'rgba(16, 16, 16, 0.9)',
     color: '#eeeeee',
-    borderRadius: `${cornerRadius}`
+    borderRadius: `${cornerRadius}`,
   },
 
   minicardParagraph: {
-    fontSize: 'calc(12px + 0.5vw)'
+    fontSize: 'calc(12px + 0.5vw)',
   },
 
 };
