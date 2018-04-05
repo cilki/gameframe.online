@@ -1,3 +1,8 @@
+# --------------------------------
+# Object-Relational Mappings     -
+# Copyright (C) 2018 GameFrame   -
+# --------------------------------
+
 from flask_sqlalchemy import SQLAlchemy
 
 """
@@ -20,6 +25,9 @@ class Game(db.Model):
 
     # The game's IGDB ID
     igdb_id = db.Column(db.Integer)
+
+    # The game's external IGDB link
+    igdb_link = db.Column(db.Text)
 
     # The game's user-friendly title
     name = db.Column(db.Text)
@@ -62,6 +70,9 @@ class Game(db.Model):
 
     # Visibility Index
     vindex = db.Column(db.Integer)
+
+    # Primary developer's name
+    developer = db.Column(db.Text)
 
     # Number of tweets
     tweet_count = db.Column(db.Integer)

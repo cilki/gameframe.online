@@ -445,8 +445,12 @@ def link_developers():
         if game_json is None:
             continue
 
-        for name in chain(game_json.get('publishers', []), game_json.get('developers', [])):
+        for name in chain(game_json.get('developers', []), game_json.get('publishers', [])):
             dev = WS.developers.get(condition_developer(name))
+
+            # Set the primary developer to the first one
+            if dev is not None and game.developer is None:
+                game.developer = name
 
             if dev is None:
                 dev = WS.developers.get(name)

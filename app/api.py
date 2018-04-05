@@ -1,3 +1,8 @@
+# --------------------------------
+# API Endpoint Definitions       -
+# Copyright (C) 2018 GameFrame   -
+# --------------------------------
+
 import flask
 import flask_sqlalchemy
 import flask_restless
@@ -11,31 +16,38 @@ def generate_api(app, db):
     """
 
     # Create the API manager
-    api_manager = flask_restless.APIManager(app, flask_sqlalchemy_db=db)
+    API = flask_restless.APIManager(app, flask_sqlalchemy_db=db)
 
     # Generate root API endpoints
-    api_manager.create_api(Game, methods=['GET'], url_prefix='/v1')
-    api_manager.create_api(Developer, methods=['GET'], url_prefix='/v1')
-    api_manager.create_api(Article, methods=['GET'], url_prefix='/v1')
-    api_manager.create_api(Tweet, methods=['GET'], url_prefix='/v1')
-    api_manager.create_api(Video, methods=['GET'], url_prefix='/v1')
+    API.create_api(Game, methods=['GET'], url_prefix='/v1')
+    API.create_api(Developer, methods=['GET'], url_prefix='/v1')
+    API.create_api(Article, methods=['GET'], url_prefix='/v1')
+    API.create_api(Tweet, methods=['GET'], url_prefix='/v1')
+    API.create_api(Video, methods=['GET'], url_prefix='/v1')
 
     # Generate optimized grid endpoints
-    api_manager.create_api(Game, methods=['GET'], url_prefix='/v1/grid',
-                           include_columns=['game_id', 'name', 'price', 'cover', 'platforms', 'release'])
-    api_manager.create_api(Developer, methods=['GET'], url_prefix='/v1/grid',
-                           include_columns=['developer_id', 'name', 'logo', 'website', 'twitter'])
-    api_manager.create_api(Article, methods=['GET'], url_prefix='/v1/grid',
-                           include_columns=['article_id', 'title', 'cover', 'article_link'])
+    API.create_api(Game, methods=['GET'], url_prefix='/v1/grid',
+                   include_columns=['game_id', 'name', 'price', 'cover',
+                                    'platforms', 'release', 'developer',
+                                    'genres', 'developer_count', 'article_count'])
+
+    API.create_api(Developer, methods=['GET'], url_prefix='/v1/grid',
+                   include_columns=['developer_id', 'name', 'logo', 'website',
+                                    'twitter', 'foundation', 'game_count',
+                                    'article_count'])
+
+    API.create_api(Article, methods=['GET'], url_prefix='/v1/grid',
+                   include_columns=['article_id', 'title', 'cover', 'game_count',
+                                    'article_link', 'developer_count'])
 
     # Generate unpaginated list endpoints
-    api_manager.create_api(Game, methods=['GET'], url_prefix='/v1/list',
-                           results_per_page=-1, include_columns=['game_id', 'name'])
-    api_manager.create_api(Developer, methods=['GET'], url_prefix='/v1/list',
-                           results_per_page=-1, include_columns=['developer_id', 'name'])
-    api_manager.create_api(Article, methods=['GET'], url_prefix='/v1/list',
-                           results_per_page=-1, include_columns=['article_id', 'title'])
-    api_manager.create_api(Platform, methods=['GET'], url_prefix='/v1/list',
-                           results_per_page=-1)
-    api_manager.create_api(Genre, methods=['GET'], url_prefix='/v1/list',
-                           results_per_page=-1)
+    API.create_api(Game, methods=['GET'], url_prefix='/v1/list',
+                   results_per_page=-1, include_columns=['game_id', 'name'])
+    API.create_api(Developer, methods=['GET'], url_prefix='/v1/list',
+                   results_per_page=-1, include_columns=['developer_id', 'name'])
+    API.create_api(Article, methods=['GET'], url_prefix='/v1/list',
+                   results_per_page=-1, include_columns=['article_id', 'title'])
+    API.create_api(Platform, methods=['GET'], url_prefix='/v1/list',
+                   results_per_page=-1)
+    API.create_api(Genre, methods=['GET'], url_prefix='/v1/list',
+                   results_per_page=-1)

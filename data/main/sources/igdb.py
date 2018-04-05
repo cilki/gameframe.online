@@ -171,6 +171,10 @@ def build_game(game_json):
     # IGDB ID (overwrite)
     game.igdb_id = int(game_json['id'])
 
+    # IGDB link
+    if game.igdb_link is None and 'url' in game_json:
+        game.igdb_link = game_json['url']
+
     # Title
     if game.name is None:
         game.name = game_json['name']
@@ -217,6 +221,13 @@ def build_game(game_json):
     # ESRB rating
     if game.esrb is None and 'esrb' in game_json:
         game.esrb = game_json['esrb']['rating']
+
+    # Website
+    if game.website is None and 'websites' in game_json:
+        for site_json in game_json['websites']:
+            if 'category' in site_json and site_json['category'] == 1:
+                game.website = site_json['url']
+                break
 
     return game
 
@@ -390,7 +401,10 @@ def link_developers():
             if igdb_id in WS.game_igdb:
                 # Link the models if not already linked
                 game = WS.game_igdb[igdb_id]
-                if not dev in game.developers:
-                    dev.games.append(game)
+                xappend(dev.games, game)
+
+                # TODO: Set primary developer more intelligently
+                if game.developer is None:
+                    game.developer = dev.name
 
     print("[IGDB ] Link complete")
