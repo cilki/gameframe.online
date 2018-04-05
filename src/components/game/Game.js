@@ -189,6 +189,7 @@ class Game extends React.Component {
     const release = dateToString(this.props.release);
     const releasePrefix = Date.parse(this.props.release) < new Date() ? 'Released ' : 'Coming ';
     const steamIDs = this.props.steam_id ? [this.props.steam_id] : [];
+    const igdbLinks = this.props.igdb_link ? [this.props.igdb_link] : [];
     return (
       <StyleRoot>
       <InstanceDetails imageURL={coverURL}>
@@ -317,7 +318,11 @@ class Game extends React.Component {
                 }))
             }
             {
-
+                igdbLinks.map(igdbLink => bigButton({
+                  url: igdbLink,
+                  label: 'View on IGDB',
+                  buttonKey: `igdbButton-${igdbLink}`,
+                }))
             }
           </div>
           <div style={[ InstanceDetailsStyles.externalGridCluster ]}>
