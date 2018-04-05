@@ -177,35 +177,24 @@ class Developer extends React.Component {
               Developer Twitter
             </a>
           </div>
-          <div style={{display: 'flex', flexDirection: 'row', flexWrap: 'wrap'}}>
-          <div style={{
-            paddingTop: '2%',
-            flexBasis: '48%',
-            paddingTop: '12px',
-            marginRight: '2%',
-            maxWidth: '50%',
-            '@media screen and (max-width: 600px)': {
-              flexBasis: '100%',
-              margin: 'auto',
-              maxWidth: '100%',
-            },
-          }}>
-            {
-              twitterDummy.map(() => twitter({
-                twitterUsername: twitterHandle,
-              }))
-            }
-          </div>
-          <div style={[InstanceDetailsStyles.googleTrendsContainer]}>
-            <iframe
-              id="trends-widget-1"
-              src={trendsURL}
-              width="100%"
-              frameBorder="0"
-              scrolling="0"
-              style={[InstanceDetailsStyles.googleTrendsIframe]}
-            />
-          </div>
+          <div style={[InstanceDetailsStyles.developerWidgetGroup]}>
+            <div style={[InstanceDetailsStyles.developerTwitterContainer]}>
+              {
+                twitterDummy.map(() => twitter({
+                  twitterUsername: twitterHandle,
+                }))
+              }
+            </div>
+            <div style={[InstanceDetailsStyles.googleTrendsContainer]}>
+              <iframe
+                id="trends-widget-1"
+                src={trendsURL}
+                width="100%"
+                frameBorder="0"
+                scrolling="0"
+                style={[InstanceDetailsStyles.googleTrendsIframe]}
+              />
+            </div>
           </div>
           <div style={[InstanceDetailsStyles.externalGridCluster]}>
             <div style={[InstanceDetailsStyles.gameGridCluster('50%')]}>

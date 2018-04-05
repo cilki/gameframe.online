@@ -505,6 +505,24 @@ const InstanceDetails = {
     },
   },
 
+  developerWidgetGroup: {
+    display: 'flex',
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+  },
+
+  developerTwitterContainer: {
+    flexBasis: '48%',
+    paddingTop: '12px',
+    marginRight: '2%',
+    maxWidth: '50%',
+    '@media screen and (max-width: 600px)': {
+      flexBasis: '100%',
+      margin: 'auto',
+      maxWidth: '100%',
+    },
+  },
+
   /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
    * ARTICLE-SPECIFIC ELEMENTS                                                 *
    * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
