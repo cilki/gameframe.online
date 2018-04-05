@@ -16,8 +16,8 @@ from wand.color import Color
 
 from orm import Game, Developer, Video, Article
 from cdgen.steam import color_average
-from sources.igdb import load_game_json, load_dev_json
-from sources.steam import rq_app_list, load_game_json, rq_game
+import sources.igdb
+import sources.steam
 from sources.util import parse_steam_date, condition, condition_heavy, condition_developer, keywordize, xappend
 
 
@@ -36,7 +36,14 @@ class TestSteamCD (TestCase):
 
 
 class TestIGDB (TestCase):
-    pass
+    def test_rq_game(self):
+        """
+        Attempt to request a game
+        """
+
+        game_rq = sources.igdb.rq_game_block(9349)
+
+        self.assertFalse(game_rq is None)
 
 
 class TestSteam (TestCase):
@@ -47,19 +54,20 @@ class TestSteam (TestCase):
         """
 
         # There should be more than 50,000 apps in the request
-        apps = rq_app_list()
+        apps = sources.steam.rq_app_list()
         self.assertTrue(len(apps) > 50000)
 
         # Every call to rq_app_list should return the same object
-        self.assertTrue(apps is rq_app_list())
-        self.assertTrue(rq_app_list() is rq_app_list())
+        self.assertTrue(apps is sources.steam.rq_app_list())
+        self.assertTrue(sources.steam.rq_app_list()
+                        is sources.steam.rq_app_list())
 
     def test_rq_game(self):
         """
         Attempt to request a game
         """
 
-        game_rq = rq_game(570)
+        game_rq = sources.steam.rq_game(570)
 
         self.assertFalse(game_rq is None)
         self.assertTrue('570' in game_rq)
