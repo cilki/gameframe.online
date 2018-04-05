@@ -331,24 +331,6 @@ class Game extends React.Component {
             </div>
           </div>
         </div>
-        <div>
-          <div style={[ InstanceDetailsStyles.twitterIndicator ]}>
-            Twitter:
-          </div>
-          <p>Twitter is not available in your country.</p>
-        </div>
-        <div>
-          <div style={[ InstanceDetailsStyles.youtubeIndicator ]}>
-            YouTube:
-          </div>
-          <p>This video is not available in your country.</p>
-        </div>
-        <div>
-          <div style={[ InstanceDetailsStyles.twitchIndicator ]}>
-            Twitch:
-          </div>
-          <p>Twitch is not available in your country.</p>
-        </div>
       </InstanceDetails>
       </StyleRoot>
     );

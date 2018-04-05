@@ -221,12 +221,14 @@ const InstanceDetails = {
     minWidth: '50%',
     height: '423px',
     flexBasis: '50%',
+    display: 'flex',
+    flexDirection: 'column',
     '@media screen and (max-width: 600px)': {
       minWidth: '100%',
       width: '100%',
       flexBasis: '100%',
       margin: 'auto',
-      justifyContent: 'space-around',
+      justifyContent: 'flex-start',
     },
   },
 
@@ -234,10 +236,9 @@ const InstanceDetails = {
     display: 'block',
     maxWidth: '100%',
     minWidth: '50%',
-    flexBasis: '50%',
     margin: '0',
     padding: '0',
-    flexGrow: '1',
+    flexGrow: '0',
     '@media screen and (max-width: 600px)': {
       minWidth: '100%',
       width: '100%',
@@ -258,11 +259,15 @@ const InstanceDetails = {
   },
 
   esrbRatingContainer: {
-    display: 'block',
+    display: 'flex',
+    justifyContent: 'space-around',
     paddingTop: '4%',
-    height: '70%',
+    boxSizing: 'border-box',
     textAlign: 'center',
     marginLeft: '-2%',
+    '@media screen and (max-width: 600px)': {
+      margin: 'auto',
+    },
   },
 
   esrbRatingImage: {
