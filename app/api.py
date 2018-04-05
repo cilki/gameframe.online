@@ -34,11 +34,11 @@ def generate_api(app, db):
     API.create_api(Developer, methods=['GET'], url_prefix='/v1/grid',
                    include_columns=['developer_id', 'name', 'logo', 'website',
                                     'twitter', 'foundation', 'game_count',
-                                    'article_count'])
+                                    'article_count', 'country'])
 
     API.create_api(Article, methods=['GET'], url_prefix='/v1/grid',
                    include_columns=['article_id', 'title', 'cover', 'game_count',
-                                    'article_link', 'developer_count'])
+                                    'article_link', 'developer_count', 'author'])
 
     # Generate unpaginated list endpoints
     API.create_api(Game, methods=['GET'], url_prefix='/v1/list',
