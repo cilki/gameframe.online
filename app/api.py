@@ -38,7 +38,8 @@ def generate_api(app, db):
 
     API.create_api(Article, methods=['GET'], url_prefix='/v1/grid',
                    include_columns=['article_id', 'title', 'cover', 'game_count',
-                                    'article_link', 'developer_count', 'author'])
+                                    'article_link', 'developer_count', 'author',
+                                    'timestamp'])
 
     # Generate unpaginated list endpoints
     API.create_api(Game, methods=['GET'], url_prefix='/v1/list',
