@@ -198,6 +198,10 @@ const InstanceDetails = {
     textShadow: '-1px -1px 0 #333, 1px -1px 0 #333, -1px 1px 0 #333, 1px 1px 0 #333, -1px 0 0 #333, 1px 0 0 #333, 0 1px 0 #333, 0 -1px 0 #333, 0 0 2px #333',
   }),
 
+  currentPlayers: {
+    fontSize: 'calc(14px + 0.5vw)'
+  },
+
   horizontalRule: {
     borderTop: '1px dotted #333333',
     opacity: '0.5',
