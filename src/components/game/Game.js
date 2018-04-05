@@ -244,9 +244,13 @@ class Game extends React.Component {
                 {price != null ? `${price}` : ''}
               </div>
             </div>
+            <div style={[InstanceDetailsStyles.currentPlayers]}>
+              {this.props.vindex ? 'Visibility Index: ' : ''}
+              <b>{this.props.vindex ? this.props.vindex : ''}</b>
+            </div>
             <div style={[ InstanceDetailsStyles.metacriticCluster ]}>
               <div style={[ InstanceDetailsStyles.metacriticIndicator ]}>
-                {this.props.metacritic ? 'Metacritic Score:' : ''}&nbsp;
+                {this.props.metacritic ? 'Metacritic:' : ''}&nbsp;
               </div>
               <div style={[ InstanceDetailsStyles.metacriticScore(this.props.metacritic) ]}>
                 {this.props.metacritic ? this.props.metacritic : ''}
