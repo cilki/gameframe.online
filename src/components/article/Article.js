@@ -90,6 +90,7 @@ class Article extends React.Component {
       `http://${this.props.outlet}` : this.props.outlet;
     const articleURL = this.props.article_link && this.props.article_link.indexOf('http') < 0 ?
       `http://${this.props.article_link}` : this.props.article_link;
+    const published = this.props.timestamp ? (new Date(this.props.timestamp)).toLocaleString() : null;
     return (
       <StyleRoot>
         <InstanceDetails imageURL={coverURL}>
@@ -113,7 +114,7 @@ class Article extends React.Component {
                 {this.props.author ? `Written by ${this.props.author}` : 'Unknown author.'}
               </div>
               <div style={[InstanceDetailsStyles.publishDateIndicator]}>
-                {this.props.timestamp ? `Published ${this.props.timestamp}` : 'Unknown publication date.'}
+                {this.props.timestamp ? `Published ${published}` : 'Unknown publication date.'}
               </div>
             </div>
           </div>
