@@ -26,8 +26,3 @@ pm.test("Response Content", function() {
   pm.expect(json.video_link).to.not.be.null;
   pm.expect(json.games).to.not.be.null;
 });
-
-pm.test("Response Links", function() {
-  var json = pm.response.json();
-  pm.expect(json.games.length).to.be.above(0);
-});
