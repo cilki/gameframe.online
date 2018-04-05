@@ -13,6 +13,12 @@ export default {
     whiteSpace: 'nowrap', 
     overflow: 'hidden', 
     textOverflow: 'ellipsis',
-    fontSize: '12px',
+    fontSize: '8px'
+  },
+  largeText: {
+    fontSize: '12px'
+  },
+  smallText: {
+    fontSize: '8px'
   }
 }

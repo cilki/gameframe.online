@@ -65,12 +65,13 @@ class Tooltip extends React.Component {
      * @return {React.component|null}
      */
     function showPrice(price) {
+      const largeText = Styles.largeText;
       if (price == 0) {
         return (
-          <p>
+          <p style={[Styles.largeText]}>
             Price:
             &nbsp;
-              <Badge>
+              <Badge style={largeText}>
                 free
               </Badge>
           </p>
@@ -78,10 +79,10 @@ class Tooltip extends React.Component {
       } else if (price > 0) {
         price = price / 100;
         return (
-          <p>
+          <p style={[Styles.largeText]}>
             Price:
             &nbsp;
-              <Badge>
+              <Badge style={largeText}>
                 ${price}
               </Badge>
           </p>
@@ -93,20 +94,67 @@ class Tooltip extends React.Component {
     
     /**
      * @description - Conditionally render up to a maximum number 
-     * (maxLimit) of items from a named field.
+     * (maxLimit) of items from a named field in a row formation.
      * @param {name} string
      * @param {maxLimit} number
      * @param {items} array
      * @return {React.component|null}
      */
-    function showItems(name, maxLimit, items) {
+    function showItemsInRow(name, maxLimit, items) {
+      if (items.length > 0) {
+        return (
+          <p style={[Styles.largeText]}>
+            {name}:
+            &nbsp;
+            {getItemsInRow(maxLimit, items)}
+          </p>
+        );
+      } else {
+        return (null);
+      }
+    }
+    
+    /**
+     * @description - Helper method to showItemsInRow().
+     * @param {maxLimit} number
+     * @param {items} array
+     * @return {array}
+     */
+    function getItemsInRow(maxLimit, items) {
+      const smallText = Styles.smallText;
+      var subItems = [];
+      var limit = items.length;
+      
+      if (limit > maxLimit) {
+        limit = maxLimit;
+      }
+      
+      for(let i = 0; i < limit; i++) {
+        subItems.push(
+          <Label key={`item-${i}`} style={smallText}>
+            {items[i].name}  
+          </Label>
+        );
+      }
+      return subItems;      
+    }
+    
+    /**
+     * @description - Conditionally render up to a maximum number 
+     * (maxLimit) of items from a named field in a column formation.
+     * @param {name} string
+     * @param {maxLimit} number
+     * @param {items} array
+     * @return {React.component|null}
+     */
+    function showItemsInCol(name, maxLimit, items) {
       if (items.length > 0) {
         return (
           <div>
-            <h4>
+            <h4 style={[Styles.largeText]}>
               {name}
             </h4>
-            {getItems(maxLimit, items)}
+            {getItemsInCol(maxLimit, items)}
           </div>
         );
       } else {
@@ -115,12 +163,12 @@ class Tooltip extends React.Component {
     }
     
     /**
-     * @description - Helper method to showItems().
+     * @description - Helper method to showItemsInCol().
      * @param {maxLimit} number
      * @param {items} array
      * @return {array}
      */
-    function getItems(maxLimit, items) {
+    function getItemsInCol(maxLimit, items) {
       var subItems = [];
       var limit = items.length;
       
@@ -146,14 +194,15 @@ class Tooltip extends React.Component {
      * @return {React.component|null}
      */
     function showReference(name, number) {
+      const largeText = Styles.largeText;
       if (number > 0) {
         references += 1;
         return (
-          <p>
+          <p style={[Styles.largeText]}>
             &nbsp;
             {name}:
             &nbsp;
-              <Badge>
+              <Badge style={largeText}>
                 {number}
               </Badge>
           </p>
@@ -192,7 +241,7 @@ class Tooltip extends React.Component {
     function showNone(number) {
       if (number <= 0) {
         return (
-          <p>
+          <p style={[Styles.largeText]}>
             &nbsp;
             None.
           </p>
@@ -205,11 +254,11 @@ class Tooltip extends React.Component {
     return (
       <div>
         {showPrice(this.props.price)}
-        {showItems("Genres", 3, this.props.genres)}
-        {showItems("Platforms", 3, this.props.platforms)}
+        {showItemsInRow("Genres", 3, this.props.genres)}
+        {showItemsInCol("Platforms", 3, this.props.platforms)}
         
         <div>
-          <h4>
+          <h4 style={{fontSize: '12px'}}>
             References
           </h4>
           {showReference("Games", this.props.games)}
@@ -219,7 +268,7 @@ class Tooltip extends React.Component {
         </div>
         
         <div>
-          <h4>
+          <h4 style={{fontSize: '12px'}}>
             Media
           </h4>
           {showMedia("Twitter", this.props.twitter)}
