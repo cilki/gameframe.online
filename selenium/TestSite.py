@@ -98,6 +98,58 @@ class TestArticlesPagination(TestPagination):
 
     grid_name = "articles"
 
+class TestSort(TestPartOfSite):
+
+    grid_name = ""
+
+    def sort(self, attr, lo_id, hi_id):
+        box = self.driver.find_element(By.TAG_NAME, "input")
+        box.click()
+        box.send_keys(Keys.TAB, Keys.TAB, attr, Keys.ENTER)
+        box.send_keys(Keys.TAB, Keys.TAB, Keys.TAB, "Ascending", Keys.ENTER)
+        time.sleep(self.time_to_sleep)
+        self.assertTrue(self.driver.find_element(By.XPATH, "//a[@href='/" + self.grid_name + "/" + str(lo_id) + "']").is_displayed())
+        box2 = self.driver.find_element(By.TAG_NAME, "input")
+        box2.click()
+        box2.send_keys(Keys.TAB, Keys.TAB, Keys.TAB, "Descending", Keys.ENTER)
+        time.sleep(self.time_to_sleep)
+        self.assertTrue(self.driver.find_element(By.XPATH, "//a[@href='/" + self.grid_name + "/" + str(hi_id) + "']").is_displayed())
+        self.driver.find_elements(By.CLASS_NAME, "Select-clear")[1].click()
+        self.driver.find_element(By.CLASS_NAME, "Select-clear").click()
+    
+class TestGamesSort(TestSort):
+
+    grid_name = "games"
+
+    def part(self):
+        self.driver.get(self.environment + "/games")
+        time.sleep(self.time_to_sleep)
+        self.sort("Name", 1388, 2147)
+        self.sort("Price", 768, 2572)
+        self.sort("Release", 4358, 39)
+        self.sort("Metacritic", 256, 879)
+    
+class TestDevelopersSort(TestSort):
+
+    grid_name = "developers"
+
+    def part(self):
+        self.driver.get(self.environment + "/developers")
+        time.sleep(self.time_to_sleep)
+        self.sort("Established", 256, 147)
+        self.sort("Games made", 256, 3)
+    
+class TestArticlesSort(TestSort):
+
+    grid_name = "articles"
+
+    def part(self):
+        self.driver.get(self.environment + "/articles")
+        time.sleep(self.time_to_sleep)
+        self.sort("Developers Referenced", 1536, 32366)
+        self.sort("Games Referenced", 1536, 256)
+        self.sort("Published", 198, 674)
+
 class TestRelations(TestPartOfSite):
 
     game_id = 9669
@@ -172,8 +224,7 @@ class TestSearch(TestRelations):
         self.find_article()        
 
 if __name__ == '__main__':
-    classes = [TestHomepage, TestNavbar, TestGamesPagination, TestDevelopersPagination, TestArticlesPagination, TestGameRelations, TestDeveloperRelations, \
-               TestArticleRelations, TestSearch]
+    classes = [TestHomepage, TestNavbar, TestGamesPagination, TestDevelopersPagination, TestArticlesPagination, TestGamesSort, TestDevelopersSort, TestArticlesSort, TestGameRelations, TestDeveloperRelations, TestArticleRelations, TestSearch]
     loader = unittest.TestLoader()
     tests = []
     for test_class in classes:
