@@ -301,6 +301,7 @@ const contributors = handleActions({
       bio: data.bio,
       responsibilities: data.responsibilities,
       unitTests: data.unitTests,
+      favGames: data.favGames,
       statsError: null,
     });
   },
