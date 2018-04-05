@@ -113,21 +113,21 @@ function Grid(props) {
   const { children, prefix, ...rest } = props;
   return (
     <div>
-      <div style={[ Styles.topCluster ]}>
-        <div style={[ Styles.sortContainer ]}>
+      <div style={[Styles.topCluster]}>
+        <div style={[Styles.sortContainer]}>
           <GridSort model={prefix} />
         </div>
-        <div style={[ Styles.gridPaginationContainer ]}>
+        <div style={[Styles.gridPaginationContainer]}>
           <GridPagination prefix={prefix} {...rest} />
         </div>
-        <div style={[ Styles.filterContainer ]}>
+        <div style={[Styles.filterContainer]}>
           <h4>Include&nbsp;</h4>
-          <div style={[ Styles.filterSelectContainer ]}>
+          <div style={[Styles.filterSelectContainer]}>
             <GridSelect model={prefix} />
           </div>
         </div>
       </div>
-      <div style={[ Styles.grid ]}>
+      <div style={[Styles.grid]}>
         {children}
       </div>
     </div>

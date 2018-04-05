@@ -25,8 +25,7 @@ export default {
       flexWrap: 'wrap',
       justifyContent: 'space-between',
       flexFlow: 'row wrap',
-
-    }
+    },
   },
 
   sortContainer: {
@@ -36,7 +35,7 @@ export default {
     flexGrow: '1',
     '@media screen and (max-width: 600px)': {
       minWidth: '98vw',
-    }
+    },
   },
 
   gridPaginationContainer: {
@@ -51,8 +50,8 @@ export default {
       marginTop: '0',
       marginBottom: '-20px',
       paddingTop: '-20px',
-      paddingBottom: '-20px'
-    }
+      paddingBottom: '-20px',
+    },
   },
 
   filterContainer: {
@@ -63,7 +62,7 @@ export default {
     flexGrow: '1',
     '@media screen and (max-width: 600px)': {
       minWidth: '98vw',
-    }
+    },
   },
 
   filterSelectContainer: {
@@ -71,6 +70,6 @@ export default {
     marginTop: '0',
     maxWidth: '100%',
     display: 'block',
-    flexGrow: '1'
-  }
+    flexGrow: '1',
+  },
 };
