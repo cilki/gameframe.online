@@ -309,22 +309,6 @@ class Game extends React.Component {
               style={[ InstanceDetailsStyles.googleTrendsIframe ]}
             />
           </div>
-          <div style={[ InstanceDetailsStyles.bigButtonCluster ]}>
-            {
-                steamIDs.map(steamID => bigButton({
-                  url: `https://store.steampowered.com/app/${steamID}/`,
-                  label: 'View on Steam',
-                  buttonKey: `steamButton-${this.props.steam_id}`,
-                }))
-            }
-            {
-                igdbLinks.map(igdbLink => bigButton({
-                  url: igdbLink,
-                  label: 'View on IGDB',
-                  buttonKey: `igdbButton-${igdbLink}`,
-                }))
-            }
-          </div>
           <div style={[ InstanceDetailsStyles.externalGridCluster ]}>
             <div style={[ InstanceDetailsStyles.developerGridCluster('30%') ]}>
               <div style={[ InstanceDetailsStyles.developerIndicator ]}>
@@ -357,6 +341,22 @@ class Game extends React.Component {
               </Minigrid>
             </div>
           </div>
+        </div>
+        <div style={[ InstanceDetailsStyles.bigButtonCluster ]}>
+          {
+            steamIDs.map(steamID => bigButton({
+              url: `https://store.steampowered.com/app/${steamID}/`,
+              label: 'View on Steam',
+              buttonKey: `steamButton-${this.props.steam_id}`,
+            }))
+          }
+          {
+            igdbLinks.map(igdbLink => bigButton({
+              url: igdbLink,
+              label: 'View on IGDB',
+              buttonKey: `igdbButton-${igdbLink}`,
+            }))
+          }
         </div>
       </InstanceDetails>
       </StyleRoot>
