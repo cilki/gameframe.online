@@ -79,5 +79,28 @@ class TestUtil (TestCase):
         dev2.name = "Trademark™ Arts®"
         self.assertEqual ("trademark arts", keywordize(dev2))
 
+    def test_xappend(self):
+
+        video = Video()
+        game = Game()
+        self.assertFalse (video in game.videos)
+        self.assertFalse (game in video.games)
+        xappend(game.videos, video)
+        self.assertTrue (video in game.videos)
+        self.assertTrue (game in video.games)
+		
+        dev = Developer()
+        article = Article()
+        xappend(dev.articles, article)
+        self.assertTrue (article in dev.articles)
+        self.assertTrue (dev in article.developers)
+        len1 = len(dev.articles)
+        len2 = len(article.developers)
+        xappend(dev.articles, article)
+        self.assertTrue (article in dev.articles)
+        self.assertTrue (dev in article.developers)
+        self.assertEqual (len1, len(dev.articles))
+        self.assertEqual (len2, len(article.developers))
+
 if __name__ == '__main__':
     main()
