@@ -109,9 +109,7 @@ class TestSort(TestPartOfSite):
         box.send_keys(Keys.TAB, Keys.TAB, Keys.TAB, "Ascending", Keys.ENTER)
         time.sleep(self.time_to_sleep)
         self.assertTrue(self.driver.find_element(By.XPATH, "//a[@href='/" + self.grid_name + "/" + str(lo_id) + "']").is_displayed())
-        box2 = self.driver.find_element(By.TAG_NAME, "input")
-        box2.click()
-        box2.send_keys(Keys.TAB, Keys.TAB, Keys.TAB, "Descending", Keys.ENTER)
+        box.send_keys(Keys.TAB, Keys.TAB, Keys.TAB, "Descending", Keys.ENTER)
         time.sleep(self.time_to_sleep)
         self.assertTrue(self.driver.find_element(By.XPATH, "//a[@href='/" + self.grid_name + "/" + str(hi_id) + "']").is_displayed())
         self.driver.find_elements(By.CLASS_NAME, "Select-clear")[1].click()
@@ -171,6 +169,15 @@ class TestRelations(TestPartOfSite):
         self.driver.find_element(By.XPATH, "//a[@href='/articles/" + str(self.article_id) +"']").click()
         self.assertEqual(self.environment + "/articles/" + str(self.article_id), self.driver.current_url)
 
+    def game_exists(self):
+        self.assertTrue(self.driver.find_element(By.XPATH, "//a[@href='/games/" + str(self.game_id) + "']").is_displayed())
+    
+    def developer_exists(self):
+        self.assertTrue(self.driver.find_element(By.XPATH, "//a[@href='/developers/" + str(self.dev_id) + "']").is_displayed())
+    
+    def article_exists(self):
+        self.assertTrue(self.driver.find_element(By.XPATH, "//a[@href='/articles/" + str(self.article_id) + "']").is_displayed())
+
 class TestGameRelations(TestRelations):
 
     time_to_sleep = 8
@@ -178,53 +185,54 @@ class TestGameRelations(TestRelations):
     def part(self):
         self.driver.get(self.environment + "/games/" + str(self.game_id))
         self.find_developer()
+        self.driver.back()
         self.find_article()
-        self.find_game()
-        self.find_article()
-        self.find_developer()
-        self.find_game()
     
 class TestDeveloperRelations(TestRelations):
 
     def part(self):
         self.driver.get(self.environment + "/developers/" + str(self.dev_id))
         self.find_game()
+        self.driver.back()
         self.find_article()
-        self.find_developer()
-        self.find_article()
-        self.find_game()
-        self.find_developer()
     
 class TestArticleRelations(TestRelations):
 
     def part(self):
         self.driver.get(self.environment + "/articles/" + str(self.article_id))
         self.find_game()
+        self.driver.back()
         self.find_developer()
-        self.find_article()
-        self.find_developer()
-        self.find_game()
-        self.find_article()
 
 class TestSearch(TestRelations):
 
     article_id = 13783
-    time_to_sleep = 10
+    time_to_sleep = 5
 
     def part(self):
         self.driver.get(self.environment)
-        search_box = self.driver.find_element(By.TAG_NAME, "input")
-        search_box.send_keys("sniper elite")
-        search_box.send_keys(Keys.ENTER)
+        self.driver.find_element(By.TAG_NAME, "input").send_keys("sniper elite", Keys.ENTER)
         self.assertEqual(self.environment + "/search?q=sniper%20elite", self.driver.current_url)
-        self.find_game()
-        self.driver.back()
-        self.find_developer()
-        self.driver.back()
-        self.find_article()        
+        time.sleep(self.time_to_sleep)
+        self.game_exists()
+        self.developer_exists()
+        self.article_exists()
 
 if __name__ == '__main__':
-    classes = [TestHomepage, TestNavbar, TestGamesPagination, TestDevelopersPagination, TestArticlesPagination, TestGamesSort, TestDevelopersSort, TestArticlesSort, TestGameRelations, TestDeveloperRelations, TestArticleRelations, TestSearch]
+    classes = [\
+        TestHomepage, \
+        TestNavbar, \
+        TestGamesPagination, \
+        TestDevelopersPagination, \
+        TestArticlesPagination, \
+        TestGamesSort, \
+        TestDevelopersSort, \
+        TestArticlesSort, \
+        TestGameRelations, \
+        TestDeveloperRelations, \
+        TestArticleRelations, \
+        TestSearch\
+    ]
     loader = unittest.TestLoader()
     tests = []
     for test_class in classes:
