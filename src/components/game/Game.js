@@ -77,6 +77,29 @@ link.propTypes = {
   key: PropTypes.oneOf([PropTypes.string, PropTypes.number]).isRequired,
 };
 
+function dateToString(date) {
+  var dateType = new Date(Date.parse(date));
+  var months = new Array('January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December');
+  var sup = '';
+  var day = dateType.getDate();
+  if (day == 1 || day == 21 || day == 31) {
+    sup = 'st';
+  } else if (day == 2 || day == 22) {
+    sup = 'nd';
+  } else if (day == 3 || day == 23) {
+    sup = 'rd';
+  } else {
+    sup = 'th';
+  }
+
+  var month = dateType.getMonth();
+  var year = dateType.getFullYear();
+
+  return (
+    `${months[month]} ${day}${sup}, ${year}`
+  );
+}
+
 /**
  * @description - Returns the main component to render a game's own
  * page
@@ -155,6 +178,7 @@ class Game extends React.Component {
     const trendName = encodeURI(this.props.name);
     const trendsURL = `https://trends.google.com:443/trends/embed/explore/TIMESERIES?req=%7B%22comparisonItem%22%3A%5B%7B%22keyword%22%3A%22${trendName}%22%2C%22geo%22%3A%22%22%2C%22time%22%3A%22all%22%7D%5D%2C%22category%22%3A0%2C%22property%22%3A%22%22%7D&tz=300&amp;eq=date%3Dall%26q%3D${trendName}`;
     const esrb = this.props.esrb ? [this.props.esrb] : [];
+    const release = dateToString(this.props.release);
     return (
       <StyleRoot>
       <InstanceDetails imageURL={coverURL}>
@@ -173,7 +197,7 @@ class Game extends React.Component {
               {this.props.name}
             </div>
             <div style={[ InstanceDetailsStyles.releaseDate ]}>
-              Released {this.props.release}
+              Released {release}
             </div>
             <div style={[ InstanceDetailsStyles.genreCluster ]}>
               <div style={[ InstanceDetailsStyles.genreIndicator ]}>

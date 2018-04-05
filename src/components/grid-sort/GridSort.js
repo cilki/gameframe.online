@@ -71,8 +71,8 @@ GridSort.propTypes = {
     label: PropTypes.string.isRequired,
     value: PropTypes.string.isRequired,
   }),
-  model: PropTypes.string.isRequired,
-  sortType: PropTypes.shape({
+    model: PropTypes.string.isRequired,
+    sortType: PropTypes.shape({
     label: PropTypes.string.isRequired,
     value: PropTypes.string.isRequired,
   }),

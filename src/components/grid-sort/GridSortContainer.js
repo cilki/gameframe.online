@@ -11,7 +11,7 @@ import {
   getAttributeList,
   getCurrentAttribute,
 } from './GridSortSelectors';
-import { setGridSortCurrentAttribute, setGridSortType, } from './GridSortActions';
+import { setGridSortCurrentAttribute, setGridSortType } from './GridSortActions';
 
 /**
  * @description - Function used to create a mapStateToProps function that
@@ -45,8 +45,8 @@ function mapDispatchToProps(dispatch, props) {
   const setCurrentAttribute = setGridSortCurrentAttribute.bind({}, props.model);
   const setSortType = setGridSortType.bind({}, props.model);
   return {
-    onChangeAttribute: (value) => dispatch(setCurrentAttribute(value)),
-    onChangeOrdering: (type) => dispatch(setSortType(type)),
+    onChangeAttribute: value => dispatch(setCurrentAttribute(value)),
+    onChangeOrdering: type => dispatch(setSortType(type)),
   };
 }
 
