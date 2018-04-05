@@ -312,7 +312,7 @@ class Game extends React.Component {
             {
                 steamIDs.map(steamID => bigButton({
                   url: `https://store.steampowered.com/app/${steamID}/`,
-                  label: 'Steam Page',
+                  label: 'View on Steam',
                   buttonKey: `steamButton-${this.props.steam_id}`,
                 }))
             }

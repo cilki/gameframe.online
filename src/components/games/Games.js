@@ -47,6 +47,7 @@ class Games extends React.Component {
 
   render() {
     const { models, ...rest } = this.props;
+    console.log(models);
     return (
       <GenericGrid
         prefix="games"
@@ -60,7 +61,7 @@ class Games extends React.Component {
                 title={game.name}
                 url={`/games/${game.game_id}`}
                 cover={game.cover}
-                developer="Developer"
+                developer={game.price ? `\$${game.price / 100}` : null}
                 year={new Date(game.release).getFullYear()}
 
                 price={game.price}
