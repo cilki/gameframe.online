@@ -17,21 +17,20 @@ class Articles extends React.Component {
       article_link: PropTypes.string,
       author: PropTypes.string,
       cover: PropTypes.string,
-      developers: PropTypes.arrayOf(PropTypes.number),
-      games: PropTypes.arrayOf(PropTypes.number),
+      developer_count: PropTypes.number,
+      game_count: PropTypes.number,
       timestamp: PropTypes.string,
-      title: PropTypes.string.isRequired,
+      title: PropTypes.string.isRequired
     })),
     error: PropTypes.string, //eslint-disable-line
     requested: PropTypes.bool, //eslint-disable-line
-    totalPages: PropTypes.number.isRequired,
-
+    totalPages: PropTypes.number.isRequired
   };
 
   static defaultProps = {
     models: [],
     error: null,
-    requested: false,
+    requested: false
   };
 
   constructor(props) {
@@ -57,8 +56,8 @@ class Articles extends React.Component {
                 author={article.author}
                 year={new Date(article.timestamp).getFullYear()}
                 
-                games={article.games}
-                developers={article.developers}
+                games={article.game_count}
+                developers={article.developer_count}
                 source={article.article_link}
               />
             );

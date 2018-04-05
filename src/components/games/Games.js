@@ -12,32 +12,32 @@ class Games extends React.Component {
   static propTypes = {
     currentPage: PropTypes.number.isRequired,
     models: PropTypes.arrayOf(PropTypes.shape({
-      articles: PropTypes.arrayOf(PropTypes.number),
+      article_count: PropTypes.number,
       cover: PropTypes.string,
-      developers: PropTypes.arrayOf(PropTypes.number),
+      developer: PropTypes.string,
+      developer_count: PropTypes.number,
       game_id: PropTypes.number.isRequired,
-      name: PropTypes.string.isRequired,
-      price: PropTypes.number,
-      release: PropTypes.string,
       genres: PropTypes.arrayOf(PropTypes.shape({
-        name: PropTypes.string,
         genre_id: PropTypes.number,
+        name: PropTypes.string
       })),
+      name: PropTypes.string.isRequired,
       platforms: PropTypes.arrayOf(PropTypes.shape({
         name: PropTypes.string,
-        platform_id: PropTypes.number,
+        platform_id: PropTypes.number        
       })),
+      price: PropTypes.number,
+      release: PropTypes.string,
     })),
     error: PropTypes.string, //eslint-disable-line
     requested: PropTypes.bool, //eslint-disable-line
-    totalPages: PropTypes.number.isRequired,
-
+    totalPages: PropTypes.number.isRequired
   };
 
   static defaultProps = {
     models: [],
     error: null,
-    requested: false,
+    requested: false
   };
 
   constructor(props) {
@@ -61,11 +61,11 @@ class Games extends React.Component {
                 title={game.name}
                 url={`/games/${game.game_id}`}
                 cover={game.cover}
-                developer={game.price ? `\$${game.price / 100}` : null}
+                developer={game.developer}
                 year={new Date(game.release).getFullYear()}
 
                 price={game.price}
-                articles={game.articles}
+                articles={game.article_count}
                 genres={game.genres}
                 platforms={game.platforms}
               />

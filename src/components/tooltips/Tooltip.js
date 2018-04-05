@@ -13,12 +13,12 @@ class Tooltip extends React.Component {
   static propTypes = {
     price: PropTypes.number,
     genres: PropTypes.arrayOf(PropTypes.shape({
-      name: PropTypes.string,
       genre_id: PropTypes.number,
+      name: PropTypes.string
     })),
     platforms: PropTypes.arrayOf(PropTypes.shape({
       name: PropTypes.string,
-      platform_id: PropTypes.number,
+      platform_id: PropTypes.number
     })),
     
     games: PropTypes.number,
@@ -27,7 +27,7 @@ class Tooltip extends React.Component {
     
     twitter: PropTypes.string,
     website: PropTypes.string,
-    source: PropTypes.string,
+    source: PropTypes.string
   };
 
   static defaultProps = {
@@ -41,7 +41,7 @@ class Tooltip extends React.Component {
     
     twitter: null,
     website: null,
-    source: null,
+    source: null
   };
 
   /**

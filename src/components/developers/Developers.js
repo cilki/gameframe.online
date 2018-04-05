@@ -13,26 +13,25 @@ class Developers extends React.Component {
   static propTypes = {
     currentPage: PropTypes.number.isRequired,
     models: PropTypes.arrayOf(PropTypes.shape({
-      articles: PropTypes.arrayOf(PropTypes.number),
-      country: PropTypes.string,
-      foundation: PropTypes.number,
-      games: PropTypes.arrayOf(PropTypes.number),
+      article_count: PropTypes.number,
+      country: PropTypes.number,
       developer_id: PropTypes.number.isRequired,
+      foundation: PropTypes.string,
+      game_count: PropTypes.number,
       logo: PropTypes.string,
       name: PropTypes.string.isRequired,
       twitter: PropTypes.string,
-      website: PropTypes.string,
+      website: PropTypes.string
     })),
     error: PropTypes.string, //eslint-disable-line
     requested: PropTypes.bool, //eslint-disable-line
-    totalPages: PropTypes.number.isRequired,
-
+    totalPages: PropTypes.number.isRequired
   };
 
   static defaultProps = {
     models: [],
     error: null,
-    requested: false,
+    requested: false
   };
 
   constructor(props) {
@@ -58,8 +57,8 @@ class Developers extends React.Component {
                 origin={developer.country ? Number(developer.country) : null}
                 year={new Date(developer.foundation).getFullYear()}
                 
-                articles={developer.articles}
-                games={developer.games}
+                articles={developer.article_count}
+                games={developer.game_count}
                 twitter={developer.twitter}
                 website={developer.website}
               />

@@ -26,21 +26,21 @@ class Card extends React.Component {
 
     price: PropTypes.number,
     genres: PropTypes.arrayOf(PropTypes.shape({
-      name: PropTypes.string,
       genre_id: PropTypes.number,
+      name: PropTypes.string
     })),
     platforms: PropTypes.arrayOf(PropTypes.shape({
       name: PropTypes.string,
-      platform_id: PropTypes.number,
+      platform_id: PropTypes.number
     })),
 
-    articles: PropTypes.arrayOf(PropTypes.number),
-    developers: PropTypes.arrayOf(PropTypes.number),
-    games: PropTypes.arrayOf(PropTypes.number),
+    articles: PropTypes.number,
+    developers: PropTypes.number,
+    games: PropTypes.number,
 
     twitter: PropTypes.string,
     website: PropTypes.string,
-    source: PropTypes.string,
+    source: PropTypes.string
   };
 
   static defaultProps = {
@@ -54,13 +54,13 @@ class Card extends React.Component {
     genres: [],
     platforms: [],
 
-    articles: [],
-    developers: [],
-    games: [],
+    articles: 0,
+    developers: 0,
+    games: 0,
 
     twitter: null,
     website: null,
-    source: null,
+    source: null
   };
 
   /**
@@ -127,9 +127,9 @@ class Card extends React.Component {
                     genres={this.props.genres}
                     platforms={this.props.platforms}
 
-                    games={this.props.games.length}
-                    developers={this.props.developers.length}
-                    articles={this.props.articles.length}
+                    games={this.props.games}
+                    developers={this.props.developers}
+                    articles={this.props.articles}
 
                     twitter={this.props.twitter}
                     website={this.props.website}
