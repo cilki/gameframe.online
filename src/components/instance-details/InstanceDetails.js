@@ -9,10 +9,11 @@ import CommonAssets from '../../inline-styles/CommonAssets';
 class InstanceDetails extends React.Component {
   static propTypes = {
     children: PropTypes.oneOfType([PropTypes.element, PropTypes.array]).isRequired,
+    imageURL: PropTypes.oneOfType([PropTypes.string]),
   };
 
   static defaultProps = {
-
+    imageURL: '../../../static/images/noImage.png',
   };
 
   constructor() {
@@ -24,16 +25,21 @@ class InstanceDetails extends React.Component {
     const imageURL = this.props.imageURL;
     return (
       <React.Fragment>
-        <div style={[ InstanceDetailsStyles.main ]}>
+        <div style={[InstanceDetailsStyles.main]}>
           <div style={[
             CommonAssets.stripeOverlay,
-            CommonAssets.fillBackground
-          ]}/>
-          <div style={[ InstanceDetailsStyles.blurBackgroundBefore ]}>
-            <img src={imageURL} style={[ InstanceDetailsStyles.blurBackgroundImage ]}/>
+            CommonAssets.fillBackground,
+          ]}
+          />
+          <div style={[InstanceDetailsStyles.blurBackgroundBefore]}>
+            <img
+              src={imageURL}
+              style={[InstanceDetailsStyles.blurBackgroundImage]}
+              alt=""
+            />
           </div>
-          <div style={[ InstanceDetailsStyles.backgroundBorder ]}>
-            <Jumbotron style={ InstanceDetailsStyles.jumbotron }>
+          <div style={[InstanceDetailsStyles.backgroundBorder]}>
+            <Jumbotron style={InstanceDetailsStyles.jumbotron}>
               {this.props.children}
             </Jumbotron>
           </div>
