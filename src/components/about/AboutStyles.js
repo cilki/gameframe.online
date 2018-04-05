@@ -122,6 +122,7 @@ export default {
   },
   favGamesContainer: {
     width: '50%',
+    height: '15vh',
     padding: '1% 1% 1% 1%',
   }
 }
