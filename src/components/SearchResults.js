@@ -90,7 +90,7 @@ class SearchResults extends React.Component {
       encodeURI(`http://api.gameframe.online/v1/grid/game?q={"filters":[{"or":[{"name":"c_name","op":"like","val":"%${this.state.query_string}%"},`
         .concat(`{"name":"summary","op":"like","val":"%20${this.state.query_string}%20"},{"name":"website","op":"like","val":"%${this.state.query_string}%"},`)
         .concat(`{"name":"genres__name","op":"any","val":"${this.state.query_string}"},{"name":"platforms__name","op":"any","val":"${this.state.query_string}"},`)
-        .concat(`{"name":"developers__c_name","op":"any","val":"${this.state.query_string}"}]}],"order_by":[{"field":"metacritic","direction":"desc"}]}&results_per_page=1000`)),
+        .concat(`{"name":"developers__c_name","op":"any","val":"${this.state.query_string}"}]}],"order_by":[{"field":"metacritic","direction":"desc"}]}&results_per_page=100`)),
       { method: 'GET' },
     )
       .then(response => response.json())
@@ -103,7 +103,7 @@ class SearchResults extends React.Component {
     fetch(//eslint-disable-line
       encodeURI(`http://api.gameframe.online/v1/grid/developer?q={"filters":[{"or":[{"name":"name","op":"like","val":"%${this.state.query_string}%"},`
         .concat(`{"name":"website","op":"like","val":"%${this.state.query_string}%"},{"name":"twitter","op":"like","val":"%${this.state.query_string}%"},`)
-        .concat(`{"name":"games__c_name","op":"any","val":"${this.state.query_string}"}]}],"order_by":[{"field":"name","direction":"asc"}]}&results_per_page=1000`)),
+        .concat(`{"name":"games__c_name","op":"any","val":"${this.state.query_string}"}]}],"order_by":[{"field":"name","direction":"asc"}]}&results_per_page=100`)),
       { method: 'GET' },
     )
       .then(response => response.json())
@@ -117,7 +117,7 @@ class SearchResults extends React.Component {
       encodeURI(`http://api.gameframe.online/v1/grid/article?q={"filters":[{"or":[{"name":"title","op":"like","val":"%${this.state.query_string}%"},`
         .concat(`{"name":"introduction","op":"like","val":"%20${this.state.query_string}%20"},{"name":"outlet","op":"like","val":"%${this.state.query_string}%"},`)
         .concat(`{"name":"author","op":"like","val":"%${this.state.query_string}%"},{"name":"games__c_name","op":"any","val":"${this.state.query_string}"},`)
-        .concat(`{"name":"developers__c_name","op":"any","val":"${this.state.query_string}"}]}],"order_by":[{"field":"title","direction":"asc"}]}&results_per_page=1000`)),
+        .concat(`{"name":"developers__c_name","op":"any","val":"${this.state.query_string}"}]}],"order_by":[{"field":"title","direction":"asc"}]}&results_per_page=100`)),
       { method: 'GET' },
     )
       .then(response => response.json())
@@ -128,7 +128,7 @@ class SearchResults extends React.Component {
 
   updateVideoItems() {
     fetch(//eslint-disable-line
-      encodeURI(`http://api.gameframe.online/v1/video?q={"filters":[{"name":"name","op":"like","val":"%${this.state.query_string}%"}],"order_by":[{"field":"name","direction":"asc"}]}&results_per_page=10000`),
+      encodeURI(`http://api.gameframe.online/v1/video?q={"filters":[{"name":"name","op":"like","val":"%${this.state.query_string}%"}],"order_by":[{"field":"name","direction":"asc"}]}&results_per_page=100`),
       { method: 'GET' },
     )
       .then(response => response.json())
@@ -174,6 +174,14 @@ class SearchResults extends React.Component {
                       key: `game-${game.game_id}`,
                     })) : ['Loading games']
                   }
+                  {
+                    this.state.game_results.num_results > 100 ?
+                    link({
+                      label: 'For more results, visit our games page',
+                      url: '/games',
+                      key: 'game-default',
+                    }) : null
+                  }
                 </Minigrid>
               </div>
               <div style={[InstanceDetailsStyles.developerGridCluster('45%')]}>
@@ -195,6 +203,14 @@ class SearchResults extends React.Component {
                       key: `developer-${developer.developer_id}`,
                     })) : ['Loading developers']
                   }
+                  {
+                    this.state.developer_results.num_results > 100 ?
+                    link({
+                      label: 'For more results, visit our developers page',
+                      url: '/developers',
+                      key: 'developer-default',
+                    }) : null
+                  }
                 </Minigrid>
               </div>
               <div style={[InstanceDetailsStyles.articleGridCluster('45%')]}>
@@ -215,6 +231,14 @@ class SearchResults extends React.Component {
                       cover: article.cover,
                       key: `article-${article.article_id}`,
                     })) : ['Loading articles']
+                  }
+                  {
+                    this.state.article_results.num_results > 100 ?
+                    link({
+                      label: 'For more results, visit our articles page',
+                      url: '/articles',
+                      key: 'article-default',
+                    }) : null
                   }
                 </Minigrid>
               </div>
