@@ -187,6 +187,7 @@ class Game extends React.Component {
     const trendsURL = `https://trends.google.com:443/trends/embed/explore/TIMESERIES?req=%7B%22comparisonItem%22%3A%5B%7B%22keyword%22%3A%22${trendName}%22%2C%22geo%22%3A%22%22%2C%22time%22%3A%22all%22%7D%5D%2C%22category%22%3A0%2C%22property%22%3A%22%22%7D&tz=300&amp;eq=date%3Dall%26q%3D${trendName}`;
     const esrb = this.props.esrb ? [this.props.esrb] : [];
     const release = dateToString(this.props.release);
+    const releasePrefix = Date.parse(this.props.release) < new Date() ? 'Released ' : 'Coming ';
     const steamIDs = this.props.steam_id ? [this.props.steam_id] : [];
     return (
       <StyleRoot>
@@ -206,7 +207,7 @@ class Game extends React.Component {
               {this.props.name}
             </div>
             <div style={[ InstanceDetailsStyles.releaseDate ]}>
-              Released {release}
+              {releasePrefix} {release}
             </div>
             <div style={[ InstanceDetailsStyles.genreCluster ]}>
               <div style={[ InstanceDetailsStyles.genreIndicator ]}>
