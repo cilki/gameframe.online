@@ -39,7 +39,7 @@ assert isclose(sum(WEIGHTS.values()), 1)
 """
 Reference values for continuous scores
 """
-REFERENCES = {'players': 80000}
+REFERENCES = {'players': 50000}
 
 
 def compute_all():
