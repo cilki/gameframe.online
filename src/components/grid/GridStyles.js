@@ -5,10 +5,22 @@ export default {
     flexDirection: 'row',
     flexWrap: 'wrap',
     position: 'relative',
-    justifyContent: 'space-around',
+    justifyContent: 'space-between',
     maxWidth: '100%',
     paddingTop: '2%',
+    paddingLeft: '2%',
+    paddingRight: '2%',
+    margin: 'auto',
     zIndex: 1,
+    '&:after': {
+      content: '',
+      flex: 'auto',
+    },
+  },
+
+  endSpacer: {
+    content: '',
+    flex: 'auto',
   },
 
   topCluster: {

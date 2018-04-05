@@ -129,6 +129,7 @@ function Grid(props) {
       </div>
       <div style={[Styles.grid]}>
         {children}
+        <div style={[Styles.endSpacer]} />
       </div>
     </div>
   );

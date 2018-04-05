@@ -12,7 +12,15 @@ const cardBorderColor = '#dddddd';
 const Card = {
   main: {
     padding: '10px',
-    width: `${cardWidth}`,
+    margin: 'auto',
+    flexBasis: '20vw',
+    minWidth: '10vw',
+    maxWidth: `${cardWidth}`,
+    margin: '0',
+    '@media screen and (max-width: 512px)': {
+      margin: 'auto',
+      minWidth: '45vw',
+    }
   },
 
   titleText: {
@@ -40,7 +48,11 @@ const Card = {
   },
 
   imageContainerContainer: {
-    height: `${cardHeight}`,
+    maxHeight: `${cardHeight}`,
+    height: '20vw',
+    '@media screen and (max-width: 512px)': {
+        height: '45vw'
+    }
   },
 
   imageContainer: () => ({
