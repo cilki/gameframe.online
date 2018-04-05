@@ -53,6 +53,27 @@ twitter.propTypes = {
   twitterUsername: PropTypes.string.isRequired,
 };
 
+function dateToString(date) {
+  var dateType = new Date(Date.parse(date));
+  var months = new Array('January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December');
+  var sup = 'th';
+  var day = dateType.getDate();
+  if (day == 1 || day == 21 || day == 31) {
+    sup = 'st';
+  } else if (day == 2 || day == 22) {
+    sup = 'nd';
+  } else if (day == 3 || day == 23) {
+    sup = 'rd';
+  }
+
+  var month = dateType.getMonth();
+  var year = dateType.getFullYear();
+
+  return (
+    `${months[month]} ${day}${sup}, ${year}`
+  );
+}
+
 /**
  * @description - Returns the main component to render a developer's own
  * page
@@ -115,7 +136,7 @@ class Developer extends React.Component {
 
   render() {
     const logoURL = this.props.logo && this.props.logo.indexOf('http') < 0 ? `https://${this.props.logo}` : this.props.logo;
-    const established = this.props.foundation ? this.props.foundation : 'Unknown';
+    const established = this.props.foundation ? dateToString(this.props.foundation) : 'Unknown';
     const countryNumber = `${this.props.country}`;
     const country = this.iso.whereNumeric(countryNumber);
     const countryName = country ? country.country : 'Unknown';
