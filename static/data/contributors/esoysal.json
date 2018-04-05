@@ -6,24 +6,24 @@
   "unitTests": 0,
   "favGames": [
     {
-      "name": "The Elder Scrolls V: Skyrim",
-      "id": 16015,
-      "cover": "https://steamcdn-a.akamaihd.net/steam/news/15371/winter_promo_encore2.jpg?t=1420052376"
+      "name": "APB Reloaded",
+      "id": 21718,
+      "cover": "http://cdn.gameframe.online/cover/steam/113400.png"
     },
     {
-      "name": "Diablo III: Reaper of Souls",
-      "id": 600,
-      "cover": "https://images.igdb.com/igdb/image/upload/t_original/qbgh5zqabojbi9ftnujg.jpg" 
+      "name": "Grand Theft Auto: San Andreas",
+      "id": 15163,
+      "cover": "http://cdn.gameframe.online/cover/steam/12120.png" 
     },
     {
-      "name": "Half-Life: Source",
-      "id": 21327,
+      "name": "The Witcher 3: Wild Hunt",
+      "id": 8627,
       "cover": "http://cdn.gameframe.online/cover/steam/280.png"
     },
     {
-      "name": "Tom Clancy's Ghost Recon\u00ae Wildlands",
-      "id": 18272,
-      "cover": "http://cdn.gameframe.online/cover/steam/460930.png"
+      "name": "Assassin's Creed Revelations",
+      "id": 18346,
+      "cover": "http://cdn.gameframe.online/cover/steam/201870.png"
     }
   ]
 }
