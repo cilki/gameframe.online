@@ -170,7 +170,7 @@ class WorkingSet ():
         """
         Add an article to the working set
         """
-        self.articles[article.title] = article
+        self.articles[article.c_title] = article
 
     def del_article(self, article):
         """

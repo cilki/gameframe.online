@@ -16,7 +16,7 @@ from cache import WS, Cache, load_working_set
 from common import METRICS
 from orm import Article, Developer, Game
 
-from .util import condition, condition_developer, condition_heavy, keywordize
+from .util import condition, condition_developer, condition_heavy, keywordize, xappend
 
 """
 The NEWS API keyfile
@@ -129,8 +129,8 @@ def build_article(model, article_json):
     """
 
     # Filter duplicate titles
-    if article_json['title'] in WS.articles:
-        return None
+    if condition(article_json['title']) in WS.articles:
+        return WS.articles[condition(article_json['title'])]
 
     # Filter relevancy
     name = condition_heavy(model.name)
@@ -140,6 +140,7 @@ def build_article(model, article_json):
 
     article = Article()
     article.title = article_json['title']
+    article.c_title = condition(article.title)
     article.outlet = article_json['source']['name']
     article.introduction = article_json['description']
     article.author = article_json['author']
@@ -199,11 +200,3 @@ def merge_articles():
             WS.add_article(article)
 
     print("[NWAPI] Merge/Link Complete")
-
-
-def link_articles():
-    """
-    Perform the article linking for Newsapi articles
-    """
-    # TODO
-    pass

@@ -113,6 +113,9 @@ class Article(db.Model):
     # The article's title
     title = db.Column(db.Text)
 
+    # The article's conditioned title
+    c_title = db.Column(db.Text)
+
     # The name of the article's outlet
     outlet = db.Column(db.Text)
 

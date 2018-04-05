@@ -247,6 +247,7 @@ def build_article(article_json):
     # Title
     if article_json.get('title'):
         article.title = article_json['title']
+        article.c_title = condition(article.title)
     else:
         return None
 
@@ -424,7 +425,12 @@ def merge_articles():
             if article is None:
                 continue
 
+            # Associate with game
             xappend(game.articles, article)
+
+            # Associate with game's developers
+            for dev in game.developers:
+                xappend(dev.articles, article)
 
             # Add to working set
             WS.add_article(article)
