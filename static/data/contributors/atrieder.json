@@ -6,24 +6,24 @@
   "unitTests": 57,
   "favGames": [
     {
-      "name": "The Elder Scrolls V: Skyrim",
-      "id": 16015,
-      "cover": "https://steamcdn-a.akamaihd.net/steam/news/15371/winter_promo_encore2.jpg?t=1420052376"
+      "name": "EarthBound",
+      "id": 11456,
+      "cover": "https://images.igdb.com/igdb/image/upload/t_original/pdi6wqcmt6r2lftyrlcn.jpg"
     },
     {
-      "name": "Diablo III: Reaper of Souls",
-      "id": 600,
-      "cover": "images.igdb.com/igdb/image/upload/t_original/qbgh5zqabojbi9ftnujg.jpg", 
+      "name": "Mother 3",
+      "id": 11441,
+      "cover": "https://images.igdb.com/igdb/image/upload/t_original/fl0dal4t8octg99kakhc.jpg", 
     },
     {
-      "name": "Half-Life: Source",
-      "id": 21327,
-      "cover": "http://cdn.gameframe.online/cover/steam/280.png"
+      "name": "Portal 2",
+      "id": 25638,
+      "cover": "https://images.igdb.com/igdb/image/upload/t_original/w6kusdugzlssi3yqcbwl.jpg"
     },
     {
-      "name": "Tom Clancy's Ghost Recon\u00ae Wildlands",
-      "id": 18272,
-      "cover": "http://cdn.gameframe.online/cover/steam/460930.png"
+      "name": "BioShock",
+      "id": 9805,
+      "cover": "https://images.igdb.com/igdb/image/upload/t_original/jrpib8t74zhaapqq2idi.jpg"
     }
   ]
 }
