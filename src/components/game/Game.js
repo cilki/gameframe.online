@@ -211,7 +211,6 @@ class Game extends React.Component {
     const releasePrefix = Date.parse(this.props.release) < new Date() ? 'Released ' : 'Coming ';
     const steamIDs = this.props.steam_id ? [this.props.steam_id] : [];
     const igdbLinks = this.props.igdb_link ? [this.props.igdb_link] : [];
-    console.log(this.props);
     return (
       <StyleRoot>
       <InstanceDetails imageURL={coverURL}>
