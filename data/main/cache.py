@@ -138,6 +138,12 @@ class WorkingSet ():
         except InvalidRequestError:
             pass
 
+        # Remove links
+        for dev in game.developers:
+            dev.games.remove(game)
+        for article in game.articles:
+            article.games.remove(game)
+
     def add_developer(self, dev):
         """
         Add a developer to the working set
@@ -154,6 +160,12 @@ class WorkingSet ():
         except InvalidRequestError:
             pass
 
+        # Remove links
+        for game in dev.games:
+            game.developers.remove(dev)
+        for article in dev.articles:
+            article.developers.remove(dev)
+
     def add_article(self, article):
         """
         Add an article to the working set
@@ -169,6 +181,12 @@ class WorkingSet ():
             self.db.session.delete(article)
         except InvalidRequestError:
             pass
+
+        # Remove links
+        for game in article.games:
+            game.articles.remove(article)
+        for dev in article.developers:
+            dev.articles.remove(article)
 
     def add_video(self, video):
         """

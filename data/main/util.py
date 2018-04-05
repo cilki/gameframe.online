@@ -21,6 +21,14 @@ def trim():
 
     print("[MAIN ] Trimming database")
 
+    # Remove developers without logos, with short descriptions, or a low number
+    # of primary connections
+    for dev in tqdm(list(WS.developers.values())):
+        if dev.logo is None or len(dev.logo) < 15 or len(dev.games) == 0:
+            # Remove
+            WS.del_developer(dev)
+            assert dev.name not in WS.developers
+
     # Remove games without covers and screenshots, with short descriptions,
     # or no connections
     for game in tqdm(list(WS.game_name.values())):
@@ -30,14 +38,6 @@ def trim():
             # Remove
             WS.del_game(game)
             assert game.name not in WS.game_name
-
-    # Remove developers without logos, with short descriptions, or a low number
-    # of primary connections
-    for dev in tqdm(list(WS.developers.values())):
-        if dev.logo is None or len(dev.logo) < 15 or len(dev.games) == 0:
-            # Remove
-            WS.del_developer(dev)
-            assert dev.name not in WS.developers
 
     print("[MAIN ] Trim complete")
 
