@@ -7,22 +7,22 @@
   "favGames": [
     {
       "name": "EarthBound",
-      "id": 11456,
+      "id": 6586,
       "cover": "https://images.igdb.com/igdb/image/upload/t_original/pdi6wqcmt6r2lftyrlcn.jpg"
     },
     {
       "name": "Mother 3",
-      "id": 11441,
+      "id": 6573,
       "cover": "https://images.igdb.com/igdb/image/upload/t_original/fl0dal4t8octg99kakhc.jpg" 
     },
     {
       "name": "Portal 2",
-      "id": 25638,
+      "id": 4635,
       "cover": "https://images.igdb.com/igdb/image/upload/t_original/w6kusdugzlssi3yqcbwl.jpg"
     },
     {
       "name": "BioShock",
-      "id": 9805,
+      "id": 894,
       "cover": "https://images.igdb.com/igdb/image/upload/t_original/jrpib8t74zhaapqq2idi.jpg"
     }
   ]
