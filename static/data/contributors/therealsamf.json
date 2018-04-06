@@ -7,13 +7,13 @@
   "favGames": [
     {
       "name": "Rocket League",
-      "id": 14308,
+      "id": 12426,
       "cover": "https://steamcdn-a.akamaihd.net/steam/apps/252950/header.jpg?t=1522783996"
     },
     {
       "name": "DOOM",
-      "id": 349,
-      "cover": "https://steamcdn-a.akamaihd.net/steam/apps/379720/header.jpg?t=1500580744" 
+      "id": 12104,
+      "cover": "https://steamcdn-a.akamaihd.net/steam/apps/379720/header.jpg?t=1500580744"
     }
   ]
 }
