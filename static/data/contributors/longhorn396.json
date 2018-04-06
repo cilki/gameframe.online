@@ -3,5 +3,27 @@
   "name": "Devin Drawhorn",
   "login": "longhorn396",
   "responsibilities": "Frontend Developer",
-  "unitTests": 24
+  "unitTests": 36,
+  "favGames": [
+    {
+      "name": "The Elder Scrolls V: Skyrim",
+      "id": 134,
+      "cover": "http://cdn.gameframe.online/cover/steam/72850.png"
+    },
+    {
+      "name": "Grand Theft Auto III",
+      "id": 2818,
+      "cover": "http://cdn.gameframe.online/cover/steam/12100.png"
+    },
+    {
+      "name": "Star Wars: Battlefront 2 (Classic, 2005)",
+      "id": 6420,
+      "cover": "http://cdn.gameframe.online/cover/steam/6060.png"
+    },
+    {
+      "name": "Kingdom Hearts HD 2.5 Remix",
+      "id": 20337,
+      "cover": "https://images.igdb.com/igdb/image/upload/t_original/b4xpaxtfgl9dxil2c01v.jpg"
+    }
+  ]
 }

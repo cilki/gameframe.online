@@ -4,36 +4,75 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import Radium from 'radium';
-import { Label, ListGroup, ListGroupItem } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
-import DeveloperStyles from './DeveloperStyles';
-import InstanceDetails from '../InstanceDetails';
-import CommonAssets from '../../inline-styles/CommonAssets';
+import Radium, { StyleRoot } from 'radium';
+import { Timeline } from 'react-twitter-widgets';
+import InstanceDetails from '../instance-details/InstanceDetails';
+import InstanceDetailsStyles from '../instance-details/InstanceDetailsStyles';
+import Minigrid from '../minigrid/Minigrid';
+import Minicard from '../minicard/Minicard';
 
 /**
- * @description - Helper method for rendering a link to a game or article
+ * @description - Helper method for rendering a link to a developer or article
  * @param {Object} props
- * @param {String} url
- * @param {String} name
+ * @param {String} props.label
+ * @param {String} props.url
  * @returns {React.Component}
  */
-function link({ label, url, key }) {
+function link({
+  label, url, cover, key,
+}) {
   return (
-    <ListGroupItem key={key}>
-      <Link to={url} style={{ textDecoration: 'none' }}>
-        <Label>{label}</Label>
-      </Link>
-    </ListGroupItem>
+    <Minicard label={label} url={url} cover={cover} cardKey={`${key}-inner`} key={key} />
   );
 }
 
 link.propTypes = {
   label: PropTypes.string.isRequired,
   url: PropTypes.string.isRequired,
+  cover: PropTypes.string.isRequired,
   key: PropTypes.oneOf([PropTypes.string, PropTypes.number]).isRequired,
 };
 
+function twitter({ twitterUsername }) {
+  return (
+    <Timeline
+      dataSource={{
+        sourceType: 'profile',
+        screenName: twitterUsername,
+      }}
+      options={{
+        username: twitterUsername,
+        height: '60vh',
+      }}
+      key={`${twitterUsername}-timeline`}
+    />
+  );
+}
+
+twitter.propTypes = {
+  twitterUsername: PropTypes.string.isRequired,
+};
+
+function dateToString(date) {
+  var dateType = new Date(Date.parse(date));
+  var months = new Array('January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December');
+  var sup = 'th';
+  var day = dateType.getDate();
+  if (day == 1 || day == 21 || day == 31) {
+    sup = 'st';
+  } else if (day == 2 || day == 22) {
+    sup = 'nd';
+  } else if (day == 3 || day == 23) {
+    sup = 'rd';
+  }
+
+  var month = dateType.getMonth();
+  var year = dateType.getFullYear();
+
+  return (
+    `${months[month]} ${day}${sup}, ${year}`
+  );
+}
 
 /**
  * @description - Returns the main component to render a developer's own
@@ -97,76 +136,100 @@ class Developer extends React.Component {
 
   render() {
     const logoURL = this.props.logo && this.props.logo.indexOf('http') < 0 ? `https://${this.props.logo}` : this.props.logo;
+    const established = this.props.foundation ? dateToString(this.props.foundation) : 'Unknown';
     const countryNumber = `${this.props.country}`;
     const country = this.iso.whereNumeric(countryNumber);
     const countryName = country ? country.country : 'Unknown';
+    const twitterHandle = typeof this.props.twitter === 'string' ? `${this.props.twitter}`.replace('https://twitter.com/', '') : '';
+    const twitterDummy = twitterHandle !== '' ? [this.props.twitter] : [];
+    const trendName = encodeURI(this.props.name);
+    const trendsURL = `https://trends.google.com:443/trends/embed/explore/TIMESERIES?req=%7B%22comparisonItem%22%3A%5B%7B%22keyword%22%3A%22${trendName}%22%2C%22geo%22%3A%22%22%2C%22time%22%3A%22all%22%7D%5D%2C%22category%22%3A0%2C%22property%22%3A%22%22%7D&tz=300&amp;eq=date%3Dall%26q%3D${trendName}`;
     return (
-      <div>
-        <div style={[
-            CommonAssets.stripeOverlay,
-            CommonAssets.fillBackground,
-          ]}
-        />
-        <InstanceDetails
-          style={{
-            container: DeveloperStyles.container(logoURL),
-            border: DeveloperStyles.border,
-            jumboTron: DeveloperStyles.jumboTron,
-          }}
-        >
-          <div>
-            <h1 style={[DeveloperStyles.name]}>{this.props.name}
-              <div style={[DeveloperStyles.logo]}>
+      <StyleRoot>
+        <InstanceDetails imageURL={logoURL}>
+          <div style={[InstanceDetailsStyles.developerPrimaryDataCluster]}>
+            <div style={[InstanceDetailsStyles.developerLogo]}>
+              <div style={[InstanceDetailsStyles.developerLogoImageBoundingBox]}>
                 <img
-                  style={{ maxWidth: '100%', maxHeight: '100%' }}
+                  style={[InstanceDetailsStyles.developerLogoImage]}
                   src={logoURL}
                   alt={`${this.props.name} logo`}
                 />
               </div>
-            </h1>
-            <div style={[DeveloperStyles.secondaryInfo]}>
-              <p>Established: {this.props.foundation}</p>
-              <p>Location: {countryName}</p>
-              <p>Website: <a href={this.props.website}>{this.props.website}</a></p>
+            </div>
+            <div style={[InstanceDetailsStyles.developerPrimaryInfoCluster]}>
+              <div style={[InstanceDetailsStyles.titleText]}>
+                {this.props.name}
+              </div>
+              <div style={[InstanceDetailsStyles.establishDateIndicator]}>
+                {established !== 'Unknown' ? `Established ${established}` : 'Unknown date of establishment.'}
+              </div>
+              <div style={[InstanceDetailsStyles.locationIndicator]}>
+                {countryName !== 'Unknown' ? `Based in ${countryName}` : 'Unkown location.'}
+              </div>
             </div>
           </div>
-          <div style={[DeveloperStyles.games]}>
-            <h3>Games:</h3>
-            {
-              this.props.games.length > 0 &&
-              <span>
-                <ListGroup>
-                  {
-                    this.props.games.map(game => link({
-                      label: game.name,
-                      url: `/games/${game.id}`,
-                      key: `game-${game.id}`,
-                    }))
-                  }
-                </ListGroup>
-              </span>
-            }
+          <div style={[InstanceDetailsStyles.bigButtonCluster]}>
+            <a href={this.props.website} style={[InstanceDetailsStyles.bigButton]} key="website">
+              Developer Website
+            </a>
+            <a href={this.props.twitter} style={[InstanceDetailsStyles.bigButton]} key="twitter">
+              Developer Twitter
+            </a>
           </div>
-
-          <div style={[DeveloperStyles.articles]}>
-            <h3>Articles:</h3>
-            {
-              this.props.articles.length > 0 &&
-              <span>
-                <ListGroup>
-                  {
-                    this.props.articles.map(article => link({
-                      label: article.title,
-                      url: `/articles/${article.id}`,
-                      key: `article-${article.id}`,
-                    }))
-                  }
-                </ListGroup>
-              </span>
-            }
+          <div style={[InstanceDetailsStyles.developerWidgetGroup]}>
+            <div style={[InstanceDetailsStyles.developerTwitterContainer]}>
+              {
+                twitterDummy.map(() => twitter({
+                  twitterUsername: twitterHandle,
+                }))
+              }
+            </div>
+            <div style={[InstanceDetailsStyles.googleTrendsContainer]}>
+              <iframe
+                id="trends-widget-1"
+                src={trendsURL}
+                width="100%"
+                frameBorder="0"
+                scrolling="0"
+                style={[InstanceDetailsStyles.googleTrendsIframe]}
+              />
+            </div>
+          </div>
+          <div style={[InstanceDetailsStyles.externalGridCluster]}>
+            <div style={[InstanceDetailsStyles.gameGridCluster('50%')]}>
+              <div style={[InstanceDetailsStyles.gameIndicator]}>
+                Games:
+              </div>
+              <Minigrid>
+                {
+                  this.props.games.map(game => link({
+                    label: game.name,
+                    url: `/games/${game.id}`,
+                    cover: (game.cover && game.cover.indexOf('http') < 0 ? `https://${game.cover}` : game.cover),
+                    key: `game-${game.id}`,
+                  }))
+                }
+              </Minigrid>
+            </div>
+            <div style={[InstanceDetailsStyles.articleGridCluster('50%')]}>
+              <div style={[InstanceDetailsStyles.articleIndicator]}>
+                Articles:
+              </div>
+              <Minigrid>
+                {
+                  this.props.articles.map(article => link({
+                    label: article.title,
+                    url: `/articles/${article.id}`,
+                    cover: article.cover,
+                    key: `article-${article.id}`,
+                  }))
+                }
+              </Minigrid>
+            </div>
           </div>
         </InstanceDetails>
-      </div>
+      </StyleRoot>
     );
   }
 }

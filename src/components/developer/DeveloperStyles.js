@@ -30,9 +30,10 @@ const Developer = {
     padding: '2% 2% 2% 2%',
   },
   name: {
-    paddingLeft: '5%',
+    paddingLeft: '2%',
   },
   logo: {
+    paddingLeft: '2%',
     display: 'block',
     float: 'left',
     paddingRight: '2%',
@@ -42,9 +43,12 @@ const Developer = {
     height: 'auto',
   },
   secondaryInfo: {
-    display: 'flex',
-    justifyContent: 'space-around',
-    maxWidth: '50%',
+    display: 'block',
+    paddingLeft: '2%',
+  },
+  infoPart: {
+    marginBottom: '0px',
+    marginTop: '0px',
   },
   imageContainer: {
     maxWidth: '33.333333%',

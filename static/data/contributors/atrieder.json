@@ -2,6 +2,28 @@
   "bio": "I am a student studying Computer Science at the University of Texas at Austin with particular interest in systems & architecture and high performance computing.",
   "name": "Andrew Rieder",
   "login": "atrieder",
-  "responsibilities": "Frontend Developer",
-  "unitTests": 0
+  "responsibilities": "Phase 3 Manager & Frontend Developer",
+  "unitTests": 57,
+  "favGames": [
+    {
+      "name": "EarthBound",
+      "id": 6597,
+      "cover": "https://images.igdb.com/igdb/image/upload/t_original/pdi6wqcmt6r2lftyrlcn.jpg"
+    },
+    {
+      "name": "Mother 3",
+      "id": 6584,
+      "cover": "https://images.igdb.com/igdb/image/upload/t_original/fl0dal4t8octg99kakhc.jpg"
+    },
+    {
+      "name": "Portal 2",
+      "id": 4646,
+      "cover": "https://images.igdb.com/igdb/image/upload/t_original/w6kusdugzlssi3yqcbwl.jpg"
+    },
+    {
+      "name": "BioShock",
+      "id": 894,
+      "cover": "https://images.igdb.com/igdb/image/upload/t_original/jrpib8t74zhaapqq2idi.jpg"
+    }
+  ]
 }

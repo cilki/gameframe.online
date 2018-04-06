@@ -5,25 +5,23 @@ import unittest, time
 
 class TestPartOfSite(unittest.TestCase):
 
-    #Some test/browser combinations require extra time for the page to load
-    time_to_sleep = 2
+    #Some tests require extra time for the page to load
+    time_to_sleep = 4
 
     #Which environment to test
-    #environment = "http://gameframe.online"
-    environment = "http://localhost"
+    environment = "http://gameframe.online"
+    # environment = "http://localhost"
      
     def test_chrome(self):
         self.driver = webdriver.Chrome()
         self.do_part()
 
-    def test_edge(self):
-        self.driver = webdriver.Edge()
-        self.do_part()
+    # def test_edge(self):
+    #     self.driver = webdriver.Edge()
+    #     self.do_part()
     
     def test_firefox(self):
         self.driver = webdriver.Firefox()
-        #Firefox doesn't need to sleep for some reason
-        self.time_to_sleep = 0
         self.do_part()
 
     def part(self):
@@ -33,7 +31,7 @@ class TestPartOfSite(unittest.TestCase):
         try:
             self.part()
         except Exception as e:
-            self.fail(e)
+            raise e
         finally:
             self.driver.close()
 
@@ -58,10 +56,10 @@ class TestNavbar(TestPartOfSite):
         self.assertEqual(environment + "/developers", driver.current_url)
         driver.find_element(By.XPATH, "//a[@href='/games']").click()
         self.assertEqual(environment + "/games", driver.current_url)
-        driver.find_element(By.XPATH, "//a[@href='/']").click()
+        driver.find_elements(By.TAG_NAME, "img")[0].click()
         self.assertEqual(environment + "/", driver.current_url)
     
-class TestGrid(TestPartOfSite):
+class TestPagination(TestPartOfSite):
 
     grid_name = ""
 
@@ -74,8 +72,6 @@ class TestGrid(TestPartOfSite):
         environment = self.environment
         grid_name = self.grid_name
         time_to_sleep = self.time_to_sleep
-        
-        """Testing Pagination"""
         driver.get(environment + "/" + grid_name + "")
         time.sleep(time_to_sleep)
         #Click a page number
@@ -90,70 +86,154 @@ class TestGrid(TestPartOfSite):
         #Click previous page
         self.click_page(driver, environment, grid_name, 1, "1")
     
-class TestGames(TestGrid):
+class TestGamesPagination(TestPagination):
 
     grid_name = "games"
 
-class TestDevelopers(TestGrid):
+class TestDevelopersPagination(TestPagination):
 
     grid_name = "developers"
 
-class TestArticles(TestGrid):
+class TestArticlesPagination(TestPagination):
 
     grid_name = "articles"
 
+class TestSort(TestPartOfSite):
+
+    grid_name = ""
+
+    def sort(self, attr, lo_id, hi_id):
+        box = self.driver.find_element(By.TAG_NAME, "input")
+        box.click()
+        box.send_keys(Keys.TAB, Keys.TAB, attr, Keys.ENTER)
+        box.send_keys(Keys.TAB, Keys.TAB, Keys.TAB, "Ascending", Keys.ENTER)
+        time.sleep(self.time_to_sleep)
+        self.assertTrue(self.driver.find_element(By.XPATH, "//a[@href='/" + self.grid_name + "/" + str(lo_id) + "']").is_displayed())
+        box.send_keys(Keys.TAB, Keys.TAB, Keys.TAB, "Descending", Keys.ENTER)
+        time.sleep(self.time_to_sleep)
+        self.assertTrue(self.driver.find_element(By.XPATH, "//a[@href='/" + self.grid_name + "/" + str(hi_id) + "']").is_displayed())
+        self.driver.find_elements(By.CLASS_NAME, "Select-clear")[1].click()
+        self.driver.find_element(By.CLASS_NAME, "Select-clear").click()
+    
+class TestGamesSort(TestSort):
+
+    grid_name = "games"
+
+    def part(self):
+        self.driver.get(self.environment + "/games")
+        time.sleep(self.time_to_sleep)
+        self.sort("Name", 1388, 2147)
+        self.sort("Price", 768, 2572)
+        self.sort("Release", 4358, 39)
+        self.sort("Metacritic", 256, 879)
+    
+class TestDevelopersSort(TestSort):
+
+    grid_name = "developers"
+
+    def part(self):
+        self.driver.get(self.environment + "/developers")
+        time.sleep(self.time_to_sleep)
+        self.sort("Established", 256, 147)
+        self.sort("Games made", 256, 3)
+    
+class TestArticlesSort(TestSort):
+
+    grid_name = "articles"
+
+    def part(self):
+        self.driver.get(self.environment + "/articles")
+        time.sleep(self.time_to_sleep)
+        self.sort("Developers Referenced", 1536, 32366)
+        self.sort("Games Referenced", 1536, 256)
+        self.sort("Published", 198, 674)
+
 class TestRelations(TestPartOfSite):
 
-    def find_game(self, time_to_sleep=0):
-        time.sleep(time_to_sleep)
-        self.driver.find_element(By.XPATH, "//a[@href='/games/126']").click()
-        self.assertEqual(self.environment + "/games/126", self.driver.current_url)
+    game_id = 12426
+    dev_id = 2982
+    article_id = 19799
+
+    def find_game(self):
+        time.sleep(self.time_to_sleep)
+        self.driver.find_element(By.XPATH, "//a[@href='/games/" + str(self.game_id) + "']").click()
+        self.assertEqual(self.environment + "/games/" + str(self.game_id), self.driver.current_url)
     
-    def find_developer(self, time_to_sleep=0):
-        time.sleep(time_to_sleep)
-        self.driver.find_element(By.XPATH, "//a[@href='/developers/291']").click()
-        self.assertEqual(self.environment + "/developers/291", self.driver.current_url)
+    def find_developer(self):
+        time.sleep(self.time_to_sleep)
+        self.driver.find_element(By.XPATH, "//a[@href='/developers/" + str(self.dev_id) +"']").click()
+        self.assertEqual(self.environment + "/developers/" + str(self.dev_id), self.driver.current_url)
     
-    def find_article(self, time_to_sleep=0):
-        time.sleep(time_to_sleep)
-        self.driver.find_element(By.XPATH, "//a[@href='/articles/11314']").click()
-        self.assertEqual(self.environment + "/articles/11314", self.driver.current_url)
+    def find_article(self):
+        time.sleep(self.time_to_sleep)
+        self.driver.find_element(By.XPATH, "//a[@href='/articles/" + str(self.article_id) +"']").click()
+        self.assertEqual(self.environment + "/articles/" + str(self.article_id), self.driver.current_url)
+
+    def game_exists(self):
+        self.assertTrue(self.driver.find_element(By.XPATH, "//a[@href='/games/" + str(self.game_id) + "']").is_displayed())
+    
+    def developer_exists(self):
+        self.assertTrue(self.driver.find_element(By.XPATH, "//a[@href='/developers/" + str(self.dev_id) + "']").is_displayed())
+    
+    def article_exists(self):
+        self.assertTrue(self.driver.find_element(By.XPATH, "//a[@href='/articles/" + str(self.article_id) + "']").is_displayed())
 
 class TestGameRelations(TestRelations):
 
+    time_to_sleep = 8
+
     def part(self):
-        self.driver.get(self.environment + "/games/126")
-        self.find_developer(self.time_to_sleep)
-        self.find_article(self.time_to_sleep)
-        self.find_game(self.time_to_sleep)
-        self.find_article()
+        self.driver.get(self.environment + "/games/" + str(self.game_id))
         self.find_developer()
-        self.find_game()
+        self.driver.back()
+        self.find_article()
     
 class TestDeveloperRelations(TestRelations):
 
     def part(self):
-        self.driver.get(self.environment + "/developers/291")
-        self.find_game(self.time_to_sleep)
-        self.find_article(self.time_to_sleep)
-        self.find_developer(self.time_to_sleep)
-        self.find_article()
+        self.driver.get(self.environment + "/developers/" + str(self.dev_id))
         self.find_game()
-        self.find_developer()
+        self.driver.back()
+        time.sleep(3)
+        self.find_article()
     
 class TestArticleRelations(TestRelations):
 
     def part(self):
-        self.driver.get(self.environment + "/articles/11314")
-        self.find_game(self.time_to_sleep)
-        self.find_developer(self.time_to_sleep)
-        self.find_article(self.time_to_sleep)
-        self.find_developer()
+        self.driver.get(self.environment + "/articles/" + str(self.article_id))
         self.find_game()
-        self.find_article()
+        self.driver.back()
+        self.find_developer()
+
+class TestSearch(TestRelations):
+
+    article_id = 19937
+    time_to_sleep = 5
+
+    def part(self):
+        self.driver.get(self.environment)
+        self.driver.find_element(By.TAG_NAME, "input").send_keys("rocket league", Keys.ENTER)
+        self.assertEqual(self.environment + "/search?q=rocket%20league", self.driver.current_url)
+        time.sleep(self.time_to_sleep)
+        self.game_exists()
+        self.developer_exists()
+        self.article_exists()
 
 if __name__ == '__main__':
-    classes = [TestHomepage, TestNavbar, TestGames, TestDevelopers, TestArticles, TestGameRelations, TestDeveloperRelations, TestArticleRelations]
+    classes = [\
+        TestHomepage, \
+        TestNavbar, \
+        TestGamesPagination, \
+        TestDevelopersPagination, \
+        TestArticlesPagination, \
+        # TestGamesSort, \
+        # TestDevelopersSort, \
+        # TestArticlesSort, \
+        # TestGameRelations, \
+        # TestDeveloperRelations, \
+        # TestArticleRelations, \
+        TestSearch\
+    ]
     loader = unittest.TestLoader()
     tests = []
     for test_class in classes:

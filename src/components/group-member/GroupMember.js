@@ -7,8 +7,30 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Radium from 'radium';
 import { Col, Thumbnail } from 'react-bootstrap';
+import Styles from '../about/AboutStyles';
+import Minigrid from '../minigrid/Minigrid';
+import Minicard from '../minicard/Minicard';
 
-import GroupMemberStyles from './GroupMemberStyles';
+/**
+ * @description - Helper method for rendering a link to a developer or article
+ * @param {Object} props
+ * @param {String} props.label
+ * @param {String} props.url
+ * @returns {React.Component}
+ */
+function link({ label, url, cover, key }) {
+  return (
+    <div style={[Styles.favGamesContainer]} key={`${key}-container`}>
+      <Minicard label={label} url={url} cover={cover} cardKey={`${key}-inner`} key={key}/>
+    </div>
+  );
+}
+
+link.propTypes = {
+  label: PropTypes.string.isRequired,
+  url: PropTypes.string.isRequired,
+  key: PropTypes.oneOf([PropTypes.string, PropTypes.number]).isRequired,
+};
 
 class GroupMember extends React.Component {
   static propTypes = {
@@ -20,6 +42,11 @@ class GroupMember extends React.Component {
     issues: PropTypes.number,
     responsibilities: PropTypes.string,
     unitTests: PropTypes.number,
+    favGames: PropTypes.arrayOf(PropTypes.shape({
+      name: PropTypes.string.isRequired,
+      id: PropTypes.number.isRequired,
+      cover: PropTypes.string,
+    })),
 
     fetchStats: PropTypes.func.isRequired,
   };
@@ -32,6 +59,7 @@ class GroupMember extends React.Component {
     issues: 0,
     responsibilities: '',
     unitTests: 0,
+    favGames: [],
   };
 
   constructor(props) {
@@ -50,16 +78,45 @@ class GroupMember extends React.Component {
   render() {
     return (
       <Col lg={4} md={6} sm={6}>
-        <Thumbnail src={this.props.avatar}>
-          <h3>{this.props.name}</h3>
-          <div style={[GroupMemberStyles.container]}>
-            <p><strong>Bio: </strong>{this.props.bio}</p>
-            <p><strong>Responsibilities: </strong>{this.props.responsibilities}</p>
-            <p><strong>Commits: </strong>{this.props.commits}</p>
-            <p><strong>Issues: </strong>{this.props.issues}</p>
-            <p><strong>Unit Tests: </strong>{this.props.unitTests}</p>
+        <div style={[Styles.cardPad]}>
+          <div style={[Styles.cardMember, Styles.cardExpand]} key={`${this.props.name}-card`}>
+            <img src={this.props.avatar} style={[Styles.cardMemberImage]}/>
+            <h3 style={[Styles.title]}>
+              {this.props.name}
+            </h3>
+            <p style={[Styles.stats]}>
+              {this.props.responsibilities}
+            </p>
+            <p style={[Styles.stats]}>
+              {this.props.commits} Commits | {this.props.issues} Issues | {this.props.unitTests} Tests
+            </p>
+            <div>
+              <h4 style={[Styles.favGamesTitle]}>
+                <strong>Favorite Games</strong>
+              </h4>
+              <Minigrid>
+                {
+                  this.props.favGames.map(favGame => link({
+                    label: favGame.name,
+                    url: `/games/${favGame.id}`,
+                    cover: favGame.cover,
+                    key: `favGame-${favGame.id}`,
+                  }))                  
+                }
+              </Minigrid>
+            </div>
+            <br/>
+            <p style={[Styles.stats]}>
+              <strong>
+                Biography
+              </strong>
+            </p>
+            <p style={[Styles.paragraph]}>
+              {this.props.bio}
+            </p>
           </div>
-        </Thumbnail>
+          <img src={"../../../static/images/arrowDown.svg"} style={[Styles.cardArrow]}/>
+        </div>
       </Col>
     );
   }

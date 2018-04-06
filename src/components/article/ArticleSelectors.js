@@ -5,9 +5,11 @@
 
 import { createSelector } from 'reselect';
 
-import { getGames } from '../games/GamesSelectors';
-import { getDevelopers } from '../developers/DevelopersSelectors';
-import { getArticles } from '../articles/ArticlesSelectors';
+import {
+  getDevelopers,
+  getArticles,
+  getGames,
+} from '../Selectors';
 
 /**
  * @description - Input selector for returning a single article
@@ -50,6 +52,7 @@ function makeGetArticleDevelopers(_articleSelector = null) {
             articleDevelopers.push({
               id: developerId,
               name: developers[developerId] ? developers[developerId].name : null,
+              logo: developers[developerId] ? developers[developerId].logo : null,
             });
           }
         });
@@ -75,6 +78,7 @@ function makeGetArticleGames(_articleSelector = null) {
             articleGames.push({
               id: gameId,
               name: games[gameId] ? games[gameId].name : null,
+              cover: games[gameId] ? games[gameId].cover : null,
             });
           }
         });

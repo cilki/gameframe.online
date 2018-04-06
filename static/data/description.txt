@@ -1,1 +1,26 @@
-This project was born out of all of our love of video games. It connects games to their developers and news articles to both games and developers. The purpose is to get as much data as possible about a game in the same place. We hope the site will be used by others like us with the same love of gaming and thirst for knowledge.
+GameFrame is an open-source online database containing video games and their
+associated publishers, developers, news articles, videos, and tweets. This
+information is conveniently organized into pages similar to IMDb where related
+entities are readily accessible from one another. Games can be filtered and
+sorted according to name, genre, number of related videos, and many more
+interesting criteria.<br>
+
+<br>In addition to providing high quality information and media on thousands
+of games, GameFrame analyzes relationships and metadata to obtain statistics
+on a game's visibility and popularity. This information can be used to answer
+questions like: "What bad games have too much publicity?", "What good games
+deserve more publicity?", and "What are the most popular genres, tags,
+etc?".<br>
+
+<br>The GameFrame dataset is an aggregation of video game data from <a href="https://developer.valvesoftware.com/wiki/Steam_Web_API">Steam</a>
+and <a href="https://www.igdb.com/api">The Internet Game Database</a>, news data
+from <a href="https://newsapi.org">NewsAPI</a> and <a href="https://developer.valvesoftware.com/wiki/Steam_Web_API">Steam</a>,
+video data from <a href="https://developers.google.com/youtube/v3/docs">YouTube</a>,
+and tweet data from <a href="https://developer.twitter.com/en/docs">Twitter</a>.
+Each source was thoroughly scraped using GET requests into a local cache, about
+30 GB in total, and then sanitized, filtered, and merged into the final database.
+Everything on GameFrame is publicly available through our convenient REST
+API. For usage information, see the <a href="https://cilki.gitbooks.io/api/">API
+documentation</a>. We hope this site is helpful to those wanting to browse through
+detailed information on tons games from diverse platforms, backgrounds, and time
+periods.

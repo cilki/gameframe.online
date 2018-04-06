@@ -111,35 +111,34 @@ function getDescriptionError(state) {
 }
 
 /**
- * @description - Input selector for the explanation
+ * @description - Input selector for the tools
  * 'requested' state
  * @param {Map} state
  * @returns {Boolean}
  */
-function getExplanationRequested(state) {
-  return state.about.explanationRequested;
+function getToolsRequested(state) {
+  return state.about.toolsRequested;
 }
 
 
 /**
- * @description - Input selector for the explanation
+ * @description - Input selector for the tools
  * @param {Map} state
  * @returns {String|null}
  */
-function getExplanation(state) {
-  return state.about.explanation;
+function getTools(state) {
+  return state.about.tools.toJS();
 }
 
 /**
  * @description - Trivial selector for finding the
- * error state of the explanation
+ * error state of the tools
  * @param {Map} state
  * @returns {String|null}
  */
-function getExplanationError(state) {
-  return state.about.explanationError;
+function getToolsError(state) {
+  return state.about.toolsError;
 }
-
 
 /**
  * @description - Returns the total number of issues
@@ -202,9 +201,9 @@ export { //eslint-disable-line
   getDescription,
   getDescriptionError,
 
-  getExplanationRequested,
-  getExplanation,
-  getExplanationError,
+  getToolsRequested,
+  getTools,
+  getToolsError,
 
   getTotalIssues,
   getTotalCommits,

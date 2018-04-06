@@ -27,6 +27,8 @@ import Developer from './developer';
 import Articles, { reducer as ArticlesReducer } from './articles';
 import Article from './article';
 
+import SearchResults from './SearchResults';
+
 import AboutPage, { reducer as AboutReducer } from './about';
 
 const store = createStore(
@@ -59,7 +61,8 @@ function App() {
             { flexDirection: 'column' },
         ]}
         >
-          <Banner />
+          <Route path="/" exact component={Banner} />
+          <Route path="/about" exact component={Banner} />
           <Navbar />
 
           <div style={{
@@ -79,6 +82,8 @@ function App() {
 
             <Route path="/articles/:articleId" component={Article} />
             <Route path="/articles" exact component={Articles} />
+
+            <Route path="/search" component={SearchResults} />
 
           </div>
 

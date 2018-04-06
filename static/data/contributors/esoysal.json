@@ -3,5 +3,27 @@
   "name": "Ekin Soysal",
   "responsibilities": "Backend Developer",
   "login": "esoysal",
-  "unitTests": 0
+  "unitTests": 0,
+  "favGames": [
+    {
+      "name": "APB Reloaded",
+      "id": 14645,
+      "cover": "http://cdn.gameframe.online/cover/steam/113400.png"
+    },
+    {
+      "name": "Grand Theft Auto: San Andreas",
+      "id": 2819,
+      "cover": "http://cdn.gameframe.online/cover/steam/12120.png"
+    },
+    {
+      "name": "The Witcher 3: Wild Hunt",
+      "id": 3689,
+      "cover": "http://cdn.gameframe.online/cover/steam/280.png"
+    },
+    {
+      "name": "Assassin's Creed Revelations",
+      "id": 14033,
+      "cover": "http://cdn.gameframe.online/cover/steam/201870.png"
+    }
+  ]
 }

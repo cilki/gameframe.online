@@ -1,0 +1,1 @@
+../../src/components/game/game.test.js

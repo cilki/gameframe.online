@@ -4,14 +4,12 @@
 
 import React from 'react';
 import Radium from 'radium';
-import {
-  Navbar, Nav, NavItem, FormGroup,
-  FormControl, Button, Glyphicon,
-} from 'react-bootstrap';
+import { Navbar, Nav, NavItem } from 'react-bootstrap';
 
 import { Link } from 'react-router-dom';
 import { LinkContainer } from 'react-router-bootstrap';
 import NavbarStyles from '../inline-styles/NavbarStyles';
+import Search from './Search';
 
 /**
  * @description - Function that generates a LinkContainer for the Navbar
@@ -29,8 +27,8 @@ import NavbarStyles from '../inline-styles/NavbarStyles';
  */
 function createLinkContainerNavItem(href, imageSrc, label, linkProps, navProps) {
   return (
-    <LinkContainer to={href} {...linkProps} style={{}}>
-      <NavItem {...navProps} style={{}}>
+    <LinkContainer to={href} {...linkProps}>
+      <NavItem {...navProps}>
         <div style={[NavbarStyles.itemMain]} key={`${href}`}>
           <img
             style={NavbarStyles.navImage}
@@ -74,21 +72,18 @@ const pages = [
  */
 function NavBar() {
   return (
-    <Navbar
-      inverse
-      collapseOnSelect
-      style={{
-        borderRadius: '0',
-        background: '#272727',
-        borderLeft: 'none',
-        borderRight: 'none',
-        marginBottom: '0',
-        boxShadow: '0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23)',
-      }}
-    >
+    <Navbar inverse collapseOnSelect style={NavbarStyles.main}>
       <Navbar.Header>
         <Navbar.Brand>
-          <Link to="/">GameFrame.Online</Link>
+          <div style={[NavbarStyles.brandContainer]}>
+            <Link to="/" style={{ textDecoration: 'none' }}>
+              <img
+                src="../../static/images/logo_black.svg"
+                alt="GameFrame.Online"
+                style={[NavbarStyles.brandImage]}
+              />
+            </Link>
+          </div>
         </Navbar.Brand>
         <Navbar.Toggle />
       </Navbar.Header>
@@ -109,14 +104,7 @@ function NavBar() {
           }
         </Nav>
         <Navbar.Form pullRight>
-          <FormGroup>
-            <div style={{ display: 'flex' }}>
-              <FormControl type="text" placeholder="Search" />
-              <Button>
-                <Glyphicon glyph="search" />
-              </Button>
-            </div>
-          </FormGroup>
+          <Search />
           {' '}
         </Navbar.Form>
       </Navbar.Collapse>

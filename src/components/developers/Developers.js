@@ -1,40 +1,37 @@
+
 /**
  * Developers page with a grid layout of cards.
  */
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import Radium from 'radium';
 
-import Grid from '../grid';
-import CommonAssets from '../../inline-styles/CommonAssets';
 import Card from '../card';
+import { GenericGrid } from '../generic-grid';
 
 class Developers extends React.Component {
   static propTypes = {
     currentPage: PropTypes.number.isRequired,
-    developers: PropTypes.arrayOf(PropTypes.shape({
-      articles: PropTypes.arrayOf(PropTypes.number),
-      country: PropTypes.string,
-      foundation: PropTypes.number,
-      games: PropTypes.arrayOf(PropTypes.number),
+    models: PropTypes.arrayOf(PropTypes.shape({
+      article_count: PropTypes.number,
+      country: PropTypes.number,
       developer_id: PropTypes.number.isRequired,
+      foundation: PropTypes.string,
+      game_count: PropTypes.number,
       logo: PropTypes.string,
       name: PropTypes.string.isRequired,
       twitter: PropTypes.string,
-      website: PropTypes.string,
+      website: PropTypes.string
     })),
-    developersError: PropTypes.string, //eslint-disable-line
-    developersRequested: PropTypes.bool, //eslint-disable-line
-    totalPages: PropTypes.number.isRequired,
-
-    fetchDevelopers: PropTypes.func.isRequired,
+    error: PropTypes.string, //eslint-disable-line
+    requested: PropTypes.bool, //eslint-disable-line
+    totalPages: PropTypes.number.isRequired
   };
 
   static defaultProps = {
-    developers: [],
-    developersError: null,
-    developersRequested: false,
+    models: [],
+    error: null,
+    requested: false
   };
 
   constructor(props) {
@@ -42,67 +39,35 @@ class Developers extends React.Component {
     this.state = {};
   }
 
-  /**
-   * @description - React lifecycle method used to fetch the data
-   */
-  componentDidMount() {
-    this.props.fetchDevelopers(this.props.currentPage);
-  }
-
-  /**
-   * @description - React lifecycle method that detects when a different
-   * page has been requested
-   * @param {Object} prevProps
-   */
-  componentDidUpdate(prevProps) {
-    if (prevProps.currentPage !== this.props.currentPage) {
-      this.props.fetchDevelopers(this.props.currentPage);
-    }
-  }
-
   render() {
+    const { models, ...rest } = this.props;
     return (
-      <div>
-        <div
-          style={[
-            CommonAssets.fillBackground,
-            CommonAssets.horizontalGradient,
-          ]}
-        />
-        <div
-          style={[
-            CommonAssets.stripeOverlay,
-            CommonAssets.fillBackground,
-          ]}
-        />
-        <Grid
-          currentPage={this.props.currentPage}
-          totalPages={this.props.totalPages}
-          prefix="developers"
-        >
-          {
-            this.props.developers.map((developer) => {
-              return (
-                <Card
-                  key={developer.developer_id}
-                  title={developer.name}
-                  url={`/developers/${developer.developer_id}`}
-                  cover={developer.logo}
-                  origin={developer.country ? Number(developer.country) : null}
-                  year={developer.foundation}
-                  tooltipType={2}
-                  articles={developer.articles}
-                  games={developer.games}
-                  link1={developer.twitter}
-                  link2={developer.website}
-                />
-              );
-            })
-          }
-        </Grid>
-      </div>
+      <GenericGrid
+        prefix="developers"
+        {...rest}
+      >
+        {
+          models.map((developer) => {
+            return (
+              <Card
+                key={developer.developer_id}
+                title={developer.name}
+                url={`/developers/${developer.developer_id}`}
+                cover={developer.logo}
+                origin={developer.country ? Number(developer.country) : null}
+                year={new Date(developer.foundation).getFullYear()}
+                
+                articles={developer.article_count}
+                games={developer.game_count}
+                twitter={developer.twitter}
+                website={developer.website}
+              />
+            );
+          })
+        }
+      </GenericGrid>
     );
   }
 }
 
-export default Radium(Developers);
+export default Developers;

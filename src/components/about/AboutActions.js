@@ -11,7 +11,7 @@ import {
   getAllContributors,
   getIssues,
   getDescription,
-  getExplanation,
+  getTools,
 } from './AboutSelectors';
 import {
   fetchStatsRequest,
@@ -27,8 +27,8 @@ const fetchIssuesResponse = createAction('FETCH_ISSUES_RESPONSE');
 const fetchDescriptionRequest = createAction('FETCH_DESCRIPTION_REQUEST');
 const fetchDescriptionResponse = createAction('FETCH_DESCRIPTION_RESPONSE');
 
-const fetchExplanationRequest = createAction('FETCH_EXPLANATION_REQUEST');
-const fetchExplanationResponse = createAction('FETCH_EXPLANATION_RESPONSE');
+const fetchToolsRequest = createAction('FETCH_TOOLS_REQUEST');
+const fetchToolsResponse = createAction('FETCH_TOOLS_RESPONSE');
 
 /**
  * @description - Creator of a thunk creator for fetching from the Github repo
@@ -59,13 +59,19 @@ function fetchFromGithub(url, predicate, requestAction, responseAction) {
  * @param {Function} requestAction
  * @param {Function} responseAction
  */
-function fetchFile(url, predicate, requestAction, responseAction) {
+function fetchFile(
+  url,
+  predicate,
+  requestAction,
+  responseAction,
+  transform = response => response.text(),
+) {
   return (dispatch, getState) => {
     if (predicate(getState())) {
       dispatch(requestAction());
       fetch(url, { method: 'GET' }) //eslint-disable-line
-        .then(response => response.text())
-        .then(json => dispatch(responseAction(json)))
+        .then(transform)
+        .then(text => dispatch(responseAction(text)))
         .catch(err => dispatch(responseAction(err)));
     }
   };
@@ -81,15 +87,6 @@ function shouldFetchDescription(state) {
 }
 
 /**
- * @description - Determines if the explanation needs to be fetched
- * @param {Map} state
- * @returns {Boolean}
- */
-function shouldFetchExplanation(state) {
-  return getExplanation(state) === null;
-}
-
-/**
  * @description - Determines if the contributors have already been fetched, thus
  * won't re-fetch them
  * @param {Map} state - the state returned from `getState()`
@@ -100,13 +97,23 @@ function shouldFetchContributors(state) {
 }
 
 /**
- * @description - Determiens if the issues have already been fetched, thus
+ * @description - Determines if the issues have already been fetched, thus
  * won't refetch them
  * @param {Map} state - the state returned from `getState()`
  * @returns {Boolean}
  */
 function shouldFetchIssues(state) {
   return getIssues(state).size <= 0;
+}
+
+/**
+ * @description - Determines if the tools have already been fetched, thus
+ * won't refetch them
+ * @param {Map} state - the state returned from `getState()`
+ * @returns {Boolean}
+ */
+function shouldFetchTools(state) {
+  return getTools(state).length <= 0;
 }
 
 /**
@@ -155,15 +162,16 @@ function fetchDescription() {
 
 /**
  * @description - Thunk creator, dispatches actions in order
- * to retrieve the explanation from Flask
+ * to retrieve the tools from Flask
  * @returns {Function}
  */
-function fetchExplanation() {
+function fetchTools() {
   return fetchFile(
-    '/static/data/explanation.txt',
-    shouldFetchExplanation,
-    fetchExplanationRequest,
-    fetchExplanationResponse,
+    '/static/data/tools.json',
+    shouldFetchTools,
+    fetchToolsRequest,
+    fetchToolsResponse,
+    response => response.json(),
   );
 }
 
@@ -204,47 +212,6 @@ const descriptionError = handleActions({
  */
 const description = handleActions({
   [fetchDescriptionResponse]: {
-    next(state, { payload }) {
-      return payload;
-    },
-    throw() {
-      return null;
-    },
-  },
-}, null);
-
-/**
- * @description - Reducer for the 'requested' state of the
- * explanantion
- */
-const explanationRequested = handleActions({
-  [fetchExplanationRequest]() {
-    return true;
-  },
-  [fetchExplanationResponse]() {
-    return false;
-  },
-}, false);
-
-/**
- * @description - Reducer for the 'error' state of the explanation
- */
-const explanationError = handleActions({
-  [fetchExplanationResponse]: {
-    next() {
-      return null;
-    },
-    throw(state, { payload: { message } }) {
-      return message;
-    },
-  },
-}, null);
-
-/**
- * @description - Reducer for the explanation of the website
- */
-const explanation = handleActions({
-  [fetchExplanationResponse]: {
     next(state, { payload }) {
       return payload;
     },
@@ -334,6 +301,7 @@ const contributors = handleActions({
       bio: data.bio,
       responsibilities: data.responsibilities,
       unitTests: data.unitTests,
+      favGames: data.favGames,
       statsError: null,
     });
   },
@@ -389,6 +357,51 @@ const issues = handleActions({
 }, List());
 
 /**
+ * @description - Reducer for the 'requested' state for
+ * tools
+ */
+const toolsRequested = handleActions({
+  [fetchToolsRequest]() {
+    return true;
+  },
+  [fetchToolsResponse]() {
+    return false;
+  },
+// default to false
+}, false);
+
+/**
+ * @description - Reducer for the error state for
+ * the fetching of tools
+ */
+const toolsError = handleActions({
+  [fetchToolsResponse]: {
+    next() {
+      return null;
+    },
+    throw(state, { payload: { message } }) {
+      return message;
+    },
+  },
+}, null);
+
+/**
+ * @description - Reducer for the tools
+ */
+const tools = handleActions({
+  [fetchToolsResponse]: {
+    next(state, { payload }) {
+      return List(payload);
+    },
+
+    throw(state, { payload }) {
+      console.error(payload); //eslint-disable-line
+      return state;
+    },
+  },
+}, List());
+
+/**
  * @description - Combine our reducers into one, so that all of this
  * data can fall under a single state object within the hierarchy
  */
@@ -405,37 +418,29 @@ const aboutReducer = combineReducers({
   descriptionError,
   description,
 
-  explanationRequested,
-  explanationError,
-  explanation,
+  toolsRequested,
+  toolsError,
+  tools,
 });
 
 export { //eslint-disable-line
   fetchContributors,
   fetchIssues,
   fetchDescription,
-  fetchExplanation,
   aboutReducer,
 
   fetchFromGithub,
   fetchFile,
   shouldFetchDescription,
-  shouldFetchExplanation,
   shouldFetchContributors,
   shouldFetchIssues,
 
   fetchDescriptionRequest,
   fetchDescriptionResponse,
-  fetchExplanationRequest,
-  fetchExplanationResponse,
 
   descriptionRequested,
   descriptionError,
   description,
-
-  explanationRequested,
-  explanationError,
-  explanation,
 
   contributorsRequested,
   contributorsError,
@@ -444,4 +449,10 @@ export { //eslint-disable-line
   issuesRequested,
   issuesError,
   issues,
+
+  shouldFetchTools,
+  fetchTools,
+  toolsRequested,
+  toolsError,
+  tools,
 };

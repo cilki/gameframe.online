@@ -5,9 +5,11 @@
 
 import { createSelector } from 'reselect';
 
-import { getGames } from '../games/GamesSelectors';
-import { getDevelopers } from '../developers/DevelopersSelectors';
-import { getArticles } from '../articles/ArticlesSelectors';
+import {
+  getGames,
+  getArticles,
+  getDevelopers,
+} from '../Selectors';
 
 /**
  * @description - Input selector for returning a single developer
@@ -50,6 +52,7 @@ function makeGetDeveloperGames(_developerSelector = null) {
             developerGames.push({
               id: gameId,
               name: games[gameId] ? games[gameId].name : null,
+              cover: games[gameId] ? games[gameId].cover : null
             });
           }
         });
@@ -71,6 +74,7 @@ function makeGetDeveloperArticles(_developerSelector = null) {
             developerArticles.push({
               id: articleId,
               title: articles[articleId] ? articles[articleId].title : null,
+              cover: articles[articleId] ? articles[articleId].cover : null
             });
           }
         });

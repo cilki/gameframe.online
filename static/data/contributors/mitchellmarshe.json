@@ -1,7 +1,29 @@
 {
-  "bio": "Born in Sparks, Nevada, on August 20, 1993. I moved to Austin, Texas with my family in 2005. For most of my high school career, I focused on the studies of architecture. In 2012, I graduated from Stony Point High School and enrolled to Austin Community College where I obtained an Associate of General Education in Applied Sciences. Soon after, I enrolled to the University of Texas at Austin, where I am currently a Student of Computer Science, Software Engineering under Electrical Engineering, and Architectural History. Today, I work hard in my endeavors and I am well supported by my family, friends, and colleagues. I give much thanks to my loving wife, Kaidence, and our two cats, Socks & Buttercup for their love, encouragement, and understanding.",
+  "bio": "Born in Sparks, Nevada, on August 20, 1993. I moved to Austin, Texas with my family in 2005. I got married in 2016 to my high school sweetheart. Currently, I'm attending the University of Texas at Austin, where I'm studying Computer Science until 2019 (hopefully).",
   "name": "Mitchell Marshe",
   "login": "mitchellmarshe",
   "responsibilities": "Frontend Developer",
-  "unitTests": 27
+  "unitTests": 27,
+  "favGames": [
+    {
+      "name": "The Elder Scrolls V: Skyrim",
+      "id": 134,
+      "cover": "http://cdn.gameframe.online/cover/steam/72850.png"
+    },
+    {
+      "name": "Diablo III: Reaper of Souls",
+      "id": 9383,
+      "cover": "https://images.igdb.com/igdb/image/upload/t_original/qbgh5zqabojbi9ftnujg.jpg"
+    },
+    {
+      "name": "Half-Life: Source",
+      "id": 14573,
+      "cover": "http://cdn.gameframe.online/cover/steam/280.png"
+    },
+    {
+      "name": "Tom Clancy's Ghost Recon\u00ae Wildlands",
+      "id": 3307,
+      "cover": "http://cdn.gameframe.online/cover/steam/460930.png"
+    }
+  ]
 }

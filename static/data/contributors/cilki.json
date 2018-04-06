@@ -3,5 +3,27 @@
   "name": "Tyler Cook",
   "login": "cilki",
   "responsibilities": "Phase 1 Manager & Backend Developer",
-  "unitTests": 33
+  "unitTests": 33,
+  "favGames": [
+    {
+      "name": "PLAYERUNKNOWN'S BATTLEGROUNDS",
+      "id": 2779,
+      "cover": "http://cdn.gameframe.online/cover/steam/578080.png"
+    },
+    {
+      "name": "DARK SOULS™ III",
+      "id": 6346,
+      "cover": "http://cdn.gameframe.online/cover/steam/374320.png"
+    },
+    {
+      "name": "Supreme Commander: Forged Alliance",
+      "id": 3370,
+      "cover": "http://cdn.gameframe.online/cover/steam/9420.png"
+    },
+    {
+      "name": "SimCity™ 4 Deluxe Edition",
+      "id": 168,
+      "cover": "http://cdn.gameframe.online/cover/steam/24780.png"
+    }
+  ]
 }

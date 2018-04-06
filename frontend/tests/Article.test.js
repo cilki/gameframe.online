@@ -1,0 +1,1 @@
+../../src/components/article/article.test.js

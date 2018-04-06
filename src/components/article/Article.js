@@ -4,33 +4,32 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import Radium from 'radium';
-import { Label, ListGroup, ListGroupItem } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
-import ArticleStyles from './ArticleStyles';
-import InstanceDetails from '../InstanceDetails';
-import CommonAssets from '../../inline-styles/CommonAssets';
+import Radium, { StyleRoot } from 'radium';
+import ReactHTMLParser from 'react-html-parser';
+import InstanceDetails from '../instance-details/InstanceDetails';
+import InstanceDetailsStyles from '../instance-details/InstanceDetailsStyles';
+import Minigrid from '../minigrid/Minigrid';
+import Minicard from '../minicard/Minicard';
 
 /**
- * @description - Helper method for rendering a link to a game or developer
+ * @description - Helper method for rendering a link to a game, developer, or article
  * @param {Object} props
- * @param {Object} props.label
+ * @param {String} props.label
  * @param {String} props.url
  * @returns {React.Component}
  */
-function link({ label, url, key }) {
+function link({
+  label, url, cover, key,
+}) {
   return (
-    <ListGroupItem key={key}>
-      <Link to={url} style={{ textDecoration: 'none' }}>
-        <Label>{label}</Label>
-      </Link>
-    </ListGroupItem>
+    <Minicard label={label} url={url} cover={cover} cardKey={`${key}-inner`} key={key} />
   );
 }
 
 link.propTypes = {
-  label: PropTypes.string.isRequired,
+  label: PropTypes.object.isRequired,//eslint-disable-line
   url: PropTypes.string.isRequired,
+  cover: PropTypes.string.isRequired,
   key: PropTypes.oneOf([PropTypes.string, PropTypes.number]).isRequired,
 };
 
@@ -69,7 +68,7 @@ class Article extends React.Component {
     outlet: '',
     timestamp: '',
     title: '',
-    article_link: ''
+    article_link: '',
   };
 
   /**
@@ -91,87 +90,87 @@ class Article extends React.Component {
       `http://${this.props.outlet}` : this.props.outlet;
     const articleURL = this.props.article_link && this.props.article_link.indexOf('http') < 0 ?
       `http://${this.props.article_link}` : this.props.article_link;
+    const published = this.props.timestamp ? (new Date(this.props.timestamp)).toLocaleString() : null;
     return (
-      <div>
-        <div
-          style={[
-            CommonAssets.stripeOverlay,
-            CommonAssets.fillBackground,
-          ]}
-        />
-        <InstanceDetails
-          style={{
-            container: ArticleStyles.container(coverURL),
-            border: ArticleStyles.border,
-            jumboTron: ArticleStyles.jumboTron,
-          }}
-        >
-          <div>
-            <h1 style={[ArticleStyles.title]}>{this.props.title}
-              <div style={[ArticleStyles.logo]}>
-                <img
-                  style={{ maxWidth: '100%', maxHeight: '100%' }}
-                  src={coverURL}
-                  alt={`${this.props.author} thumbnail`}
-                />
-              </div>
-            </h1>
-
-            <div style={[ArticleStyles.secondaryInfo]}>
-              <p>Author: {this.props.author}</p>
-              <p>Published: {this.props.timestamp}</p>
-              <p>Outlet: <a href={outletURL}>{outletURL}</a></p>
-            </div>
-
-            <div style={[ArticleStyles.summary]}>
-              {/* TODO: We can do better than this. There are existing libraries to put in HTML */}
-              <p dangerouslySetInnerHTML={{ __html: this.props.introduction }} /> {/* eslint-disable-line */}
-            </div>
-
-            <div>
-                <a href={articleURL}>
-                    <h2 style={{position:'relative', textAlign: 'center'}}>Read More...</h2>
+      <StyleRoot>
+        <InstanceDetails imageURL={coverURL}>
+          <div style={[InstanceDetailsStyles.articlePrimaryDataCluster]}>
+            <div style={[InstanceDetailsStyles.articleCover]}>
+              <div style={[InstanceDetailsStyles.articleCoverImageBoundingBox]}>
+                <a href={coverURL}>
+                  <img
+                    style={[InstanceDetailsStyles.articleCoverImage]}
+                    src={coverURL}
+                    alt={`${this.props.title} cover`}
+                  />
                 </a>
+              </div>
             </div>
-
-            <div style={[ArticleStyles.games]}>
-              <h3>Developers:</h3>
-              {
-                this.props.developers.length > 0 &&
-                <span>
-                  <ListGroup>
-                    {
-                      this.props.developers.map(developer => link({
-                        label: developer.name,
-                        url: `/developers/${developer.id}`,
-                        key: `developer-${developer.id}`,
-                      }))
-                    }
-                  </ListGroup>
-                </span>
-              }
+            <div style={[InstanceDetailsStyles.articlePrimaryInfoCluster]}>
+              <div style={[InstanceDetailsStyles.titleText]}>
+                {this.props.title}
+              </div>
+              <div style={[InstanceDetailsStyles.authorIndicator]}>
+                {this.props.author ? `Written by ${this.props.author}` : 'Unknown author.'}
+              </div>
+              <div style={[InstanceDetailsStyles.publishDateIndicator]}>
+                {this.props.timestamp ? `Published ${published}` : 'Unknown publication date.'}
+              </div>
             </div>
-
-            <div style={[ArticleStyles.games]}>
-              <h3>Games:</h3>
-              {
-                this.props.games.length > 0 &&
-                <span>
-                  <ListGroup>
-                    {
-                      this.props.games.map(game => link({
-                        label: game.name,
-                        url: `/games/${game.id}`,
-                        key: `game-${game.id}`,
-                      }))
-                    }
-                  </ListGroup>
-                </span>
-              }
+          </div>
+          <hr style={[InstanceDetailsStyles.horizontalRule]} />
+          <div>
+            <div style={[InstanceDetailsStyles.synoposisIndicator]}>
+              Introduction:
+            </div>
+            <div style={[InstanceDetailsStyles.synoposisHTMLContainer]}>
+              {/* TODO: We can do better than this. There are existing libraries to put in HTML */}
+              {ReactHTMLParser(this.props.introduction)}
+            </div>
+          </div>
+          <hr style={[InstanceDetailsStyles.horizontalRule]} />
+          <div style={[InstanceDetailsStyles.bigButtonCluster]}>
+            <a href={articleURL} style={[InstanceDetailsStyles.bigButton]} key="articleURL">
+              Original Article
+            </a>
+            <a href={outletURL} style={[InstanceDetailsStyles.bigButton]} key="outletURL">
+              Outlet Website
+            </a>
+          </div>
+          <div style={[InstanceDetailsStyles.externalGridCluster]}>
+            <div style={[InstanceDetailsStyles.developerGridCluster('30%')]}>
+              <div style={[InstanceDetailsStyles.developerIndicator]}>
+                Developers:
+              </div>
+              <Minigrid>
+                {
+                  this.props.developers.map(developer => link({
+                    label: developer.name,
+                    url: `/developers/${developer.id}`,
+                    cover: (developer.logo && developer.logo.indexOf('http') < 0 ? `https://${developer.logo}` : developer.logo),
+                    key: `developer-${developer.id}`,
+                  }))
+                }
+              </Minigrid>
+            </div>
+            <div style={[InstanceDetailsStyles.gameGridCluster('60%')]}>
+              <div style={[InstanceDetailsStyles.gameIndicator]}>
+                Games:
+              </div>
+              <Minigrid>
+                {
+                  this.props.games.map(game => link({
+                    label: game.name,
+                    url: `/games/${game.id}`,
+                    cover: (game.cover && game.cover.indexOf('http') < 0 ? `https://${game.cover}` : game.cover),
+                    key: `game-${game.id}`,
+                  }))
+                }
+              </Minigrid>
             </div>
           </div>
         </InstanceDetails>
-      </div>
+      </StyleRoot>
     );
   }
 }

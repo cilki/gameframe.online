@@ -26,7 +26,12 @@ describe('about', function() {
     /**
      * This generates three tests for `<About />`'s prop functions
      */
-    const propFunctions = ['fetchDescription', 'fetchExplanation', 'fetchContributors', 'fetchIssues'];
+    const propFunctions = [
+      'fetchDescription',
+      'fetchContributors',
+      'fetchIssues',
+      'fetchTools',
+    ];
     for (let fun of propFunctions) {
       it('Calls `' + fun + '()` when it mounts', function() {
         let requiredProps = {},
@@ -80,30 +85,6 @@ describe('about', function() {
         });
 
         assert.isNotOk(shouldFetchDescription(), '`shouldFetchDescription()` returned true');
-      });
-    });
-
-    describe('`shouldFetchExplanation()`', function() {
-      it('Returns true if `getExplanation()` returns null', function() {
-        const getExplanationStub = sinon.stub().returns(null);
-        const { shouldFetchExplanation } = getAboutActions({
-          './AboutSelectors': {
-            getExplanation: getExplanationStub
-          }
-        });
-
-        assert.isOk(shouldFetchExplanation(), '`shouldFetchExplanation()` returned false');
-      });
-
-      it('Returns false if `getExplanation()` doesn\'t return null', function() {
-        const getExplanationStub = sinon.stub().returns('');
-        const { shouldFetchExplanation } = getAboutActions({
-          './AboutSelectors': {
-            getExplanation: getExplanationStub
-          }
-        });
-
-        assert.isNotOk(shouldFetchExplanation(), '`shouldFetchExplanation()` returned true');
       });
     });
 
@@ -200,54 +181,6 @@ describe('about', function() {
 
         const state = description(null, { type: 'FETCH_DESCRIPTION_RESPONSE', payload: new Error('error'), error: true});
         assert.isNull(state, '`description()` didn\'t reduce the error action correctly');
-      });
-    });
-
-    describe('`explanationRequested()`', function() {
-      it('Returns true when dispatched an \'FETCH_EXPLANATION_REQUEST\' action', function() {
-        const { explanationRequested } = getAboutActions();
-
-        const state = explanationRequested(null, { type: 'FETCH_EXPLANATION_REQUEST' });
-        assert.equal(state, true, '`explanationRequested()` didn\'t reduce the action correctly');
-      });
-
-      it('Returns false when dispatched an \'FETCH_EXPLANATION_RESPONSE\' action', function() {
-        const { explanationRequested } = getAboutActions();
-
-        const state = explanationRequested(null, { type: 'FETCH_EXPLANATION_RESPONSE' });
-        assert.equal(state, false, '`explanationRequested()` didn\'t reduce the action correctly');
-      });
-    });
-
-    describe('`explanationError()`', function() {
-      it('Returns null when given a successful \'FETCH_EXPLANATION_RESPONSE\' action', function() {
-        const { explanationError } = getAboutActions();
-
-        const state = explanationError(true, { type: 'FETCH_EXPLANATION_RESPONSE', payload: 'description'});
-        assert.isNull(state, '`explanationError()` didn\'t reduce the action correctly');
-      });
-
-      it('Returns the error string when given an error in a \'FETCH_EXPLANATION_RESPONSE\' action', function() {
-        const { explanationError } = getAboutActions();
-
-        const state = explanationError(null, { type: 'FETCH_EXPLANATION_RESPONSE', payload: new Error('error'), error: true});
-        assert.equal(state, 'error', '`explanationError()` didn\'t reduce the error action correctly');
-      });
-    });
-
-    describe('`explanation()`', function() {
-      it('Returns the payload in a successful \'FETCH_EXPLANATION_RESPONSE\' action', function() {
-        const { explanation } = getAboutActions();
-
-        const state = explanation(null, { type: 'FETCH_EXPLANATION_RESPONSE', payload: 'explanation' });
-        assert.equal(state, 'explanation', '`explanation()` didn\'t reduce the action correctly');
-      });
-
-      it('Returns the state when given an unsuccessful \'FETCH_EXPLANATION_RESPONSE\' action', function() {
-        const { explanation } = getAboutActions();
-
-        const state = explanation(null, { type: 'FETCH_EXPLANATION_RESPONSE', payload: new Error('error'), error: true});
-        assert.isNull(state, '`explanation()` didn\'t reduce the error action correctly');
       });
     });
 
@@ -357,6 +290,7 @@ describe('about', function() {
           responsibilities: 'Responsible Developer',
           name: 'Someone\'s Name',
           unitTests: 0,
+          favGames: [],
         };
         const nextState = contributors(
           state,

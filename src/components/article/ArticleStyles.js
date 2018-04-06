@@ -32,10 +32,23 @@ const Article = {
   title: {
     paddingLeft: '2%',
   },
-  secondaryInfo: {
+  logo: {
     paddingLeft: '2%',
-    display: 'flex',
-    justifyContent: 'space-around',
+    display: 'block',
+    float: 'left',
+    paddingRight: '2%',
+    maxHeight: '256px',
+    maxWidth: '400px',
+    width: 'auto',
+    height: 'auto',
+  },
+  secondaryInfo: {
+    display: 'block',
+    paddingLeft: '2%',
+  },
+  infoPart: {
+    marginBottom: '0px',
+    marginTop: '0px',
   },
   imageContainer: {
     maxHeight: '33.333333%',
@@ -64,7 +77,7 @@ const Article = {
     justifyContent: 'center',
   },
   summary: {
-    padding: '20px 2% 20px 2%',
+    padding: '10px 2% 5px 2%',
   },
   developer: {
     display: 'flex',
