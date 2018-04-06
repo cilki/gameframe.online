@@ -76,7 +76,7 @@ export default {
   },
   cardTool: {
     //height: 'calc(200px + 10vw)',
-    height: '75vh',
+    height: '45vh',
     overflow: 'hidden',
     backgroundColor: '#ffffff',
     border: '1px solid #A9A9A9',
