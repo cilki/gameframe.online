@@ -81,12 +81,15 @@ class GroupMember extends React.Component {
         <div style={[Styles.cardPad]}>
           <div style={[Styles.cardMember, Styles.cardExpand]} key={`${this.props.name}-card`}>
             <img src={this.props.avatar} style={[Styles.cardMemberImage]}/>
-            <h3 style={[Styles.title]}>{this.props.name}</h3>
-            <p style={[Styles.paragraph]}><strong>Responsibilities: </strong>{this.props.responsibilities}</p>
-            <p style={[Styles.paragraph]}><strong>Commits: </strong>{this.props.commits}</p>
-            <p style={[Styles.paragraph]}><strong>Issues: </strong>{this.props.issues}</p>
-            <p style={[Styles.paragraph]}><strong>Unit Tests: </strong>{this.props.unitTests}</p>
-            <p style={[Styles.paragraph]}><strong>Bio: </strong>{this.props.bio}</p>
+            <h3 style={[Styles.title]}>
+              {this.props.name}
+            </h3>
+            <p style={[Styles.stats]}>
+              {this.props.responsibilities}
+            </p>
+            <p style={[Styles.stats]}>
+              {this.props.commits} Commits | {this.props.issues} Issues | {this.props.unitTests} Tests
+            </p>
             <div>
               <h4 style={[Styles.favGamesTitle]}>
                 <strong>Favorite Games</strong>
@@ -102,6 +105,15 @@ class GroupMember extends React.Component {
                 }
               </Minigrid>
             </div>
+            <br/>
+            <p style={[Styles.stats]}>
+              <strong>
+                Biography
+              </strong>
+            </p>
+            <p style={[Styles.paragraph]}>
+              {this.props.bio}
+            </p>
           </div>
           <img src={"../../../static/images/arrowDown.svg"} style={[Styles.cardArrow]}/>
         </div>
