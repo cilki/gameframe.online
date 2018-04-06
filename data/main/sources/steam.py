@@ -262,6 +262,9 @@ def build_article(article_json):
     if match is not None:
         article.cover = match[1]
 
+        if article.cover.startswith('//'):
+            article.cover = 'http:' + article.cover
+
         # Remove the image from description because it's now the cover
         re.sub(r"<img[.+]src=\"%s\"[.*]/>" %
                article.cover, '', article.introduction)

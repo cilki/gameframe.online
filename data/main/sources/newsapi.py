@@ -148,6 +148,17 @@ def build_article(model, article_json):
         article_json['publishedAt'], "%Y-%m-%dT%H:%M:%SZ")
     article.cover = article_json['urlToImage']
     article.article_link = article_json['url']
+
+    # Adjust URLs if needed
+    if article.cover.startswith('//'):
+        article.cover = 'http:' + article.cover
+
+    if article.cover.startswith('/'):
+        return None
+
+    if article.article_link.startswith('//'):
+        article.article_link = 'http:' + article.article_link
+
     return article
 
 
