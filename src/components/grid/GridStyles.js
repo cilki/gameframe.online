@@ -64,7 +64,7 @@ export default {
   },
 
   filterContainer: {
-    marginTop: '20px auto auto auto',
+    margin: '20px auto auto auto',
     maxWidth: '33%',
     display: 'flex',
     flexGrow: '1',
