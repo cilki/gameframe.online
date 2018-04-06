@@ -1,3 +1,8 @@
+# --------------------------------
+# Object-Relational Mappings     -
+# Copyright (C) 2018 GameFrame   -
+# --------------------------------
+
 from flask_sqlalchemy import SQLAlchemy
 
 """
@@ -21,8 +26,14 @@ class Game(db.Model):
     # The game's IGDB ID
     igdb_id = db.Column(db.Integer)
 
+    # The game's external IGDB link
+    igdb_link = db.Column(db.Text)
+
     # The game's user-friendly title
     name = db.Column(db.Text)
+
+    # The game's conditioned title
+    c_name = db.Column(db.Text)
 
     # The game's website
     website = db.Column(db.Text)
@@ -34,7 +45,7 @@ class Game(db.Model):
     cover = db.Column(db.Text)
 
     # Screenshots
-    screenshots = db.relationship('Image')
+    screenshots = db.relationship('Image', cascade='all, delete-orphan')
 
     # A summary written by Steam or IGDB
     summary = db.Column(db.Text)
@@ -54,14 +65,41 @@ class Game(db.Model):
     # Metacritic rating
     metacritic = db.Column(db.Integer)
 
+    # ESRB rating
+    esrb = db.Column(db.Integer)
+
+    # Visibility Index
+    vindex = db.Column(db.Integer)
+
+    # Primary developer's name
+    developer = db.Column(db.Text)
+
+    # Number of tweets
+    tweet_count = db.Column(db.Integer)
+
+    # Tweets
     tweets = db.relationship(
         'Tweet', secondary='join_game_tweet', back_populates="games")
-    videos = db.relationship(
-        'Video', secondary='join_game_video', back_populates="games")
+
+    # Number of articles
+    article_count = db.Column(db.Integer)
+
+    # Articles
     articles = db.relationship(
         'Article',  secondary='join_game_article', back_populates="games")
+
+    # Number of developers
+    developer_count = db.Column(db.Integer)
+
+    # Developers
     developers = db.relationship(
         'Developer',  secondary='join_game_developer', back_populates="games")
+
+    # Number of videos
+    video_count = db.Column(db.Integer)
+
+    # Videos
+    videos = db.relationship('Video',  secondary='join_game_video')
 
 
 class Article(db.Model):
@@ -74,6 +112,9 @@ class Article(db.Model):
 
     # The article's title
     title = db.Column(db.Text)
+
+    # The article's conditioned title
+    c_title = db.Column(db.Text)
 
     # The name of the article's outlet
     outlet = db.Column(db.Text)
@@ -93,8 +134,17 @@ class Article(db.Model):
     # The link to the original article
     article_link = db.Column(db.Text)
 
+    # Number of games
+    game_count = db.Column(db.Integer)
+
+    # Games
     games = db.relationship(
         'Game', secondary='join_game_article', back_populates="articles")
+
+    # Number of developers
+    developer_count = db.Column(db.Integer)
+
+    # Developers
     developers = db.relationship(
         'Developer', secondary='join_article_developer', back_populates="articles")
 
@@ -114,6 +164,9 @@ class Developer(db.Model):
     # The developer's title
     name = db.Column(db.Text)
 
+    # The developers's conditioned title
+    c_name = db.Column(db.Text)
+
     # The developer's country of origin
     country = db.Column(db.Text)
 
@@ -132,9 +185,17 @@ class Developer(db.Model):
     # The developer's Twitter
     twitter = db.Column(db.Text)
 
+    # Number of articles
+    article_count = db.Column(db.Integer)
+
+    # Articles
     articles = db.relationship(
         'Article', secondary='join_article_developer', back_populates="developers")
 
+    # Number of games
+    game_count = db.Column(db.Integer)
+
+    # Games
     games = db.relationship(
         'Game', secondary='join_game_developer', back_populates="developers")
 
@@ -167,18 +228,30 @@ class Video(db.Model):
 
     video_id = db.Column(db.Integer, primary_key=True)
     youtube_id = db.Column(db.Text)
+
+    # The video's title
     name = db.Column(db.Text)
+
+    # The video's description
+    description = db.Column(db.Text)
+
+    # The uploader's YouTube channel name
     channel = db.Column(db.Text)
+
+    # The video's publishing timestamp
     timestamp = db.Column(db.DateTime)
+
+    # The video's YouTube URL
     video_link = db.Column(db.Text)
 
-    games = db.relationship(
-        'Game', secondary='join_game_video', back_populates="videos")
+    # The video's thumbnail URL
+    thumbnail = db.Column(db.Text)
 
 
 class Genre(db.Model):
     genre_id = db.Column(db.Integer, primary_key=True)
 
+    # The user-friendly genre name
     name = db.Column(db.Text)
 
 
@@ -186,12 +259,14 @@ class Image(db.Model):
     image_id = db.Column(db.Integer, primary_key=True)
     game_id = db.Column(db.Integer, db.ForeignKey('game.game_id'))
 
+    # The image's URL
     url = db.Column(db.Text)
 
 
 class Platform(db.Model):
     platform_id = db.Column(db.Integer, primary_key=True)
 
+    # The user-friendly platform name
     name = db.Column(db.Text)
 
 

@@ -23,4 +23,12 @@ pm.test("Response Content", function() {
   pm.expect(json.logo).to.not.be.null;
   pm.expect(json.foundation).to.not.be.null;
   pm.expect(json.description).to.not.be.null;
+  pm.expect(json.games).to.not.be.null;
+  pm.expect(json.articles).to.not.be.null;
+});
+
+pm.test("Response Links", function() {
+  var json = pm.response.json();
+  pm.expect(json.games.length).to.be.above(0);
+  pm.expect(json.articles.length).to.be.above(0);
 });

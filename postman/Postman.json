@@ -1,0 +1,553 @@
+{
+	"info": {
+		"name": "gameframe.online",
+		"_postman_id": "5e043637-98e6-3e4f-9314-487cd626634f",
+		"description": "# Introduction\nWhat does your API do?\n\n# Overview\nThings that the developers should know about\n\n# Authentication\nWhat is the preferred way of using the API?\n\n# Error Codes\nWhat errors and status codes can a user expect?\n\n# Rate limit\nIs there a limit to the number of requests an user can send?",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Game",
+			"description": "",
+			"item": [
+				{
+					"name": "GAME_METADATA",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "f81f6ce0-bf85-46d4-bd4f-58d284aa1c2e",
+								"type": "text/javascript",
+								"exec": [
+									"/*",
+									" * Postman test for the GAME_METADATA query",
+									" * Copyright (C) 2018 GameFrame",
+									" */",
+									"",
+									"pm.test(\"HTTP Code\", function() {",
+									"  pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"CORS Header\", function() {",
+									"  pm.response.to.have.header(\"Access-Control-Allow-Origin\");",
+									"});",
+									"",
+									"pm.test(\"Response Time\", function() {",
+									"  pm.expect(pm.response.responseTime).to.be.below(800);",
+									"});",
+									"",
+									"pm.test(\"Response Content\", function() {",
+									"  var json = pm.response.json();",
+									"  pm.expect(json.game_id).to.eql(parseInt(pm.variables.get(\"game_id\")));",
+									"  pm.expect(json.name).to.not.be.null;",
+									"  pm.expect(json.release).to.not.be.null;",
+									"  pm.expect(json.cover).to.not.be.null;",
+									"  pm.expect(json.screenshots).to.not.be.null;",
+									"  pm.expect(json.summary).to.not.be.null;",
+									"  pm.expect(json.genres).to.not.be.null;",
+									"  pm.expect(json.platforms).to.not.be.null;",
+									"  pm.expect(json.articles).to.not.be.null;",
+									"  pm.expect(json.developers).to.not.be.null;",
+									"});",
+									"",
+									"pm.test(\"Response Links\", function() {",
+									"  var json = pm.response.json();",
+									"  pm.expect(json.articles.length).to.be.above(0);",
+									"  pm.expect(json.developers.length).to.be.above(0);",
+									"});",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"url": {
+							"raw": "http://{{host}}/v1/game/{{game_id}}",
+							"protocol": "http",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"v1",
+								"game",
+								"{{game_id}}"
+							]
+						},
+						"description": "Return a game based on the game ID."
+					},
+					"response": []
+				},
+				{
+					"name": "GAME_LIST",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "cb714cb6-5085-435e-8f6e-e6e6fb8f71a9",
+								"type": "text/javascript",
+								"exec": [
+									"/*",
+									" * Postman test for the GAME_LIST query",
+									" * Copyright (C) 2018 GameFrame",
+									" */",
+									"",
+									" pm.test(\"HTTP Code\", function () {",
+									"     pm.response.to.have.status(200);",
+									" });",
+									"",
+									" pm.test(\"CORS Header\", function () {",
+									"     pm.response.to.have.header(\"Access-Control-Allow-Origin\");",
+									" });",
+									"",
+									" pm.test(\"Response Time\", function () {",
+									"     pm.expect(pm.response.responseTime).to.be.below(1600);",
+									" });",
+									"",
+									" pm.test(\"Response Content\", function () {",
+									"     var json = pm.response.json();",
+									"     pm.expect(json.num_results).to.not.be.null;",
+									"     pm.expect(json.total_pages).to.not.be.null;",
+									"     pm.expect(json.page).to.eql(parseInt(pm.variables.get(\"page\")));",
+									"     pm.expect(json.objects.length).to.eql(parseInt(pm.variables.get(\"results_per_page\")));",
+									" });",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"url": {
+							"raw": "http://{{host}}/v1/game?page={{page}}&results_per_page={{results_per_page}}",
+							"protocol": "http",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"v1",
+								"game"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "{{page}}",
+									"equals": true
+								},
+								{
+									"key": "results_per_page",
+									"value": "{{results_per_page}}",
+									"equals": true
+								}
+							]
+						},
+						"description": "Return a game list according to the specified parameters."
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Developer",
+			"description": "",
+			"item": [
+				{
+					"name": "DEVELOPER_METADATA",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "d40faec2-1fd1-40a8-b762-d966074cc180",
+								"type": "text/javascript",
+								"exec": [
+									"/*",
+									" * Postman test for the DEVELOPER_METADATA query",
+									" * Copyright (C) 2018 GameFrame",
+									" */",
+									"",
+									"pm.test(\"HTTP Code\", function() {",
+									"  pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"CORS Header\", function() {",
+									"  pm.response.to.have.header(\"Access-Control-Allow-Origin\");",
+									"});",
+									"",
+									"pm.test(\"Response Time\", function() {",
+									"  pm.expect(pm.response.responseTime).to.be.below(800);",
+									"});",
+									"",
+									"pm.test(\"Response Content\", function() {",
+									"  var json = pm.response.json();",
+									"  pm.expect(json.developer_id).to.eql(parseInt(pm.variables.get(\"developer_id\")));",
+									"  pm.expect(json.name).to.not.be.null;",
+									"  pm.expect(json.country).to.not.be.null;",
+									"  pm.expect(json.logo).to.not.be.null;",
+									"  pm.expect(json.foundation).to.not.be.null;",
+									"  pm.expect(json.games).to.not.be.null;",
+									"  pm.expect(json.articles).to.not.be.null;",
+									"});",
+									"",
+									"pm.test(\"Response Links\", function() {",
+									"  var json = pm.response.json();",
+									"  pm.expect(json.games.length).to.be.above(0);",
+									"  pm.expect(json.articles.length).to.be.above(0);",
+									"});",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"url": {
+							"raw": "http://{{host}}/v1/developer/{{developer_id}}",
+							"protocol": "http",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"v1",
+								"developer",
+								"{{developer_id}}"
+							]
+						},
+						"description": "Return a developer based on the developer ID."
+					},
+					"response": []
+				},
+				{
+					"name": "DEVELOPER_LIST",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "bd40cc12-f010-45e2-bacd-13b31d67b025",
+								"type": "text/javascript",
+								"exec": [
+									"/*",
+									" * Postman test for the DEVELOPER_LIST query",
+									" * Copyright (C) 2018 GameFrame",
+									" */",
+									"",
+									" pm.test(\"HTTP Code\", function () {",
+									"     pm.response.to.have.status(200);",
+									" });",
+									"",
+									" pm.test(\"CORS Header\", function () {",
+									"     pm.response.to.have.header(\"Access-Control-Allow-Origin\");",
+									" });",
+									"",
+									" pm.test(\"Response Time\", function () {",
+									"     pm.expect(pm.response.responseTime).to.be.below(1600);",
+									" });",
+									"",
+									" pm.test(\"Response Content\", function () {",
+									"     var json = pm.response.json();",
+									"     pm.expect(json.num_results).to.not.be.null;",
+									"     pm.expect(json.total_pages).to.not.be.null;",
+									"     pm.expect(json.page).to.eql(parseInt(pm.variables.get(\"page\")));",
+									"     pm.expect(json.objects.length).to.eql(parseInt(pm.variables.get(\"results_per_page\")));",
+									" });",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"url": {
+							"raw": "http://{{host}}/v1/developer?page={{page}}&results_per_page={{results_per_page}}",
+							"protocol": "http",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"v1",
+								"developer"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "{{page}}",
+									"equals": true
+								},
+								{
+									"key": "results_per_page",
+									"value": "{{results_per_page}}",
+									"equals": true
+								}
+							]
+						},
+						"description": "Return a list of developers."
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Article",
+			"description": "",
+			"item": [
+				{
+					"name": "ARTICLE_METADATA",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "4b5fdbf9-d03f-4df0-af6c-11701224dc67",
+								"type": "text/javascript",
+								"exec": [
+									"/*",
+									" * Postman test for the ARTICLE_METADATA query",
+									" * Copyright (C) 2018 GameFrame",
+									" */",
+									"",
+									"pm.test(\"HTTP Code\", function() {",
+									"  pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"CORS Header\", function() {",
+									"  pm.response.to.have.header(\"Access-Control-Allow-Origin\");",
+									"});",
+									"",
+									"pm.test(\"Response Time\", function() {",
+									"  pm.expect(pm.response.responseTime).to.be.below(800);",
+									"});",
+									"",
+									"pm.test(\"Response Content\", function() {",
+									"  var json = pm.response.json();",
+									"  pm.expect(json.article_id).to.eql(parseInt(pm.variables.get(\"article_id\")));",
+									"  pm.expect(json.title).to.not.be.null;",
+									"  pm.expect(json.outlet).to.not.be.null;",
+									"  pm.expect(json.author).to.not.be.null;",
+									"  pm.expect(json.timestamp).to.not.be.null;",
+									"  pm.expect(json.image).to.not.be.null;",
+									"  pm.expect(json.introduction).to.not.be.null;",
+									"  pm.expect(json.games).to.not.be.null;",
+									"  pm.expect(json.developers).to.not.be.null;",
+									"});",
+									"",
+									"pm.test(\"Response Links\", function() {",
+									"  var json = pm.response.json();",
+									"  pm.expect(json.games.length).to.be.above(0);",
+									"  pm.expect(json.developers.length).to.be.above(0);",
+									"});",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"url": {
+							"raw": "http://{{host}}/v1/article/{{article_id}}",
+							"protocol": "http",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"v1",
+								"article",
+								"{{article_id}}"
+							]
+						},
+						"description": "Return an article based on the article ID."
+					},
+					"response": []
+				},
+				{
+					"name": "ARTICLE_LIST",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "26fe64ec-38f9-474c-b588-92454de39918",
+								"type": "text/javascript",
+								"exec": [
+									"/*",
+									" * Postman test for the ARTICLE_LIST query",
+									" * Copyright (C) 2018 GameFrame",
+									" */",
+									"",
+									"  pm.test(\"HTTP Code\", function () {",
+									"     pm.response.to.have.status(200);",
+									"  });",
+									"",
+									"  pm.test(\"CORS Header\", function () {",
+									"     pm.response.to.have.header(\"Access-Control-Allow-Origin\");",
+									"  });",
+									"",
+									"  pm.test(\"Response Time\", function () {",
+									"     pm.expect(pm.response.responseTime).to.be.below(1600);",
+									"  });",
+									"",
+									"  pm.test(\"Response Content\", function () {",
+									"     var json = pm.response.json();",
+									"     pm.expect(json.num_results).to.not.be.null;",
+									"     pm.expect(json.total_pages).to.not.be.null;",
+									"     pm.expect(json.page).to.eql(parseInt(pm.variables.get(\"page\")));",
+									"     pm.expect(json.objects.length).to.eql(parseInt(pm.variables.get(\"results_per_page\")));",
+									"  });",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"url": {
+							"raw": "http://{{host}}/v1/article?page={{page}}&results_per_page={{results_per_page}}",
+							"protocol": "http",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"v1",
+								"article"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "{{page}}",
+									"equals": true
+								},
+								{
+									"key": "results_per_page",
+									"value": "{{results_per_page}}",
+									"equals": true
+								}
+							]
+						},
+						"description": "Return a list of articles."
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Video",
+			"description": "",
+			"item": [
+				{
+					"name": "VIDEO_METADATA",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "7d6b729f-a646-4b91-a43d-083391794f9e",
+								"type": "text/javascript",
+								"exec": [
+									"/*",
+									" * Postman test for the VIDEO_METADATA query",
+									" * Copyright (C) 2018 GameFrame",
+									" */",
+									"",
+									"pm.test(\"HTTP Code\", function() {",
+									"  pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"CORS Header\", function() {",
+									"  pm.response.to.have.header(\"Access-Control-Allow-Origin\");",
+									"});",
+									"",
+									"pm.test(\"Response Time\", function() {",
+									"  pm.expect(pm.response.responseTime).to.be.below(800);",
+									"});",
+									"",
+									"pm.test(\"Response Content\", function() {",
+									"  var json = pm.response.json();",
+									"  pm.expect(json.video_id).to.eql(parseInt(pm.variables.get(\"video_id\")));",
+									"  pm.expect(json.name).to.not.be.null;",
+									"  pm.expect(json.channel).to.not.be.null;",
+									"  pm.expect(json.description).to.not.be.null;",
+									"  pm.expect(json.timestamp).to.not.be.null;",
+									"  pm.expect(json.thumbnail).to.not.be.null;",
+									"  pm.expect(json.video_link).to.not.be.null;",
+									"  pm.expect(json.games).to.not.be.null;",
+									"});",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"url": {
+							"raw": "http://{{host}}/v1/video/{{video_id}}",
+							"protocol": "http",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"v1",
+								"video",
+								"{{video_id}}"
+							]
+						},
+						"description": "Return a video based on the video ID."
+					},
+					"response": []
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "df826d8b-7e98-4a17-91f3-9ebe1524b1ee",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "1bad573d-7223-41fb-9883-517d041d10ba",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "413cffd6-991d-490e-ae68-200454db1df5",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "9c68270f-8cc6-43a5-940a-55f02da5e626",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}

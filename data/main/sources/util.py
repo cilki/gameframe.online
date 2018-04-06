@@ -4,7 +4,28 @@
 # --------------------------------
 
 import os
+import re
 from datetime import datetime
+
+from orm import Game, Developer
+
+"""
+Extra keywords that make relevancy matching difficult and should be carefully
+filtered in some circumstances.
+"""
+DEVELOPER_EXTRA = ['llc', 'ltd', 'co', 'inc', 'company', 'interactive',
+                   'entertainment', 'studios', 'studio', 'games', 'publishing']
+
+"""
+A compiled regex that matches strings in DEVELOPER_EXTRA
+"""
+CONDITION_DEVELOPER = re.compile(
+    "\W+" + "\W*$|\W+".join(DEVELOPER_EXTRA) + '\W*$', re.IGNORECASE)
+
+"""
+A compiled regex that performs heavy conditioning
+"""
+CONDITION_HEAVY = re.compile(r'<sup>|</sup>|[ ]|\W')
 
 
 def parse_steam_date(d):
@@ -23,23 +44,51 @@ def parse_steam_date(d):
     return None
 
 
-def condition_article(keyword):
+def condition(keyword):
     """
-    Condition an article keyword for searching
+    Condition a general keyword for searching
     """
-    return keyword.replace("™", "").replace("®", "").replace("<sup>", "") \
-        .replace("</sup>", "").replace(":", "").replace("-", "")
+    keyword = re.sub(r'™|®|<sup>|</sup>', '', keyword).strip().lower()
+    return re.sub(r'[ +]', ' ', keyword)
 
 
-def condition_video(keyword):
+def condition_heavy(keyword):
     """
-    Condition a video keyword for searching
+    Heavily condition a keyword for relevancy detection
     """
-    return condition_article(keyword).replace(" ", "+")
+    return CONDITION_HEAVY.sub('', keyword).lower()
 
 
-def is_cached(cache_path, filename):
+def condition_developer(dev_name):
     """
-    Returns True if the given entry exists in the cache, False otherwise.
+    Condition a developer's name
     """
-    return os.path.isfile("%s/%s" % (cache_path, filename))
+
+    # Strip parentheses
+    name = re.sub(r'[(].*[)]', '', dev_name)
+
+    # Strip DEVELOPER_EXTRA
+    match = CONDITION_DEVELOPER.search(name)
+    if match:
+        name = name[0:match.start(0)]
+
+    if len(name) < 3:
+        # The conditioning was probably too aggressive
+        return condition(dev_name)
+
+    return condition(name)
+
+
+def keywordize(model):
+    """
+    Reduce a model to a keyword string
+    """
+    return condition(model.name)
+
+
+def xappend(collection, item):
+    """
+    Append to the given collection unless the item is already present
+    """
+    if item not in collection:
+        collection.append(item)
