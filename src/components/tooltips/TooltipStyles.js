@@ -6,19 +6,19 @@ export default {
   label: {
     marginLeft: '2%', 
     padding: '2% 2% 2% 2%', 
-    width: '200px', 
+    width: 'calc(60px + 10vw)', 
     backgroundColor: '#777',
     borderColor: '#777',
     borderRadius: '4px', 
     whiteSpace: 'nowrap', 
     overflow: 'hidden', 
     textOverflow: 'ellipsis',
-    fontSize: '8px'
+    fontSize: 'calc(2px + 0.75vw)'
   },
   largeText: {
-    fontSize: '12px'
+    fontSize: 'calc(3px + 0.75vw)'
   },
   smallText: {
-    fontSize: '8px'
+    fontSize: 'calc(2px + 0.75vw)'
   }
 }

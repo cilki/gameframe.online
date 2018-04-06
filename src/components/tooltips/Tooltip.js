@@ -258,7 +258,7 @@ class Tooltip extends React.Component {
         {showItemsInCol("Platforms", 3, this.props.platforms)}
         
         <div>
-          <h4 style={{fontSize: '12px'}}>
+          <h4 style={[Styles.largeText]}>
             References
           </h4>
           {showReference("Games", this.props.games)}
@@ -268,7 +268,7 @@ class Tooltip extends React.Component {
         </div>
         
         <div>
-          <h4 style={{fontSize: '12px'}}>
+          <h4 style={[Styles.largeText]}>
             Media
           </h4>
           {showMedia("Twitter", this.props.twitter)}
