@@ -41,9 +41,8 @@ export default {
   },
 
   sortContainer: {
-    margin: 'auto',
+    margin: '20px auto auto auto',
     maxWidth: '33%',
-    marginTop: '20px',
     flexGrow: '1',
     '@media screen and (max-width: 600px)': {
       minWidth: '98vw',
@@ -58,17 +57,14 @@ export default {
       minWidth: '100vw',
       width: '100vw',
       maxWidth: '100vw',
-      margin: 'auto',
-      marginTop: '0',
-      marginBottom: '-20px',
+      margin: '0 auto -20px auto',
       paddingTop: '-20px',
       paddingBottom: '-20px',
     },
   },
 
   filterContainer: {
-    margin: 'auto',
-    marginTop: '20px',
+    marginTop: '20px auto auto auto',
     maxWidth: '33%',
     display: 'flex',
     flexGrow: '1',
@@ -78,8 +74,7 @@ export default {
   },
 
   filterSelectContainer: {
-    margin: 'auto',
-    marginTop: '0',
+    marginTop: '0 auto auto auto',
     maxWidth: '100%',
     display: 'block',
     flexGrow: '1',
