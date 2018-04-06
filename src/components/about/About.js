@@ -137,9 +137,11 @@ class AboutPage extends React.Component {
                         <div style={[Styles.cardPad]}>
                           <div style={[Styles.cardInfo]}>
                             <h2 style={[Styles.title]}><strong>Team Stats</strong></h2>
-                            <p style={[Styles.paragraph]}><strong>Commits: </strong>{this.props.totalCommits}</p>
-                            <p style={[Styles.paragraph]}><strong>Issues: </strong>{this.props.totalIssues}</p>
-                            <p style={[Styles.paragraph]}><strong>Unit Tests: </strong>{this.props.totalUnitTests}</p>
+                            <p style={[Styles.stats]}>{this.props.totalCommits} Commits</p>
+                            <div><hr style={[Styles.statsHr]}/></div>
+                            <p style={[Styles.stats]}>{this.props.totalIssues} Issues</p>
+                            <div><hr style={[Styles.statsHr]}/></div>
+                            <p style={[Styles.stats]}>{this.props.totalUnitTests} Tests</p>
                           </div>
                         </div>
                       </Col>

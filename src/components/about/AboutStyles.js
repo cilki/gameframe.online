@@ -129,5 +129,10 @@ export default {
     padding: '0% 2% 0% 2%',
     fontSize: 'calc(8px + 0.5vw)',
     textAlign: 'center'    
-  }
+  },
+  statsHr: {
+    border: '1px solid #A9A9A9',
+    backgroundColor: '#A9A9A9',
+    width: '50%'
+  },
 }
