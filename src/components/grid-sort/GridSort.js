@@ -39,6 +39,7 @@ function GridSort({
         style={{flex: 1}}
       >
       <Select
+        id={'grid-sort-attribute'}
         options={attributeList}
         onChange={onChangeAttribute}
         placeholder="Sort By..."
@@ -50,6 +51,7 @@ function GridSort({
         style={{flex: 1}}
       >
       <Select
+        id={'grid-sort-order'}
         disabled={currentAttribute === null}
         options={[{ label: 'Ascending', value: 'asc', }, { label: 'Descending', value: 'desc', }]}
         onChange={onChangeOrdering}
