@@ -9,16 +9,16 @@ class TestPartOfSite(unittest.TestCase):
     time_to_sleep = 4
 
     #Which environment to test
-    #environment = "http://gameframe.online"
-    environment = "http://localhost"
+    environment = "http://gameframe.online"
+    # environment = "http://localhost"
      
     def test_chrome(self):
         self.driver = webdriver.Chrome()
         self.do_part()
 
-    def test_edge(self):
-        self.driver = webdriver.Edge()
-        self.do_part()
+    # def test_edge(self):
+    #     self.driver = webdriver.Edge()
+    #     self.do_part()
     
     def test_firefox(self):
         self.driver = webdriver.Firefox()
@@ -150,9 +150,9 @@ class TestArticlesSort(TestSort):
 
 class TestRelations(TestPartOfSite):
 
-    game_id = 9669
-    dev_id = 4920
-    article_id = 13782
+    game_id = 12426
+    dev_id = 2982
+    article_id = 19799
 
     def find_game(self):
         time.sleep(self.time_to_sleep)
@@ -194,6 +194,7 @@ class TestDeveloperRelations(TestRelations):
         self.driver.get(self.environment + "/developers/" + str(self.dev_id))
         self.find_game()
         self.driver.back()
+        time.sleep(3)
         self.find_article()
     
 class TestArticleRelations(TestRelations):
@@ -206,13 +207,13 @@ class TestArticleRelations(TestRelations):
 
 class TestSearch(TestRelations):
 
-    article_id = 13783
+    article_id = 19937
     time_to_sleep = 5
 
     def part(self):
         self.driver.get(self.environment)
-        self.driver.find_element(By.TAG_NAME, "input").send_keys("sniper elite", Keys.ENTER)
-        self.assertEqual(self.environment + "/search?q=sniper%20elite", self.driver.current_url)
+        self.driver.find_element(By.TAG_NAME, "input").send_keys("rocket league", Keys.ENTER)
+        self.assertEqual(self.environment + "/search?q=rocket%20league", self.driver.current_url)
         time.sleep(self.time_to_sleep)
         self.game_exists()
         self.developer_exists()
@@ -225,12 +226,12 @@ if __name__ == '__main__':
         TestGamesPagination, \
         TestDevelopersPagination, \
         TestArticlesPagination, \
-        TestGamesSort, \
-        TestDevelopersSort, \
-        TestArticlesSort, \
-        TestGameRelations, \
-        TestDeveloperRelations, \
-        TestArticleRelations, \
+        # TestGamesSort, \
+        # TestDevelopersSort, \
+        # TestArticlesSort, \
+        # TestGameRelations, \
+        # TestDeveloperRelations, \
+        # TestArticleRelations, \
         TestSearch\
     ]
     loader = unittest.TestLoader()
