@@ -50,17 +50,24 @@ Only allow sources from this whitelist
 """
 WHITELIST = ['Nintendolife.com', 'Gonintendo.com', 'Playstation.com', 'IGN',
              'Starwars.com', 'Mmorpg.com', 'Rockpapershotgun.com', 'Kotaku.com',
-             'Kotaku.com.au', 'Gameinformer.com', 'Slickdeals.net', '1up.com',
+             'Kotaku.com.au', 'Gameinformer.com', '1up.com', 'Mactrast.com',
              'Techtimes.com', 'Pcworld.com', 'Techdirt.com', 'Ongamers.com',
              'Playstationlifestyle.net',  'Mynintendonews.com', 'Gamespot.com',
              'Multiplayer.it', 'Toucharcade.com', 'Shacknews.com', 'Kinja.com',
              'Wccftech.com',  'Gamesasylum.com', 'Pcgamer.com', 'Vrfocus.com',
              'Ars Technica', 'Blizzardwatch.com', 'Gamasutra.com', 'Gamespy.com',
-             'Gamesradar.com', 'Gametyrant.com', 'Gamingbolt.com', 'Mactrast.com',
+             'Gamesradar.com', 'Gametyrant.com', 'Gamingbolt.com', 'Phoronix.com',
              'Gamingonlinux.com', 'Tweaktown.com',  'Gameplanet.co.nz',
              'Gamezebo.com', 'Gamezombie.tv', 'Giantbomb.com', 'Gamespark.jp',
              'Stratics.com', 'Escapistmagazine.com', 'Linuxtoday.com',
-             'Phoronix.com', 'Omgubuntu.co.uk', 'Idownloadblog.com']
+             'Omgubuntu.co.uk', 'Idownloadblog.com']
+
+"""
+Keywords that should have very few relevant games
+"""
+BLACKLIST_KEYWORDS = ['amazon', 'trump', 'morgage', 'chuckit!', 'walmart']
+BLACKLIST = re.compile(
+    "\W+" + "\W.*$|\W+".join(BLACKLIST_KEYWORDS) + '\W.*$', re.IGNORECASE)
 
 
 def rq_articles(model):
@@ -127,10 +134,15 @@ def build_article(model, article_json):
     """
     Build a new Article object from the raw data
     """
+    c_title = condition(article_json['title'])
 
-    # Filter duplicate titles
-    if condition(article_json['title']) in WS.articles:
-        return WS.articles[condition(article_json['title'])]
+    # Consider duplicate titles to be the same article
+    if c_title in WS.articles:
+        return WS.articles[c_title]
+
+    # Filter blacklist
+    if BLACKLIST.search(c_title) is not None:
+        return None
 
     # Filter relevancy
     name = condition_heavy(model.name)
@@ -140,7 +152,7 @@ def build_article(model, article_json):
 
     article = Article()
     article.title = article_json['title']
-    article.c_title = condition(article.title)
+    article.c_title = c_title
     article.outlet = article_json['source']['name']
     article.introduction = article_json['description']
     article.author = article_json['author']
