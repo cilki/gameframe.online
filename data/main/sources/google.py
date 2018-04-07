@@ -44,7 +44,7 @@ def rq_videos(game):
     for video_json in rq.json()['items']:
 
         # Filter YouTube ID
-        if 'id' not in video_json:
+        if 'id' not in video_json or 'videoId' not in video_json['id']:
             continue
 
         # Filter title
