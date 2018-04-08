@@ -15,7 +15,6 @@ from ratelimit import rate_limited
 from tqdm import tqdm
 
 from cache import WS, Cache, load_working_set
-from common import METRICS
 from orm import Developer, Game, Genre, Image, Platform
 
 from .util import condition, condition_developer, xappend
@@ -41,14 +40,16 @@ The cover cache
 CACHE_COVER = Cache("/igdb/covers")
 
 """
-2124 - 89252 seems to be the range of game IDs on IGDB
+The range of game IDs to track
 """
-GAME_RANGE = range(2124, 89253)
+GAME_RANGE = range(2124, 100001)
+assert len(GAME_RANGE) > 0
 
 """
-1 - 15092 seems to be the range of developer IDs on IGDB
+The range of developer IDs to track
 """
-DEV_RANGE = range(1, 15093)
+DEV_RANGE = range(1, 16001)
+assert len(DEV_RANGE) > 0
 
 """
 The number of entities to request at a time
@@ -92,8 +93,6 @@ def load_game_json(igdb_id):
         if len(game_block) == 0:
             return None
 
-        METRICS['igdb.new_downloads'] += len(game_block)
-
         # Write games to the cache
         for game_json in game_block:
             CACHE_GAME.write_json(game_json['id'], [game_json])
@@ -124,14 +123,12 @@ def load_dev_json(igdb_id):
         if len(dev_block) == 0:
             return None
 
-        METRICS['igdb.new_downloads'] += len(dev_block)
-
         # Write to the cache
         for dev_json in dev_block:
             CACHE_DEV.write_json(dev_json['id'], [dev_json])
 
         # Write missing developers
-        for missing in set(range(igdb_id, igdb_id + API_STRIDE)) - set([g['id'] for g in game_block]):
+        for missing in set(range(igdb_id, igdb_id + API_STRIDE)) - set([d['id'] for d in dev_block]):
             if not CACHE_DEV.exists(missing):
                 CACHE_DEV.write_json(missing, [])
 
@@ -289,13 +286,12 @@ def collect_games():
     """
     Download missing games from IGDB.
     """
-    assert len(GAME_RANGE) > 0
     print("[IGDB ] Collecting games")
 
     # Load games
-    for id in tqdm(GAME_RANGE):
-        if not is_cached(CACHE_GAME, id):
-            load_game_json(id)
+    for igdb_id in tqdm(GAME_RANGE):
+        if not CACHE_GAME.exists(igdb_id):
+            load_game_json(igdb_id)
 
     print("[IGDB ] Collection complete")
 
@@ -308,9 +304,9 @@ def collect_developers():
     print("[IGDB ] Collecting developers")
 
     # Load developers
-    for id in tqdm(DEV_RANGE):
-        if not is_cached(CACHE_DEV, id):
-            load_dev_json(id)
+    for igdb_id in tqdm(DEV_RANGE):
+        if not CACHE_DEV.exists(igdb_id):
+            load_dev_json(igdb_id)
 
     print("[IGDB ] Collection complete")
 
@@ -322,19 +318,19 @@ def collect_covers():
 
     print("[IGDB ] Collecting game covers")
 
-    for id in tqdm(GAME_RANGE):
-        if not is_cached(CACHE_COVER, id):
-            game_json = load_game_json(id)
+    for igdb_id in tqdm(GAME_RANGE):
+        if not is_cached(CACHE_COVER, igdb_id):
+            game_json = load_game_json(igdb_id)
             if game_json is not None and 'cover' in game_json:
                 rq = requests.get("http://" + game_json['cover']['url'][2:].replace(
                     "t_thumb", "t_original"))
 
                 if not rq.status_code == requests.codes.ok:
-                    print("[IGDB ] Failed to download cover for id: %d", id)
+                    print("[IGDB ] Failed to download cover for id: %d", igdb_id)
                     continue
 
                 # Write the cover to cache
-                with open("%s/%d" % (CACHE_COVER, id), 'wb') as h:
+                with open("%s/%d" % (CACHE_COVER, igdb_id), 'wb') as h:
                     h.write(rq.content)
 
     print("[IGDB ] Collection complete")
@@ -347,8 +343,8 @@ def merge_games():
     load_working_set()
 
     print("[IGDB ] Merging games")
-    for id in tqdm(GAME_RANGE):
-        game_json = load_game_json(id)
+    for igdb_id in tqdm(GAME_RANGE):
+        game_json = load_game_json(igdb_id)
         if game_json is None:
             continue
 
@@ -369,8 +365,8 @@ def merge_developers():
     load_working_set()
 
     print("[IGDB ] Merging developers")
-    for id in tqdm(DEV_RANGE):
-        dev_json = load_dev_json(id)
+    for igdb_id in tqdm(DEV_RANGE):
+        dev_json = load_dev_json(igdb_id)
         if dev_json is None:
             continue
 

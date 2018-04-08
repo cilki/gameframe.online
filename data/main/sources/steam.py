@@ -18,7 +18,7 @@ from tqdm import tqdm
 from aws import upload_image
 from cache import WS, Cache, load_working_set
 from cdgen.steam import generate
-from common import METRICS, CDN_URI
+from common import CDN_URI
 from orm import Developer, Game, Article, Genre, Image, Platform
 
 from .util import condition, condition_developer, condition_heavy, parse_steam_date, xappend
@@ -118,7 +118,6 @@ def load_game_json(appid):
 
     if not CACHE_GAME.exists(appid):
         game_json = rq_game(appid)
-        METRICS['steam.new_downloads'] += 1
 
         # Write to the cache
         CACHE_GAME.write_json(appid, game_json)
@@ -130,12 +129,10 @@ def load_game_json(appid):
 
     # Filter failed queries
     if game_json['success'] == 'false':
-        METRICS['steam.filtered.failed'] += 1
         return None
 
     # Ensure the game has data
     if 'data' not in game_json:
-        METRICS['steam.filtered.failed'] += 1
         return None
 
     # Advance
@@ -143,12 +140,10 @@ def load_game_json(appid):
 
     # Filter non-games
     if not game_json['type'] == 'game':
-        METRICS['steam.filtered.genre'] += 1
         return None
 
     # Filter unwanted genres
     if any(x['description'] in UNWANTED_GENRES for x in game_json.get('genres', [])):
-        METRICS['steam.filtered.genre'] += 1
         return None
 
     return game_json

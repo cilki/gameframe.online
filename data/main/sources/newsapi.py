@@ -5,6 +5,7 @@
 
 import json
 import os
+import re
 from codecs import open
 from datetime import datetime
 
@@ -13,7 +14,6 @@ from ratelimit import rate_limited
 from tqdm import tqdm
 
 from cache import WS, Cache, load_working_set
-from common import METRICS
 from orm import Article, Developer, Game
 
 from .util import condition, condition_developer, condition_heavy, keywordize, xappend

@@ -19,17 +19,6 @@ from cache import WS, load_working_set
 import vindex
 
 
-def sigint_handler(sig, frame):
-    """
-    SIGINT handler which prints run metrics and exits
-    """
-    print("\nRun Metrics:\n%s" % METRICS)
-    sys.exit(0)
-
-
-# Register signal
-signal(SIGINT, sigint_handler)
-
 # Setup Flask
 app = Flask(__name__)
 
