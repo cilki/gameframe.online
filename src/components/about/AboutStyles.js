@@ -58,8 +58,9 @@ export default {
      padding: '2% 2% 2% 2%' 
   },
   cardMember: {
-    //height: 'calc(300px + 15vw)',
-    height: '75vh',
+    minHeight: '250px',
+    maxHeight: '1200px',
+    height: 'calc(250px + 30vw)',
     overflow: 'hidden',
     backgroundColor: '#ffffff',
     border: '1px solid #A9A9A9',
@@ -67,16 +68,18 @@ export default {
     padding: '2% 2% 2% 2%'
   },
   cardInfo: {
-    //height: 'calc(200px + 10vw)',
-    height: '35vh',
+    minHeight: '150px',
+    maxHeight: '300px',
+    height: 'calc(150px + 10vw)',
     overflow: 'hidden',
     backgroundColor: '#ffffff',
     border: '1px solid #A9A9A9',
     borderRadius: '4px'     
   },
   cardTool: {
-    //height: 'calc(200px + 10vw)',
-    height: '45vh',
+    minHeight: '200px',
+    maxHeight: '300px',
+    height: 'calc(200px + 10vw)',
     overflow: 'hidden',
     backgroundColor: '#ffffff',
     border: '1px solid #A9A9A9',
@@ -89,7 +92,7 @@ export default {
     width: '100%'    
   },
   cardToolImage: {
-    display: 'flex', 
+    display: 'flex',   
     margin: 'auto', 
     padding: '2% 2% 2% 2%', 
     width: '100%',
@@ -97,22 +100,24 @@ export default {
     maxHeight: '150px'    
   },
   cardToolTitle: {
-    padding: '0% 2% 0% 2%',
+    padding: '0% 4% 0% 4%',
     fontSize: 'calc(12px + 1vw)',
     textAlign: 'center'
   },
   cardToolParagraph: {
-    padding: '0% 2% 0% 2%',
+    padding: '0% 4% 0% 4%',
     fontSize: 'calc(6px + 0.5vw)'
   },
   cardExpand: {
     ':hover': {
        height: '100%'
-    }     
+    }  
   },
   cardArrow: {
     width: '100%',
-    height: '4vh',
+    minHeight: '20px',
+    maxHeight: '40px',
+    height: 'calc(20px + 2vh)',
     padding: '2% 2% 2% 2%'    
   },
   favGamesTitle: {
@@ -122,7 +127,9 @@ export default {
   },
   favGamesContainer: {
     width: '50%',
-    height: '15vh',
+    minHeight: '20px',
+    maxHeight: '120px',
+    height: 'calc(20px + 15vw)',
     padding: '1% 1% 1% 1%'
   },
   stats: {

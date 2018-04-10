@@ -105,6 +105,7 @@ class AboutPage extends React.Component {
           <div style={[CommonAssets.stripeOverlay, CommonAssets.fillBackground]}/>
             <div style={[Styles.pad]}>
               <Jumbotron style={container}>
+                <h2 style={[Styles.title]}><strong>What's This Database</strong></h2>
                 <p style={[Styles.paragraph]}>{ReactHTMLParser(this.props.description)}</p>
 
                 <div style={{padding: '0% 2% 0% 2%'}}>
@@ -148,7 +149,7 @@ class AboutPage extends React.Component {
                       <Col md={4} sm={4}>
                         <div style={[Styles.cardPad]}>
                           <div style={[Styles.cardInfo]}>
-                            <h2 style={[Styles.title]}><strong>Source and Documentation</strong></h2>
+                            <h2 style={[Styles.title]}><strong>Documentation</strong></h2>
                             <a href="https://github.com/cilki/gameframe.online"><p style={[Styles.label]} key={"label-1"}>GitHub</p></a>
                             <a href="https://cilki.gitbooks.io/report/"><p style={[Styles.label]} key={"label-2"}>Technical Report</p></a>
                             <a href="https://cilki.gitbooks.io/api/"><p style={[Styles.label]} key={"label-3"}>API Documentation</p></a>
