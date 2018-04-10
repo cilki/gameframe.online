@@ -107,7 +107,11 @@ def populate_tweets_for_games(db):
                 break
 
             # Tweet Link
-            tweet.link = "https://twitter.com/user/status/" + tweet.twitter_id
+            if "user" in i and "screen_name" in i["user"]:
+                tweet.tweet_link = "https://twitter.com/" + i["user"]["screen_name"] + "/status/" + tweet.twitter_id
+            else:
+                print("Failed to load tweet.")
+                break
 
             # Setting up a relationship between tweet and game
             game.tweets.append(tweet)
