@@ -18,9 +18,9 @@ class TestPartOfSite(unittest.TestCase):
         self.driver = webdriver.Chrome()
         self.do_part()
 
-    # def test_edge(self):
-    #     self.driver = webdriver.Edge()
-    #     self.do_part()
+    def test_edge(self):
+        self.driver = webdriver.Edge()
+        self.do_part()
     
     def test_firefox(self):
         self.driver = webdriver.Firefox()
@@ -178,18 +178,18 @@ class TestSearch(TestRelations):
 
 if __name__ == '__main__':
     classes = [ \
-        # TestHomepage, \
-        # TestNavbar, \
-        # TestGamesPagination, \
-        # TestDevelopersPagination, \
-        # TestArticlesPagination, \
+        TestHomepage, \
+        TestNavbar, \
+        TestGamesPagination, \
+        TestDevelopersPagination, \
+        TestArticlesPagination, \
         TestGamesSort, \
         TestDevelopersSort, \
         TestArticlesSort, \
-        # TestGameRelations, \
-        # TestDeveloperRelations, \
-        # TestArticleRelations, \
-        # TestSearch \
+        TestGameRelations, \
+        TestDeveloperRelations, \
+        TestArticleRelations, \
+        TestSearch \
     ]
     loader = unittest.TestLoader()
     tests = []
