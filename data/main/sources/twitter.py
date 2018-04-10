@@ -9,6 +9,8 @@ import requests
 import os
 import json
 
+import random
+
 import sys
 sys.path.append(os.path.abspath('app'))
 from orm import Game, Tweet
@@ -22,6 +24,16 @@ CONSUMER_KEY = os.environ['KEY_TWITTER']
 CONSUMER_SECRET = os.environ['KEY_TWITTER']
 ACCESS_TOKEN = os.environ['KEY_TWITTER']
 ACCESS_TOKEN_SECRET = os.environ['KEY_TWITTER']
+
+"""
+Functions to help with Twitter API Authentication
+"""
+
+def oauth_nonce_generator():
+    s = ""
+    for i in range(10):
+        s += str(random.randint(0,20))
+    return s
 
 
 @rate_limited(period=40, every=60)
@@ -37,7 +49,7 @@ def rq_tweets_from_keyword(game):
             'oauth_token': ACCESS_TOKEN,
             'oauth_signature_method': "HMAC-SHA1",
             'oauth_timestamp': "",
-            'oauth_nonce': "",
+            'oauth_nonce': oauth_nonce_generator(),
             'oauth_version': "1.0",
             'oauth_signature': ""})
 
