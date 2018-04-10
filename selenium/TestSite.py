@@ -14,9 +14,9 @@ class TestPartOfSite(unittest.TestCase):
     environment = "http://gameframe.online"
     # environment = "http://localhost"
      
-    # def test_chrome(self):
-    #     self.driver = webdriver.Chrome()
-    #     self.do_part()
+    def test_chrome(self):
+        self.driver = webdriver.Chrome()
+        self.do_part()
 
     # def test_edge(self):
     #     self.driver = webdriver.Edge()
@@ -160,31 +160,30 @@ class TestRelations(TestPartOfSite):
     
     def article_exists(self):
         self.assertTrue(self.driver.find_element(By.XPATH, "//a[contains(@href, 'articles')]").is_displayed())
+    
+    def get_first_elem_from_grid(self, grid_name):
+        self.driver.get(self.environment + "/" + grid_name + "/")
+        ui.WebDriverWait(self.driver, self.time_to_sleep).until(EC.element_to_be_clickable((By.XPATH, "//a[contains(@href, '" + grid_name + "/')]/div"))).click()
+        time.sleep(self.time_to_sleep)
 
 class TestGameRelations(TestRelations):
 
     def part(self):
-        self.driver.get(self.environment + "/games/")
-        ui.WebDriverWait(self.driver, self.time_to_sleep).until(EC.element_to_be_clickable((By.XPATH, "//a[contains(@href, 'games/')]"))).click()
-        time.sleep(self.time_to_sleep)
+        self.get_first_elem_from_grid("games")
         self.developer_exists()
         self.article_exists()
     
 class TestDeveloperRelations(TestRelations):
 
     def part(self):
-        self.driver.get(self.environment + "/developers/")
-        ui.WebDriverWait(self.driver, self.time_to_sleep).until(EC.element_to_be_clickable((By.XPATH, "//a[contains(@href, 'developers/')]"))).click()
-        time.sleep(self.time_to_sleep)
+        self.get_first_elem_from_grid("developers")
         self.game_exists()
         self.article_exists()
     
 class TestArticleRelations(TestRelations):
 
     def part(self):
-        self.driver.get(self.environment + "/articles/")
-        ui.WebDriverWait(self.driver, self.time_to_sleep).until(EC.element_to_be_clickable((By.XPATH, "//a[contains(@href, 'articles/')]"))).click()
-        time.sleep(self.time_to_sleep)
+        self.get_first_elem_from_grid("articles")
         self.game_exists()
         self.developer_exists()
 
@@ -202,7 +201,7 @@ class TestSearch(TestRelations):
         self.article_exists()
 
 if __name__ == '__main__':
-    classes = [\
+    classes = [ \
         # TestHomepage, \
         # TestNavbar, \
         # TestGamesPagination, \
@@ -214,7 +213,7 @@ if __name__ == '__main__':
         TestGameRelations, \
         TestDeveloperRelations, \
         TestArticleRelations, \
-        TestSearch\
+        TestSearch \
     ]
     loader = unittest.TestLoader()
     tests = []
