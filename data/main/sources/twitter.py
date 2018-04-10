@@ -10,6 +10,7 @@ import os
 import json
 
 import random
+import time
 
 import sys
 sys.path.append(os.path.abspath('app'))
@@ -35,6 +36,12 @@ def oauth_nonce_generator():
         s += str(random.randint(0,20))
     return s
 
+def oauth_timestamp_generator():
+    return int(time.time())
+
+# TODO: this function needs to return a signature using 4 key variables
+def oauth_signature_generator():
+    return oauth_nonce_generator()
 
 @rate_limited(period=40, every=60)
 def rq_tweets_from_keyword(game):
@@ -48,10 +55,10 @@ def rq_tweets_from_keyword(game):
             'oauth_consumer_key': CONSUMER_KEY,
             'oauth_token': ACCESS_TOKEN,
             'oauth_signature_method': "HMAC-SHA1",
-            'oauth_timestamp': "",
+            'oauth_timestamp': oauth_timestamp_generator(),
             'oauth_nonce': oauth_nonce_generator(),
             'oauth_version': "1.0",
-            'oauth_signature': ""})
+            'oauth_signature': oauth_signature_generator()})
 
     assert response.status_code == requests.codes.ok
     return response.json()
