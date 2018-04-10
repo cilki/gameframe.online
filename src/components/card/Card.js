@@ -50,13 +50,13 @@ class Card extends React.Component {
     author: null,
     year: new Date().getFullYear(),
 
-    price: -1,
+    price: null,
     genres: [],
     platforms: [],
 
-    articles: 0,
-    developers: 0,
-    games: 0,
+    articles: null,
+    developers: null,
+    games: null,
 
     twitter: null,
     website: null,
