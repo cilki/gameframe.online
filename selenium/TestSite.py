@@ -73,9 +73,8 @@ class TestPagination(TestPartOfSite):
         driver = self.driver
         environment = self.environment
         grid_name = self.grid_name
-        time_to_sleep = self.time_to_sleep
         driver.get(environment + "/" + grid_name + "")
-        time.sleep(time_to_sleep)
+        time.sleep(self.time_to_sleep)
         #Click a page number
         self.click_page(driver, environment, grid_name, 1, "3")
         #Click max value
@@ -104,51 +103,28 @@ class TestSort(TestPartOfSite):
 
     grid_name = ""
 
-    def sort(self, attr, lo_id, hi_id):
-        box = self.driver.find_element(By.TAG_NAME, "input")
-        box.click()
-        box.send_keys(Keys.TAB, Keys.TAB, attr, Keys.ENTER)
-        box.send_keys(Keys.TAB, Keys.TAB, Keys.TAB, "Ascending", Keys.ENTER)
+    def part(self):
+        self.driver.get(self.environment + "/" + self.grid_name)
         time.sleep(self.time_to_sleep)
-        self.assertTrue(self.driver.find_element(By.XPATH, "//a[@href='/" + self.grid_name + "/" + str(lo_id) + "']").is_displayed())
-        box.send_keys(Keys.TAB, Keys.TAB, Keys.TAB, "Descending", Keys.ENTER)
+        sort_on = self.driver.find_element(By.CLASS_NAME, "Select")
+        sort_on.click()
         time.sleep(self.time_to_sleep)
-        self.assertTrue(self.driver.find_element(By.XPATH, "//a[@href='/" + self.grid_name + "/" + str(hi_id) + "']").is_displayed())
-        self.driver.find_elements(By.CLASS_NAME, "Select-clear")[1].click()
-        self.driver.find_element(By.CLASS_NAME, "Select-clear").click()
+        options = self.driver.find_elements(By.CLASS_NAME, "Select-option")
+        for i in range(len(options)):
+            self.driver.find_elements(By.CLASS_NAME, "Select-option")[i].click()
+            ui.WebDriverWait(self.driver, self.time_to_sleep).until(EC.element_to_be_clickable((By.CLASS_NAME, "Select"))).click()
     
 class TestGamesSort(TestSort):
 
     grid_name = "games"
-
-    def part(self):
-        self.driver.get(self.environment + "/games")
-        time.sleep(self.time_to_sleep)
-        self.sort("Name", 1388, 2147)
-        self.sort("Price", 768, 2572)
-        self.sort("Release", 4358, 39)
-        self.sort("Metacritic", 256, 879)
     
 class TestDevelopersSort(TestSort):
 
     grid_name = "developers"
-
-    def part(self):
-        self.driver.get(self.environment + "/developers")
-        time.sleep(self.time_to_sleep)
-        self.sort("Established", 256, 147)
-        self.sort("Games made", 256, 3)
     
 class TestArticlesSort(TestSort):
 
     grid_name = "articles"
-
-    def part(self):
-        self.driver.get(self.environment + "/articles")
-        time.sleep(self.time_to_sleep)
-        self.sort("Developers Referenced", 1536, 32366)
-        self.sort("Games Referenced", 1536, 256)
-        self.sort("Published", 198, 674)
 
 class TestRelations(TestPartOfSite):
 
@@ -207,13 +183,13 @@ if __name__ == '__main__':
         # TestGamesPagination, \
         # TestDevelopersPagination, \
         # TestArticlesPagination, \
-        # TestGamesSort, \
-        # TestDevelopersSort, \
-        # TestArticlesSort, \
-        TestGameRelations, \
-        TestDeveloperRelations, \
-        TestArticleRelations, \
-        TestSearch \
+        TestGamesSort, \
+        TestDevelopersSort, \
+        TestArticlesSort, \
+        # TestGameRelations, \
+        # TestDeveloperRelations, \
+        # TestArticleRelations, \
+        # TestSearch \
     ]
     loader = unittest.TestLoader()
     tests = []
