@@ -9,7 +9,7 @@ import { Badge, Label } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import iso from 'iso-3166-1';
 import CardStyles from './CardStyles';
-import Tooltip from '../tooltips/Tooltip';
+import Fields from '../fields/Fields';
 
 /**
  * A single card instance within the InstanceGrid
@@ -110,9 +110,9 @@ class Card extends React.Component {
                   />
                 </div>
               </div>
-              <div style={[CardStyles.tooltip]} key={`${title}-tooltip`}>
+              <div style={[CardStyles.fields]} key={`${title}-fields`}>
                 <img
-                  style={[CardStyles.tooltipBackgroundImage]}
+                  style={[CardStyles.fieldsBackgroundImage]}
                   src={imageCover}
                   ref={(img) => { this.img = img; }}
                   alt=""
@@ -122,7 +122,7 @@ class Card extends React.Component {
                 />
 
                 <div>
-                  <Tooltip
+                  <Fields
                     price={this.props.price}
                     genres={this.props.genres}
                     platforms={this.props.platforms}

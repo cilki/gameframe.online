@@ -110,7 +110,7 @@ const Card = {
     },
   },
 
-  tooltip: {
+  fields: {
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
@@ -133,7 +133,7 @@ const Card = {
     },
   },
 
-  tooltipBackgroundImage: {
+  fieldsBackgroundImage: {
     width: '10%',
     height: '10%',
     imageRendering: 'pixelated',

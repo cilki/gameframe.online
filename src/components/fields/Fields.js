@@ -7,9 +7,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Radium from 'radium';
 import { Carousel, Badge, Label } from 'react-bootstrap';
-import Styles from './TooltipStyles';
+import Styles from './FieldsStyles';
 
-class Tooltip extends React.Component {
+class Fields extends React.Component {
   static propTypes = {
     price: PropTypes.number,
     
@@ -348,4 +348,4 @@ class Tooltip extends React.Component {
   }
 }
 
-export default Radium(Tooltip);
+export default Radium(Fields);
