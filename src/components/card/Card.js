@@ -111,6 +111,20 @@ class Card extends React.Component {
                 </div>
               </div>
               <div style={[CardStyles.fields]} key={`${title}-fields`}>
+                <Fields
+                  price={this.props.price}
+                  genres={this.props.genres}
+                  platforms={this.props.platforms}
+
+                  games={this.props.games}
+                  developers={this.props.developers}
+                  articles={this.props.articles}
+
+                  twitter={this.props.twitter}
+                  website={this.props.website}
+                  source={this.props.source}
+                />
+                <div style={{height: '0'}}>
                 <img
                   style={[CardStyles.fieldsBackgroundImage]}
                   src={imageCover}
@@ -119,23 +133,7 @@ class Card extends React.Component {
                   onError={
                     () => { this.img.src = '../../static/images/noImage.png'; }
                   }
-                />
-
-                <div>
-                  <Fields
-                    price={this.props.price}
-                    genres={this.props.genres}
-                    platforms={this.props.platforms}
-
-                    games={this.props.games}
-                    developers={this.props.developers}
-                    articles={this.props.articles}
-
-                    twitter={this.props.twitter}
-                    website={this.props.website}
-                    source={this.props.source}
-                  />
-                </div>
+                /></div>
               </div>
               <div style={[CardStyles.captionContainer]} key={`${title}-caption`}>
                 <div style={[CardStyles.caption]}>

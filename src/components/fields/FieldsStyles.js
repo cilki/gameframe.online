@@ -4,12 +4,14 @@
 
 export default {
   flexColumn: {
+    position: 'relative',
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
   },
   flexRow: {
+    position: 'relative',
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'center',

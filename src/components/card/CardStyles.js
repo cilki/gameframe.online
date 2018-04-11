@@ -87,12 +87,13 @@ const Card = {
     backgroundColor: 'white',
     width: '10%',
     height: '10%',
+    position: 'absolute',
     top: '-50%',
     left: '-50%',
     imageRendering: 'pixelated',
     filter: 'blur(2px)',
     margin: 'auto',
-    transform: 'perspective(800px) translate3d(0, 0, 760px) scale(2)',
+    transform: 'perspective(800px) translate3d(0, 0, 790px)',
     zIndex: '-5',
   },
 
@@ -111,19 +112,15 @@ const Card = {
   },
 
   fields: {
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    justifyContent: 'center',
+    height: '100%',
+    width: '100%',
+    overflow: 'hidden',
     position: 'absolute',
+    top: '0',
+    display: 'flex',
+    opacity: '0',
     backgroundColor: 'black',
-    top: '0px',
-    bottom: '0px',
-    left: '0px',
-    right: '0px',
-    borderRadius: `${cornerRadius}`,
-    transition: 'opacity 0.25s ease-out',
-    opacity: '0.0',
+    justifyContent: 'center',
     ':hover': {
       zIndex: '100',
       opacity: '1.0',
@@ -145,6 +142,10 @@ const Card = {
     left: '50%',
     transform: 'scale3d(50, 50, 1)',
     zIndex: '-5',
+    //height: '0',
+    //':hover': {
+    //    height: 'revert',
+    //}
   },
 
   captionContainer: {
