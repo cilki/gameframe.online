@@ -10,9 +10,8 @@ import requests
 from ratelimit import rate_limited
 from tqdm import tqdm
 
-from cache import WS, KeyCache, TableCache, load_working_set
-from orm import Game, Video
-import registry
+from cache import WS, KeyCache, load_working_set
+from common import TC, load_registry
 
 from .util import condition_heavy, keywordize, xappend
 
@@ -22,21 +21,10 @@ The API key cache
 KEYS = KeyCache(registry.KeyGoogle)
 
 
-def load_video_cache():
-    """
-    Load the video cache if unloaded
-    """
-
-    if 'CACHE_VIDEO' not in globals():
-        global CACHE_VIDEO
-        CACHE_VIDEO = TableCache(registry.CachedVideo, 'video_id')
-
-
 def rq_videos(game):
     """
     Request video metadata according to a game using the YouTube API
     """
-
     rq = requests.get("https://www.googleapis.com/youtube/v3/search",
                       params={'q': keywordize(game).replace(" ", "+"),
                               'order': 'relevance', 'part': 'snippet',
@@ -133,9 +121,10 @@ def gather_videos():
     """
     Download videos from YouTube by game
     """
-    load_video_cache()
     load_working_set()
+    load_registry('Video', 'video_id')
+    load_registry('Game', 'game_id')
 
-    for game in tqdm(WS.games.values(), '[YOUTUBE ] Gathering Videos'):
-        if not CACHE_VIDEO.exists(game.game_id):
+    for game in tqdm(TC['Video.video_id'], '[YOUTUBE ] Gathering Videos'):
+        if not TC['Game.game_id'].exists(game.game_id):
             rq_videos(game)

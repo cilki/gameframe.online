@@ -9,9 +9,9 @@ from itertools import chain
 import requests
 from tqdm import tqdm
 
-from cache import WS, KeyCache, TableCache, load_working_set
+from cache import WS, KeyCache, load_working_set
 from orm import Developer, Game, Genre, Image, Platform
-import registry
+from common import TC, load_registry
 
 from .util import condition, condition_developer, url_normalize, xappend
 
@@ -19,26 +19,6 @@ from .util import condition, condition_developer, url_normalize, xappend
 The API key cache
 """
 KEYS = KeyCache(registry.KeyIgdb)
-
-
-def load_game_cache():
-    """
-    Load the game cache if unloaded
-    """
-
-    if 'CACHE_GAME' not in globals():
-        global CACHE_GAME
-        CACHE_GAME = TableCache(registry.CachedGame, 'igdb_id')
-
-
-def load_developer_cache():
-    """
-    Load the developer cache if unloaded
-    """
-
-    if 'CACHE_DEV' not in globals():
-        global CACHE_DEV
-        CACHE_DEV = TableCache(registry.CachedDeveloper, 'igdb_id')
 
 
 """
@@ -193,10 +173,10 @@ def collect_games():
     """
     Download missing games from IGDB.
     """
-    load_game_cache()
+    load_registry('Game', 'igdb_id')
 
     for igdb_id in tqdm(GAME_RANGE, '[IGDB   ] Collecting Games'):
-        if not CACHE_GAME.exists(igdb_id):
+        if not TC['Game.igdb_id'].exists(igdb_id):
             load_game_json(igdb_id)
 
 
@@ -204,10 +184,10 @@ def collect_developers():
     """
     Download missing developers from IGDB.
     """
-    load_developer_cache()
+    load_registry('Developer', 'igdb_id')
 
     for igdb_id in tqdm(DEV_RANGE, '[IGDB   ] Collecting Developers'):
-        if not CACHE_DEV.exists(igdb_id):
+        if not TC['Developer.igdb_id'].exists(igdb_id):
             load_dev_json(igdb_id)
 
 
@@ -216,10 +196,10 @@ def link_developers():
     Compute Game-Developer links according to IGDB ID for IGDB games
     """
     load_working_set()
-    load_developer_cache()
+    load_registry('Developer', 'igdb_id')
 
     for developer in tqdm(WS.developers.values(), '[IGDB    ] Linking Developers'):
-        dev_json = CACHE_DEV.get(developer.igdb_id).igdb_data
+        dev_json = TC['Developer.igdb_id'].get(developer.igdb_id).igdb_data
 
         for igdb_id in chain(dev_json.get('published', []), dev_json.get('developed', [])):
             game = WS.games_igdb.get(igdb_id)

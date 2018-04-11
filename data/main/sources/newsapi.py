@@ -11,9 +11,8 @@ from functools import lru_cache
 from newsapi import NewsApiClient
 from tqdm import tqdm
 
-from cache import WS, KeyCache, TableCache, load_working_set
-from orm import Article, Developer, Game
-import registry
+from cache import WS, KeyCache, load_working_set
+from common import TC, load_registry
 
 from .util import condition, keywordize, url_normalize, xappend
 
@@ -26,16 +25,6 @@ KEYS = KeyCache(registry.KeyNewsapi)
 The NewsAPI client
 """
 API = NewsApiClient(api_key=KEYS.get())
-
-
-def load_article_cache():
-    """
-    Load the article cache if unloaded
-    """
-
-    if 'CACHE_ARTICLE' not in globals():
-        global CACHE_ARTICLE
-        CACHE_ARTICLE = TableCache(registry.CachedArticle, 'game_id')
 
 
 """
@@ -106,11 +95,11 @@ def gather_articles():
     """
     Search for articles related to games and download them to the cache
     """
-    load_article_cache()
-    load_working_set()
+    load_registry('Game', 'game_id')
+    load_registry('Article', 'game_id')
 
-    for game in tqdm(WS.games.values(), '[NEWSAPI ] Gathering Articles'):
-        if not CACHE_ARTICLE.exists(game.game_id):
+    for game in tqdm(TC['Game.game_id'], '[NEWSAPI ] Gathering Articles'):
+        if not TC['Article.game_id'].exists(game.game_id):
             rq_articles(game)
 
 

@@ -14,33 +14,13 @@ from datetime import datetime
 from tqdm import tqdm
 
 from aws import upload_image
-from cache import WS, FolderCache, TableCache, load_working_set
+from cache import WS, FolderCache, load_working_set
 from cdgen.steam import generate
-from common import CDN_URI
+from common import CDN_URI, TC, load_registry
 from orm import Game, Article, Genre, Image, Platform
 from registry import CachedGame, CachedArticle
 
 from .util import condition, condition_developer, condition_heavy, parse_steam_date, xappend
-
-
-def load_game_cache():
-    """
-    Load the game cache if unloaded
-    """
-
-    if 'CACHE_GAME' not in globals():
-        global CACHE_GAME
-        CACHE_GAME = TableCache(CachedGame, 'steam_id')
-
-
-def load_article_cache():
-    """
-    Load the article cache if unloaded
-    """
-
-    if 'CACHE_ARTICLE' not in globals():
-        global CACHE_ARTICLE
-        CACHE_ARTICLE = TableCache(CachedArticle, 'steam_id')
 
 
 """
@@ -134,11 +114,11 @@ def collect_games():
     Download missing games from Steam
     """
     apps = rq_app_list()
-    load_game_cache()
+    load_registry('Game', 'steam_id')
 
     # Load games
     for app in tqdm(apps, '[STEAM   ] Collecting Games'):
-        if not CACHE_GAME.exists(app['appid']):
+        if not TC['Game.steam_id'].exists(app['appid']):
             rq_game(app['appid'])
 
 
@@ -147,11 +127,11 @@ def collect_headers():
     Download missing game headers from Steam
     """
     load_working_set()
-    load_game_cache()
+    load_registry('Game', 'steam_id')
 
     for appid, game in tqdm(WS.games_steam.items(), '[STEAM   ] Collecting Headers'):
         if not CACHE_HEADER.exists(appid):
-            game_json = CACHE_GAME.get(appid).steam_data
+            game_json = TC['Game.steam_id'].get(appid).steam_data
             if game_json is not None and 'header_image' in game_json:
                 rq = requests.get(game_json['header_image'])
 
@@ -374,10 +354,10 @@ def link_developers():
     Compute Game-Developer links according to developer name for Steam games
     """
     load_working_set()
-    load_game_cache()
+    load_registry('Game', 'steam_id')
 
     for game in tqdm(WS.games_steam.values(), '[STEAM   ] Linking Developers'):
-        game_json = CACHE_GAME.get(game.steam_id).steam_data
+        game_json = TC['Game.steam_id'].get(game.steam_id).steam_data
         if game_json is None:
             continue
 

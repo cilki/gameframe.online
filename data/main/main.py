@@ -174,12 +174,11 @@ with app.app_context():
 
         elif action == 'y':
             load_working_set()
-            vindex.load_game_cache()
             vindex.precompute()
 
             # Compute benchmark games
             for appid in [578080, 570, 359550, 271590, 552520, 477160, 50300]:
-                game = WS.game_steam[appid]
+                game = WS.games_steam[appid]
                 vindex.compute(game)
                 print("Computed VINDEX: %d for game: %s" %
                       (game.vindex, game.name))

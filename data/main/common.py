@@ -15,3 +15,19 @@ The root cache directory
 """
 CACHE_GAMEFRAME = os.environ['CACHE_GAMEFRAME']
 assert os.path.isdir(CACHE_GAMEFRAME)
+
+
+"""
+Storage for the global TableCaches
+"""
+TC = {}
+
+
+def load_registry(model, key):
+    """
+    Load a TableCache if not already loaded
+    """
+
+    model_key = model + '.' + key
+    if model_key not in TC:
+        TC[model_key] = TableCache(eval(model), key)

@@ -10,7 +10,6 @@ from tqdm import tqdm
 
 from sources.steam import rq_player_count
 from cache import WS, load_working_set
-from registry import CachedGame
 
 """
 This module contains the visibility approximation (vindex) logic.
@@ -44,21 +43,10 @@ Reference values for continuous scores
 REFERENCES = {'players': 50000}
 
 
-def load_game_cache():
-    """
-    Load the game cache if unloaded
-    """
-
-    if 'CACHE_GAME' not in globals():
-        global CACHE_GAME
-        CACHE_GAME = TableCache(CachedGame, 'game_id')
-
-
 def compute_all():
     """
     Compute the VINDEX for all games in the working set
     """
-    load_game_cache()
     load_working_set()
     precompute()
 
