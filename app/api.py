@@ -53,3 +53,24 @@ def generate_api(app, db):
                    results_per_page=-1)
     API.create_api(Genre, methods=['GET'], url_prefix='/v1/list',
                    results_per_page=-1)
+
+    # Generate stat endpoints
+    @app.route('/v1/stat/game/count')
+    def stat_game_count():
+        return Game.query.count()
+
+    @app.route('/v1/stat/developer/count')
+    def stat_developer_count():
+        return Developer.query.count()
+
+    @app.route('/v1/stat/article/count')
+    def stat_article_count():
+        return Article.query.count()
+
+    @app.route('/v1/stat/video/count')
+    def stat_video_count():
+        return Video.query.count()
+
+    @app.route('/v1/stat/tweet/count')
+    def stat_tweet_count():
+        return Tweet.query.count()
