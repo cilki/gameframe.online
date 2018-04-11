@@ -4,11 +4,13 @@
 # --------------------------------
 
 import os
+import sys
+sys.path.append(os.path.abspath('data/main'))
 
 from flask import Flask
 from flask_cors import CORS
 
-from data.main.vindex import VindexThread
+from vindex import VindexThread
 
 from app.orm import db, Game
 from app.api import generate_api
@@ -30,7 +32,7 @@ generate_api(app, db)
 
 # Start the VINDEX thread
 with app.app_context():
-    VindexThread(Game.query.filter(Game.steam_id != None).all()).start()
+    VindexThread(db, Game.query.filter(Game.steam_id != None).all()).start()
 
 # Start Flask
 if __name__ == "__main__":

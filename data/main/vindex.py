@@ -10,6 +10,7 @@ from tqdm import tqdm
 
 from sources.steam import rq_player_count
 from cache import WS, load_working_set
+from registry import CachedGame
 
 """
 This module contains the visibility approximation (vindex) logic.
@@ -49,7 +50,7 @@ def load_game_cache():
     """
 
     if 'CACHE_GAME' not in globals():
-        print("[VINDEX] Loading game cache")
+        global CACHE_GAME
         CACHE_GAME = TableCache(CachedGame, 'game_id')
 
 
@@ -90,8 +91,7 @@ def compute(game):
     # Steam players
     steam_players = 0
     if game.steam_id is not None:
-        steam_players = (rq_player_count(
-            game.steam_id) / REFERENCES['players']) * 100
+        steam_players = (game.steam_players / REFERENCES['players']) * 100
 
     # Website score
     # TODO website stats
@@ -160,13 +160,41 @@ def precompute():
 
 
 class VindexThread(Thread):
+    """
+    A background thread that continuously updates steam players and vindex.
+    The first update begins as soon as the the Thread is started and future
+    updates are spaced so every game is updated exactly once over a 24 hour
+    period. This slow collection helps to reduce lag spikes.
+    """
 
-    def __init__(self, games):
+    def __init__(self, db, games):
+        """
+        Initialize the VindexThread with a list of games to query
+        """
         Thread.__init__(self)
         self.games = games
+        self.db = db
+
+        # The minimum amount of time that a single request will take
+        self.TIMESLOT = len(games) / (60 * 60 * 24)
 
     def run(self):
+        """
+        Run the VindexThread forever
+        """
         while True:
             for game in self.games:
-                compute(game)
-            time.sleep(10000000)
+                t = time()
+
+                # Update steam players
+                steam_players = rq_player_count(game.steam_id)
+                if not steam_players == 0:
+                    game.steam_players = steam_players
+
+                # Recompute VINDEX
+                # TODO Compute uses WS which should not be available
+                # compute(game)
+
+                self.db.session.commit()
+
+                time.sleep(max(self.TIMESLOT - (time() - t), 0))
