@@ -59,6 +59,10 @@ function rating({ ratingKey }) {
   );
 }
 
+rating.propTypes = {
+  ratingKey: PropTypes.number.isRequired,
+};
+
 /**
  * @description - Helper method for rendering a link to a developer or article
  * @param {Object} props
@@ -77,6 +81,7 @@ function link({
 link.propTypes = {
   label: PropTypes.string.isRequired,
   url: PropTypes.string.isRequired,
+  cover: PropTypes.string.isRequired,
   key: PropTypes.oneOf([PropTypes.string, PropTypes.number]).isRequired,
 };
 
@@ -95,22 +100,23 @@ function externalLink({
   );
 }
 
-link.propTypes = {
-  label: PropTypes.string.isRequired,
+externalLink.propTypes = {
+  label: PropTypes.object.isRequired,//eslint-disable-line
   url: PropTypes.string.isRequired,
+  cover: PropTypes.string.isRequired,
   key: PropTypes.oneOf([PropTypes.string, PropTypes.number]).isRequired,
 };
 
 function dateToString(date) {
   const dateType = new Date(Date.parse(date));
-  const months = new Array('January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December');
+  const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
   let sup = '';
   const day = dateType.getDate();
-  if (day == 1 || day == 21 || day == 31) {
+  if (day === 1 || day === 21 || day === 31) {
     sup = 'st';
-  } else if (day == 2 || day == 22) {
+  } else if (day === 2 || day === 22) {
     sup = 'nd';
-  } else if (day == 3 || day == 23) {
+  } else if (day === 3 || day === 23) {
     sup = 'rd';
   } else {
     sup = 'th';
@@ -131,6 +137,12 @@ function bigButton({ url, label, buttonKey }) {
     </a>
   );
 }
+
+bigButton.propTypes = {
+  url: PropTypes.string.isRequired,
+  label: PropTypes.string.isRequired,
+  buttonKey: PropTypes.string.isRequired,
+};
 
 /**
  * @description - Returns the main component to render a game's own
@@ -153,8 +165,19 @@ class Game extends React.Component {
     })),
     // we don't currently use this right now, but we may in the future
     error: PropTypes.string, //eslint-disable-line
+    esrb: PropTypes.number,
+    genres: PropTypes.arrayOf(PropTypes.shape({
+      genre_id: PropTypes.number.isRequired,
+      name: PropTypes.string.isRequired,
+    })),
+    igdb_link: PropTypes.string,
+    metacritic: PropTypes.number,
     name: PropTypes.string,
-    genres: PropTypes.arrayOf(PropTypes.string),
+    platforms: PropTypes.arrayOf(PropTypes.shape({
+      platform_id: PropTypes.number.isRequired,
+      name: PropTypes.string.isRequired,
+    })),
+    price: PropTypes.number,
     release: PropTypes.string,
     // we don't currently use this right now, but we may in the future
     requested: PropTypes.bool, //eslint-disable-line
@@ -162,8 +185,19 @@ class Game extends React.Component {
       url: PropTypes.string.isRequired,
       alt: PropTypes.string,
     })),
+    steam_id: PropTypes.number,
     summary: PropTypes.string,
-
+    videos: PropTypes.arrayOf(PropTypes.shape({
+      channel: PropTypes.string.isRequired,
+      description: PropTypes.string.isRequired,
+      name: PropTypes.string.isRequired,
+      thumbnail: PropTypes.string.isRequired,
+      timestamp: PropTypes.string.isRequired,
+      video_id: PropTypes.number.isRequired,
+      video_link: PropTypes.string.isRequired,
+      youtube_id: PropTypes.string.isRequired,
+    })),
+    vindex: PropTypes.number,
     fetchGame: PropTypes.func.isRequired,
   };
 
@@ -172,14 +206,19 @@ class Game extends React.Component {
     cover: null,
     developers: [],
     error: null,
+    esrb: null,
     genres: [],
-    price: 662.6070040,
+    igdb_link: null,
+    metacritic: 0,
     name: '',
-    // release defaults to today's date
+    platforms: [],
+    price: 662.6070040,
     release: '',
     requested: false,
     screenshots: [{ url: '', alt: '' }],
+    steam_id: null,
     summary: null,
+    vindex: 0,
     videos: [],
   };
 
@@ -201,7 +240,7 @@ class Game extends React.Component {
   render() {
     const screenshots = this.props.screenshots ? this.props.screenshots : [];
     const coverURL = this.props.cover && this.props.cover.indexOf('http') < 0 ? `https://${this.props.cover}` : this.props.cover;
-    const price = this.props.price ? `\$${this.props.price / 100}` : null;
+    const price = this.props.price ? `${this.props.price / 100}` : null;
     const platforms = this.props.platforms ? this.props.platforms : [];
     // this.userStats.GetNumberOfCurrentPlayers('3600').done(function(result){
     //  console.log(result);
@@ -243,9 +282,11 @@ class Game extends React.Component {
                   this.props.genres.map((genre) => {
                     return (
                       <span key={genre}>
-                        <Label key={`${genre}-label`}>
-                          {genre}
-                        </Label>
+                        <a href={`/search?q=${genre}`}>
+                          <Label key={`${genre}-label`}>
+                            {genre}
+                          </Label>
+                        </a>
                         &nbsp;
                       </span>
                     );
@@ -262,15 +303,15 @@ class Game extends React.Component {
             <div style={[InstanceDetailsStyles.secondaryDataCluster]}>
               <div style={[InstanceDetailsStyles.priceCluster]}>
                 <div style={[InstanceDetailsStyles.priceIndicator]}>
-                  {price != null ? 'Price:' : 'Unknown Price'}&nbsp;
+                  {price !== null ? 'Price:' : 'Unknown Price'}&nbsp;
                 </div>
                 <div style={[InstanceDetailsStyles.priceTag]}>
-                  {price != null ? `${price}` : ''}
+                  {price !== null ? `${price}` : ''}
                 </div>
               </div>
               <div style={[InstanceDetailsStyles.currentPlayers]}>
-                {this.props.vindex != undefined ? 'Visibility Index: ' : ''}
-                <b>{this.props.vindex != undefined ? this.props.vindex : ''}</b>
+                {this.props.vindex !== undefined ? 'Visibility Index: ' : ''}
+                <b>{this.props.vindex !== undefined ? this.props.vindex : ''}</b>
               </div>
               <div style={[InstanceDetailsStyles.metacriticCluster]}>
                 {this.props.metacritic ? (<a href="http://www.metacritic.com"><img src="https://upload.wikimedia.org/wikipedia/commons/2/20/Metacritic.svg" style={[InstanceDetailsStyles.metacriticIndicator]} alt="Metacritic Score:" /></a>) : ''}
@@ -303,16 +344,18 @@ class Game extends React.Component {
                   platforms.map((platform) => {
                     return (
                       <span key={platform.name}>
-                        <Label key={`${platform.name}-label`}>
-                          {platform.name}
-                        </Label>
+                        <a href={`/search?q=${platform.name}`}>
+                          <Label key={`${platform.name}-label`}>
+                            {platform.name}
+                          </Label>
+                        </a>
                         &nbsp;
                       </span>
                     );
                   })
                 }
                   {
-                  platforms == [] ? 'Unknown' : ''
+                  platforms === [] ? 'Unknown' : ''
                 }
                 </div>
               </div>
@@ -333,6 +376,7 @@ class Game extends React.Component {
                 frameBorder="0"
                 scrolling="0"
                 style={[InstanceDetailsStyles.googleTrendsIframe]}
+                title={`Google Trends for ${this.props.name}`}
               />
             </div>
             <div style={[InstanceDetailsStyles.externalGridCluster]}>
