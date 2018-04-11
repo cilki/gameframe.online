@@ -27,9 +27,10 @@ def generate_api(app, db):
 
     # Generate optimized grid endpoints
     API.create_api(Game, methods=['GET'], url_prefix='/v1/grid',
-                   include_columns=['game_id', 'name', 'price', 'cover',
+                   include_columns=['game_id', 'name', 'price', 'cover', 'esrb',
                                     'platforms', 'release', 'developer',
-                                    'genres', 'developer_count', 'article_count'])
+                                    'genres', 'vindex', 'metacritic',
+                                    'developer_count', 'article_count'])
 
     API.create_api(Developer, methods=['GET'], url_prefix='/v1/grid',
                    include_columns=['developer_id', 'name', 'logo', 'website',
@@ -37,9 +38,9 @@ def generate_api(app, db):
                                     'article_count', 'country'])
 
     API.create_api(Article, methods=['GET'], url_prefix='/v1/grid',
-                   include_columns=['article_id', 'title', 'cover', 'game_count',
+                   include_columns=['article_id', 'title', 'cover', 'timestamp',
                                     'article_link', 'developer_count', 'author',
-                                    'timestamp'])
+                                    'game_count'])
 
     # Generate unpaginated list endpoints
     API.create_api(Game, methods=['GET'], url_prefix='/v1/list',
