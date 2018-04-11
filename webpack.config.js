@@ -47,7 +47,7 @@ module.exports = {
   plugins: [
     new webpack.EnvironmentPlugin({
       NODE_ENV: JSON.stringify('development'),
-      API_HOST: 'http://api.gameframe.online',
+      API_HOST: 'http://cilk.io:2500',
     }),
     new CommonsChunkPlugin({
       name: 'vendor',
