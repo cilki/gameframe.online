@@ -12,13 +12,19 @@
     "usage": "Babel converts JSX into browser compatible JS."   
   },
   {
+    "cover": "../../../../static/images/tools/aws_s3.svg",
+    "name": "Boto3",
+    "url": "https://boto3.readthedocs.io/en/latest/",
+    "usage": "Description."
+  },
+  {
     "cover": "https://camo.githubusercontent.com/431283cc1643d02167aac31067137897507c60fc/687474703a2f2f636861696a732e636f6d2f696d672f636861692d6c6f676f2e706e67",
     "name": "Chai",
     "url": "http://www.chaijs.com/",
     "usage": "Chai makes assertions easier when testing JavaScript code with Mocha."
   },
   {
-    "cover": "https://i1.wp.com/blog.docker.com/wp-content/uploads/2013/06/Docker-logo-011.png?ssl=1",
+    "cover": "../../../../static/images/tools/docker_vertical.svg",
     "name": "Docker",
     "url": "https://www.docker.com/",
     "usage": "Docker runs the development and production HTTP servers."   
@@ -52,12 +58,6 @@
     "name": "GitHub",
     "url": "https://github.com/",
     "usage": "GitHub hosts the GameFrame source repository."  
-  },
-  {
-    "cover": "https://upload.wikimedia.org/wikipedia/commons/9/92/Cog_font_awesome.svg",
-    "name": "iso-3166-1",
-    "url": "https://www.npmjs.com/package/iso-3166-1",
-    "usage": "Country codes within website are parsed by iso-3166-1."
   },
   {
     "cover": "https://upload.wikimedia.org/wikipedia/commons/9/99/Unofficial_JavaScript_logo_2.svg",
@@ -102,7 +102,7 @@
     "usage": "Most of the backend is written in Python." 
   },
   {
-    "cover": "/static/images/tools/radium_logo.svg",
+    "cover": "../../../../static/images/tools/radium_logo.svg",
     "name": "Radium",
     "url": "https://formidable.com/open-source/radium/",
     "usage": "Radium manages inline styles and states on React elements."
@@ -139,9 +139,9 @@
   },
   {
     "cover": "https://upload.wikimedia.org/wikipedia/commons/9/92/Cog_font_awesome.svg",
-    "name": "React-Twitter-Embed",
-    "url": "https://www.npmjs.com/package/react-twitter-embed",
-    "usage": "React-Twitter-Embed is a resource library for Twitter plug-ins."
+    "name": "React-Twitter-Widgets",
+    "url": "https://www.npmjs.com/package/react-twitter-widgets",
+    "usage": "React-Twitter-Widgets is a resource library for Twitter plug-ins."
   },
   {
     "cover": "https://www.seleniumhq.org/images/big-logo.png",
@@ -156,13 +156,13 @@
     "usage": "Sinon helps mock up data for testing JavaScript code with Mocha."
   },
   {
-    "cover": "https://i.lensdump.com/i/TDLgD.md.png",
+    "cover": "../../../../static/images/tools/slack_mark.svg",
     "name": "Slack",
     "url": "https://slack.com/",
     "usage": "Slack is where we communicate with each other."
   },
   {
-    "cover": "https://wcs.smartdraw.com/common/img/smardraw-logo.png?bn=1510011106",
+    "cover": "../../../../static/images/tools/smartdraw_logo.svg",
     "name": "SmartDraw",
     "url": "https://www.smartdraw.com/",
     "usage": "SmartDraw helps create UML diagrams."
@@ -172,6 +172,12 @@
     "name": "SQLAlchemy",
     "url": "https://www.sqlalchemy.org/",
     "usage": "SQLAlchemy is our Python SQL toolkit and Object Relational Mapper."
+  },
+  {
+    "cover": "https://upload.wikimedia.org/wikipedia/commons/0/0d/Imagemagick-logo.png",
+    "name": "Wand",
+    "url": "http://docs.wand-py.org/en/0.4.4/",
+    "usage": "Description."
   },
   {
     "cover": "https://tse4.mm.bing.net/th?id=OIP.gFZhldMJQCiCQylrx6oU2AHaFG&w=222&h=160&c=7&o=5&dpr=1.1&pid=1.7",
