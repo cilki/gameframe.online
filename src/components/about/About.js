@@ -18,8 +18,8 @@ class AboutPage extends React.Component {
     tools: PropTypes.arrayOf(PropTypes.shape({
       cover: PropTypes.string,
       name: PropTypes.string,
-      phase: PropTypes.number,
-      usage: PropTypes.string,
+      url: PropTypes.string,
+      usage: PropTypes.string
     })),
 
     totalCommits: PropTypes.number,
@@ -79,13 +79,15 @@ class AboutPage extends React.Component {
                   md={3}
                   sm={3}
                 >
-                  <div style={[Styles.cardPad]}>
-                    <div style={[Styles.cardTool]}>
-                      <img src={tool.cover} style={[Styles.cardToolImage]}/>
-                      <h3 style={[Styles.cardToolTitle]}>{tool.name}</h3>
-                      <p style={[Styles.cardToolParagraph]}>{tool.usage}</p>
+                  <a href={tool.url} target={'_blank'} style={{textDecoration: 'none', color: '#404040'}}>
+                    <div style={[Styles.cardPad]}>
+                      <div style={[Styles.cardTool]}>
+                        <img src={tool.cover} style={[Styles.cardToolImage]}/>
+                        <h3 style={[Styles.cardToolTitle]}>{tool.name}</h3>
+                        <p style={[Styles.cardToolParagraph]}>{tool.usage}</p>
+                      </div>
                     </div>
-                  </div>
+                  </a>
                 </Col>
               );
             })

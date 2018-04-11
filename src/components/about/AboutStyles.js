@@ -101,7 +101,7 @@ export default {
   },
   cardToolTitle: {
     padding: '0% 4% 0% 4%',
-    fontSize: 'calc(12px + 1vw)',
+    fontSize: 'calc(12px + 0.5vw)',
     textAlign: 'center'
   },
   cardToolParagraph: {
