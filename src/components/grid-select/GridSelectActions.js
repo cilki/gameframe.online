@@ -57,6 +57,11 @@ function fetchOptions(
           value,
         });
       });
+      option.options = option.options.sort(
+        (first, next) => {
+          return Number(first.label > next.label) - Number(first.label < next.label);
+        }
+      );
     })
     .then(() => {
       dispatch(setGridFilterOptions(model, currentOptions));

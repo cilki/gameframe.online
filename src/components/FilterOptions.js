@@ -89,7 +89,7 @@ const gameFilters = [
     type: 'number',
     op: 'geq',
   },
-];
+].sort((first, next) => { return Number(first.label > next.label) - Number(first.label < next.label); });
 
 const developerFilters = [
   {
@@ -129,7 +129,7 @@ const developerFilters = [
     op: 'geq',
     type: 'number',
   },
-];
+].sort((first, next) => { return Number(first.label > next.label) - Number(first.label < next.label); });
 
 const articleFilters = [
   {
@@ -156,7 +156,7 @@ const articleFilters = [
     op: 'geq',
     type: 'number',
   },
-];
+].sort((first, next) => { return Number(first.label > next.label) - Number(first.label < next.label); });
 
 export {
   gameFilters,

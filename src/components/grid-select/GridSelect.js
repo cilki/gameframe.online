@@ -59,13 +59,18 @@ class GridSelect extends React.Component {
       self.setState({
         isLoading: false,
       });
-      optionsCallback(err, { options });
+      optionsCallback(err,
+        {
+          options,
+        }
+      );
     };
 
     this.props.getOptions(this.props.options, value, filterCurrentValue, callbackFunction);
   }
 
   render() {
+    // console.log('this.props.options', this.props.options);
     return (
       <div
         style={{
