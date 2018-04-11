@@ -161,14 +161,14 @@ def collect_headers():
                 CACHE_HEADER.write(appid, rq.content)
 
 
-def gather_articles():
+def collect_articles():
     """
-    Search for articles related to games and download them to the cache
+    Download missing articles from Steam
     """
-    load_working_set()
+    apps = rq_app_list()
     load_article_cache()
 
-    for appid, game in tqdm(WS.games_steam.items(), '[STEAM   ] Gathering Articles'):
+    for appid in tqdm(apps, '[STEAM   ] Collecting Articles'):
         if not CACHE_ARTICLE.exists(appid):
             rq_articles(appid)
 
