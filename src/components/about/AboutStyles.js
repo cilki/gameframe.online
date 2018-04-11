@@ -6,10 +6,10 @@ export default {
   main: {
     display: 'flex',
     flexDirection: 'column',
-    height: '100%'
+    height: '100%',
   },
   pad: {
-    padding: '20px 2% 20px 2%'
+    padding: '20px 2% 20px 2%',
   },
   container: {
     padding: '2% 2% 2% 2%',
@@ -18,16 +18,16 @@ export default {
     display: 'flex',
     flexDirection: 'column',
     borderRadius: '4px',
-    backgroundColor: '#ffffff'
+    backgroundColor: '#ffffff',
   },
   title: {
     padding: '0% 2% 0% 2%',
     fontSize: 'calc(16px + 1vw)',
-    textAlign: 'center'
+    textAlign: 'center',
   },
   paragraph: {
     padding: '0% 2% 0% 2%',
-    fontSize: 'calc(8px + 0.5vw)'
+    fontSize: 'calc(8px + 0.5vw)',
   },
   label: {
     padding: '2% 2% 2% 2%',
@@ -43,19 +43,19 @@ export default {
       opacity: '0.8',
       backgroundColor: '#D3D3D3',
       borderColor: '#D3D3D3',
-    }
+    },
   },
   hr: {
     border: '1px solid #A9A9A9',
-    backgroundColor: '#A9A9A9'
+    backgroundColor: '#A9A9A9',
   },
   grid: {
     width: '96%',
     marginLeft: 'auto',
-    marginRight: 'auto'
+    marginRight: 'auto',
   },
   cardPad: {
-     padding: '2% 2% 2% 2%' 
+    padding: '2% 2% 2% 2%',
   },
   cardMember: {
     minHeight: '250px',
@@ -65,7 +65,7 @@ export default {
     backgroundColor: '#ffffff',
     border: '1px solid #A9A9A9',
     borderRadius: '4px',
-    padding: '2% 2% 2% 2%'
+    padding: '2% 2% 2% 2%',
   },
   cardInfo: {
     minHeight: '150px',
@@ -74,7 +74,7 @@ export default {
     overflow: 'hidden',
     backgroundColor: '#ffffff',
     border: '1px solid #A9A9A9',
-    borderRadius: '4px'     
+    borderRadius: '4px',
   },
   cardTool: {
     minHeight: '200px',
@@ -83,63 +83,63 @@ export default {
     overflow: 'hidden',
     backgroundColor: '#ffffff',
     border: '1px solid #A9A9A9',
-    borderRadius: '4px'   
+    borderRadius: '4px',
   },
   cardMemberImage: {
-    display: 'flex', 
-    margin: 'auto', 
-    padding: '2% 2% 2% 2%', 
-    width: '100%'    
+    display: 'flex',
+    margin: 'auto',
+    padding: '2% 2% 2% 2%',
+    width: '100%',
   },
   cardToolImage: {
-    display: 'flex',   
-    margin: 'auto', 
-    padding: '2% 2% 2% 2%', 
+    display: 'flex',
+    margin: 'auto',
+    padding: '2% 2% 2% 2%',
     width: '100%',
     maxWidth: '150px',
-    maxHeight: '150px'    
+    maxHeight: '150px',
   },
   cardToolTitle: {
     padding: '0% 4% 0% 4%',
     fontSize: 'calc(12px + 0.5vw)',
-    textAlign: 'center'
+    textAlign: 'center',
   },
   cardToolParagraph: {
     padding: '0% 4% 0% 4%',
-    fontSize: 'calc(6px + 0.5vw)'
+    fontSize: 'calc(6px + 0.5vw)',
   },
   cardExpand: {
     ':hover': {
-       height: '100%'
-    }  
+      height: '100%',
+    },
   },
   cardArrow: {
     width: '100%',
     minHeight: '20px',
     maxHeight: '40px',
     height: 'calc(20px + 2vh)',
-    padding: '2% 2% 2% 2%'    
+    padding: '2% 2% 2% 2%',
   },
   favGamesTitle: {
     padding: '0% 2% 0% 2%',
     fontSize: 'calc(8px + 0.5vw)',
-    textAlign: 'center'  
+    textAlign: 'center',
   },
   favGamesContainer: {
     width: '50%',
     minHeight: '20px',
     maxHeight: '120px',
     height: 'calc(20px + 15vw)',
-    padding: '1% 1% 1% 1%'
+    padding: '1% 1% 1% 1%',
   },
   stats: {
     padding: '0% 2% 0% 2%',
     fontSize: 'calc(8px + 0.5vw)',
-    textAlign: 'center'    
+    textAlign: 'center',
   },
   statsHr: {
     border: '1px solid #A9A9A9',
     backgroundColor: '#A9A9A9',
-    width: '50%'
+    width: '50%',
   },
-}
+};

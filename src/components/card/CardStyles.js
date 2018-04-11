@@ -20,7 +20,7 @@ const Card = {
     '@media screen and (max-width: 512px)': {
       margin: 'auto',
       minWidth: '45vw',
-    }
+    },
   },
 
   titleText: {
@@ -51,8 +51,8 @@ const Card = {
     maxHeight: `${cardHeight}`,
     height: '20vw',
     '@media screen and (max-width: 512px)': {
-        height: '45vw'
-    }
+      height: '45vw',
+    },
   },
 
   imageContainer: () => ({

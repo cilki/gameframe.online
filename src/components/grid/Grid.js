@@ -8,10 +8,13 @@ import PropTypes from 'prop-types';
 import Radium from 'radium';
 import { LinkContainer } from 'react-router-bootstrap';
 import { Pagination } from 'react-bootstrap';
+import Toggle from 'react-bootstrap-toggle';
 
 import Styles from './GridStyles';
 import GridSelect from '../grid-select';
 import GridSort from '../grid-sort';
+
+import '../../../node_modules/react-bootstrap-toggle/dist/bootstrap2-toggle.css';
 
 /**
  * @description - Convience function for a single
@@ -96,6 +99,8 @@ GridPagination.propTypes = {
   currentPage: PropTypes.number,
   prefix: PropTypes.string.isRequired,
   totalPages: PropTypes.number.isRequired,
+
+  onToggle: PropTypes.func.isRequired,
 };
 
 GridPagination.defaultProps = {
@@ -120,6 +125,15 @@ function Grid(props) {
         <div style={[Styles.gridPaginationContainer]}>
           <GridPagination prefix={prefix} {...rest} />
         </div>
+        <div style={[Styles.toggleContainer]}>
+          <Toggle
+            onClick={() => props.onToggle(props.toggleState)}
+            on={<h6>AND</h6>}
+            off={<h6>OR</h6>}
+            size="xs"
+            active={props.toggleState}
+          />
+        </div>
         <div style={[Styles.filterContainer]}>
           <h4>Include&nbsp;</h4>
           <div style={[Styles.filterSelectContainer]}>
@@ -129,7 +143,7 @@ function Grid(props) {
       </div>
       <div style={[Styles.grid]}>
         {children}
-        {/*<div style={[Styles.endSpacer]} />*/}
+        {/* <div style={[Styles.endSpacer]} /> */}
       </div>
     </div>
   );
@@ -139,7 +153,10 @@ Grid.propTypes = {
   children: PropTypes.arrayOf(PropTypes.node).isRequired,
   currentPage: PropTypes.number,
   prefix: PropTypes.string.isRequired,
+  toggleState: PropTypes.bool.isRequired,
   totalPages: PropTypes.number.isRequired,
+
+  onToggle: PropTypes.func.isRequired,
 };
 
 Grid.defaultProps = {

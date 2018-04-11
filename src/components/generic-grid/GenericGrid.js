@@ -19,15 +19,18 @@ class GenericGrid extends React.Component {
       subfilter: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
     })),
     prefix: PropTypes.string.isRequired,
+    toggleState: PropTypes.bool,
     totalPages: PropTypes.number.isRequired,
 
     fetchModels: PropTypes.func.isRequired,
+    onToggle: PropTypes.func.isRequired,
     resetPage: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
     children: [],
     filters: [],
+    toggleState: true,
   };
 
   static contextTypes = {
@@ -46,7 +49,8 @@ class GenericGrid extends React.Component {
     this.props.fetchModels(
       this.props.currentPage,
       this.props.filters,
-      { sortAttribute: this.props.sortAttribute, sortType: this.props.sortType }
+      this.props.toggleState,
+      { sortAttribute: this.props.sortAttribute, sortType: this.props.sortType },
     );
   }
 
@@ -64,32 +68,23 @@ class GenericGrid extends React.Component {
         {
           sortAttribute: this.props.sortAttribute,
           sortType: this.props.sortType,
-        }
+        },
       );
     }
 
-    if (prevProps.currentPage !== this.props.currentPage) {
+    if (
+      prevProps.currentPage !== this.props.currentPage ||
+      prevProps.filters.length !== this.props.filters.length ||
+      prevProps.sortType !== this.props.sortType ||
+      prevProps.sortAttribute !== this.props.sortAttribute ||
+      prevProps.toggleState !== this.props.toggleState
+    ) {
       this.props.fetchModels(
         this.props.currentPage,
         this.props.filters,
-        { sortType: this.props.sortType, sortAttribute: this.props.sortAttribute, },
-      );
-    }
-    else if (prevProps.filters.length !== this.props.filters.length) {
-      this.props.fetchModels(
-        this.props.currentPage,
-        this.props.filters,
-        { sortType: this.props.sortType, sortAttribute: this.props.sortAttribute, },
-        true
-      );
-    }
-
-    if (prevProps.sortType !== this.props.sortType || prevProps.sortAttribute !== this.props.sortAttribute) {
-      this.props.fetchModels(
-        this.props.currentPage,
-        this.props.filters,
-        { sortType: this.props.sortType, sortAttribute: this.props.sortAttribute, },
-        true
+        this.props.toggleState,
+        { sortType: this.props.sortType, sortAttribute: this.props.sortAttribute },
+        true,
       );
     }
   }
@@ -114,6 +109,8 @@ class GenericGrid extends React.Component {
             currentPage: this.props.currentPage,
             totalPages: this.props.totalPages,
             prefix: this.props.prefix,
+            onToggle: this.props.onToggle,
+            toggleState: this.props.toggleState,
           }}
         >
           {this.props.children}

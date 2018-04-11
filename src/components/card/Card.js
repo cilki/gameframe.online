@@ -27,11 +27,11 @@ class Card extends React.Component {
     price: PropTypes.number,
     genres: PropTypes.arrayOf(PropTypes.shape({
       genre_id: PropTypes.number,
-      name: PropTypes.string
+      name: PropTypes.string,
     })),
     platforms: PropTypes.arrayOf(PropTypes.shape({
       name: PropTypes.string,
-      platform_id: PropTypes.number
+      platform_id: PropTypes.number,
     })),
 
     articles: PropTypes.number,
@@ -40,7 +40,7 @@ class Card extends React.Component {
 
     twitter: PropTypes.string,
     website: PropTypes.string,
-    source: PropTypes.string
+    source: PropTypes.string,
   };
 
   static defaultProps = {
@@ -60,7 +60,7 @@ class Card extends React.Component {
 
     twitter: null,
     website: null,
-    source: null
+    source: null,
   };
 
   /**

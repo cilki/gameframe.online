@@ -53,5 +53,5 @@ export const reducer = createReducer(
   setTotalPagesAction,
   ['developers', 'articles'],
   defaultFilterOptions,
-  { label: 'Visibility Index', value: 'vindex', },
+  { label: 'Visibility Index', value: 'vindex' },
 );

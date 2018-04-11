@@ -21,17 +21,17 @@ class Developers extends React.Component {
       logo: PropTypes.string,
       name: PropTypes.string.isRequired,
       twitter: PropTypes.string,
-      website: PropTypes.string
+      website: PropTypes.string,
     })),
     error: PropTypes.string, //eslint-disable-line
     requested: PropTypes.bool, //eslint-disable-line
-    totalPages: PropTypes.number.isRequired
+    totalPages: PropTypes.number.isRequired,
   };
 
   static defaultProps = {
     models: [],
     error: null,
-    requested: false
+    requested: false,
   };
 
   constructor(props) {
@@ -56,7 +56,7 @@ class Developers extends React.Component {
                 cover={developer.logo}
                 origin={developer.country ? Number(developer.country) : null}
                 year={new Date(developer.foundation).getFullYear()}
-                
+
                 articles={developer.article_count}
                 games={developer.game_count}
                 twitter={developer.twitter}

@@ -14,7 +14,7 @@ const Game = {
     display: 'flex',
     flexDirection: 'column',
     overflow: 'hidden',
-    zIndex: '-150'
+    zIndex: '-150',
   },
 
   blurBackgroundImage: {
@@ -26,11 +26,11 @@ const Game = {
     position: 'relative',
     margin: 'auto',
     transform: 'perspective(800px) translate3d(0, 0, 760px) scale(2)',
-    zIndex: '-5'
+    zIndex: '-5',
   },
 
   backgroundBorder: {
-    padding: '20px 2% 20px 2%'
+    padding: '20px 2% 20px 2%',
   },
 
   jumbotron: {
@@ -40,41 +40,41 @@ const Game = {
     display: 'flex',
     flexDirection: 'column',
     borderRadius: '4px',
-    backgroundColor: 'rgba(238, 238, 238, 0.8)'
+    backgroundColor: 'rgba(238, 238, 238, 0.8)',
   },
 
   titleText: {
-    fontSize: 'calc(24px + 2.0vw)'
+    fontSize: 'calc(24px + 2.0vw)',
   },
 
   releaseDate: {
-    fontSize: 'calc(16px + 0.75vw)'
+    fontSize: 'calc(16px + 0.75vw)',
   },
 
   genreCluster: {
-    display: 'flex'
+    display: 'flex',
   },
 
   genreIndicator: {
-      fontSize: 'calc(16px + 0.5vw)'
+    fontSize: 'calc(16px + 0.5vw)',
   },
 
   genreLabelGroup: {
     fontSize: 'calc(16px + 0.5vw)',
     display: 'flex',
-    flexWrap: 'wrap'
+    flexWrap: 'wrap',
   },
 
   carousel: {
     margin: '2% -2% 2% -2%',
     width: '104%',
     backgroundColor: 'black',
-    overflow: 'hidden'
+    overflow: 'hidden',
   },
 
   carouselCoverLink: {
     display: 'flex',
-    width: '100%'
+    width: '100%',
   },
 
   carouselCoverImage: {
@@ -85,47 +85,47 @@ const Game = {
 
   carouselScreenshotLink: {
     display: 'flex',
-    width: '100%'
+    width: '100%',
   },
 
   carouselScreenshotImage: {
     maxWidth: '96vw',
     maxHeight: '50vh',
-    margin: 'auto'
+    margin: 'auto',
   },
 
   secondaryDataCluster: {
     display: 'flex',
     flexDirection: 'row',
-    justifyContent: 'space-between'
+    justifyContent: 'space-between',
   },
 
   priceCluster: {
     display: 'flex',
-    flexDirection: 'row'
+    flexDirection: 'row',
   },
 
   priceIndicator: {
-    fontSize: 'calc(14px + 0.5vw)'
+    fontSize: 'calc(14px + 0.5vw)',
   },
 
   priceTag: {
     fontSize: 'calc(14px + 0.5vw)',
-    color: '#00884b'
+    color: '#00884b',
   },
 
   horizontalRule: {
     borderTop: '1px dotted #333333',
     opacity: '0.5',
-    width: '100%'
+    width: '100%',
   },
 
   synoposisIndicator: {
-    fontSize: 'calc(16px + 0.75vw)'
+    fontSize: 'calc(16px + 0.75vw)',
   },
 
   synoposisHTMLContainer: {
-    overflow: 'hidden'
+    overflow: 'hidden',
   },
 
   externalGridCluster: {
@@ -133,23 +133,23 @@ const Game = {
     flexWrap: 'wrap',
     flexDirection: 'column',
     flexFlow: 'row wrap',
-    justifyContent: 'space-around'
+    justifyContent: 'space-around',
   },
 
   developerGridCluster: {
-    flexGrow: '0'
+    flexGrow: '0',
   },
 
   developerIndicator: {
-    fontSize: 'calc(16px + 0.75vw)'
+    fontSize: 'calc(16px + 0.75vw)',
   },
 
   articleGridCluster: {
-    flexGrow: '0'
+    flexGrow: '0',
   },
 
   articleIndicator: {
-    fontSize: 'calc(16px + 0.75vw)'
+    fontSize: 'calc(16px + 0.75vw)',
   },
 
   minigrid: {
@@ -158,7 +158,7 @@ const Game = {
     borderRadius: '4px',
     display: 'flex',
     flexDirection: 'column',
-    flexFlow: 'row wrap'
+    flexFlow: 'row wrap',
   },
 
   minigridLink: {
@@ -167,7 +167,7 @@ const Game = {
     width: 'calc((100vh + 20vw) / 4)',
     height: 'calc((20vh + 20vw) / 2)',
     margin: 'calc((1vw + 1vh) / 2)',
-    flex: 'auto'
+    flex: 'auto',
   },
 
   minicard: cover => ({
@@ -180,32 +180,32 @@ const Game = {
     transition: 'all 0.2s',
     ':hover': {
       filter: 'brightness(150%)',
-      boxShadow: '0 14px 20px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22)'
-    }
+      boxShadow: '0 14px 20px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22)',
+    },
   }),
 
   minicardTextArea: {
     padding: '2%',
     background: 'rgba(16, 16, 16, 0.9)',
     color: '#eeeeee',
-    borderRadius: '4px'
+    borderRadius: '4px',
   },
 
   minicardParagraph: {
-    fontSize: 'calc(12px + 0.5vw)'
+    fontSize: 'calc(12px + 0.5vw)',
   },
 
   twitterIndicator: {
-    fontSize: 'calc(16px + 0.75vw)'
+    fontSize: 'calc(16px + 0.75vw)',
   },
 
   youtubeIndicator: {
-    fontSize: 'calc(16px + 0.75vw)'
+    fontSize: 'calc(16px + 0.75vw)',
   },
 
   twitchIndicator: {
-    fontSize: 'calc(16px + 0.75vw)'
-  }
+    fontSize: 'calc(16px + 0.75vw)',
+  },
 };
 
 export default Game;

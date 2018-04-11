@@ -19,25 +19,25 @@ class Games extends React.Component {
       game_id: PropTypes.number.isRequired,
       genres: PropTypes.arrayOf(PropTypes.shape({
         genre_id: PropTypes.number,
-        name: PropTypes.string
+        name: PropTypes.string,
       })),
       name: PropTypes.string.isRequired,
       platforms: PropTypes.arrayOf(PropTypes.shape({
         name: PropTypes.string,
-        platform_id: PropTypes.number        
+        platform_id: PropTypes.number,
       })),
       price: PropTypes.number,
       release: PropTypes.string,
     })),
     error: PropTypes.string, //eslint-disable-line
     requested: PropTypes.bool, //eslint-disable-line
-    totalPages: PropTypes.number.isRequired
+    totalPages: PropTypes.number.isRequired,
   };
 
   static defaultProps = {
     models: [],
     error: null,
-    requested: false
+    requested: false,
   };
 
   constructor(props) {

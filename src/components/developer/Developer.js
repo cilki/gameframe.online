@@ -54,10 +54,10 @@ twitter.propTypes = {
 };
 
 function dateToString(date) {
-  var dateType = new Date(Date.parse(date));
-  var months = new Array('January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December');
-  var sup = 'th';
-  var day = dateType.getDate();
+  const dateType = new Date(Date.parse(date));
+  const months = new Array('January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December');
+  let sup = 'th';
+  const day = dateType.getDate();
   if (day == 1 || day == 21 || day == 31) {
     sup = 'st';
   } else if (day == 2 || day == 22) {
@@ -66,8 +66,8 @@ function dateToString(date) {
     sup = 'rd';
   }
 
-  var month = dateType.getMonth();
-  var year = dateType.getFullYear();
+  const month = dateType.getMonth();
+  const year = dateType.getFullYear();
 
   return (
     `${months[month]} ${day}${sup}, ${year}`

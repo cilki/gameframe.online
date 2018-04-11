@@ -12,46 +12,46 @@ import Styles from './FieldsStyles';
 class Fields extends React.Component {
   static propTypes = {
     price: PropTypes.number,
-    
+
     vindex: PropTypes.number,
     metacritic: PropTypes.number,
-    
+
     genres: PropTypes.arrayOf(PropTypes.shape({
       genre_id: PropTypes.number,
-      name: PropTypes.string
+      name: PropTypes.string,
     })),
     platforms: PropTypes.arrayOf(PropTypes.shape({
       name: PropTypes.string,
-      platform_id: PropTypes.number
+      platform_id: PropTypes.number,
     })),
-    
+
     games: PropTypes.number,
     developers: PropTypes.number,
     articles: PropTypes.number,
     videos: PropTypes.number,
-    
+
     twitter: PropTypes.string,
     website: PropTypes.string,
-    source: PropTypes.string
+    source: PropTypes.string,
   };
 
   static defaultProps = {
     price: null,
-    
+
     vindex: null,
     metacritic: null,
-    
+
     genres: [],
     platforms: [],
-    
+
     games: null,
     developers: null,
     articles: null,
     videos: null,
-    
+
     twitter: null,
     website: null,
-    source: null
+    source: null,
   };
 
   /**
@@ -63,8 +63,8 @@ class Fields extends React.Component {
   }
 
   render() {
-    var fields = 0;
-    
+    let fields = 0;
+
     /**
      * @description - Conditionally render a row of facts.
      * @param {number|null} price
@@ -80,7 +80,7 @@ class Fields extends React.Component {
       }
       return null;
     }
-  
+
     /**
      * @description - Conditionally render the price of a game.
      * @param {number|null} price
@@ -100,9 +100,9 @@ class Fields extends React.Component {
           </div>
         );
       }
-      return null;    
+      return null;
     }
-    
+
     /**
      * @description - Conditionally render a row of ratings.
      * @param {number|null} vindex
@@ -120,16 +120,16 @@ class Fields extends React.Component {
                 </div>
               </div>
               <div style={[Styles.flexRow]}>
-                {showRating(vindex, "Vindex")}
-                {showRating(metacritic, "Metacritic")}
+                {showRating(vindex, 'Vindex')}
+                {showRating(metacritic, 'Metacritic')}
               </div>
             </div>
           </div>
-        );  
+        );
       }
-      return null;      
+      return null;
     }
-    
+
     /**
      * @description - Conditionally render the specified rating for a game.
      * @param {number|null} number
@@ -154,7 +154,7 @@ class Fields extends React.Component {
       }
       return null;
     }
-    
+
     /**
      * @description - Conditionally render a row of items for a game.
      * @param {string} title
@@ -183,28 +183,26 @@ class Fields extends React.Component {
           </div>
         );
       }
-      return null;      
+      return null;
     }
-    
+
     /**
      * @description - Method to wrap items into an array of carousel item objects.
      * @param {number|null} items
      * @return {number|null}
      */
     function getItems(items) {
-      var subItems = [];
+      const subItems = [];
       for (let i = 0; i < items.length; i++) {
-        subItems.push(
-          <Carousel.Item key={`item-${items[i].name}`}>
-            <div style={[Styles.item]}>
-              {items[i].name}
-            </div>
-          </Carousel.Item>
-        );
+        subItems.push(<Carousel.Item key={`item-${items[i].name}`}>
+          <div style={[Styles.item]}>
+            {items[i].name}
+          </div>
+                      </Carousel.Item>);
       }
-      return subItems;  
+      return subItems;
     }
-    
+
     /**
      * @description - Conditionally render a row of references.
      * @param {number|null} games
@@ -224,18 +222,18 @@ class Fields extends React.Component {
                 </div>
               </div>
               <div style={[Styles.flexRow]}>
-                {showReference(games, "Games")}
-                {showReference(developers, "Developers")}
-                {showReference(articles, "Articles")}
-                {showReference(videos, "Videos")}
+                {showReference(games, 'Games')}
+                {showReference(developers, 'Developers')}
+                {showReference(articles, 'Articles')}
+                {showReference(videos, 'Videos')}
               </div>
             </div>
           </div>
-        );    
+        );
       }
-      return null;      
+      return null;
     }
-    
+
     /**
      * @description - Conditionally render a reference.
      * @param {number|null} number
@@ -260,7 +258,7 @@ class Fields extends React.Component {
       }
       return null;
     }
-    
+
     /**
      * @description - Conditionally render a row of medias.
      * @param {string|null} twitter
@@ -279,17 +277,17 @@ class Fields extends React.Component {
                 </div>
               </div>
               <div style={[Styles.flexRow]}>
-                {showMedia(twitter, "Twitter")}
-                {showMedia(website, "Website")}
-                {showMedia(source, "Source")}
+                {showMedia(twitter, 'Twitter')}
+                {showMedia(website, 'Website')}
+                {showMedia(source, 'Source')}
               </div>
             </div>
-         </div>
-        );  
+          </div>
+        );
       }
-      return null;      
+      return null;
     }
-    
+
     /**
      * @description - Conditionally render a media link.
      * @param {string|null} url
@@ -311,11 +309,11 @@ class Fields extends React.Component {
       }
       return null;
     }
-    
+
     /**
      * @description - Conditionally render the message:
-     * "No Fields Available." to tell the user that the 
-     * Card contains no valuable information to search, 
+     * "No Fields Available." to tell the user that the
+     * Card contains no valuable information to search,
      * sort, or filter upon.
      * @param {number} number
      * @return {React.Component|null}
@@ -332,14 +330,14 @@ class Fields extends React.Component {
       }
       return null;
     }
-  
+
     return (
       <div style={[Styles.flexColumn]}>
-        {showFacts(this.props.price)}      
+        {showFacts(this.props.price)}
         {showRatings(this.props.vindex, this.props.metacritic)}
-        {showItems("Genres", this.props.genres)}
-        {showItems("Platforms", this.props.platforms)}
-        
+        {showItems('Genres', this.props.genres)}
+        {showItems('Platforms', this.props.platforms)}
+
         {showReferences(this.props.games, this.props.developers, this.props.articles, this.props.videos)}
         {showMedias(this.props.twitter, this.props.website, this.props.source)}
         {showNone(fields)}

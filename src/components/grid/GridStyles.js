@@ -63,6 +63,11 @@ export default {
     },
   },
 
+  toggleContainer: {
+    margin: '20px auto auto auto',
+    maxWidth: '10%',
+  },
+
   filterContainer: {
     margin: '20px auto auto auto',
     maxWidth: '33%',

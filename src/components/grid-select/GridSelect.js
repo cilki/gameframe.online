@@ -7,7 +7,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import VirtualizedSelect from 'react-virtualized-select';
 import 'react-select/dist/react-select.css';
-import 'react-virtualized/styles.css';
+import 'react-virtualized/styles.css'; //eslint-disable-line
 import 'react-virtualized-select/styles.css';
 
 class GridSelect extends React.Component {
@@ -25,6 +25,10 @@ class GridSelect extends React.Component {
       subfilterId: PropTypes.string,
       op: PropTypes.string,
     })),
+    value: PropTypes.arrayOf(PropTypes.shape({
+      label: PropTypes.string.isRequired,
+      value: PropTypes.string.isRequired,
+    })).isRequired,
 
     setFilterValue: PropTypes.func.isRequired,
     getOptions: PropTypes.func.isRequired,
@@ -51,14 +55,14 @@ class GridSelect extends React.Component {
     const optionsCallback = typeof currentValue === 'function' ? currentValue : callback;
     const filterCurrentValue = typeof currentValue === 'function' ? null : currentValue;
     const self = this;
-    const _callback = (err, options) => {
+    const callbackFunction = (err, options) => {
       self.setState({
         isLoading: false,
       });
-      optionsCallback(err, { options, });
+      optionsCallback(err, { options });
     };
 
-    this.props.getOptions(this.props.options, value, filterCurrentValue, _callback);
+    this.props.getOptions(this.props.options, value, filterCurrentValue, callbackFunction);
   }
 
   render() {
@@ -72,7 +76,7 @@ class GridSelect extends React.Component {
           async
           placeholder={`Filter ${this.props.model}`}
           loadOptions={this.getOptions}
-          onChange={(_value) => this.props.setFilterValue(_value)}
+          onChange={_value => this.props.setFilterValue(_value)}
           value={this.props.value}
           multi
           isLoading={this.state.isLoading}

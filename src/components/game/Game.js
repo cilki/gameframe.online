@@ -25,12 +25,12 @@ function screenshot({ url, alt }) {
   const src = url.indexOf('http') >= 0 ? url : `https://${url}`;
   return (
     <Carousel.Item key={`${url}-carousel-item`}>
-      <a href={src} key={`${url}-a`} style={[ InstanceDetailsStyles.carouselScreenshotLink ]}>
+      <a href={src} key={`${url}-a`} style={[InstanceDetailsStyles.carouselScreenshotLink]}>
         <img
           key={`${url}-image`}
           src={src}
           alt={alt}
-          style={[ InstanceDetailsStyles.carouselScreenshotImage ]}
+          style={[InstanceDetailsStyles.carouselScreenshotImage]}
         />
       </a>
     </Carousel.Item>
@@ -48,9 +48,9 @@ screenshot.defaultProps = {
 
 function rating({ ratingKey }) {
   return (
-    <a href='https://www.esrb.org/ratings/ratings_guide.aspx' key={`${ratingKey}-anchor`}>
+    <a href="https://www.esrb.org/ratings/ratings_guide.aspx" key={`${ratingKey}-anchor`}>
       <img
-        style={[ InstanceDetailsStyles.esrbRatingImage ]}
+        style={[InstanceDetailsStyles.esrbRatingImage]}
         alt={`${InstanceDetailsStyles.esrbMappings[`${ratingKey}alt`]}`}
         src={`${InstanceDetailsStyles.esrbMappings[ratingKey]}`}
         key={`${ratingKey}-image`}
@@ -66,9 +66,11 @@ function rating({ ratingKey }) {
  * @param {String} props.url
  * @returns {React.Component}
  */
-function link({ label, url, cover, key }) {
+function link({
+  label, url, cover, key,
+}) {
   return (
-    <Minicard label={label} url={url} cover={cover} cardKey={`${key}-inner`} key={key}/>
+    <Minicard label={label} url={url} cover={cover} cardKey={`${key}-inner`} key={key} />
   );
 }
 
@@ -85,9 +87,11 @@ link.propTypes = {
  * @param {String} props.url
  * @returns {React.Component}
  */
-function externalLink({ label, url, cover, key }) {
+function externalLink({
+  label, url, cover, key,
+}) {
   return (
-    <ExternalMinicard label={label} url={url} cover={cover} cardKey={`${key}-inner`} key={key}/>
+    <ExternalMinicard label={label} url={url} cover={cover} cardKey={`${key}-inner`} key={key} />
   );
 }
 
@@ -98,10 +102,10 @@ link.propTypes = {
 };
 
 function dateToString(date) {
-  var dateType = new Date(Date.parse(date));
-  var months = new Array('January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December');
-  var sup = '';
-  var day = dateType.getDate();
+  const dateType = new Date(Date.parse(date));
+  const months = new Array('January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December');
+  let sup = '';
+  const day = dateType.getDate();
   if (day == 1 || day == 21 || day == 31) {
     sup = 'st';
   } else if (day == 2 || day == 22) {
@@ -112,15 +116,15 @@ function dateToString(date) {
     sup = 'th';
   }
 
-  var month = dateType.getMonth();
-  var year = dateType.getFullYear();
+  const month = dateType.getMonth();
+  const year = dateType.getFullYear();
 
   return (
     `${months[month]} ${day}${sup}, ${year}`
   );
 }
 
-function bigButton({url, label, buttonKey}) {
+function bigButton({ url, label, buttonKey }) {
   return (
     <a href={url} style={[InstanceDetailsStyles.bigButton]} key={`${buttonKey}-anchor`}>
       {label}
@@ -174,7 +178,7 @@ class Game extends React.Component {
     // release defaults to today's date
     release: '',
     requested: false,
-    screenshots: [{url: '', alt: ''}],
+    screenshots: [{ url: '', alt: '' }],
     summary: null,
     videos: [],
   };
@@ -186,13 +190,12 @@ class Game extends React.Component {
     super(props);
     this.state = {};
 
-    //this.steamApi = require('steam-api');
-    //this.userStats = new this.steamApi.UserStats('B742258BCF24425642B7E0C770450FC2');
+    // this.steamApi = require('steam-api');
+    // this.userStats = new this.steamApi.UserStats('B742258BCF24425642B7E0C770450FC2');
   }
 
   componentDidMount() {
     this.props.fetchGame();
-
   }
 
   render() {
@@ -200,9 +203,9 @@ class Game extends React.Component {
     const coverURL = this.props.cover && this.props.cover.indexOf('http') < 0 ? `https://${this.props.cover}` : this.props.cover;
     const price = this.props.price ? `\$${this.props.price / 100}` : null;
     const platforms = this.props.platforms ? this.props.platforms : [];
-    //this.userStats.GetNumberOfCurrentPlayers('3600').done(function(result){
+    // this.userStats.GetNumberOfCurrentPlayers('3600').done(function(result){
     //  console.log(result);
-    //});
+    // });
     const steamApiKey = 'B742258BCF24425642B7E0C770450FC2';
     const trendName = encodeURI(this.props.name);
     const trendsURL = `https://trends.google.com:443/trends/embed/explore/TIMESERIES?req=%7B%22comparisonItem%22%3A%5B%7B%22keyword%22%3A%22${trendName}%22%2C%22geo%22%3A%22%22%2C%22time%22%3A%22all%22%7D%5D%2C%22category%22%3A0%2C%22property%22%3A%22%22%7D&tz=300&amp;eq=date%3Dall%26q%3D${trendName}`;
@@ -213,30 +216,30 @@ class Game extends React.Component {
     const igdbLinks = this.props.igdb_link ? [this.props.igdb_link] : [];
     return (
       <StyleRoot>
-      <InstanceDetails imageURL={coverURL}>
-        <div style={[ InstanceDetailsStyles.gamePrimaryDataCluster]}>
-          <div style={[ InstanceDetailsStyles.gameCover ]}>
-            <div style={[ InstanceDetailsStyles.gameCoverImageBoundingBox ]}>
-              <img
-                style={[ InstanceDetailsStyles.gameCoverImage ]}
-                src={coverURL}
-                alt={`${this.props.name} logo`}
-              />
-            </div>
-          </div>
-          <div style={[ InstanceDetailsStyles.gamePrimaryInfoCluster ]}>
-            <div style={[ InstanceDetailsStyles.titleText ]}>
-              {this.props.name}
-            </div>
-            <div style={[ InstanceDetailsStyles.releaseDate ]}>
-              {releasePrefix} {release}
-            </div>
-            <div style={[ InstanceDetailsStyles.genreCluster ]}>
-              <div style={[ InstanceDetailsStyles.genreIndicator ]}>
-                Genres:&nbsp;
+        <InstanceDetails imageURL={coverURL}>
+          <div style={[InstanceDetailsStyles.gamePrimaryDataCluster]}>
+            <div style={[InstanceDetailsStyles.gameCover]}>
+              <div style={[InstanceDetailsStyles.gameCoverImageBoundingBox]}>
+                <img
+                  style={[InstanceDetailsStyles.gameCoverImage]}
+                  src={coverURL}
+                  alt={`${this.props.name} logo`}
+                />
               </div>
-              <div style={[ InstanceDetailsStyles.genreLabelGroup ]}>
-                {
+            </div>
+            <div style={[InstanceDetailsStyles.gamePrimaryInfoCluster]}>
+              <div style={[InstanceDetailsStyles.titleText]}>
+                {this.props.name}
+              </div>
+              <div style={[InstanceDetailsStyles.releaseDate]}>
+                {releasePrefix} {release}
+              </div>
+              <div style={[InstanceDetailsStyles.genreCluster]}>
+                <div style={[InstanceDetailsStyles.genreIndicator]}>
+                Genres:&nbsp;
+                </div>
+                <div style={[InstanceDetailsStyles.genreLabelGroup]}>
+                  {
                   this.props.genres.map((genre) => {
                     return (
                       <span key={genre}>
@@ -245,58 +248,58 @@ class Game extends React.Component {
                         </Label>
                         &nbsp;
                       </span>
-                    )
+                    );
                   })
                 }
+                </div>
               </div>
             </div>
-          </div>
-          <Carousel style={ InstanceDetailsStyles.carousel }>
+            <Carousel style={InstanceDetailsStyles.carousel}>
               {
                 screenshots.map(_screenshot => screenshot(_screenshot))
               }
-          </Carousel>
-          <div style={[ InstanceDetailsStyles.secondaryDataCluster ]}>
-            <div style={[ InstanceDetailsStyles.priceCluster ]}>
-              <div style={[ InstanceDetailsStyles.priceIndicator ]}>
-                {price != null ? 'Price:' : 'Unknown Price'}&nbsp;
+            </Carousel>
+            <div style={[InstanceDetailsStyles.secondaryDataCluster]}>
+              <div style={[InstanceDetailsStyles.priceCluster]}>
+                <div style={[InstanceDetailsStyles.priceIndicator]}>
+                  {price != null ? 'Price:' : 'Unknown Price'}&nbsp;
+                </div>
+                <div style={[InstanceDetailsStyles.priceTag]}>
+                  {price != null ? `${price}` : ''}
+                </div>
               </div>
-              <div style={[ InstanceDetailsStyles.priceTag ]}>
-                {price != null ? `${price}` : ''}
+              <div style={[InstanceDetailsStyles.currentPlayers]}>
+                {this.props.vindex != undefined ? 'Visibility Index: ' : ''}
+                <b>{this.props.vindex != undefined ? this.props.vindex : ''}</b>
               </div>
-            </div>
-            <div style={[InstanceDetailsStyles.currentPlayers]}>
-              {this.props.vindex != undefined ? 'Visibility Index: ' : ''}
-              <b>{this.props.vindex != undefined ? this.props.vindex : ''}</b>
-            </div>
-            <div style={[ InstanceDetailsStyles.metacriticCluster ]}>
-                {this.props.metacritic ? (<a href='http://www.metacritic.com'><img src='https://upload.wikimedia.org/wikipedia/commons/2/20/Metacritic.svg' style={[InstanceDetailsStyles.metacriticIndicator]} alt='Metacritic Score:' /></a>) : ''}
-              <div style={[ InstanceDetailsStyles.metacriticScore(this.props.metacritic) ]}>
-                {this.props.metacritic ? this.props.metacritic : ''}
+              <div style={[InstanceDetailsStyles.metacriticCluster]}>
+                {this.props.metacritic ? (<a href="http://www.metacritic.com"><img src="https://upload.wikimedia.org/wikipedia/commons/2/20/Metacritic.svg" style={[InstanceDetailsStyles.metacriticIndicator]} alt="Metacritic Score:" /></a>) : ''}
+                <div style={[InstanceDetailsStyles.metacriticScore(this.props.metacritic)]}>
+                  {this.props.metacritic ? this.props.metacritic : ''}
+                </div>
               </div>
-            </div>
-            <div style={[ InstanceDetailsStyles.currentPlayers ]}>
+              <div style={[InstanceDetailsStyles.currentPlayers]}>
                 <b>{this.props.steam_id ? `${this.props.steam_id.toLocaleString()}` : ''}</b>
                 {this.props.steam_id ? ' people are playing now.' : ''}
-            </div>
-          </div>
-          <hr style={[ InstanceDetailsStyles.horizontalRule ]} />
-          <div>
-            <div style={[ InstanceDetailsStyles.synoposisIndicator ]}>
-              Synoposis:
-            </div>
-            <div style={[ InstanceDetailsStyles.synoposisHTMLContainer ]}>
-              {ReactHTMLParser(this.props.summary)}
-            </div>
-          </div>
-          <hr style={[ InstanceDetailsStyles.horizontalRule ]} />
-          <div style={[ InstanceDetailsStyles.platformRatingContainer ]}>
-            <div style={[ InstanceDetailsStyles.platformCluster ]}>
-              <div style={[ InstanceDetailsStyles.platformIndicator ]}>
-                Platforms:&nbsp;
               </div>
-              <div style={[ InstanceDetailsStyles.platformLabelGroup ]}>
-                {
+            </div>
+            <hr style={[InstanceDetailsStyles.horizontalRule]} />
+            <div>
+              <div style={[InstanceDetailsStyles.synoposisIndicator]}>
+              Synoposis:
+              </div>
+              <div style={[InstanceDetailsStyles.synoposisHTMLContainer]}>
+                {ReactHTMLParser(this.props.summary)}
+              </div>
+            </div>
+            <hr style={[InstanceDetailsStyles.horizontalRule]} />
+            <div style={[InstanceDetailsStyles.platformRatingContainer]}>
+              <div style={[InstanceDetailsStyles.platformCluster]}>
+                <div style={[InstanceDetailsStyles.platformIndicator]}>
+                Platforms:&nbsp;
+                </div>
+                <div style={[InstanceDetailsStyles.platformLabelGroup]}>
+                  {
                   platforms.map((platform) => {
                     return (
                       <span key={platform.name}>
@@ -305,40 +308,40 @@ class Game extends React.Component {
                         </Label>
                         &nbsp;
                       </span>
-                    )
+                    );
                   })
                 }
-                {
+                  {
                   platforms == [] ? 'Unknown' : ''
                 }
+                </div>
               </div>
-            </div>
-            <div style={[ InstanceDetailsStyles.esrbRatingContainer ]}>
-              {
+              <div style={[InstanceDetailsStyles.esrbRatingContainer]}>
+                {
                 esrb.map(esrbRating => rating({
                   ratingKey: esrbRating,
                   key: `esrbRating-${esrbRating}`,
                 }))
               }
-            </div>
-          </div>
-          <div style={[ InstanceDetailsStyles.googleTrendsContainer ]}>
-            <iframe
-              id="trends-widget-1"
-              src={trendsURL}
-              width="100%"
-              frameBorder="0"
-              scrolling="0"
-              style={[ InstanceDetailsStyles.googleTrendsIframe ]}
-            />
-          </div>
-          <div style={[ InstanceDetailsStyles.externalGridCluster ]}>
-            <div style={[ InstanceDetailsStyles.developerGridCluster('30%') ]}>
-              <div style={[ InstanceDetailsStyles.developerIndicator ]}>
-                Developers:
               </div>
-              <Minigrid>
-                {
+            </div>
+            <div style={[InstanceDetailsStyles.googleTrendsContainer]}>
+              <iframe
+                id="trends-widget-1"
+                src={trendsURL}
+                width="100%"
+                frameBorder="0"
+                scrolling="0"
+                style={[InstanceDetailsStyles.googleTrendsIframe]}
+              />
+            </div>
+            <div style={[InstanceDetailsStyles.externalGridCluster]}>
+              <div style={[InstanceDetailsStyles.developerGridCluster('30%')]}>
+                <div style={[InstanceDetailsStyles.developerIndicator]}>
+                Developers:
+                </div>
+                <Minigrid>
+                  {
                   this.props.developers.map(developer => link({
                     label: developer.name,
                     url: `/developers/${developer.id}`,
@@ -346,14 +349,14 @@ class Game extends React.Component {
                     key: `developer-${developer.id}`,
                   }))
                 }
-              </Minigrid>
-            </div>
-            <div style={[ InstanceDetailsStyles.articleGridCluster('60%') ]}>
-              <div style={[ InstanceDetailsStyles.articleIndicator ]}>
-                Articles:
+                </Minigrid>
               </div>
-              <Minigrid>
-                {
+              <div style={[InstanceDetailsStyles.articleGridCluster('60%')]}>
+                <div style={[InstanceDetailsStyles.articleIndicator]}>
+                Articles:
+                </div>
+                <Minigrid>
+                  {
                   this.props.articles.map(article => link({
                     label: article.title,
                     url: `/articles/${article.id}`,
@@ -361,17 +364,17 @@ class Game extends React.Component {
                     key: `article-${article.id}`,
                   }))
                 }
-              </Minigrid>
+                </Minigrid>
+              </div>
             </div>
           </div>
-        </div>
-        <div style={[ InstanceDetailsStyles.externalGridCluster ]}>
-          <div style={[ InstanceDetailsStyles.gameGridCluster('100%') ]}>
-            <div style={[ InstanceDetailsStyles.gameIndicator ]}>
+          <div style={[InstanceDetailsStyles.externalGridCluster]}>
+            <div style={[InstanceDetailsStyles.gameGridCluster('100%')]}>
+              <div style={[InstanceDetailsStyles.gameIndicator]}>
               Videos:
-            </div>
-            <Minigrid>
-              {
+              </div>
+              <Minigrid>
+                {
                 this.props.videos.map(video => externalLink({
                   label: video.name,
                   url: video.video_link,
@@ -379,26 +382,26 @@ class Game extends React.Component {
                   key: `video-${video.video_id}`,
                 }))
               }
-            </Minigrid>
+              </Minigrid>
+            </div>
           </div>
-        </div>
-        <div style={[ InstanceDetailsStyles.bigButtonCluster ]}>
-          {
+          <div style={[InstanceDetailsStyles.bigButtonCluster]}>
+            {
             steamIDs.map(steamID => bigButton({
               url: `https://store.steampowered.com/app/${steamID}/`,
               label: 'View on Steam',
               buttonKey: `steamButton-${this.props.steam_id}`,
             }))
           }
-          {
+            {
             igdbLinks.map(igdbLink => bigButton({
               url: igdbLink,
               label: 'View on IGDB',
               buttonKey: `igdbButton-${igdbLink}`,
             }))
           }
-        </div>
-      </InstanceDetails>
+          </div>
+        </InstanceDetails>
       </StyleRoot>
     );
   }
