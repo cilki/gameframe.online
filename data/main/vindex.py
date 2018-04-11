@@ -3,6 +3,7 @@
 # Copyright (C) 2018 GameFrame   -
 # --------------------------------
 
+from threading import Thread
 from math import isclose
 
 from tqdm import tqdm
@@ -33,7 +34,7 @@ Experimentally chosen weights for each score. They must sum to 1 for the convex
 combination (weighted average) calculation to be correct.
 """
 WEIGHTS = {'esrb': 0.05, 'website': 0.05, 'metacritic': 0.05, 'steam_igdb': 0.05,
-           'players': 0.15, 'articles': 0.40, 'videos': 0.25, 'tweets': 0.0}
+           'players': 0.15, 'articles': 0.25, 'videos': 0.25, 'tweets': 0.15}
 assert isclose(sum(WEIGHTS.values()), 1)
 
 """
@@ -42,14 +43,25 @@ Reference values for continuous scores
 REFERENCES = {'players': 50000}
 
 
+def load_game_cache():
+    """
+    Load the game cache if unloaded
+    """
+
+    if 'CACHE_GAME' not in globals():
+        print("[VINDEX] Loading game cache")
+        CACHE_GAME = TableCache(CachedGame, 'game_id')
+
+
 def compute_all():
     """
     Compute the VINDEX for all games in the working set
     """
+    load_game_cache()
     load_working_set()
     precompute()
 
-    for game in tqdm(WS.game_name.values()):
+    for game in tqdm(WS.games.values()):
         compute(game)
 
 
@@ -120,7 +132,7 @@ def precompute():
         print('[MAIN ] Computing link statistics and references')
 
         # Collect link information
-        for game in WS.game_name.values():
+        for game in WS.games.values():
             articles.append(len(game.articles))
             videos.append(len(game.videos))
             tweets.append(len(game.tweets))
@@ -129,8 +141,6 @@ def precompute():
         article_max = max(articles)
         video_max = max(videos)
         tweet_max = max(tweets)
-        # temp
-        tweet_max = 1
 
         print("[MAIN ]     ARTICLE_MAX: %d VIDEO_MAX: %d TWEET_MAX: %d" %
               (article_max, video_max, tweet_max))
@@ -147,3 +157,16 @@ def precompute():
         REFERENCES['article'] = int(round(0.85 * article_max))
         REFERENCES['video'] = int(round(0.85 * video_max))
         REFERENCES['tweet'] = int(round(0.85 * tweet_max))
+
+
+class VindexThread(Thread):
+
+    def __init__(self, games):
+        Thread.__init__(self)
+        self.games = games
+
+    def run(self):
+        while True:
+            for game in self.games:
+                compute(game)
+            time.sleep(10000000)

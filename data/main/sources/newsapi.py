@@ -3,42 +3,40 @@
 # Copyright (C) 2018 GameFrame   -
 # --------------------------------
 
-import json
-import os
+
 import re
-from codecs import open
 from datetime import datetime
+from functools import lru_cache
 
 from newsapi import NewsApiClient
-from ratelimit import rate_limited
 from tqdm import tqdm
 
-from cache import WS, Cache, load_working_set
+from cache import WS, KeyCache, TableCache, load_working_set
 from orm import Article, Developer, Game
+import registry
 
-from .util import condition, condition_developer, condition_heavy, keywordize, xappend
-
-"""
-The NEWS API keyfile
-"""
-API_KEYS = os.environ['KEYS_NEWSAPI']
-assert os.path.isfile(API_KEYS)
+from .util import condition, keywordize, url_normalize, xappend
 
 """
-The API key iterator
+The API key cache
 """
-with open(API_KEYS) as h:
-    KEY_ITER = iter([s.strip() for s in h.readlines()])
+KEYS = KeyCache(registry.KeyNewsapi)
 
 """
-The global NEWSAPI client
+The NewsAPI client
 """
-API = NewsApiClient(api_key=next(KEY_ITER))
+API = NewsApiClient(api_key=KEYS.get())
 
-"""
-The article cache
-"""
-CACHE_ARTICLE = Cache("/newsapi/articles")
+
+def load_article_cache():
+    """
+    Load the article cache if unloaded
+    """
+
+    if 'CACHE_ARTICLE' not in globals():
+        global CACHE_ARTICLE
+        CACHE_ARTICLE = TableCache(registry.CachedArticle, 'game_id')
+
 
 """
 The maximum number of article pages to request
@@ -70,18 +68,16 @@ BLACKLIST = re.compile(
     "\W+" + "\W.*$|\W+".join(BLACKLIST_KEYWORDS) + '\W.*$', re.IGNORECASE)
 
 
-def rq_articles(model):
+def rq_articles(game):
     """
     Request articles from NewsAPI
     """
-
     global API
-    articles = []
     p = 1
 
-    while True:
+    while p < MAX_PAGES:
         rq = API.get_everything(language='en', sort_by='relevancy', page_size=100,
-                                page=p, q=keywordize(model))
+                                page=p, q=keywordize(game))
 
         if rq['status'] == 'error':
             API = NewsApiClient(api_key=next(KEY_ITER))
@@ -90,136 +86,86 @@ def rq_articles(model):
         # Basic filtering
         for article_json in rq['articles']:
 
-            # Filter Outlet
-            if article_json.get('source', {}).get('name', '') not in WHITELIST:
-                continue
+            # Filter relevancy
+            name = condition_heavy(model.name)
+            if name not in condition_heavy(article_json['title']) and \
+                    name not in condition_heavy(article_json['description']):
+                return None
 
-            # Filter title
-            if not article_json.get('title'):
-                continue
+            CACHE_ARTICLE().add(CachedArticle(game_id=game.game_id, newsapi_data=article_json))
 
-            # Filter Introduction
-            if not article_json.get('description'):
-                continue
-
-            # Filter Author
-            if not article_json.get('author'):
-                continue
-
-            # Filter Timestamp
-            if not article_json.get('publishedAt'):
-                continue
-
-            # Filter Image
-            if not article_json.get('urlToImage'):
-                continue
-
-            # Filter Article link
-            if not article_json.get('url'):
-                continue
-
-            articles.append(article_json)
-
-        if rq['totalResults'] > p * 100 and p < MAX_PAGES:
-            # Move to the next page
-            p += 1
-            continue
-        else:
+        if rq['totalResults'] <= p * 100:
+            # That was the last page
             break
+        p += 1
 
     return articles
-
-
-def build_article(model, article_json):
-    """
-    Build a new Article object from the raw data
-    """
-    c_title = condition(article_json['title'])
-
-    # Consider duplicate titles to be the same article
-    if c_title in WS.articles:
-        return WS.articles[c_title]
-
-    # Filter blacklist
-    if BLACKLIST.search(c_title) is not None:
-        return None
-
-    # Filter relevancy
-    name = condition_heavy(model.name)
-    if name not in condition_heavy(article_json['title']) and \
-            name not in condition_heavy(article_json['description']):
-        return None
-
-    article = Article()
-    article.title = article_json['title']
-    article.c_title = c_title
-    article.outlet = article_json['source']['name']
-    article.introduction = article_json['description']
-    article.author = article_json['author']
-    article.timestamp = datetime.strptime(
-        article_json['publishedAt'], "%Y-%m-%dT%H:%M:%SZ")
-    article.cover = article_json['urlToImage']
-    article.article_link = article_json['url']
-
-    # Adjust URLs if needed
-    if article.cover.startswith('//'):
-        article.cover = 'http:' + article.cover
-
-    if article.cover.startswith('/'):
-        return None
-
-    if article.article_link.startswith('//'):
-        article.article_link = 'http:' + article.article_link
-
-    return article
 
 
 def gather_articles():
     """
     Search for articles related to games and download them to the cache
     """
+    load_article_cache()
     load_working_set()
 
-    print("[NWAPI] Gathering articles by game")
-    for game in tqdm(WS.game_name.values()):
-        if not CACHE_ARTICLE.exists(game.name):
-            articles = rq_articles(game)
-            # Write to the cache
-            CACHE_ARTICLE.write_json(
-                game.name.replace("/", "\\"), articles)
-
-    print("[NWAPI] Gather Complete")
+    for game in tqdm(WS.games.values(), '[NEWSAPI ] Gathering Articles'):
+        if not CACHE_ARTICLE.exists(game.game_id):
+            rq_articles(game)
 
 
-def merge_articles():
+def build_article(article, article_json):
     """
-    Merge cached articles into the working set and link
+    Build a new Article object from the raw data
     """
-    load_working_set()
+    if article is None or article_json is None:
+        return
 
-    print("[NWAPI] Merging/Linking articles")
-    for filename in tqdm(CACHE_ARTICLE.list_dir()):
+    article.outlet = article_json['source']['name']
+    article.introduction = article_json['description']
+    article.author = article_json['author']
+    article.timestamp = datetime.strptime(
+        article_json['publishedAt'], "%Y-%m-%dT%H:%M:%SZ")
+    article.cover = url_normalize(article_json['urlToImage'])
+    article.article_link = url_normalize(article_json['url'])
 
-        if not filename.replace("\\", "/") in WS.game_name:
-            continue
-        game = WS.game_name[filename.replace("\\", "/")]
 
-        for article_json in CACHE_ARTICLE.read_json(filename):
+def validate_article(article_json):
+    """
+    Validate the content of a raw article
+    """
+    if article_json is None:
+        return False
 
-            # Build Article
-            article = build_article(game, article_json)
-            if article is None:
-                continue
+    try:
+        # Filter Outlet
+        if article_json['source']['name'] not in WHITELIST:
+            return False
 
-            # Setup a relationship between the article and game
-            game.articles.append(article)
+        # Filter blacklist
+        if BLACKLIST.search(condition(article_json['title'])) is not None:
+            return False
 
-            # Setup a relationship between the article and any developers
-            for developer in game.developers:
-                if article not in developer.articles:
-                    developer.articles.append(article)
+        # Filter title
+        if len(article_json['title']) < 5:
+            return False
 
-            # Add to working set
-            WS.add_article(article)
+        # Filter Introduction
+        if len(article_json['description']) < 10:
+            return False
 
-    print("[NWAPI] Merge/Link Complete")
+        # Filter Timestamp
+        if len(article_json['publishedAt']) < 5:
+            return False
+
+        # Filter Image
+        if len(article_json['urlToImage']) < 10:
+            return False
+
+        # Filter Article link
+        if len(article_json['url']) < 10:
+            return False
+
+    except KeyError:
+        return False
+    return True

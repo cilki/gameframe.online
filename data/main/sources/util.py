@@ -33,11 +33,11 @@ def parse_steam_date(d):
     Parse a textual release date from Steam.
     """
     try:
-        return datetime.strptime(d, "%b %d, %Y")
+        return datetime.strptime(d, "%b %d, %Y").date()
     except ValueError:
         pass
     try:
-        return datetime.strptime(d, "%b %Y")
+        return datetime.strptime(d, "%b %Y").date()
     except ValueError:
         pass
 
@@ -79,11 +79,26 @@ def condition_developer(dev_name):
     return condition(name)
 
 
+def dict_delete(dict, key):
+    """
+    Delete a key from the given dictionary if it exists
+    """
+    try:
+        del dict[key]
+    except KeyError:
+        pass
+
+
 def keywordize(model):
     """
     Reduce a model to a keyword string
     """
     return condition(model.name)
+
+
+def url_normalize(url):
+    # TODO
+    return url
 
 
 def xappend(collection, item):

@@ -2,28 +2,34 @@
 # Google API scraper             -
 # Copyright (C) 2018 GameFrame   -
 # --------------------------------
-import json
+
 import os
+from datetime import datetime
 
 import requests
 from ratelimit import rate_limited
 from tqdm import tqdm
 
-from cache import WS, Cache, load_working_set
+from cache import WS, KeyCache, TableCache, load_working_set
 from orm import Game, Video
+import registry
 
 from .util import condition_heavy, keywordize, xappend
 
 """
-The API key
+The API key cache
 """
-API_KEY = os.environ['KEY_YOUTUBE']
+KEYS = KeyCache(registry.KeyGoogle)
 
 
-"""
-The video cache for games
-"""
-CACHE_VIDEO = Cache("/youtube/videos")
+def load_video_cache():
+    """
+    Load the video cache if unloaded
+    """
+
+    if 'CACHE_VIDEO' not in globals():
+        global CACHE_VIDEO
+        CACHE_VIDEO = TableCache(registry.CachedVideo, 'video_id')
 
 
 def rq_videos(game):
@@ -40,31 +46,10 @@ def rq_videos(game):
     assert rq.status_code == requests.codes.ok
     assert 'error' not in rq
 
-    videos = []
     for video_json in rq.json()['items']:
 
-        # Filter YouTube ID
-        if 'id' not in video_json or 'videoId' not in video_json['id']:
-            continue
-
-        # Filter title
-        if "snippet" not in video_json or "title" not in video_json["snippet"]:
-            continue
-
-        # Filter description
-        if "description" not in video_json["snippet"]:
-            continue
-
-        # Filter thumbnail
-        if "thumbnails" not in video_json["snippet"]:
-            continue
-
-        # Filter timestamp
-        if "publishedAt" not in video_json["snippet"]:
-            continue
-
-        # Filter channel
-        if "channelTitle" not in video_json["snippet"]:
+        # Filter
+        if not validate_video(video_json):
             continue
 
         # Filter video relevancy
@@ -74,23 +59,16 @@ def rq_videos(game):
             continue
 
         # Finally add the video
-        videos.append(video_json)
+        CACHE_VIDEO.add(CachedVideo(game_id=game.game_id,
+                                    youtube_data=video_json))
 
-    return videos
 
-
-def build_video(video_json):
+def build_video(video, video_json):
     """
     Build a Video object from the raw data
     """
-
-    # Match by title
-    if video_json['snippet']['title'] in WS.videos:
-        video = WS.videos[video_json['snippet']['title']]
-
-    # Build new Video
-    else:
-        video = Video()
+    if video is None or video_json is None:
+        return
 
     # YouTube ID
     if video.youtube_id is None:
@@ -110,7 +88,8 @@ def build_video(video_json):
 
     # Timestamp
     if video.timestamp is None:
-        video.timestamp = video_json['snippet']['publishedAt']
+        video.timestamp = datetime.strptime(video_json['snippet']['publishedAt'],
+                                            '%Y-%m-%dT%H:%M:%S.000Z')
 
     # Channel
     if video.channel is None:
@@ -120,47 +99,43 @@ def build_video(video_json):
     if video.video_link is None:
         video.video_link = "https://www.youtube.com/watch?v=" + video.youtube_id
 
-    return video
+
+def validate_video(video_json):
+    """
+    Validate the content of a raw video
+    """
+    if video_json is None:
+        return False
+
+    try:
+        # Filter title
+        if len(video_json['snippet']['title']) < 5:
+            return False
+
+        # Filter description
+        if len(video_json['snippet']['description']) < 5:
+            return False
+
+        # Filter ID
+        if not video_json['id']['videoId']:
+            return False
+
+        # Filter thumbnail
+        if len(video_json['snippet']['thumbnails']['medium']['url']) < 10:
+            return False
+
+    except KeyError:
+        return False
+    return True
 
 
-def gather_videos_by_game():
+def gather_videos():
     """
     Download videos from YouTube by game
     """
+    load_video_cache()
     load_working_set()
 
-    print("[GOOGLE] Gathering videos")
-
-    for game in tqdm(WS.game_name.values()):
-        name = game.name.replace("/", "\\")
-        if not CACHE_VIDEO.exists(name):
-            CACHE_VIDEO.write_json(name, rq_videos(game))
-
-    print("[GOOGLE] Gather complete")
-
-
-def merge_videos():
-    """
-    Merge cached videos into the working set and link
-    """
-    load_working_set()
-
-    print("[GOOGLE] Merging/Linking videos")
-    for filename in tqdm(CACHE_VIDEO.list_dir()):
-
-        if not filename.replace("\\", "/") in WS.game_name:
-            continue
-        game = WS.game_name[filename.replace("\\", "/")]
-
-        for video_json in CACHE_VIDEO.read_json(filename):
-
-            # Build Video
-            video = build_video(video_json)
-
-            # Setup a relationship between the video and game
-            xappend(game.videos, video)
-
-            # Add to working set
-            WS.add_video(video)
-
-    print("[GOOGLE] Merge/Link Complete")
+    for game in tqdm(WS.games.values(), '[YOUTUBE ] Gathering Videos'):
+        if not CACHE_VIDEO.exists(game.game_id):
+            rq_videos(game)
