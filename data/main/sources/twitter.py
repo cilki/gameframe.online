@@ -9,6 +9,11 @@ import requests
 import os
 import json
 
+import hashlib
+import urllib
+import hmac
+import base64
+
 import random
 import time
 
@@ -23,8 +28,8 @@ The API keys
 # TODO: Retrieve correct keys for following variables
 CONSUMER_KEY = os.environ['KEY_TWITTER']
 CONSUMER_SECRET = os.environ['KEY_TWITTER']
-ACCESS_TOKEN = os.environ['KEY_TWITTER']
-ACCESS_TOKEN_SECRET = os.environ['KEY_TWITTER']
+TOKEN = os.environ['KEY_TWITTER']
+TOKEN_SECRET = os.environ['KEY_TWITTER']
 
 """
 Functions to help with Twitter API Authentication
@@ -39,27 +44,43 @@ def oauth_nonce_generator():
 def oauth_timestamp_generator():
     return int(time.time())
 
-# TODO: this function needs to return a signature using 4 key variables
-def oauth_signature_generator():
-    return oauth_nonce_generator()
+# TODO: 401: authentication is problematic
+def oauth_signature_generator(url, nonce, timestamp):
+    rq_params = {'oauth_consumer_key': CONSUMER_KEY, 'oauth_token': TOKEN,
+                 'oauth_nonce': nonce, 'oauth_timestamp': timestamp, 
+                 'oauth_signature_method': 'HMAC-SHA1', 'oauth_version': '1.0'}
+    
+    s = '&'.join([('%s=%s' % ((urllib.parse.quote(str(i), safe='')),
+        urllib.parse.quote(str(rq_params[i]), safe=''))) for i in sorted(rq_params)])
+    
+    base_str = '&'.join([urllib.parse.quote("GET", safe=''), urllib.parse.quote(url,
+               safe=''), urllib.parse.quote(s, safe='')])
+    
+    key = "%s&%s" % (urllib.parse.quote(str(CONSUMER_SECRET), safe=''), 
+          urllib.parse.quote(str(TOKEN_SECRET), safe=''))
+    
+    # TODO: fix this line
+    sig = hmac.new(b'key', b'base_str', hashlib.sha1).digest()
+    return base64.b64encode(sig)
 
 @rate_limited(period=40, every=60)
 def rq_tweets_from_keyword(game):
     """
     Request tweet metadata using Twitter API
     """
-    print("[Twitter API ] Downloading tweet metadata for game: %s" % game.name)
-
-    response = requests.get("https://api.twitter.com/1.1/search/tweets.json",
-            params={'q': keywordize(game).replace(" ", "+"),
-            'oauth_consumer_key': CONSUMER_KEY,
-            'oauth_token': ACCESS_TOKEN,
-            'oauth_signature_method': "HMAC-SHA1",
-            'oauth_timestamp': oauth_timestamp_generator(),
-            'oauth_nonce': oauth_nonce_generator(),
-            'oauth_version': "1.0",
-            'oauth_signature': oauth_signature_generator()})
-
+    print("[Twitter API ] Downloading tweet metadata for game:")
+    
+    url = "https://api.twitter.com/1.1/search/tweets.json?q=%s/" % keywordize(game)
+    nonce = oauth_nonce_generator()
+    timestamp = oauth_timestamp_generator()
+    signature = oauth_signature_generator(url, nonce, timestamp)
+    
+    response = requests.get(url,
+            params={'oauth_consumer_key': CONSUMER_KEY,
+            'oauth_token': TOKEN, 'oauth_signature_method': "HMAC-SHA1",
+            'oauth_timestamp': timestamp, 'oauth_nonce': nonce,
+            'oauth_version': "1.0", 'oauth_signature': signature})
+    
     assert response.status_code == requests.codes.ok
     return response.json()
 
@@ -72,7 +93,7 @@ def populate_tweets_for_games(db):
 
     # Iterate through games in our database
     for game in Game.query.all():
-        tweets_json = rq_tweets_from_keyword(game.name)
+        tweets_json = rq_tweets_from_keyword(game)
         lst = tweets_json["statuses"]
         for i in lst:
             counter += 1
