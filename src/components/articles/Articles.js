@@ -59,6 +59,8 @@ class Articles extends React.Component {
                 games={article.game_count}
                 developers={article.developer_count}
                 source={article.article_link}
+
+                aspectRatio={16/9}
               />
             );
           })

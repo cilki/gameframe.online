@@ -10,18 +10,18 @@ const cardHeight = '256px';
 const cardBorderColor = '#dddddd';
 
 const Card = {
-  main: {
+  main: aspectRatio => ({
     padding: '10px',
     margin: 'auto',
-    flexBasis: '20vw',
+    flexBasis: `calc(20vw * ${aspectRatio})`,
     minWidth: '10vw',
-    maxWidth: `${cardWidth}`,
+    maxWidth: `calc(${cardWidth} * ${aspectRatio}`,
     margin: '0',
     '@media screen and (max-width: 512px)': {
       margin: 'auto',
       minWidth: '45vw',
     },
-  },
+  }),
 
   titleText: {
     color: '#e9e9e9',
@@ -47,13 +47,14 @@ const Card = {
     },
   },
 
-  imageContainerContainer: {
+  imageContainerContainer: aspectRatio => ({
     maxHeight: `${cardHeight}`,
     height: '20vw',
+ //   height: `calc(20vw / ${aspectRatio})`,
     '@media screen and (max-width: 512px)': {
-      height: '45vw',
+      height: `calc(45vw / ${aspectRatio / 2}`,
     },
-  },
+  }),
 
   imageContainer: () => ({
     overflow: 'hidden',

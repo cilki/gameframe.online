@@ -67,6 +67,8 @@ class Games extends React.Component {
                 articles={game.article_count}
                 genres={game.genres}
                 platforms={game.platforms}
+
+                aspectRatio={1.0}
               />
             );
           })

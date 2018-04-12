@@ -41,6 +41,8 @@ class Card extends React.Component {
     twitter: PropTypes.string,
     website: PropTypes.string,
     source: PropTypes.string,
+
+    aspectRatio: PropTypes.number,
   };
 
   static defaultProps = {
@@ -61,6 +63,8 @@ class Card extends React.Component {
     twitter: null,
     website: null,
     source: null,
+
+    aspectRatio: 1.0,
   };
 
   /**
@@ -79,14 +83,14 @@ class Card extends React.Component {
     const country = origin ? origin.country : null;
 
     return (
-      <div style={[CardStyles.main]}>
+      <div style={[CardStyles.main(this.props.aspectRatio)]}>
         <p style={[CardStyles.titleText]}>
           {this.props.title}
         </p>
         <Link to={this.props.url} style={{ textDecoration: 'none' }}>
           <div>
             <div style={[CardStyles.card]} key={title}>
-              <div style={[CardStyles.imageContainerContainer]} key={`${title}-container`}>
+              <div style={[CardStyles.imageContainerContainer(this.props.aspectRatio)]} key={`${title}-container`}>
                 <div style={[CardStyles.imageContainer(imageCover)]} key={`${title}-image-container`}>
                   <div style={[CardStyles.backgroundImageContainer]}>
                     <img

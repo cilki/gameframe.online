@@ -61,6 +61,8 @@ class Developers extends React.Component {
                 games={developer.game_count}
                 twitter={developer.twitter}
                 website={developer.website}
+
+                aspectRatio={19/18}
               />
             );
           })
