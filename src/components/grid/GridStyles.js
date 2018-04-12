@@ -5,7 +5,7 @@ export default {
     flexDirection: 'row',
     flexWrap: 'wrap',
     position: 'relative',
-    justifyContent: 'space-between',
+    justifyContent: 'center',
     maxWidth: '100%',
     paddingTop: '2%',
     paddingLeft: '2%',
