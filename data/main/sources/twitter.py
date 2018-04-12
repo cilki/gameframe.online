@@ -12,7 +12,7 @@ import json
 import sys
 sys.path.append(os.path.abspath('app'))
 from orm import Game, Tweet
-import util
+from util import *
 
 from TwitterSearch import *
 
@@ -35,6 +35,7 @@ def rq_tweets_from_keyword(game):
     
     tso = TwitterSearchOrder()
     tso.set_keywords(keywordize(game).split())
+    tso.set_language('en')
     
     ts = TwitterSearch(consumer_key = CONSUMER_KEY,
          consumer_secret = CONSUMER_SECRET,
