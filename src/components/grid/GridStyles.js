@@ -63,11 +63,6 @@ export default {
     },
   },
 
-  toggleContainer: {
-    margin: '20px auto auto auto',
-    maxWidth: '10%',
-  },
-
   filterContainer: {
     margin: '20px auto auto auto',
     maxWidth: '33%',
@@ -79,9 +74,24 @@ export default {
   },
 
   filterSelectContainer: {
-    marginTop: '0 auto auto auto',
+    margin: '0 auto auto auto',
     maxWidth: '100%',
     display: 'block',
     flexGrow: '1',
+  },
+
+  toggleContainer: {
+    minWidth: '10%',
+    paddingLeft: '2%',
+    paddingRight: '2%',
+    margin: '0 auto auto auto',
+    display: 'block',
+    flexGrow: '0',
+  },
+
+  toggle: {
+    '@media screen and (min-width: 0px)': {
+      borderRadius: '0px',
+    },
   },
 };
