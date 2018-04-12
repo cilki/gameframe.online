@@ -85,7 +85,8 @@ def populate_tweets_for_games(db):
             
             # Tweet Link
             if "user" in i and "screen_name" in i["user"]:
-                tweet.tweet_link = "https://twitter.com/" + i["user"]["screen_name"] + "/status/" + tweet.twitter_id
+                tweet.tweet_link = "https://twitter.com/" +
+                i["user"]["screen_name"] + "/status/" + str(tweet.twitter_id)
             else:
                 print("Failed to load tweet.")
                 break
