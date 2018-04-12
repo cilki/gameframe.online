@@ -306,7 +306,7 @@ class Game extends React.Component {
                   {price !== null ? 'Price:' : 'Unknown Price'}&nbsp;
                 </div>
                 <div style={[InstanceDetailsStyles.priceTag]}>
-                  {price !== null ? `${price}` : ''}
+                  {price !== null ? `\$${price}` : ''}
                 </div>
               </div>
               <div style={[InstanceDetailsStyles.currentPlayers]}>
