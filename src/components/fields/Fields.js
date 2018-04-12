@@ -6,7 +6,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Radium from 'radium';
-import { Carousel, Badge, Label } from 'react-bootstrap';
+import { Carousel, Badge, Label, OverlayTrigger, Tooltip } from 'react-bootstrap';
 import Styles from './FieldsStyles';
 
 class Fields extends React.Component {
@@ -30,9 +30,11 @@ class Fields extends React.Component {
     articles: PropTypes.number,
     videos: PropTypes.number,
 
+    steam: PropTypes.string,
+    igdb: PropTypes.string,
     twitter: PropTypes.string,
     website: PropTypes.string,
-    source: PropTypes.string,
+    source: PropTypes.string
   };
 
   static defaultProps = {
@@ -49,9 +51,11 @@ class Fields extends React.Component {
     articles: null,
     videos: null,
 
+    steam: null,
+    igdb: null,
     twitter: null,
     website: null,
-    source: null,
+    source: null
   };
 
   /**
@@ -63,6 +67,16 @@ class Fields extends React.Component {
   }
 
   render() {
+    const MediaEnum = Object.freeze(
+      {
+        "Steam":"/static/images/icons8-steam-filled.svg",
+        "IGDB":"/static/images/igdb.jpg",
+        "Twitter":"/static/images/icons8-twitter.svg",
+        "Website":"/static/images/Globe_icon_4.png",
+        "Source":"/static/images/icons8-black-hot-article-50.png"        
+      }
+    );
+    
     let fields = 0;
 
     /**
@@ -194,11 +208,13 @@ class Fields extends React.Component {
     function getItems(items) {
       const subItems = [];
       for (let i = 0; i < items.length; i++) {
-        subItems.push(<Carousel.Item key={`item-${items[i].name}`}>
-          <div style={[Styles.item]}>
-            {items[i].name}
-          </div>
-                      </Carousel.Item>);
+        subItems.push(
+          <Carousel.Item key={`item-${items[i].name}`}>
+            <div style={[Styles.item]}>
+              {items[i].name}
+            </div>
+          </Carousel.Item>
+        );
       }
       return subItems;
     }
@@ -261,13 +277,15 @@ class Fields extends React.Component {
 
     /**
      * @description - Conditionally render a row of medias.
+     * @param {string|null} steam
+     * @param {string|null} igdb
      * @param {string|null} twitter
      * @param {string|null} website
      * @param {string|null} source
      * @return {React.Component|null}
      */
-    function showMedias(twitter, website, source) {
-      if (twitter != null || website != null || source != null) {
+    function showMedias(steam, igdb, twitter, website, source) {
+      if (steam != null || igdb != null || twitter != null || website != null || source != null) {
         return (
           <div style={[Styles.flexRow]}>
             <div style={[Styles.flexColumn]}>
@@ -277,9 +295,11 @@ class Fields extends React.Component {
                 </div>
               </div>
               <div style={[Styles.flexRow]}>
-                {showMedia(twitter, 'Twitter')}
-                {showMedia(website, 'Website')}
-                {showMedia(source, 'Source')}
+                {showMedia(steam, "Steam")}
+                {showMedia(igdb, "IGDB")}
+                {showMedia(twitter, "Twitter")}
+                {showMedia(website, "Website")}
+                {showMedia(source, "Source")}
               </div>
             </div>
           </div>
@@ -289,25 +309,75 @@ class Fields extends React.Component {
     }
 
     /**
-     * @description - Conditionally render a media link.
+     * @description - Conditionally render a media icon with tooltip overlay.
      * @param {string|null} url
      * @param {string} title
      * @return {React.Component|null}
      */
     function showMedia(url, title) {
       if (url != null) {
+        const tooltip = (
+          <Tooltip id={`${title}-tooltip`} key={`${title}-tooltip`}>
+            <div>
+              {getFormattedUrl(url)}
+            </div>
+          </Tooltip>
+        );
+        let iconUrl = getIconUrl(title);
         fields += 1;
         return (
-          <div style={[Styles.label]}>
+          <div style={[Styles.icon]}>
             <div style={[Styles.flexColumn]}>
-              <div style={[Styles.smallText]}>
-                {title}
-              </div>
+              <OverlayTrigger placement={"top"} overlay={tooltip}>
+                <img src={iconUrl} style={[Styles.iconImage]}/>
+              </OverlayTrigger>
             </div>
           </div>
         );
       }
       return null;
+    }
+    
+    /**
+     * @description - Given a title (key), get the url (value) associated.
+     * @param {string} title
+     * @return {string}
+     */
+    function getIconUrl(title) {
+      let iconUrl = "";
+      if (MediaEnum.hasOwnProperty(title)) {
+        iconUrl = MediaEnum[title];
+      }
+      return iconUrl;      
+    }
+    
+    /**
+     * @description - Format the url into chunks of stylized 
+     * strings, so that it fits into the tooltip.
+     * @param {string} url
+     * @return {array}
+     */
+    function getFormattedUrl(url) {
+      const formattedUrl = [];
+      let chunkifiedUrl = chunkifyUrl(url, 24);
+      for (let chunk in chunkifiedUrl) {
+        formattedUrl.push(
+          <div style={[Styles.urlText]}>
+            {chunkifiedUrl[chunk]}
+          </div>
+        );
+      }
+      return formattedUrl;      
+    }
+    
+    /**
+     * @description - Break up the url (str) into length sized chunks.
+     * @param {string} str
+     * @param {number} length
+     * @return {array}
+     */
+    function chunkifyUrl(str, length) {
+      return str.match(new RegExp('.{1,' + length + '}', 'g'));
     }
 
     /**
@@ -339,7 +409,7 @@ class Fields extends React.Component {
         {showItems('Platforms', this.props.platforms)}
 
         {showReferences(this.props.games, this.props.developers, this.props.articles, this.props.videos)}
-        {showMedias(this.props.twitter, this.props.website, this.props.source)}
+        {showMedias(this.props.steam, this.props.igdb, this.props.twitter, this.props.website, this.props.source)}
         {showNone(fields)}
       </div>
     );
