@@ -10,7 +10,7 @@ import os
 from multi_key_dict import multi_key_dict
 from sqlalchemy.exc import InvalidRequestError
 
-from common import CACHE_GAMEFRAME
+import common
 from orm import db, Article, Developer, Game, Video, Tweet, Genre, Platform
 from sources.util import dict_delete
 
@@ -26,7 +26,7 @@ class KeyCache():
         """
 
         self.key_iter = iter(Model.query.all())
-        self.key = next(self.key_iter)
+        self.key = next(self.key_iter).api_key
 
     def get(self):
         """
@@ -38,7 +38,8 @@ class KeyCache():
         """
         Advance to the next API key or raise a StopIteration exception
         """
-        self.key = next(self.key_iter)
+        self.key = next(self.key_iter).api_key
+        return self.get()
 
 
 class FolderCache ():
@@ -47,7 +48,7 @@ class FolderCache ():
     """
 
     def __init__(self, location):
-        location = CACHE_GAMEFRAME + location
+        location = common.CACHE_GAMEFRAME + location
         assert os.path.isdir(location)
         self.location = location
 
