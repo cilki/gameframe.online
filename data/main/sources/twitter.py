@@ -2,103 +2,116 @@
 # Twitter API scraper            -
 # Copyright (C) 2018 GameFrame   -
 # --------------------------------
-from ratelimit import rate_limited
-from codecs import open
 
-import requests
 import os
-import json
-
 import sys
 sys.path.append(os.path.abspath('app'))
 from orm import Game, Tweet
-from util import *
+from sources.util import keywordize
+from datetime import datetime
 
 from TwitterSearch import *
 
-"""
-The API keys
-"""
+from tqdm import tqdm
 
-# TODO: Retrieve correct keys for following variables
-CONSUMER_KEY = os.environ['KEY_TWITTER']
-CONSUMER_SECRET = os.environ['KEY_TWITTER']
-TOKEN = os.environ['KEY_TWITTER']
-TOKEN_SECRET = os.environ['KEY_TWITTER']
+from cache import WS, KeyCache, load_working_set
+from common import TC, load_registry
+from registry import KeyTwitter, CachedTweet
 
-@rate_limited(period=40, every=60)
-def rq_tweets_from_keyword(game):
+"""
+The API key cache
+"""
+KEYS = KeyCache(KeyTwitter)
+
+"""
+The Twitter API client
+"""
+API = TwitterSearch(*KEYS.get().splitlines())
+
+
+def rq_tweets(game):
     """
-    Request tweet metadata using the Python library TwitterSearch
+    Request tweet metadata according to a game using the Twitter API
     """
-    print("[Twitter API ] Downloading tweet metadata for game:")
-    
     tso = TwitterSearchOrder()
     tso.set_keywords(keywordize(game).split())
     tso.set_language('en')
-    
-    ts = TwitterSearch(consumer_key = CONSUMER_KEY,
-         consumer_secret = CONSUMER_SECRET,
-         access_token = TOKEN, access_token_secret = TOKEN_SECRET)
-    
-    return ts.search_tweets_iterable(tso)
 
-def populate_tweets_for_games(db):
+    for tweet_json in API.search_tweets_iterable(tso):
+
+        # Filter unit
+        if not validate_tweet(tweet_json):
+            continue
+
+        # TODO filter relevancy
+
+        # Finally add the tweet
+        TC['Tweet.game_id'].add(CachedTweet(game_id=game.game_id,
+                                            twitter_data=tweet_json))
+
+
+def build_tweet(tweet, tweet_json):
     """
-    Insert tweets related to our list of games into the database.
+    Build a Tweet object from the raw data
     """
-    counter = 0
-    
-    # Iterate through games in our database
-    for game in Game.query.all():
-        lst = rq_tweets_from_keyword(game)
-        for i in lst:
-            counter += 1
-            tweet = Tweet()
-            
-            # Twitter ID
-            if "id" in i:
-                tweet.twitter_id = i["id"]
-            else:
-                print("Failed to load tweet.")
-                break
-            
-            # Content
-            if "text" in i:
-                tweet.content = i["text"]
-            else:
-                print("Failed to load tweet.")
-                break
-            
-            # User
-            if "user" in i and "name" in i["user"]:
-                tweet.user = i["user"]["name"]
-            else:
-                print("Failed to load tweet.")
-                break
-            
-            # Timestamp
-            if "created_at" in i:
-                tweet.timestamp = i["created_at"]
-            else:
-                print("Failed to load tweet.")
-                break
-            
-            # Tweet Link
-            if "user" in i and "screen_name" in i["user"]:
-                tweet.tweet_link = "https://twitter.com/" +
-                i["user"]["screen_name"] + "/status/" + str(tweet.twitter_id)
-            else:
-                print("Failed to load tweet.")
-                break
-            
-            # Setting up a relationship between tweet and game
-            game.tweets.append(tweet)
-            tweet.games.append(game)
-            
-            print("Uploading tweets for game %s" % game.name.encode('utf-8', 'ignore'))
-            
-            db.session.add(tweet)
-            db.session.commit()
-        
-        print("[Twitter API ] Inserted %d new tweets for %s" % counter, game.name)
+    if tweet is None or tweet_json is None:
+        return
+
+    # Twitter ID
+    if tweet.twitter_id is None:
+        tweet.twitter_id = tweet_json['id']
+
+    # Content
+    if tweet.content is None:
+        tweet.content = tweet_json['text']
+
+    # User
+    if tweet.user is None:
+        tweet.user = tweet_json['user']['name']
+
+    # Timestamp
+    if tweet.timestamp is None:
+        tweet.timestamp = datetime.strptime(tweet_json['created_at'],
+                                            '%Y-%m-%dT%H:%M:%S.000Z')
+
+    # Link
+    if tweet.tweet_link is None:
+        tweet.tweet_link = "https://twitter.com/%s/status/%s" % (
+            tweet_json['user']['screen_name'], tweet.twitter_id)
+
+
+def validate_tweet(tweet_json):
+    """
+    Validate the content of a raw tweet
+    """
+    if tweet_json is None:
+        return False
+
+    try:
+        # Filter ID
+        if tweet_json['id'] is None:
+            return False
+
+        # Filter content
+        if tweet_json['text'] is None:
+            return False
+
+        # Filter timestamp
+        if tweet_json['created_at'] is None:
+            return False
+
+    except KeyError:
+        return False
+    return True
+
+
+def gather_tweets():
+    """
+    Download tweets from Twitter by game
+    """
+    load_working_set()
+    load_registry('Tweet', 'game_id')
+
+    for game in tqdm(WS.games.values(), '[TWITTER ] Gathering Tweets'):
+        if not TC['Tweet.game_id'].exists(game.game_id):
+            rq_tweets(game)
