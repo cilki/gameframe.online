@@ -10,9 +10,7 @@ sys.path.append(os.path.abspath('data/main'))
 from flask import Flask
 from flask_cors import CORS
 
-from vindex import VindexThread
-
-from app.orm import db, Game
+from app.orm import db
 from app.api import generate_api
 
 
@@ -22,7 +20,7 @@ CORS(app)
 
 # Configure SQLAlchemy
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-app.config['SQLALCHEMY_DATABASE_URI'] = os.environ['SQLALCHEMY_URI']
+app.config['SQLALCHEMY_BINDS'] = {'gameframe': os.environ['SQLALCHEMY_URI']}
 
 # Initialize database
 db.init_app(app)
@@ -30,10 +28,6 @@ db.init_app(app)
 # Initialize API
 generate_api(app, db)
 
-# Start the VINDEX thread
-with app.app_context():
-    VindexThread(db, Game.query.filter(Game.steam_id != None).all()).start()
-
 # Start Flask
 if __name__ == "__main__":
-    app.run(host='0.0.0.0', port=80)
+    app.run(host='0.0.0.0', port=80, debug=False, use_reloader=False)

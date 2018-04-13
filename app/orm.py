@@ -220,6 +220,9 @@ class Tweet(db.Model):
 
     tweet_id = db.Column(db.Integer, primary_key=True)
 
+    # The tweet's Twitter ID
+    twitter_id = db.Column(db.BigInteger)
+
     # The tweet content
     content = db.Column(db.Text)
 
