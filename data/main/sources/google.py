@@ -12,13 +12,14 @@ from tqdm import tqdm
 
 from cache import WS, KeyCache, load_working_set
 from common import TC, load_registry
+from registry import KeyGoogle, CachedVideo
 
 from .util import condition_heavy, keywordize, xappend
 
 """
 The API key cache
 """
-KEYS = KeyCache(registry.KeyGoogle)
+KEYS = KeyCache(KeyGoogle)
 
 
 def rq_videos(game):
@@ -28,7 +29,7 @@ def rq_videos(game):
     rq = requests.get("https://www.googleapis.com/youtube/v3/search",
                       params={'q': keywordize(game).replace(" ", "+"),
                               'order': 'relevance', 'part': 'snippet',
-                              'type': 'video', 'maxResults': 50, 'key': API_KEY,
+                              'type': 'video', 'maxResults': 50, 'key': KEYS.get(),
                               'videoCategoryId': 20})
 
     assert rq.status_code == requests.codes.ok
@@ -36,7 +37,7 @@ def rq_videos(game):
 
     for video_json in rq.json()['items']:
 
-        # Filter
+        # Filter unit
         if not validate_video(video_json):
             continue
 
@@ -47,8 +48,8 @@ def rq_videos(game):
             continue
 
         # Finally add the video
-        CACHE_VIDEO.add(CachedVideo(game_id=game.game_id,
-                                    youtube_data=video_json))
+        TC['Video.game_id'].add(CachedVideo(game_id=game.game_id,
+                                            youtube_data=video_json))
 
 
 def build_video(video, video_json):
@@ -122,9 +123,8 @@ def gather_videos():
     Download videos from YouTube by game
     """
     load_working_set()
-    load_registry('Video', 'video_id')
-    load_registry('Game', 'game_id')
+    load_registry('Video', 'game_id')
 
-    for game in tqdm(TC['Video.video_id'], '[YOUTUBE ] Gathering Videos'):
-        if not TC['Game.game_id'].exists(game.game_id):
+    for game in tqdm(WS.games.values(), '[YOUTUBE ] Gathering Videos'):
+        if not TC['Video.game_id'].exists(game.game_id):
             rq_videos(game)

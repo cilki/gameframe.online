@@ -13,13 +13,14 @@ from tqdm import tqdm
 
 from cache import WS, KeyCache, load_working_set
 from common import TC, load_registry
+from registry import KeyNewsapi, CachedArticle
 
-from .util import condition, keywordize, url_normalize, xappend
+from .util import condition, condition_heavy, keywordize, url_normalize, xappend
 
 """
 The API key cache
 """
-KEYS = KeyCache(registry.KeyNewsapi)
+KEYS = KeyCache(KeyNewsapi)
 
 """
 The NewsAPI client
@@ -66,39 +67,40 @@ def rq_articles(game):
 
     while p < MAX_PAGES:
         rq = API.get_everything(language='en', sort_by='relevancy', page_size=100,
-                                page=p, q=keywordize(game))
+                                page=p, q=game.c_name)
 
         if rq['status'] == 'error':
-            API = NewsApiClient(api_key=next(KEY_ITER))
+            API = NewsApiClient(KEYS.advance())
             continue
 
-        # Basic filtering
         for article_json in rq['articles']:
 
+            if not validate_article(article_json):
+                continue
+
             # Filter relevancy
-            name = condition_heavy(model.name)
+            name = condition_heavy(game.c_name)
             if name not in condition_heavy(article_json['title']) and \
                     name not in condition_heavy(article_json['description']):
-                return None
+                continue
 
-            CACHE_ARTICLE().add(CachedArticle(game_id=game.game_id, newsapi_data=article_json))
+            TC['Article.game_id'].add(CachedArticle(
+                game_id=game.game_id, newsapi_data=article_json))
 
         if rq['totalResults'] <= p * 100:
             # That was the last page
             break
         p += 1
 
-    return articles
-
 
 def gather_articles():
     """
     Search for articles related to games and download them to the cache
     """
-    load_registry('Game', 'game_id')
+    load_working_set()
     load_registry('Article', 'game_id')
 
-    for game in tqdm(TC['Game.game_id'], '[NEWSAPI ] Gathering Articles'):
+    for game in tqdm(WS.games.values(), '[NEWSAPI ] Gathering Articles'):
         if not TC['Article.game_id'].exists(game.game_id):
             rq_articles(game)
 
@@ -140,7 +142,7 @@ def validate_article(article_json):
             return False
 
         # Filter Introduction
-        if len(article_json['description']) < 10:
+        if article_json['description'] is None or len(article_json['description']) < 10:
             return False
 
         # Filter Timestamp
@@ -148,7 +150,7 @@ def validate_article(article_json):
             return False
 
         # Filter Image
-        if len(article_json['urlToImage']) < 10:
+        if article_json['urlToImage'] is None or len(article_json['urlToImage']) < 10:
             return False
 
         # Filter Article link

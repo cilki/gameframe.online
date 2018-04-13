@@ -10,6 +10,8 @@ import os
 from multi_key_dict import multi_key_dict
 from sqlalchemy.exc import InvalidRequestError
 
+from tqdm import tqdm
+
 import common
 from orm import db, Article, Developer, Game, Video, Tweet, Genre, Platform
 from sources.util import dict_delete
@@ -81,8 +83,11 @@ class TableCache ():
         """
         """
         self.key_col = key_col
-        self.models = {getattr(x, key_col): x for x in Model.query.filter(
-            getattr(Model, key_col) != None).all()}
+        self.models = {}
+        query = Model.query.filter(
+            getattr(Model, key_col) != None).yield_per(1000)
+        for m in tqdm(query, total=query.count(), desc='Loading Cache Table', leave=False):
+            self.models[getattr(m, key_col)] = m
 
     def __iter__(self):
         """
@@ -257,7 +262,7 @@ class WorkingSet ():
         """
         self.videos[video.video_id, video.name] = video
 
-    def add_tweet(selt, tweet):
+    def add_tweet(self, tweet):
         """
         Add a tweet to the working set
         """

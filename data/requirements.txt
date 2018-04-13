@@ -2,6 +2,7 @@ Flask==0.12.2
 Flask-SQLAlchemy==2.3.2
 PyMySQL==0.8.0
 SQLAlchemy==1.2.5
+TwitterSearch==1.0.2
 Wand==0.4.4
 boto3==1.6.17
 multi-key-dict==2.0.3

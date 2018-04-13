@@ -5,6 +5,7 @@
 
 import os
 
+
 """
 The GameFrame CDN URL for images
 """
@@ -22,12 +23,16 @@ Storage for the global TableCaches
 """
 TC = {}
 
+import cache
+
 
 def load_registry(model, key):
     """
     Load a TableCache if not already loaded
     """
+    global TC
 
     model_key = model + '.' + key
     if model_key not in TC:
-        TC[model_key] = TableCache(eval(model), key)
+        import registry
+        TC[model_key] = cache.TableCache(eval('registry.Cached' + model), key)

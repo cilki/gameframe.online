@@ -72,12 +72,7 @@ def build_tweet(tweet, tweet_json):
     # Timestamp
     if tweet.timestamp is None:
         tweet.timestamp = datetime.strptime(tweet_json['created_at'],
-                                            '%Y-%m-%dT%H:%M:%S.000Z')
-
-    # Link
-    if tweet.tweet_link is None:
-        tweet.tweet_link = "https://twitter.com/%s/status/%s" % (
-            tweet_json['user']['screen_name'], tweet.twitter_id)
+                                            '%a %b %d %H:%M:%S %z %Y')
 
 
 def validate_tweet(tweet_json):

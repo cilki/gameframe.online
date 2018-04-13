@@ -59,17 +59,21 @@ def rq_app_list():
 
 def rq_player_count(appid):
     """
-    Request the current number of players
+    Request the current number of Steam players for the given game
     """
 
     rq = requests.get("https://api.steampowered.com/ISteamUserStats/" +
                       "GetNumberOfCurrentPlayers/v1", {'appid': appid})
 
-    if rq.status_code == requests.codes.not_found:
-        return 0
+    if not rq.status_code == requests.codes.ok:
+        return None
 
-    assert rq.status_code == requests.codes.ok
-    return rq.json()['response'].get('player_count', 0)
+    rq = rq.json()['response']
+
+    if rq['result'] == 1:
+        return rq['player_count']
+
+    return None
 
 
 @rate_limited(period=40, every=60)

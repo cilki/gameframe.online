@@ -12,13 +12,14 @@ from tqdm import tqdm
 from cache import WS, KeyCache, load_working_set
 from orm import Developer, Game, Genre, Image, Platform
 from common import TC, load_registry
+from registry import KeyIgdb
 
 from .util import condition, condition_developer, url_normalize, xappend
 
 """
 The API key cache
 """
-KEYS = KeyCache(registry.KeyIgdb)
+KEYS = KeyCache(KeyIgdb)
 
 
 """

@@ -5,7 +5,8 @@
 
 from tqdm import tqdm
 
-from orm import db, Game, Developer, Article, Video, Tweet
+from orm import db
+from common import TC, load_registry
 from sources.util import condition, condition_developer, xappend
 
 
@@ -156,7 +157,7 @@ class KeyGoogle(db.Model):
     api_key = db.Column(db.Text)
 
 
-from sources import igdb, newsapi, steam, google
+import sources
 from cache import WS, load_working_set
 
 
@@ -165,8 +166,9 @@ def merge_games():
     Merge cached games into the working set
     """
     load_working_set()
+    load_registry('Game', 'game_id')
 
-    for game_cached in tqdm(CachedGame.query.all(), '[REGISTRY] Merging Games'):
+    for game_cached in tqdm(TC['Game.game_id'], '[REGISTRY] Merging Games'):
         if game_cached.steam_data is None and game_cached.igdb_data is None:
             continue
         steam_data = game_cached.steam_data
@@ -176,8 +178,8 @@ def merge_games():
 
         game = WS.build_game(game_cached.game_id, game_cached.steam_id,
                              game_cached.igdb_id, name, condition(name))
-        steam.build_game(game, steam_data)
-        igdb.build_game(game, igdb_data)
+        sources.steam.build_game(game, steam_data)
+        sources.igdb.build_game(game, igdb_data)
 
 
 def merge_developers():
@@ -185,8 +187,9 @@ def merge_developers():
     Merge cached developers into the working set
     """
     load_working_set()
+    load_registry('Developer', 'igdb_id')
 
-    for developer_cached in tqdm(CachedDeveloper.query.all(), '[REGISTRY] Merging Developers'):
+    for developer_cached in tqdm(TC['Developer.igdb_id'], '[REGISTRY] Merging Developers'):
         if developer_cached.igdb_data is None:
             continue
         igdb_data = developer_cached.igdb_data
@@ -194,7 +197,7 @@ def merge_developers():
         developer = WS.build_developer(developer_cached.developer_id,
                                        developer_cached.igdb_id, igdb_data['name'],
                                        condition_developer(igdb_data['name']))
-        igdb.build_developer(developer, igdb_data)
+        sources.igdb.build_developer(developer, igdb_data)
 
 
 def merge_articles():
@@ -202,8 +205,9 @@ def merge_articles():
     Merge cached articles into the working set
     """
     load_working_set()
+    load_registry('Article', 'article_id')
 
-    for article_cached in tqdm(CachedArticle.query.all(), '[REGISTRY] Merging Articles'):
+    for article_cached in tqdm(TC['Article.article_id'], '[REGISTRY] Merging Articles'):
         if article_cached.steam_data is None and article_cached.newsapi_data is None:
             continue
         steam_data = article_cached.steam_data
@@ -213,8 +217,8 @@ def merge_articles():
 
         article = WS.build_article(article_cached.article_id, title,
                                    condition(title))
-        steam.build_article(article, steam_data)
-        newsapi.build_article(article, newsapi_data)
+        sources.steam.build_article(article, steam_data)
+        sources.newsapi.build_article(article, newsapi_data)
 
         related_game = WS.games.get(article_cached.game_id)
         if related_game is not None:
@@ -228,15 +232,16 @@ def merge_videos():
     Merge cached videos into the working set
     """
     load_working_set()
+    load_registry('Video', 'video_id')
 
-    for video_cached in tqdm(CachedVideo.query.all(), '[REGISTRY] Merging Videos'):
+    for video_cached in tqdm(TC['Video.video_id'], '[REGISTRY] Merging Videos'):
         if video_cached.youtube_data is None:
             continue
         youtube_data = video_cached.youtube_data
 
         video = WS.build_video(video_cached.video_id,
                                youtube_data['snippet']['title'])
-        google.build_video(video, video_cached.youtube_data)
+        sources.google.build_video(video, video_cached.youtube_data)
 
         related_game = WS.games.get(video_cached.game_id)
         if related_game is not None:
@@ -248,15 +253,16 @@ def merge_tweets():
     Merge cached tweets into the working set
     """
     load_working_set()
+    load_registry('Tweet', 'tweet_id')
 
-    for tweet_cached in tqdm(CachedTweet.query.all(), '[REGISTRY] Merging Tweets'):
+    for tweet_cached in tqdm(TC['Tweet.tweet_id'], '[REGISTRY] Merging Tweets'):
         if tweet_cached.twitter_data is None:
             continue
-        tweet_data = game_cached.tweet_data
+        tweet_data = tweet_cached.twitter_data
 
         tweet = WS.build_tweet(tweet_cached.tweet_id,
-                               tweet_data['username'], tweet_data['content'])
-        twitter.build_tweet(tweet, tweet_data)
+                               tweet_data['user']['name'], tweet_data['text'])
+        sources.twitter.build_tweet(tweet, tweet_data)
 
         WS.games[tweet_cached.game_id].tweets.append(tweet)
 
@@ -265,9 +271,10 @@ def clean_articles():
     """
     Remove unwanted articles from the registry
     """
+    load_registry('Article', 'article_id')
 
     removals = []
-    for article_cached in tqdm(CachedArticle.query.all(), '[REGISTRY] Cleaning Article Cache'):
+    for article_cached in tqdm(TC['Article.article_id'], '[REGISTRY] Cleaning Article Cache'):
         if not newsapi.validate_article(article_cached.newsapi_data) and not \
                 steam.validate_article(article_cached.steam_data):
             removals.append(article_cached)
@@ -281,15 +288,13 @@ def clean_videos():
     """
     Remove unwanted videos from the registry
     """
-
-    print("[REGISTRY] Cleaning videos")
+    load_registry('Video', 'video_id')
 
     removals = []
-    for video_cached in tqdm(CachedVideo.query.all(), '[REGISTRY] Cleaning Video Cache'):
+    for video_cached in tqdm(TC['Video.video_id'], '[REGISTRY] Cleaning Video Cache'):
         if not google.validate_video(video_cached.youtube_data):
             removals.append(video_cached)
     if input("Delete %d low quality videos? " % len(removals)) == 'y':
         for video_cached in removals:
             db.session.delete(video_cached)
         db.session.commit()
-    print("[REGISTRY] Clean Complete")
