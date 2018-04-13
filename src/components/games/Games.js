@@ -8,6 +8,19 @@ import { GenericGrid } from '../generic-grid';
 import Card from '../card';
 import Fields from '../fields';
 
+/**
+ * @description - Obtain Steam url from id.
+ * @param {Number} steam_id
+ * @return {String}
+ */
+function steam(steam_id) {
+  let steam = null;
+  if (steam_id != null) {
+    steam = `https://store.steampowered.com/app/${steam_id}/`;
+  }
+  return steam;
+}
+
 class Games extends React.Component {
   static propTypes = {
     currentPage: PropTypes.number.isRequired,
@@ -75,10 +88,21 @@ class Games extends React.Component {
                 aspectRatio={1.0}
                 fields={
                   <Fields
+                    key={game.game_id}
                     price={game.price}
-                    articles={game.article_count}
+                    players={game.steam_players}
+                    vindex={game.vindex}
+                    metacritic={game.metacritic}
+                    esrb={game.esrb}
                     genres={game.genres}
                     platforms={game.platforms}
+                    developers={game.developer_count}
+                    articles={game.article_count}
+                    videos={game.video_count}
+                    tweets={game.tweet_count}
+                    steam={steam(game.steam_id)}
+                    igdb={game.igdb_link}
+                    website={game.website}
                   />
                 }
               />

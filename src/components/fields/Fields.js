@@ -11,11 +11,14 @@ import Styles from './FieldsStyles';
 
 class Fields extends React.Component {
   static propTypes = {
+    /* Facts */
     price: PropTypes.number,
-
+    players: PropTypes.number,
+    /* Ratings */
     vindex: PropTypes.number,
     metacritic: PropTypes.number,
-
+    esrb: PropTypes.number,
+    /* Items */
     genres: PropTypes.arrayOf(PropTypes.shape({
       genre_id: PropTypes.number,
       name: PropTypes.string,
@@ -24,38 +27,43 @@ class Fields extends React.Component {
       name: PropTypes.string,
       platform_id: PropTypes.number,
     })),
-
+    /* References */
     games: PropTypes.number,
     developers: PropTypes.number,
     articles: PropTypes.number,
     videos: PropTypes.number,
-
+    tweets: PropTypes.number,
+    /* Media */
     steam: PropTypes.string,
     igdb: PropTypes.string,
     twitter: PropTypes.string,
     website: PropTypes.string,
-    source: PropTypes.string
+    source: PropTypes.string,
   };
 
   static defaultProps = {
+    /* Facts */
     price: null,
-
+    players: null,
+    /* Ratings */
     vindex: null,
     metacritic: null,
-
+    esrb: null,
+    /* Items */
     genres: [],
     platforms: [],
-
+    /* References */
     games: null,
     developers: null,
     articles: null,
     videos: null,
-
+    tweets: null,
+    /* Media */
     steam: null,
     igdb: null,
     twitter: null,
     website: null,
-    source: null
+    source: null,
   };
 
   /**
