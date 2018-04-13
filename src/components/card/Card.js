@@ -83,7 +83,7 @@ class Card extends React.Component {
     const country = origin ? origin.country : null;
 
     return (
-      <div style={[CardStyles.main(this.props.aspectRatio)]}>
+      <div style={[CardStyles.main(this.props.aspectRatio)]} key={`${title}-cardMain`}>
         <p style={[CardStyles.titleText]}>
           {this.props.title}
         </p>

@@ -17,9 +17,11 @@ const Card = {
     minWidth: '10vw',
     maxWidth: `calc(${cardWidth} * ${aspectRatio}`,
     margin: '0',
-    '@media screen and (max-width: 512px)': {
+    '@media screen and (max-width: 599px)': {
+      maxWidth: '45vw',
+      minWidth: {cardWidth},
+      flexBasis: {cardWidth},
       margin: 'auto',
-      minWidth: '45vw',
     },
   }),
 
@@ -50,9 +52,10 @@ const Card = {
   imageContainerContainer: aspectRatio => ({
     maxHeight: `${cardHeight}`,
     height: '20vw',
- //   height: `calc(20vw / ${aspectRatio})`,
-    '@media screen and (max-width: 512px)': {
-      height: `calc(45vw / ${aspectRatio / 2}`,
+    '@media screen and (max-width: 599px)': {
+      height: `calc(${cardHeight} / ${aspectRatio})`,
+      maxHeight: `calc(${cardHeight} / ${aspectRatio})`,
+      height: `calc(45vw / ${aspectRatio})`,
     },
   }),
 
