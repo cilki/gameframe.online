@@ -14,7 +14,7 @@ class Developers extends React.Component {
     currentPage: PropTypes.number.isRequired,
     models: PropTypes.arrayOf(PropTypes.shape({
       article_count: PropTypes.number,
-      country: PropTypes.number,
+      country: PropTypes.string,
       developer_id: PropTypes.number.isRequired,
       foundation: PropTypes.string,
       game_count: PropTypes.number,
@@ -54,7 +54,7 @@ class Developers extends React.Component {
                 title={developer.name}
                 url={`/developers/${developer.developer_id}`}
                 cover={developer.logo}
-                origin={developer.country ? Number(developer.country) : null}
+                country={developer.country}
                 year={new Date(developer.foundation).getFullYear()}
 
                 articles={developer.article_count}

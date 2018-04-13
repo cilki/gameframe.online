@@ -10,6 +10,21 @@ import { Link } from 'react-router-dom';
 import iso from 'iso-3166-1';
 import CardStyles from './CardStyles';
 
+/** 
+ * @description - obtain the country from an iso-3166-1 standard.
+ * @param {String} country
+ * @return {String}
+ */
+function showCountry(country) {
+  let countryName = null;
+  if (country != null) {
+    const countryNumber = `${country}`;
+    const countryIso = iso.whereNumeric(countryNumber);
+    countryName = countryIso ? countryIso.country : 'Country Unknown';
+  }
+  return countryName;
+} 
+
 /**
  * A single card instance within the InstanceGrid
  */
@@ -19,7 +34,7 @@ class Card extends React.Component {
     url: PropTypes.string.isRequired,
     cover: PropTypes.string,
     developer: PropTypes.string,
-    origin: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+    country: PropTypes.string,
     author: PropTypes.string,
     year: PropTypes.number,
     aspectRatio: PropTypes.number,
@@ -29,7 +44,7 @@ class Card extends React.Component {
   static defaultProps = {
     cover: '../../static/images/noImage.png',
     developer: null,
-    origin: null,
+    country: null,
     author: null,
     year: new Date().getFullYear(),
     aspectRatio: 1.0,
@@ -48,8 +63,6 @@ class Card extends React.Component {
     const { title } = this.props;
     const imageCover = this.props.cover !== null && this.props.cover.search('http') < 0 ?
       `https://${this.props.cover}` : this.props.cover;
-    const origin = this.props.origin ? iso.whereNumeric(this.props.origin) : '';
-    const country = origin ? origin.country : null;
 
     return (
       <div style={[CardStyles.main(this.props.aspectRatio)]} key={`${title}-cardMain`}>
@@ -100,7 +113,7 @@ class Card extends React.Component {
               <div style={[CardStyles.captionContainer]} key={`${title}-caption`}>
                 <div style={[CardStyles.caption]}>
                   <Label>
-                    {country}
+                    {showCountry(this.props.country)}
                   </Label>
                   <Label>
                     {this.props.developer}
