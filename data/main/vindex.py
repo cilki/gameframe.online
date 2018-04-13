@@ -3,13 +3,10 @@
 # Copyright (C) 2018 GameFrame   -
 # --------------------------------
 
-from threading import Thread
 from math import isclose
 
-from tqdm import tqdm
+import requests
 
-from sources.steam import rq_player_count
-from cache import WS, load_working_set
 
 """
 This module contains the visibility approximation (vindex) logic.
@@ -34,7 +31,7 @@ Experimentally chosen weights for each score. They must sum to 1 for the convex
 combination (weighted average) calculation to be correct.
 """
 WEIGHTS = {'esrb': 0.05, 'website': 0.05, 'metacritic': 0.05, 'steam_igdb': 0.05,
-           'players': 0.15, 'articles': 0.25, 'videos': 0.25, 'tweets': 0.15}
+           'players': 0.15, 'articles': 0.25, 'videos': 0.20, 'tweets': 0.20}
 assert isclose(sum(WEIGHTS.values()), 1)
 
 """
@@ -43,23 +40,11 @@ Reference values for continuous scores
 REFERENCES = {'players': 50000}
 
 
-def compute_all():
-    """
-    Compute the VINDEX for all games in the working set
-    """
-    load_working_set()
-    precompute()
-
-    for game in tqdm(WS.games.values()):
-        compute(game)
-
-
 def compute(game):
     """
     Compute the VINDEX of the given game.
 
-    Precondition: load_working_set and precompute must be called before this
-    function.
+    Precondition: precompute must be called before this function.
     """
 
     # ESRB score
@@ -78,7 +63,7 @@ def compute(game):
 
     # Steam players
     steam_players = 0
-    if game.steam_id is not None:
+    if game.steam_players is not None:
         steam_players = (game.steam_players / REFERENCES['players']) * 100
 
     # Website score
@@ -108,7 +93,7 @@ def compute(game):
         game.vindex = 100
 
 
-def precompute():
+def precompute(games):
     """
     Compute reference information about the dataset
     """
@@ -120,7 +105,7 @@ def precompute():
         print('[MAIN ] Computing link statistics and references')
 
         # Collect link information
-        for game in WS.games.values():
+        for game in games:
             articles.append(len(game.articles))
             videos.append(len(game.videos))
             tweets.append(len(game.tweets))
@@ -147,42 +132,72 @@ def precompute():
         REFERENCES['tweet'] = int(round(0.85 * tweet_max))
 
 
-class VindexThread(Thread):
+def rq_player_count(appid):
+    """
+    Request the current number of Steam players for the given game
+    """
+
+    rq = requests.get("https://api.steampowered.com/ISteamUserStats/" +
+                      "GetNumberOfCurrentPlayers/v1", {'appid': appid})
+
+    if not rq.status_code == requests.codes.ok:
+        return None
+
+    rq = rq.json()['response']
+
+    if rq['result'] == 1:
+        return rq['player_count']
+
+    return None
+
+
+if __name__ == "__main__":
     """
     A background thread that continuously updates steam players and vindex.
-    The first update begins as soon as the the Thread is started and future
-    updates are spaced so every game is updated exactly once over a 24 hour
-    period. This slow collection helps to reduce lag spikes.
     """
 
-    def __init__(self, db, games):
-        """
-        Initialize the VindexThread with a list of games to query
-        """
-        Thread.__init__(self)
-        self.games = games
-        self.db = db
+    import os
+    import sys
+    import time
+    import random
+    sys.path.append(os.path.abspath('/app'))
 
-        # The minimum amount of time that a single request will take
-        self.TIMESLOT = len(games) / (60 * 60 * 24)
+    from flask import Flask
 
-    def run(self):
-        """
-        Run the VindexThread forever
-        """
+    from app.orm import db, Game
+
+    # Initialize Flask
+    app = Flask(__name__)
+
+    # Configure SQLAlchemy
+    app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+    app.config['SQLALCHEMY_BINDS'] = {
+        'gameframe': os.environ['SQLALCHEMY_URI']}
+
+    # Initialize database
+    db.init_app(app)
+
+    with app.app_context():
+        games = Game.query.filter(Game.steam_id != None).all()
+        precompute(games)
+
+        # The minimum amount of time that a single computation can take
+        TIMESLOT = int(round((60 * 60 * 24) / len(games)))
+
         while True:
-            for game in self.games:
-                t = time()
+            for game in games:
+                t = time.time()
 
                 # Update steam players
                 steam_players = rq_player_count(game.steam_id)
-                if not steam_players == 0:
+                if steam_players is not None:
                     game.steam_players = steam_players
 
                 # Recompute VINDEX
-                # TODO Compute uses WS which should not be available
-                # compute(game)
+                compute(game)
 
-                self.db.session.commit()
+                # Random commit to reduce traffic
+                if random.randrange(100) < 10:
+                    db.session.commit()
 
-                time.sleep(max(self.TIMESLOT - (time() - t), 0))
+                time.sleep(max(TIMESLOT - int(time.time() - t), 0))

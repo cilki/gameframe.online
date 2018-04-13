@@ -83,7 +83,7 @@ with app.app_context():
     # Initialize Flask
     db.init_app(app)
 
-    from sources import igdb, newsapi, steam, google
+    from sources import igdb, newsapi, steam, google, twitter
     from util import reset, trim
     import vindex
     from cache import WS, load_working_set
@@ -119,6 +119,9 @@ with app.app_context():
             # Merge/Link videos
             registry.merge_videos()
 
+            # Merge/Link tweets
+            registry.merge_tweets()
+
             trim()
 
             WS.flush()
@@ -135,10 +138,10 @@ with app.app_context():
         elif action == '6':
             registry.merge_videos()
         elif action == '7':
+            registry.merge_tweets()
+        elif action == '8':
             igdb.link_developers()
             steam.link_developers()
-        elif action == '8':
-            pass
         elif action == '9':
             pass
         elif action == 'a':
@@ -174,7 +177,7 @@ with app.app_context():
 
         elif action == 'y':
             load_working_set()
-            vindex.precompute()
+            vindex.precompute(WS.games)
 
             # Compute benchmark games
             for appid in [578080, 570, 359550, 271590, 552520, 477160, 50300]:
@@ -183,6 +186,10 @@ with app.app_context():
                 print("Computed VINDEX: %d for game: %s" %
                       (game.vindex, game.name))
         elif action == 'z':
-            vindex.compute_all()
+            load_working_set()
+            vindex.precompute(WS.games)
+
+            for game in tqdm(WS.games.values(), '[VINDEX  ] Computing game vindicies'):
+                vindex.compute(game)
         else:
             print("Unknown Command")
