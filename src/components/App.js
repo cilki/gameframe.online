@@ -14,7 +14,7 @@ import thunkMiddleware from 'redux-thunk';
 import { Provider } from 'react-redux';
 
 import Banner from './Banner';
-import Navbar from './Navbar';
+import Navbar from './navbar';
 import Splash from './Splash';
 import Footer from './Footer';
 
