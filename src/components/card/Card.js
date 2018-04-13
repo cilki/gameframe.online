@@ -9,7 +9,6 @@ import { Badge, Label } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import iso from 'iso-3166-1';
 import CardStyles from './CardStyles';
-import Fields from '../fields/Fields';
 
 /**
  * A single card instance within the InstanceGrid
@@ -23,26 +22,8 @@ class Card extends React.Component {
     origin: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
     author: PropTypes.string,
     year: PropTypes.number,
-
-    price: PropTypes.number,
-    genres: PropTypes.arrayOf(PropTypes.shape({
-      genre_id: PropTypes.number,
-      name: PropTypes.string,
-    })),
-    platforms: PropTypes.arrayOf(PropTypes.shape({
-      name: PropTypes.string,
-      platform_id: PropTypes.number,
-    })),
-
-    articles: PropTypes.number,
-    developers: PropTypes.number,
-    games: PropTypes.number,
-
-    twitter: PropTypes.string,
-    website: PropTypes.string,
-    source: PropTypes.string,
-
     aspectRatio: PropTypes.number,
+    fields: PropTypes.node,
   };
 
   static defaultProps = {
@@ -51,20 +32,8 @@ class Card extends React.Component {
     origin: null,
     author: null,
     year: new Date().getFullYear(),
-
-    price: null,
-    genres: [],
-    platforms: [],
-
-    articles: null,
-    developers: null,
-    games: null,
-
-    twitter: null,
-    website: null,
-    source: null,
-
     aspectRatio: 1.0,
+    fields: null,
   };
 
   /**
@@ -115,29 +84,18 @@ class Card extends React.Component {
                 </div>
               </div>
               <div style={[CardStyles.fields]} key={`${title}-fields`}>
-                <Fields
-                  price={this.props.price}
-                  genres={this.props.genres}
-                  platforms={this.props.platforms}
-
-                  games={this.props.games}
-                  developers={this.props.developers}
-                  articles={this.props.articles}
-
-                  twitter={this.props.twitter}
-                  website={this.props.website}
-                  source={this.props.source}
-                />
+                {this.props.fields}
                 <div style={{height: '0'}}>
-                <img
-                  style={[CardStyles.fieldsBackgroundImage]}
-                  src={imageCover}
-                  ref={(img) => { this.img = img; }}
-                  alt=""
-                  onError={
-                    () => { this.img.src = '../../static/images/noImage.png'; }
-                  }
-                /></div>
+                  <img
+                    style={[CardStyles.fieldsBackgroundImage]}
+                    src={imageCover}
+                    ref={(img) => { this.img = img; }}
+                    alt=""
+                    onError={
+                      () => { this.img.src = '../../static/images/noImage.png'; }
+                    }
+                  />
+                </div>
               </div>
               <div style={[CardStyles.captionContainer]} key={`${title}-caption`}>
                 <div style={[CardStyles.caption]}>

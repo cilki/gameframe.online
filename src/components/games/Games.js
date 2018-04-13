@@ -4,9 +4,9 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-
-import Card from '../card';
 import { GenericGrid } from '../generic-grid';
+import Card from '../card';
+import Fields from '../fields';
 
 class Games extends React.Component {
   static propTypes = {
@@ -16,11 +16,15 @@ class Games extends React.Component {
       cover: PropTypes.string,
       developer: PropTypes.string,
       developer_count: PropTypes.number,
+      esrb: PropTypes.number,
       game_id: PropTypes.number.isRequired,
       genres: PropTypes.arrayOf(PropTypes.shape({
         genre_id: PropTypes.number,
         name: PropTypes.string,
       })),
+      igdb_id: PropTypes.number,
+      igdb_link: PropTypes.string,
+      metacritic: PropTypes.number,
       name: PropTypes.string.isRequired,
       platforms: PropTypes.arrayOf(PropTypes.shape({
         name: PropTypes.string,
@@ -28,6 +32,12 @@ class Games extends React.Component {
       })),
       price: PropTypes.number,
       release: PropTypes.string,
+      steam_id: PropTypes.number,
+      steam_players: PropTypes.number,
+      tweet_count: PropTypes.number,
+      video_count: PropTypes.number,
+      vindex: PropTypes.number,
+      website: PropTypes.string,
     })),
     error: PropTypes.string, //eslint-disable-line
     requested: PropTypes.bool, //eslint-disable-line
@@ -62,13 +72,15 @@ class Games extends React.Component {
                 cover={game.cover}
                 developer={game.developer}
                 year={new Date(game.release).getFullYear()}
-
-                price={game.price}
-                articles={game.article_count}
-                genres={game.genres}
-                platforms={game.platforms}
-
                 aspectRatio={1.0}
+                fields={
+                  <Fields
+                    price={game.price}
+                    articles={game.article_count}
+                    genres={game.genres}
+                    platforms={game.platforms}
+                  />
+                }
               />
             );
           })
