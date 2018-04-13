@@ -7,22 +7,22 @@
   "favGames": [
     {
       "name": "The Elder Scrolls V: Skyrim",
-      "id": 134,
+      "id": 57709,
       "cover": "http://cdn.gameframe.online/cover/steam/72850.png"
     },
     {
       "name": "Diablo III: Reaper of Souls",
-      "id": 9383,
+      "id": 124951,
       "cover": "https://images.igdb.com/igdb/image/upload/t_original/qbgh5zqabojbi9ftnujg.jpg"
     },
     {
       "name": "Half-Life: Source",
-      "id": 14573,
+      "id": 881,
       "cover": "http://cdn.gameframe.online/cover/steam/280.png"
     },
     {
       "name": "Tom Clancy's Ghost Recon\u00ae Wildlands",
-      "id": 3307,
+      "id": 41137,
       "cover": "http://cdn.gameframe.online/cover/steam/460930.png"
     }
   ]
