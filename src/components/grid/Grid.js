@@ -146,7 +146,6 @@ function Grid(props) {
                 off={<h6>OR</h6>}
                 size="xs"
                 active={props.toggleState}
-                style={[Styles.toggle]}
               />
             </OverlayTrigger>
           </div>
