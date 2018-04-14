@@ -56,6 +56,12 @@ export default {
     height: 'calc(5px + 2vw)',
     borderRadius: '4px'    
   },
+  esrbImage: {
+    minHeight: '5px',
+    maxHeight: '30px',
+    height: 'calc(5px + 2vw)',
+    borderRadius: '4px'  
+  },
   largeText: {
     fontSize: 'calc(6px + 0.75vw)',
     padding: '0% 2% 0% 2%',

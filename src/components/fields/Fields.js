@@ -8,6 +8,7 @@ import PropTypes from 'prop-types';
 import Radium from 'radium';
 import { Carousel, Badge, Glyphicon, Label, OverlayTrigger, Tooltip } from 'react-bootstrap';
 import Styles from './FieldsStyles';
+import InstanceDetailsStyles from '../instance-details/InstanceDetailsStyles';
 
 class Fields extends React.Component {
   static propTypes = {
@@ -86,6 +87,8 @@ class Fields extends React.Component {
         "Source":"/static/images/icons8-black-hot-article-50.png"        
       }
     );
+    
+    const esrb = this.props.esrb ? [this.props.esrb] : null;
     
     let fields = 0;
 
@@ -170,8 +173,9 @@ class Fields extends React.Component {
                 </div>
               </div>
               <div style={[Styles.flexRow]}>
-                {showRating(vindex, 'Vindex')}
-                {showRating(metacritic, 'Metacritic')}
+                {showRating(vindex, "https://upload.wikimedia.org/wikipedia/commons/b/bd/Checkmark_green.svg", "Vindex Scoring")}
+                {showRating(metacritic, "https://upload.wikimedia.org/wikipedia/commons/2/20/Metacritic.svg", "Metacritic Scoring")}
+                {showEsrb(esrb)}
               </div>
             </div>
           </div>
@@ -186,23 +190,59 @@ class Fields extends React.Component {
      * @param {String} title
      * @return {React.Component|null}
      */
-    function showRating(number, title) {
+    function showRating(number, icon, message) {
       if (number != null && number >= 0) {
         fields += 1;
+        const tooltip = (
+          <Tooltip id={`${message}-tooltip`} key={`${message}-tooltip`}>
+            <div style={[Styles.smallText]}>
+              {message}
+            </div>
+          </Tooltip>
+        );
         return (
-          <div style={[Styles.label]}>
-            <div style={[Styles.flexColumn]}>
-              <div style={[Styles.smallText]}>
-                {number}%
-              </div>
-              <div style={[Styles.smallText]}>
-                {title}
+          <OverlayTrigger placement={"top"} overlay={tooltip}>
+            <div style={[Styles.label]}>
+              <div style={[Styles.flexRow]}>
+                <img src={icon} style={[Styles.iconImage]}/>
+                <div style={[Styles.smallText]}>
+                  &nbsp;
+                  {number}%
+                </div>
               </div>
             </div>
-          </div>
+          </OverlayTrigger>
         );
       }
       return null;
+    }
+    
+    function showEsrb(esrb) {
+      if (esrb != null && esrb >= 1 && esrb <= 7) {
+        fields += 1;
+        return (
+          <div style={[Styles.flexRow]}>
+            {
+              esrb.map(esrbRating => getEsrb({
+                ratingKey: esrbRating,
+                key: `esrbRating-${esrbRating}`,                
+              }))
+            }
+          </div>
+        );
+      }
+      return null;      
+    }
+    
+    function getEsrb({ratingKey}) {
+      return (
+        <img
+          style={[Styles.esrbImage]}
+          alt={`${InstanceDetailsStyles.esrbMappings[`${ratingKey}alt`]}`}
+          src={`${InstanceDetailsStyles.esrbMappings[ratingKey]}`}
+          key={`${ratingKey}-esrb`}
+        />
+      );
     }
 
     /**
@@ -418,7 +458,7 @@ class Fields extends React.Component {
     return (
       <div style={[Styles.flexColumn]}>
         {showFacts(this.props.price, this.props.players)}
-        {showRatings(this.props.vindex, this.props.metacritic, this.props.esrb)}
+        {showRatings(this.props.vindex, this.props.metacritic, esrb)}
         {showItems("Genres", this.props.game, this.props.genres)}
         {showItems("Platforms", this.props.game, this.props.platforms)}
 
