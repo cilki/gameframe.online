@@ -14,7 +14,7 @@ import thunkMiddleware from 'redux-thunk';
 import { Provider } from 'react-redux';
 
 import Banner from './Banner';
-import Navbar from './navbar';
+import Navbar, { reducer as NavbarReducer } from './navbar';
 import Splash from './Splash';
 import Footer from './Footer';
 
@@ -33,6 +33,7 @@ import AboutPage, { reducer as AboutReducer } from './about';
 
 const store = createStore(
   combineReducers({
+    navbar: NavbarReducer,
     about: AboutReducer,
     games: GamesReducer,
     developers: DevelopersReducer,

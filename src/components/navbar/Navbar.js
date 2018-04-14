@@ -53,15 +53,30 @@ function createLinkContainerNavItem(href, imageSrc, label, count, linkProps, nav
 
 class NavBar extends React.Component {   
   static propTypes = {
-    games: PropTypes.number,
-    developers: PropTypes.number,
-    articles: PropTypes.number
+    gamesCount: PropTypes.number,
+    developersCount: PropTypes.number,
+    articlesCount: PropTypes.number,
+    gamesCountError: PropTypes.string, //eslint-disable-line
+    developersCountError: PropTypes.string, //eslint-disable-line
+    articlesCountError: PropTypes.string, //eslint-disable-line
+    gamesCountRequested: PropTypes.bool, //eslint-disable-line
+    developersCountRequested: PropTypes.bool, //eslint-disable-line
+    articlesCountRequested: PropTypes.bool, //eslint-disable-line
+    fetchGamesCount: PropTypes.func.isRequired,
+    fetchDevelopersCount: PropTypes.func.isRequired,
+    fetchArticlesCount: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
-    games: 0,
-    developers: 0,
-    articles: 0
+    gamesCount: 0,
+    developersCount: 0,
+    articlesCount: 0,
+    gamesCountError: null,
+    developersCountError: null,
+    articlesCountError: null,
+    gamesCountRequested: false,
+    developersCountRequested: false,
+    articlesCountRequested: false,
   };
 
   /**
@@ -72,25 +87,34 @@ class NavBar extends React.Component {
    this.state = {};
   }
   
+  /**
+   * @description - React lifecycle method used to fetch data.
+   */
+  componentDidMount() {
+    this.props.fetchGamesCount();
+    this.props.fetchDevelopersCount();
+    this.props.fetchArticlesCount();
+  }
+  
   render() {
     const pages = [
       {
         href: '/games',
         label: 'Games',
         imageSrc: '../../static/images/ic_videogame_asset_black_48px.svg',
-        count: this.props.games
+        count: this.props.gamesCount
       },
       {
         href: '/developers',
         label: 'Developers',
         imageSrc: '../../static/images/ic_business_center_black_48px.svg',
-        count: this.props.developers
+        count: this.props.developersCount
       },
       {
         href: '/articles',
         label: 'Articles',
         imageSrc: '../../static/images/ic_library_books_black_48px.svg',
-        count: this.props.articles
+        count: this.props.articlesCount
       },
       {
         href: '/about',
