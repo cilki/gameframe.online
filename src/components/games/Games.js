@@ -94,9 +94,9 @@ class Games extends React.Component {
                     vindex={game.vindex}
                     metacritic={game.metacritic}
                     esrb={game.esrb}
+                    game={game.name}
                     genres={game.genres}
                     platforms={game.platforms}
-                    developers={game.developer_count}
                     articles={game.article_count}
                     videos={game.video_count}
                     tweets={game.tweet_count}
