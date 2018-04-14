@@ -1,13 +1,12 @@
-
 /**
  * Articles page with a grid layout of cards.
  */
 
 import React from 'react';
 import PropTypes from 'prop-types';
-
-import Card from '../card';
 import { GenericGrid } from '../generic-grid';
+import Card from '../card';
+import Fields from '../fields';
 
 class Articles extends React.Component {
   static propTypes = {
@@ -19,6 +18,7 @@ class Articles extends React.Component {
       cover: PropTypes.string,
       developer_count: PropTypes.number,
       game_count: PropTypes.number,
+      outlet: PropTypes.outlet,
       timestamp: PropTypes.string,
       title: PropTypes.string.isRequired,
     })),
@@ -55,12 +55,15 @@ class Articles extends React.Component {
                 cover={article.cover}
                 author={article.author}
                 year={new Date(article.timestamp).getFullYear()}
-
-                games={article.game_count}
-                developers={article.developer_count}
-                source={article.article_link}
-
                 aspectRatio={16/9}
+                fields={
+                  <Fields
+                    key={article.article_id}
+                    games={article.game_count}
+                    developers={article.developer_count}
+                    source={article.article_link}
+                  />
+                }
               />
             );
           })

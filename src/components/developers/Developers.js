@@ -1,13 +1,12 @@
-
 /**
  * Developers page with a grid layout of cards.
  */
 
 import React from 'react';
 import PropTypes from 'prop-types';
-
-import Card from '../card';
 import { GenericGrid } from '../generic-grid';
+import Card from '../card';
+import Fields from '../fields';
 
 class Developers extends React.Component {
   static propTypes = {
@@ -18,8 +17,10 @@ class Developers extends React.Component {
       developer_id: PropTypes.number.isRequired,
       foundation: PropTypes.string,
       game_count: PropTypes.number,
+      igdb_id: PropTypes.number,
       logo: PropTypes.string,
       name: PropTypes.string.isRequired,
+      tweet_count: PropTypes.number,
       twitter: PropTypes.string,
       website: PropTypes.string,
     })),
@@ -56,13 +57,17 @@ class Developers extends React.Component {
                 cover={developer.logo}
                 country={developer.country}
                 year={new Date(developer.foundation).getFullYear()}
-
-                articles={developer.article_count}
-                games={developer.game_count}
-                twitter={developer.twitter}
-                website={developer.website}
-
                 aspectRatio={19/18}
+                fields={
+                  <Fields
+                    key={developer.developer_id}
+                    games={developer.game_count}
+                    articles={developer.article_count}
+                    tweets={developer.tweet_count}
+                    twitter={developer.twitter}
+                    website={developer.website}
+                  />
+                }
               />
             );
           })
