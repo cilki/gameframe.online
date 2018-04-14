@@ -105,14 +105,14 @@ class TestSort(TestPartOfSite):
 
     def part(self):
         self.driver.get(self.environment + "/" + self.grid_name)
-        time.sleep(self.time_to_sleep)
-        sort_on = self.driver.find_element(By.CLASS_NAME, "Select")
-        sort_on.click()
-        time.sleep(self.time_to_sleep)
-        options = self.driver.find_elements(By.CLASS_NAME, "Select-option")
-        for i in range(len(options)):
+        ui.WebDriverWait(self.driver, self.time_to_sleep).until(EC.element_to_be_clickable((By.CLASS_NAME, "Select"))).click()
+        for i in range(len(self.driver.find_elements(By.CLASS_NAME, "Select-option"))): # sort on attributes
             self.driver.find_elements(By.CLASS_NAME, "Select-option")[i].click()
-            ui.WebDriverWait(self.driver, self.time_to_sleep).until(EC.element_to_be_clickable((By.CLASS_NAME, "Select"))).click()
+            self.driver.find_elements(By.CLASS_NAME, "Select")[1].click()
+            for j in range(2): # sort by ASC/DESC
+                self.driver.find_elements(By.CLASS_NAME, "Select-option")[j].click()
+                self.driver.find_elements(By.CLASS_NAME, "Select")[1].click()
+            self.driver.find_element(By.CLASS_NAME, "Select").click()
     
 class TestGamesSort(TestSort):
 
