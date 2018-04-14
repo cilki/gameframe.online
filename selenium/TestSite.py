@@ -8,7 +8,7 @@ import unittest, time
 class TestPartOfSite(unittest.TestCase):
 
     #Some tests require extra time for the page to load
-    time_to_sleep = 4
+    timeout = 10
 
     #Which environment to test
     environment = "http://gameframe.online"
@@ -65,27 +65,19 @@ class TestPagination(TestPartOfSite):
 
     grid_name = ""
 
-    def click_page(self, driver, environment, grid_name, index, number):
-        driver.find_element(By.CLASS_NAME, "pagination").find_elements(By.TAG_NAME, "a")[index].click()
-        self.assertEqual(environment + "/" + grid_name + "?page=" + number, driver.current_url)
+    def click_page(self, index, number):
+        self.driver.find_element(By.CLASS_NAME, "pagination").find_elements(By.TAG_NAME, "a")[index].click()
+        self.assertEqual(self.environment + "/" + self.grid_name + "?page=" + number, self.driver.current_url)
 
     def part(self):
-        driver = self.driver
-        environment = self.environment
-        grid_name = self.grid_name
-        driver.get(environment + "/" + grid_name + "")
-        time.sleep(self.time_to_sleep)
-        #Click a page number
-        self.click_page(driver, environment, grid_name, 1, "3")
-        #Click max value
-        driver.find_element(By.CLASS_NAME, "pagination").find_elements(By.TAG_NAME, "a")[-1].click()
-        self.assertNotEqual(environment + "/" + grid_name + "?page=3", driver.current_url)
-        #Click first page
-        self.click_page(driver, environment, grid_name, 0, "1")
-        #Click next page
-        self.click_page(driver, environment, grid_name, -2, "2")
-        #Click previous page
-        self.click_page(driver, environment, grid_name, 1, "1")
+        self.driver.get(self.environment + "/" + self.grid_name + "")
+        ui.WebDriverWait(self.driver, self.timeout).until(EC.element_to_be_clickable((By.CLASS_NAME, "pagination")))
+        self.click_page(1, "3") # Click a page number
+        self.driver.find_element(By.CLASS_NAME, "pagination").find_elements(By.TAG_NAME, "a")[-1].click() # Click max value
+        self.assertNotEqual(self.environment + "/" + self.grid_name + "?page=3", self.driver.current_url)
+        self.click_page(0, "1") # Click first page
+        self.click_page(-2, "2") # Click next page
+        self.click_page(1, "1") # Click previous page
     
 class TestGamesPagination(TestPagination):
 
@@ -105,7 +97,7 @@ class TestSort(TestPartOfSite):
 
     def part(self):
         self.driver.get(self.environment + "/" + self.grid_name)
-        ui.WebDriverWait(self.driver, self.time_to_sleep).until(EC.element_to_be_clickable((By.CLASS_NAME, "Select"))).click()
+        ui.WebDriverWait(self.driver, self.timeout).until(EC.element_to_be_clickable((By.CLASS_NAME, "Select"))).click()
         for i in range(len(self.driver.find_elements(By.CLASS_NAME, "Select-option"))): # sort on attributes
             self.driver.find_elements(By.CLASS_NAME, "Select-option")[i].click()
             self.driver.find_elements(By.CLASS_NAME, "Select")[1].click()
@@ -139,8 +131,7 @@ class TestRelations(TestPartOfSite):
     
     def get_first_elem_from_grid(self, grid_name):
         self.driver.get(self.environment + "/" + grid_name + "/")
-        ui.WebDriverWait(self.driver, self.time_to_sleep).until(EC.element_to_be_clickable((By.XPATH, "//a[contains(@href, '" + grid_name + "/')]/div"))).click()
-        time.sleep(self.time_to_sleep)
+        ui.WebDriverWait(self.driver, self.timeout).until(EC.element_to_be_clickable((By.XPATH, "//a[contains(@href, '" + grid_name + "/')]/div"))).click()
 
 class TestGameRelations(TestRelations):
 
@@ -165,13 +156,11 @@ class TestArticleRelations(TestRelations):
 
 class TestSearch(TestRelations):
 
-    time_to_sleep = 5
-
     def part(self):
         self.driver.get(self.environment)
         self.driver.find_element(By.TAG_NAME, "input").send_keys("rocket league", Keys.ENTER)
         self.assertEqual(self.environment + "/search?q=rocket%20league", self.driver.current_url)
-        ui.WebDriverWait(self.driver, self.time_to_sleep).until(EC.element_to_be_clickable((By.XPATH, "//a[contains(@href, 'games/')]")))
+        ui.WebDriverWait(self.driver, self.timeout).until(EC.element_to_be_clickable((By.XPATH, "//a[contains(@href, 'games/')]")))
         self.game_exists()
         self.developer_exists()
         self.article_exists()
