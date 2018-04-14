@@ -50,7 +50,10 @@ const Minicard = {
       whiteSpace: 'initial',
       height: 'initial',
       textOverflow: 'initial',
-      overflow: 'scroll',
+      paddingRight: '17px',
+      paddingBottom: '17px',
+      boxSizing: 'content-box',
+      overflow: 'auto',
     },
   },
 

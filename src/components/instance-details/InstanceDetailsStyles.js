@@ -202,6 +202,8 @@ const InstanceDetails = {
   }),
 
   currentPlayers: {
+    display: 'flex',
+    flexDirection: 'row',
     fontSize: 'calc(14px + 0.5vw)',
   },
 
