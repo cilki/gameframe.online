@@ -101,6 +101,22 @@ function makeGetGameArticles(_gameSelector = null) {
   );
 }
 
+/**
+ * @description - Memoized selector for a game's videos. Introduced for an extra
+ * layer of memoization and perhaps less renderings
+ * @param {Function=} [null] _gameSelector
+ * @returns {Function=}
+ */
+function makeGetVideos(_gameSelector = null) {
+  const gameSelector = _gameSelector === null ? makeGetGame() : _gameSelector;
+  return createSelector(
+    [gameSelector],
+    (game) => {
+      return game.videos;
+    },
+  );
+}
+
 export {
   getGame,
   makeGetGame,

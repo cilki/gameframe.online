@@ -7,11 +7,13 @@ import PropTypes from 'prop-types';
 import Radium, { StyleRoot } from 'radium';
 import { Carousel, Label, Tooltip, OverlayTrigger } from 'react-bootstrap';
 import ReactHTMLParser from 'react-html-parser';
+
 import InstanceDetails from '../instance-details/InstanceDetails';
 import InstanceDetailsStyles from '../instance-details/InstanceDetailsStyles';
 import Minigrid from '../minigrid/Minigrid';
 import Minicard from '../minicard/Minicard';
 import ExternalMinicard from '../minicard/ExternalMinicard';
+import GameChart from './GameChart';
 
 /**
  * @description - Helper method for generating a component
@@ -828,6 +830,16 @@ class Game extends React.Component {
               right: this.props.igdb_link,
             })
           }
+          <div
+            style={{
+              display: 'flex',
+              height: '300px',
+              // minHeight: '300px',
+              maxHeight: '300px',
+            }}
+          >
+            <GameChart {...{videos: this.props.videos }} />
+          </div>
         </InstanceDetails>
       </StyleRoot>
     );
