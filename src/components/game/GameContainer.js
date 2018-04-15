@@ -25,6 +25,7 @@ function mapStateToProps() {
   const genreSelector = makeGetGameGenres(gameSelector);
   const developerSelector = makeGetGameDevelopers(gameSelector);
   const articleSelector = makeGetGameArticles(gameSelector);
+
   return (state, { match: { params } }) => {
     // this is retrieving the ID from the URL
     const id = Number(params.gameId);

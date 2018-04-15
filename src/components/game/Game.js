@@ -7,11 +7,13 @@ import PropTypes from 'prop-types';
 import Radium, { StyleRoot } from 'radium';
 import { Carousel, Label } from 'react-bootstrap';
 import ReactHTMLParser from 'react-html-parser';
+
 import InstanceDetails from '../instance-details/InstanceDetails';
 import InstanceDetailsStyles from '../instance-details/InstanceDetailsStyles';
 import Minigrid from '../minigrid/Minigrid';
 import Minicard from '../minicard/Minicard';
 import ExternalMinicard from '../minicard/ExternalMinicard';
+import GameChart from './GameChart';
 
 /**
  * @description - Helper method for generating a component
@@ -293,6 +295,7 @@ class Game extends React.Component {
               </div>
             </div>
             <hr style={[InstanceDetailsStyles.horizontalRule]} />
+
             <div style={[InstanceDetailsStyles.platformRatingContainer]}>
               <div style={[InstanceDetailsStyles.platformCluster]}>
                 <div style={[InstanceDetailsStyles.platformIndicator]}>
@@ -324,7 +327,13 @@ class Game extends React.Component {
                 }))
               }
               </div>
+              
+                <GameChart
+                  {...{ videos: this.props.videos }}
+                />
+              
             </div>
+
             <div style={[InstanceDetailsStyles.googleTrendsContainer]}>
               <iframe
                 id="trends-widget-1"
