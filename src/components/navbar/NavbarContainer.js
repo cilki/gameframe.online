@@ -14,7 +14,7 @@ import {
   getArticlesCount,
   getGamesCountError,
   getDevelopersCountError,
-  getDevelopersCountError,
+  getArticlesCountError,
 } from './NavbarSelectors';
 import {
   fetchGamesCount,

@@ -3,12 +3,11 @@
  */
 
 import { createAction, handleActions } from 'redux-actions';
-import { List, Map } from 'immutable';
 import { combineReducers } from 'redux';
 import {
-  getGamesCount();
-  getDevelopersCount();
-  getArticlesCount();
+  getGamesCount,
+  getDevelopersCount,
+  getArticlesCount,
 } from './NavbarSelectors';
 
 const fetchGamesCountRequest = createAction('FETCH_GAMES_COUNT_REQUEST');
@@ -16,7 +15,7 @@ const fetchGamesCountResponse = createAction('FETCH_GAMES_COUNT_RESPONSE');
 const fetchDevelopersCountRequest = createAction('FETCH_DEVELOPERS_COUNT_REQUEST');
 const fetchDevelopersCountResponse = createAction('FETCH_DEVELOPERS_COUNT_RESPONSE');
 const fetchArticlesCountRequest = createAction('FETCH_ARTICLES_COUNT_REQUEST');
-const fetchArticlessCountResponse = createAction('FETCH_ARTICLES_COUNT_RESPONSE');
+const fetchArticlesCountResponse = createAction('FETCH_ARTICLES_COUNT_RESPONSE');
 
 /**
  * @descriptin - 
@@ -267,10 +266,16 @@ const articlesCountReducer = combineReducers({
   articlesCountRequested,
 });
 
+const navbarReducer = combineReducers({
+  games: gamesCountReducer,
+  developers: developersCountReducer,
+  articles: articlesCountReducer,
+});
+
 export {
   fetchGamesCount,
   fetchDevelopersCount,
-  fetchArticlsCount,
+  fetchArticlesCount,
 
   fetchGamesCountRequest,
   fetchGamesCountResponse,
@@ -279,7 +284,5 @@ export {
   fetchArticlesCountRequest,
   fetchArticlesCountResponse,
 
-  gamesCountReducer,
-  developersCountReducer,
-  articlesCountReducer,
+  navbarReducer,
 };

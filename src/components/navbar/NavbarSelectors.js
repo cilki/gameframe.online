@@ -9,7 +9,7 @@
  * @returns {Boolean}
  */
 function getGamesCountRequested(state) {
-  return state.navbar.gamesCountRequested;
+  return state.navbar.games.gamesCountRequested;
 }
 
 /**
@@ -19,7 +19,7 @@ function getGamesCountRequested(state) {
  * @returns {Boolean}
  */
 function getDevelopersCountRequested(state) {
-  return state.navbar.developersCountRequested;
+  return state.navbar.developers.developersCountRequested;
 }
 
 /**
@@ -29,7 +29,7 @@ function getDevelopersCountRequested(state) {
  * @returns {Boolean}
  */
 function getArticlesCountRequested(state) {
-  return state.navbar.articlesCountRequested;
+  return state.navbar.articles.articlesCountRequested;
 }
 
 /**
@@ -38,7 +38,7 @@ function getArticlesCountRequested(state) {
  * @returns {String|null}
  */
 function getGamesCount(state) {
-  const gamesCount = state.navbar.gamesCount.toJS();
+  const gamesCount = state.navbar.games.gamesCount;
   return gamesCount;
 }
 
@@ -48,7 +48,7 @@ function getGamesCount(state) {
  * @returns {String|null}
  */
 function getDevelopersCount(state) {
-  const developersCount = state.navbar.developersCount.toJS();
+  const developersCount = state.navbar.developers.developersCount;
   return developersCount;
 }
 
@@ -58,7 +58,7 @@ function getDevelopersCount(state) {
  * @returns {String|null}
  */
 function getArticlesCount(state) {
-  const articlesCount = state.navbar.articlesCount.toJS();
+  const articlesCount = state.navbar.articles.articlesCount;
   return articlesCount;
 }
 
@@ -69,7 +69,7 @@ function getArticlesCount(state) {
  * @returns {String|null}
  */
 function getGamesCountError(state) {
-  return state.navbar.gamesCountError;
+  return state.navbar.games.gamesCountError;
 }
 
 /**
@@ -79,7 +79,7 @@ function getGamesCountError(state) {
  * @returns {String|null}
  */
 function getDevelopersCountError(state) {
-  return state.navbar.developersCountError;
+  return state.navbar.developers.developersCountError;
 }
 
 /**
@@ -89,7 +89,7 @@ function getDevelopersCountError(state) {
  * @returns {String|null}
  */
 function getArticlesCountError(state) {
-  return state.navbar.articlesCountError;
+  return state.navbar.articles.articlesCountError;
 }
 
 export {

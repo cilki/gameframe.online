@@ -62,6 +62,7 @@ class NavBar extends React.Component {
     gamesCountRequested: PropTypes.bool, //eslint-disable-line
     developersCountRequested: PropTypes.bool, //eslint-disable-line
     articlesCountRequested: PropTypes.bool, //eslint-disable-line
+
     fetchGamesCount: PropTypes.func.isRequired,
     fetchDevelopersCount: PropTypes.func.isRequired,
     fetchArticlesCount: PropTypes.func.isRequired,
@@ -74,6 +75,7 @@ class NavBar extends React.Component {
     gamesCountError: null,
     developersCountError: null,
     articlesCountError: null,
+
     gamesCountRequested: false,
     developersCountRequested: false,
     articlesCountRequested: false,
