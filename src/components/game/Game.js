@@ -133,6 +133,7 @@ function secondaryDataCluster({
   vindex,
   metacriticScore,
   steamID,
+  _steamPlayers,
 }) {
   const _price = price ? `${price / 100}` : null;
 
@@ -148,7 +149,7 @@ function secondaryDataCluster({
       </div>
       {vindex != undefined ? visibilityIndex(vindex) : ''}
       {metacriticScore ? metacritic(metacriticScore) : ''}
-      {steamID ? steamPlayers(steamID) : ''}
+      {steamID ? steamPlayers(_steamPlayers) : ''}
     </div>
   );
 }
@@ -684,10 +685,7 @@ class Game extends React.Component {
     // we don't currently use this right now, but we may in the future
     error: PropTypes.string, //eslint-disable-line
     esrb: PropTypes.number,
-    genres: PropTypes.arrayOf(PropTypes.shape({
-      genre_id: PropTypes.number.isRequired,
-      name: PropTypes.string.isRequired,
-    })),
+    genres: PropTypes.arrayOf(PropTypes.string),
     igdb_link: PropTypes.string,
     metacritic: PropTypes.number,
     name: PropTypes.string,
@@ -793,6 +791,7 @@ class Game extends React.Component {
                 vindex: this.props.vindex,
                 metacriticScore: this.props.metacritic,
                 steamID: this.props.steam_id,
+                _steamPlayers: this.props.steam_players,
               })
             }
             {
