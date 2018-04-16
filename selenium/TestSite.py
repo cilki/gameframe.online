@@ -7,7 +7,6 @@ import unittest, time
 
 class TestPartOfSite(unittest.TestCase):
 
-    #Some tests require extra time for the page to load
     timeout = 10
 
     #Which environment to test
