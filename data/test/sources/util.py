@@ -20,13 +20,13 @@ class TestUtil (TestCase):
     def test_parse_steam_date(self):
         # Test value
 
-        self.assertEqual(str(datetime.datetime(2017, 3, 8)),
+        self.assertEqual(str(datetime.datetime(2017, 3, 8).date()),
                          str(parse_steam_date("Mar 8, 2017")))
-        self.assertEqual(str(datetime.datetime(2017, 3, 1)),
+        self.assertEqual(str(datetime.datetime(2017, 3, 1).date()),
                          str(parse_steam_date("Mar 2017")))
-        self.assertEqual(str(datetime.datetime(1968, 2, 28)),
+        self.assertEqual(str(datetime.datetime(1968, 2, 28).date()),
                          str(parse_steam_date("Feb 28, 1968")))
-        self.assertEqual(str(datetime.datetime(3019, 10, 1)),
+        self.assertEqual(str(datetime.datetime(3019, 10, 1).date()),
                          str(parse_steam_date("Oct 3019")))
 
     def test_condition(self):
