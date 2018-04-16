@@ -1,8 +1,6 @@
 # gameframe.online
 
-Development site: <http://dev.gameframe.online>
-
-Production site: <http://gameframe.online>
+<http://gameframe.online>
 
 ## Docker Setup
 
@@ -41,6 +39,8 @@ To run the unit tests, run `npm run test`
 
 Each test is of the from `*.test.js`, and each test file is symlinked from `frontend\tests`
 
+Alternatively, you can run `make frontend` from the root directory.
+
 ### Selenium Tests
 
 To run the acceptance tests, make sure you have Python3, Chrome, Edge, and Firefox installed.
@@ -50,9 +50,11 @@ Also have the webdrivers for each browser installed and in your PATH as well (se
 # only need to install once
 pip install selenium
 python selenium/TestSite.py
+# OR
+make selenium
 ```
 
-Sit back and wait about ten minutes, and check the results.
+Sit back and wait about ten minutes and check the results.
 
 ### Linting
 

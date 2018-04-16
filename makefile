@@ -15,7 +15,7 @@ uml:
 selenium:
 	@python selenium/TestSite.py
 
-mocha:
+frontend:
 	@npm run test
 
 backend:
