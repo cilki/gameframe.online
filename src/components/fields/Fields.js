@@ -187,6 +187,7 @@ class Fields extends React.Component {
     /**
      * @description - Conditionally render the specified rating for a game.
      * @param {Number|null} number
+     * @param {String} icon
      * @param {String} title
      * @return {React.Component|null}
      */
@@ -217,6 +218,11 @@ class Fields extends React.Component {
       return null;
     }
     
+    /**
+     * @description - Conditionally render the esrb rating of a game.
+     * @param {Number|null} esrb
+     * @return {React.Component}
+     */
     function showEsrb(esrb) {
       if (esrb != null && esrb >= 1 && esrb <= 7) {
         fields += 1;
@@ -234,6 +240,12 @@ class Fields extends React.Component {
       return null;      
     }
     
+    /**
+     * @description - This is a helper method to showEsrb().
+     * This method maps a rating key to a list and then returns an image.
+     * @param {Number|null} ratingKey
+     * @returns {React.Component}
+     */
     function getEsrb({ratingKey}) {
       return (
         <img

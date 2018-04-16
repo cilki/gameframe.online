@@ -10,97 +10,104 @@ import CommonAssets from '../inline-styles/CommonAssets';
 class SplashPage extends React.Component {
   constructor() {
     super();
-
     this.state = {};
   }
 
   render() {
+    const splashImages = [
+      {
+        href: "/games/36374",
+        alt: "PLAYERUNKNOWN'S BATTLEGROUNDS",
+        src: "../../../static/images/splash/splash-1.jpg"
+      },
+      {
+        href: "/games/8241",
+        alt: "Sid Meier's Civilization VI",
+        src: "../../../static/images/splash/splash-2.jpg"
+      },
+      {
+        href: "/games/46054",
+        alt: "Dota 2",
+        src: "../../../static/images/splash/splash-3.jpg"
+      },
+      {
+        href: "/games/6228",
+        alt: "Tom Clancy's Rainbow Six Siege",
+        src: "../../../static/images/splash/splash-4.jpg"
+      },
+      {
+        href: "/games/26302",
+        alt: "Far Cry 5",
+        src: "../../../static/images/splash/splash-5.jpg"
+      },
+      {
+        href: "/games/24501",
+        alt: "Portal 2",
+        src: "../../../static/images/splash/splash-6.jpg"
+      },
+      {
+        href: "/games/1153",
+        alt: "Rocket League",
+        src: "../../../static/images/splash/splash-7.jpg"
+      },
+      {
+        href: "/games/42245",
+        alt: "Dark Souls III",
+        src: "../../../static/images/splash/splash-8.jpg"
+      },
+      {
+        href: "/games/10051",
+        alt: "Terraria",
+        src: "../../../static/images/splash/splash-9.jpg"
+      }
+    ]
+    
+    function createImage(href, alt, src) {
+      return (
+        <Carousel.Item key={`${alt}-splash`}>
+          <a href={href} target="_blank">
+            <img 
+              style={{
+                margin: 'auto',
+                width: '100%',
+                height: '100%'
+              }}
+              alt={alt}
+              src={src}
+            />
+          </a>
+        </Carousel.Item>
+      );
+    }
+    
     return (
-      <div
-        style={[
-          { minHeight: '100%' },
-        ]}
-      >
+      <div style={{minHeight: '100%'}}>
         <div
           style={[
             CommonAssets.fillBackground,
-            CommonAssets.horizontalGradient,
+            CommonAssets.horizontalGradient
           ]}
         />
         <div
           style={[
             CommonAssets.stripeOverlay,
-            // CommonAssets.backgroundColor,
-            CommonAssets.fillBackground,
+            CommonAssets.fillBackground
           ]}
         />
         <Carousel
           style={{
             padding: '0 0 0 0',
             boxSizing: 'border-box',
-            minHeight: '100%',
+            minHeight: '100%'
           }}
         >
-          <Carousel.Item>
-            <a href="/games" target="_blank">
-              <img
-                style={{
-                margin: 'auto',
-                width: '100%',
-                height: '100%',
-              }}
-                width={900}
-                height={500}
-                alt="PLAYERUNKNOWN'S BATTLEGROUNDS"
-                src="https://d1wfiv6sf8d64f.cloudfront.net/static/pc/img/visual_main.jpg"
-              />
-            </a>
-          </Carousel.Item>
-          <Carousel.Item>
-            <a href="/games" target="_blank">
-              <img
-                style={{
-                margin: 'auto',
-                width: '100%',
-                height: '100%',
-              }}
-                width={900}
-                height={500}
-                alt="Portal 2"
-                src="http://cdn.akamai.steamstatic.com/steamcommunity/public/images/items/620/aae901f5cca93fb9f50fd4746535d24cd572b5b4.jpg"
-              />
-            </a>
-          </Carousel.Item>
-          <Carousel.Item>
-            <a href="/games" target="_blank">
-              <img
-                style={{
-                margin: 'auto',
-                width: '100%',
-                height: '100%',
-                }}
-                width={900}
-                height={500}
-                alt="Rocket League"
-                src="http://nintendoenthusiast.com/wp-content/uploads/2017/01/rocket-league.jpg"
-              />
-            </a>
-          </Carousel.Item>
-          <Carousel.Item>
-            <a href="/games" target="_blank">
-              <img
-                style={{
-                margin: 'auto',
-                width: '100%',
-                height: '100%',
-                }}
-                width={900}
-                height={500}
-                alt="The Forest"
-                src="https://compunit.pl/wp-content/uploads/2016/05/maxresdefault.jpg"
-              />
-            </a>
-          </Carousel.Item>
+          {
+            splashImages.map((splashImage, index) => createImage(
+              splashImage.href,
+              splashImage.alt,
+              splashImage.src
+            ))
+          }
         </Carousel>
       </div>
     );
