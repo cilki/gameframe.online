@@ -3,19 +3,19 @@
     "cover": "https://a0.awsstatic.com/main/images/logos/aws_logo_smile_1200x630.png",
     "name": "AWS",
     "url": "https://aws.amazon.com/",
-    "usage": "Amazon Web Services (AWS) hosts this website."
+    "usage": "Amazon Web Services (AWS) hosts this website on two EC2 micro compute instances, one RDS micro database instance, and one CloudFront CDN."
   },
   {
     "cover": "https://d33wubrfki0l68.cloudfront.net/f35d49d959deb5bfd7deb80c2668128367e2917c/eb35e/images/logo.svg",
     "name": "Babel",
     "url": "https://babeljs.io/",
-    "usage": "Babel converts JSX into browser compatible JS."   
+    "usage": "Babel was used to convert JSX into browser compatible JS."
   },
   {
     "cover": "../../../../static/images/tools/aws_s3.svg",
     "name": "Boto3",
     "url": "https://boto3.readthedocs.io/en/latest/",
-    "usage": "Description."
+    "usage": "Boto3 is a Python AWS S3 client which was used to upload game covers to the GameFrame CDN."
   },
   {
     "cover": "https://camo.githubusercontent.com/431283cc1643d02167aac31067137897507c60fc/687474703a2f2f636861696a732e636f6d2f696d672f636861692d6c6f676f2e706e67",
@@ -27,7 +27,7 @@
     "cover": "../../../../static/images/tools/docker_vertical.svg",
     "name": "Docker",
     "url": "https://www.docker.com/",
-    "usage": "Docker runs the development and production HTTP servers."   
+    "usage": "The frontend and backend HTTP servers are run in Dockerized containers which allows them to be deployed to any machine for easy testing."
   },
   {
     "cover": "http://airbnb.io/img/projects/enzyme.png",
@@ -45,25 +45,25 @@
     "cover": "https://i.lensdump.com/i/TDYNA.png",
     "name": "Flask",
     "url": "http://flask.pocoo.org/",
-    "usage": "Flask supports the backend web framework, which is written in Python."  
+    "usage": "Flask supports the backend web framework, which is written in Python."
   },
   {
     "cover": "http://cdn.gbraad.nl/images/portfolio/gitbook-logo.png",
     "name": "GitBook",
     "url": "https://www.gitbook.com/",
-    "usage": "All material regarding the development of this website is extensively documented with GitBook." 
+    "usage": "All material regarding the development of this website is extensively documented with GitBook."
   },
   {
     "cover": "https://i.lensdump.com/i/TD3gC.md.png",
     "name": "GitHub",
     "url": "https://github.com/",
-    "usage": "GitHub hosts the GameFrame source repository."  
+    "usage": "GitHub hosts the GameFrame source repository."
   },
   {
     "cover": "https://upload.wikimedia.org/wikipedia/commons/9/99/Unofficial_JavaScript_logo_2.svg",
     "name": "JavaScript",
     "url": "https://www.javascript.com/",
-    "usage": "Most of the front-end is written in JavaScript."
+    "usage": "Most of the frontend is written in JavaScript."
   },
   {
     "cover": "https://camo.githubusercontent.com/af4bf83ab2ca125346740f9961345a24ec43b3a9/68747470733a2f2f636c6475702e636f6d2f78465646784f696f41552e737667",
@@ -75,13 +75,13 @@
     "cover": "https://upload.wikimedia.org/wikipedia/en/6/62/MySQL.svg",
     "name": "MySQL",
     "url": "https://www.mysql.com/",
-    "usage": "MySQL manages the database."
+    "usage": "MySQL manages the GameFrame database."
   },
   {
     "cover": "https://i.lensdump.com/i/TD7WT.md.png",
     "name": "NameCheap",
     "url": "https://www.namecheap.com/",
-    "usage": "Namecheap allowed us this cool domain name, gameframe.online." 
+    "usage": "Namecheap hosts the DNS server for GameFrame."
   },
   {
     "cover": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/db/Npm-logo.svg/640px-Npm-logo.svg.png",
@@ -93,13 +93,13 @@
     "cover": "https://www.getpostman.com/img/v2/homepage/logo-ring.svg",
     "name": "Postman",
     "url": "https://www.getpostman.com/",
-    "usage": "We use Postman to document, develop, and test the API."
+    "usage": "Postman was used to document, develop, and test the RESTful API."
   },
   {
     "cover": "https://www.python.org/static/community_logos/python-logo-inkscape.svg",
     "name": "Python",
     "url": "https://www.python.org/",
-    "usage": "Most of the backend is written in Python." 
+    "usage": "The website backend and data scraper were both written in Python."
   },
   {
     "cover": "../../../../static/images/tools/radium_logo.svg",
@@ -111,7 +111,7 @@
     "cover": "https://tse1.mm.bing.net/th?id=OIP.PhCTTNKigiR-TKmKdXCSUAHaHB&w=136&h=129&c=7&o=5&dpr=1.1&pid=1.7",
     "name": "React-Bootstrap",
     "url": "https://react-bootstrap.github.io/",
-    "usage": "React-Bootstrap is a resource library for ReactJS that allowed us to mock up this website with features like the carousel and navbar."  
+    "usage": "React-Bootstrap is a resource library for ReactJS that allowed us to mock up this website with features like the carousel and navbar."
   },
   {
     "cover": "https://cloud.githubusercontent.com/assets/29597/11913937/0d2dcd78-a629-11e5-83e7-6a17b6d765a5.png",
@@ -135,7 +135,7 @@
     "cover": "https://camo.githubusercontent.com/f63754b8412368e820601967af6dea84312b925b/68747470733a2f2f7265616374747261696e696e672e636f6d2f72656163742d726f757465722f616e64726f69642d6368726f6d652d313434783134342e706e67",
     "name": "React Router",
     "url": "https://reacttraining.com/",
-    "usage": "React Router is a resource library for ReactJS that allowed us to seamlessly load pages within our website." 
+    "usage": "React Router is a resource library for ReactJS that allowed us to seamlessly load pages within our website."
   },
   {
     "cover": "https://upload.wikimedia.org/wikipedia/commons/9/92/Cog_font_awesome.svg",
@@ -147,7 +147,7 @@
     "cover": "https://www.seleniumhq.org/images/big-logo.png",
     "name": "Selenium",
     "url": "https://www.seleniumhq.org/",
-    "usage": "Selenium tests graphical user interfaces."
+    "usage": "Selenium was used to test the website's user interface on many different browsers automatically."
   },
   {
     "cover": "https://cdn-images-1.medium.com/max/1600/0*HERF9Ii9f_M3OzQQ.",
@@ -159,25 +159,25 @@
     "cover": "../../../../static/images/tools/slack_mark.svg",
     "name": "Slack",
     "url": "https://slack.com/",
-    "usage": "Slack is where we communicate with each other."
+    "usage": "Slack was used extensively for communication and planning during development."
   },
   {
     "cover": "../../../../static/images/tools/smartdraw_logo.svg",
     "name": "SmartDraw",
     "url": "https://www.smartdraw.com/",
-    "usage": "SmartDraw helps create UML diagrams."
+    "usage": "SmartDraw was used to generate UML diagrams at various stages of development."
   },
   {
     "cover": "https://pbs.twimg.com/profile_images/476392134489014273/q5uAkmy7_400x400.png",
     "name": "SQLAlchemy",
     "url": "https://www.sqlalchemy.org/",
-    "usage": "SQLAlchemy is our Python SQL toolkit and Object Relational Mapper."
+    "usage": "SQLAlchemy is a Python Object-Relational Mapper which manages the GameFrame database."
   },
   {
     "cover": "https://upload.wikimedia.org/wikipedia/commons/0/0d/Imagemagick-logo.png",
     "name": "Wand",
     "url": "http://docs.wand-py.org/en/0.4.4/",
-    "usage": "Description."
+    "usage": "Wand is a Python binding for ImageMagick which was used to generate CD covers for some games. Each rectangular game cover was circularly cropped and composited onto a premade CD image with Wand. Then each cover was uploaded to the GameFrame CDN using boto3."
   },
   {
     "cover": "https://tse4.mm.bing.net/th?id=OIP.gFZhldMJQCiCQylrx6oU2AHaFG&w=222&h=160&c=7&o=5&dpr=1.1&pid=1.7",
