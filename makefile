@@ -9,6 +9,9 @@ stories:
 github:
 	@echo https://github.com/cilki/gameframe.online/
 
+uml:
+	@echo https://github.com/cilki/gameframe.online/blob/master/docs/uml_diagram.png
+
 selenium:
 	@python selenium/TestSite.py
 
@@ -29,3 +32,9 @@ report:
 
 apidoc:
 	@echo https://cilki.gitbooks.io/api/
+
+self:
+	@echo https://cilki.gitbooks.io/report/self-critique.html
+
+other: 
+	@echo https://cilki.gitbooks.io/report/other-critique.html
