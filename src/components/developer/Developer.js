@@ -55,14 +55,14 @@ twitter.propTypes = {
 
 function dateToString(date) {
   const dateType = new Date(Date.parse(date));
-  const months = new Array('January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December');
+  const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
   let sup = 'th';
   const day = dateType.getDate();
-  if (day == 1 || day == 21 || day == 31) {
+  if (day === 1 || day === 21 || day === 31) {
     sup = 'st';
-  } else if (day == 2 || day == 22) {
+  } else if (day === 2 || day === 22) {
     sup = 'nd';
-  } else if (day == 3 || day == 23) {
+  } else if (day === 3 || day === 23) {
     sup = 'rd';
   }
 
@@ -94,6 +94,7 @@ class Developer extends React.Component {
       id: PropTypes.number.isRequired,
     })),
     country: PropTypes.string,
+    description: PropTypes.string,
     logo: PropTypes.string,
     twitter: PropTypes.oneOfType([PropTypes.string, PropTypes.object]), //eslint-disable-line
     foundation: PropTypes.string,
@@ -110,6 +111,7 @@ class Developer extends React.Component {
     name: '',
     games: [],
     country: '',
+    description: '',
     logo: null,
     twitter: {},
     foundation: '',
@@ -169,6 +171,9 @@ class Developer extends React.Component {
               </div>
             </div>
           </div>
+          <div>
+            {this.props.description}
+          </div>
           <div style={[InstanceDetailsStyles.bigButtonCluster]}>
             <a href={this.props.website} style={[InstanceDetailsStyles.bigButton]} key="website">
               Developer Website
@@ -193,6 +198,7 @@ class Developer extends React.Component {
                 frameBorder="0"
                 scrolling="0"
                 style={[InstanceDetailsStyles.googleTrendsIframe]}
+                title="Google Trends"
               />
             </div>
           </div>
