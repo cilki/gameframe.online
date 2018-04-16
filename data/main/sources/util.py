@@ -3,11 +3,10 @@
 # Copyright (C) 2018 GameFrame   -
 # --------------------------------
 
-import os
-import re
 from datetime import datetime
+import re
 
-from orm import Game, Developer
+from tqdm import tqdm
 
 """
 Extra keywords that make relevancy matching difficult and should be carefully
@@ -27,21 +26,7 @@ A compiled regex that performs heavy conditioning
 """
 CONDITION_HEAVY = re.compile(r'<sup>|</sup>|[ ]|\W')
 
-
-def parse_steam_date(d):
-    """
-    Parse a textual release date from Steam.
-    """
-    try:
-        return datetime.strptime(d, "%b %d, %Y").date()
-    except ValueError:
-        pass
-    try:
-        return datetime.strptime(d, "%b %Y").date()
-    except ValueError:
-        pass
-
-    return None
+PROGRESS_FORMAT = "{desc} |{bar}| {n_fmt}/{total_fmt} [{elapsed} elapsed]"
 
 
 def condition(keyword):
@@ -50,13 +35,6 @@ def condition(keyword):
     """
     keyword = re.sub(r'™|®|<sup>|</sup>', '', keyword).strip().lower()
     return re.sub(r'[ +]', ' ', keyword)
-
-
-def condition_heavy(keyword):
-    """
-    Heavily condition a keyword for relevancy detection
-    """
-    return CONDITION_HEAVY.sub('', keyword).lower()
 
 
 def condition_developer(dev_name):
@@ -79,6 +57,13 @@ def condition_developer(dev_name):
     return condition(name)
 
 
+def condition_heavy(keyword):
+    """
+    Heavily condition a keyword for relevancy detection
+    """
+    return CONDITION_HEAVY.sub('', keyword).lower()
+
+
 def dict_delete(dict, key):
     """
     Delete a key from the given dictionary if it exists
@@ -89,15 +74,54 @@ def dict_delete(dict, key):
         pass
 
 
-def keywordize(model):
+def gather(rq_func, cache, domain, desc):
     """
-    Reduce a model to a keyword string
+    Perform a generic gather with the given request function, gather domain,
+    and TableCache.
     """
-    return condition(model.name)
+    try:
+        for d in tqdm(domain, desc=desc, bar_format=PROGRESS_FORMAT):
+            rq_func(d)
+    finally:
+        cache.flush()
+
+
+def keywordize(game):
+    """
+    Reduce a Game to a keyword string
+    """
+    return condition(game.name)
+
+
+def parse_steam_date(d):
+    """
+    Parse a textual release date from Steam.
+    """
+    try:
+        return datetime.strptime(d, "%b %d, %Y").date()
+    except ValueError:
+        pass
+    try:
+        return datetime.strptime(d, "%b %Y").date()
+    except ValueError:
+        pass
+
+    return None
 
 
 def url_normalize(url):
-    # TODO
+    """
+    Convert a URL into the standard format
+    """
+    if url.startswith('//'):
+        return 'http:' + url
+
+    if url.startswith('www'):
+        return 'http://' + url
+
+    if not url.startswith('http'):
+        return 'http://' + url
+
     return url
 
 
