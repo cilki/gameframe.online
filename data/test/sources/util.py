@@ -13,7 +13,7 @@ from orm import Game, Developer, Video, Article
 
 from pathlib import Path
 from unittest import main, TestCase
-from sources.util import parse_steam_date, condition, condition_heavy, condition_developer, keywordize, xappend
+from sources.util import parse_steam_date, condition, condition_heavy, condition_developer, keywordize, xappend, url_normalize, dict_delete
 
 class TestUtil (TestCase):
 
@@ -103,7 +103,28 @@ class TestUtil (TestCase):
         self.assertEqual(len1, len(dev.articles))
         self.assertEqual(len2, len(article.developers))
 
+    def test_dict_delete(self):
 
+        a = {'A': 'x', 'B': 'y', 'C': 'z'}
+        dict_delete(a, 'C')
+        self.assertEqual(a, {'A': 'x', 'B': 'y'})
+
+        b = {'M': 'p', 'N': 'q'}
+        dict_delete(b, 'U')
+        self.assertEqual(b, {'M': 'p', 'N': 'q'})
+
+    def test_url_normalize(self):
+
+        self.assertEqual("http://gameframe.online", url_normalize(
+                         "//gameframe.online"))
+        self.assertEqual("http://www.cs.utexas.edu/", url_normalize(
+                         "www.cs.utexas.edu/"))
+        self.assertEqual("http://steamcommunity.com", url_normalize(
+                         "steamcommunity.com"))
+        self.assertEqual("https://github.com/", url_normalize(
+                         "https://github.com/"))
+        self.assertEqual("http://www.youtube.com/", url_normalize(
+                         "http://www.youtube.com/"))
 
 if __name__ == '__main__':
     main()
