@@ -111,6 +111,11 @@ class KeyNewsapi(db.Model):
     """
     __bind_key__ = 'registry'
 
+    """
+    The NewsAPI timeout is 24 hours
+    """
+    timeout = 60 * 60 * 24
+
     # The key's ID
     key_id = db.Column(db.Integer, primary_key=True)
 
@@ -123,6 +128,11 @@ class KeyIgdb(db.Model):
     An API key for IGDB
     """
     __bind_key__ = 'registry'
+
+    """
+    The IGDB timeout is 1 month
+    """
+    timeout = 60 * 60 * 24 * 30
 
     # The key's ID
     key_id = db.Column(db.Integer, primary_key=True)
@@ -137,6 +147,11 @@ class KeyTwitter(db.Model):
     """
     __bind_key__ = 'registry'
 
+    """
+    The Twitter timeout is 15 minutes
+    """
+    timeout = 60 * 15
+
     # The key's ID
     key_id = db.Column(db.Integer, primary_key=True)
 
@@ -149,6 +164,11 @@ class KeyGoogle(db.Model):
     An API key for YouTube
     """
     __bind_key__ = 'registry'
+
+    """
+    The Google timeout is 24 hours
+    """
+    timeout = 60 * 60 * 24
 
     # The key's ID
     key_id = db.Column(db.Integer, primary_key=True)
@@ -178,8 +198,8 @@ def merge_games():
 
         game = WS.build_game(game_cached.game_id, game_cached.steam_id,
                              game_cached.igdb_id, name, condition(name))
-        sources.steam.build_game(game, steam_data)
-        sources.igdb.build_game(game, igdb_data)
+        steam.build_game(game, steam_data)
+        igdb.build_game(game, igdb_data)
 
 
 def merge_developers():
@@ -197,7 +217,7 @@ def merge_developers():
         developer = WS.build_developer(developer_cached.developer_id,
                                        developer_cached.igdb_id, igdb_data['name'],
                                        condition_developer(igdb_data['name']))
-        sources.igdb.build_developer(developer, igdb_data)
+        igdb.build_developer(developer, igdb_data)
 
 
 def merge_articles():
@@ -217,8 +237,8 @@ def merge_articles():
 
         article = WS.build_article(article_cached.article_id, title,
                                    condition(title))
-        sources.steam.build_article(article, steam_data)
-        sources.newsapi.build_article(article, newsapi_data)
+        steam.build_article(article, steam_data)
+        newsapi.build_article(article, newsapi_data)
 
         related_game = WS.games.get(article_cached.game_id)
         if related_game is not None:
@@ -241,7 +261,7 @@ def merge_videos():
 
         video = WS.build_video(video_cached.video_id,
                                youtube_data['snippet']['title'])
-        sources.google.build_video(video, video_cached.youtube_data)
+        google.build_video(video, video_cached.youtube_data)
 
         related_game = WS.games.get(video_cached.game_id)
         if related_game is not None:
@@ -262,7 +282,7 @@ def merge_tweets():
 
         tweet = WS.build_tweet(tweet_cached.tweet_id,
                                tweet_data['user']['name'], tweet_data['text'])
-        sources.twitter.build_tweet(tweet, tweet_data)
+        twitter.build_tweet(tweet, tweet_data)
 
         WS.games[tweet_cached.game_id].tweets.append(tweet)
 
