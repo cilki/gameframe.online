@@ -16,7 +16,7 @@ import GridSort from '../grid-sort';
 
 import '../../../node_modules/react-bootstrap-toggle/dist/bootstrap2-toggle.css';
 
-/*;*
+/**
  * @description - Convience function for a single
  * pagination item
  * @param {Object} props
@@ -154,6 +154,11 @@ function Grid(props) {
       <div style={[Styles.grid]}>
         {children}
         {/* <div style={[Styles.endSpacer]} /> */}
+      </div>
+      <div style={[Styles.topCluster]}>
+        <div style={[Styles.gridPaginationContainer]}>
+          <GridPagination prefix={prefix} {...rest} />
+        </div>
       </div>
     </div>
   );
