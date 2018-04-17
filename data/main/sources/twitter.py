@@ -3,14 +3,11 @@
 # Copyright (C) 2018 GameFrame   -
 # --------------------------------
 
-import os
-import sys
-sys.path.append(os.path.abspath('app'))
 from orm import Game, Tweet
-from sources.util import keywordize
+from sources.util import condition_heavy, dict_delete, generic_gather, keywordize
 from datetime import datetime
 
-from TwitterSearch import *
+from TwitterSearch import TwitterSearch, TwitterSearchOrder
 
 from tqdm import tqdm
 
@@ -29,25 +26,53 @@ The Twitter API client
 API = TwitterSearch(*KEYS.get().splitlines())
 
 
+def reload_api():
+    """
+    Reinitialize the API client with a new API key. This method may block if no
+    valid keys are currently available.
+    """
+    global API
+    API = TwitterSearch(*KEYS.advance().splitlines())
+
+
 def rq_tweets(game):
     """
     Request tweet metadata according to a game using the Twitter API
     """
-    tso = TwitterSearchOrder()
-    tso.set_keywords(keywordize(game).split())
-    tso.set_language('en')
+    search = TwitterSearchOrder()
+    search.set_keywords(keywordize(game).split())
+    search.set_language('en')
 
-    for tweet_json in API.search_tweets_iterable(tso):
+    try:
+        for tweet_json in API.search_tweets_iterable(search):
 
-        # Filter unit
-        if not validate_tweet(tweet_json):
-            continue
+            # Unit filtering
+            if not validate_tweet(tweet_json):
+                continue
 
-        # TODO filter relevancy
+            # Relevancy filtering
+            if not relevant_tweet(game, tweet_json):
+                continue
 
-        # Finally add the tweet
-        TC['Tweet.game_id'].add(CachedTweet(game_id=game.game_id,
-                                            twitter_data=tweet_json))
+            # Remove unwanted information
+            dict_delete(tweet_json, 'source')
+            dict_delete(tweet_json, 'place')
+            dict_delete(tweet_json, 'retweeted_status')
+
+            user_json = tweet_json['user']
+            dict_delete(user_json, 'entities')
+            dict_delete(user_json, 'profile_image_url')
+            dict_delete(user_json, 'profile_image_url_https')
+            dict_delete(user_json, 'profile_banner_url')
+            dict_delete(user_json, 'profile_background_image_url')
+            dict_delete(user_json, 'profile_background_image_url_https')
+
+            # Finally add the tweet
+            TC['Tweet.game_id'].add(CachedTweet(game_id=game.game_id,
+                                                twitter_data=tweet_json))
+    except TwitterSearchException:
+        TC['Tweet.game_id'].flush()
+        reload_api()
 
 
 def build_tweet(tweet, tweet_json):
@@ -95,9 +120,25 @@ def validate_tweet(tweet_json):
         if tweet_json['created_at'] is None:
             return False
 
+        # Filter name
+        if tweet_json['user']['name'] is None:
+            return False
+
     except KeyError:
         return False
     return True
+
+
+def relevant_tweet(game, tweet_json):
+    """
+    Determine the relevence of a tweet to a game
+    """
+
+    # Check for name in content
+    if condition_heavy(game.name) in condition_heavy(tweet_json['text']):
+        return True
+
+    return False
 
 
 def gather_tweets():
@@ -107,6 +148,6 @@ def gather_tweets():
     load_working_set()
     load_registry('Tweet', 'game_id')
 
-    for game in tqdm(WS.games.values(), '[TWITTER ] Gathering Tweets'):
-        if not TC['Tweet.game_id'].exists(game.game_id):
-            rq_tweets(game)
+    generic_gather(rq_tweets, TC['Tweet.game_id'], '[GATHER] Downloading Tweets',
+                   [game for game in WS.games.values() if not
+                    TC['Tweet.game_id'].exists(game.game_id)])

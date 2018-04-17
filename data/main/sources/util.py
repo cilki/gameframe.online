@@ -1,12 +1,16 @@
 # --------------------------------
-# GameFrame utils                -
+# GameFrame utilities            -
 # Copyright (C) 2018 GameFrame   -
 # --------------------------------
 
-from datetime import datetime
 import re
 
+from datetime import datetime
+from random import shuffle
+
 from tqdm import tqdm
+
+from common import PROGRESS_FORMAT
 
 """
 Extra keywords that make relevancy matching difficult and should be carefully
@@ -26,10 +30,8 @@ A compiled regex that performs heavy conditioning
 """
 CONDITION_HEAVY = re.compile(r'<sup>|</sup>|[ ]|\W')
 
-PROGRESS_FORMAT = "{desc} |{bar}| {n_fmt}/{total_fmt} [{elapsed} elapsed]"
 
-
-def condition(keyword):
+def condition(keyword: str):
     """
     Condition a general keyword for searching
     """
@@ -37,7 +39,7 @@ def condition(keyword):
     return re.sub(r'[ +]', ' ', keyword)
 
 
-def condition_developer(dev_name):
+def condition_developer(dev_name: str):
     """
     Condition a developer's name
     """
@@ -57,7 +59,7 @@ def condition_developer(dev_name):
     return condition(name)
 
 
-def condition_heavy(keyword):
+def condition_heavy(keyword: str):
     """
     Heavily condition a keyword for relevancy detection
     """
@@ -74,9 +76,9 @@ def dict_delete(dict, key):
         pass
 
 
-def gather(rq_func, cache, domain, desc):
+def generic_collect(rq_func, cache, desc: str, domain):
     """
-    Perform a generic gather with the given request function, gather domain,
+    Perform a generic collection with the given request function, gather domain,
     and TableCache.
     """
     try:
@@ -86,6 +88,15 @@ def gather(rq_func, cache, domain, desc):
         cache.flush()
 
 
+def generic_gather(rq_func, cache, desc: str, domain):
+    """
+    Perform a generic gather with the given request function, gather domain,
+    and TableCache. The domain is shuffled before gathering.
+    """
+    shuffle(domain)
+    generic_collect(rq_func, cache, domain, desc)
+
+
 def keywordize(game):
     """
     Reduce a Game to a keyword string
@@ -93,23 +104,23 @@ def keywordize(game):
     return condition(game.name)
 
 
-def parse_steam_date(d):
+def parse_steam_date(steam_date: str):
     """
     Parse a textual release date from Steam.
     """
     try:
-        return datetime.strptime(d, "%b %d, %Y").date()
+        return datetime.strptime(steam_date, "%b %d, %Y").date()
     except ValueError:
         pass
     try:
-        return datetime.strptime(d, "%b %Y").date()
+        return datetime.strptime(steam_date, "%b %Y").date()
     except ValueError:
         pass
 
     return None
 
 
-def url_normalize(url):
+def url_normalize(url: str):
     """
     Convert a URL into the standard format
     """
