@@ -3,17 +3,16 @@
 # Copyright (C) 2018 GameFrame   -
 # --------------------------------
 
-from orm import Game, Tweet
-from sources.util import condition_heavy, dict_delete, generic_gather, keywordize
 from datetime import datetime
 
 from TwitterSearch import TwitterSearch, TwitterSearchOrder, TwitterSearchException
-
 from tqdm import tqdm
 
 from cache import WS, KeyCache, load_working_set
 from common import TC, load_registry
+from orm import Game, Tweet
 from registry import KeyTwitter, CachedTweet
+from sources.util import condition_heavy, dict_delete, generic_gather
 
 """
 The API key cache
@@ -40,7 +39,7 @@ def rq_tweets(game):
     Request tweet metadata according to a game using the Twitter API
     """
     search = TwitterSearchOrder()
-    search.set_keywords(keywordize(game).split())
+    search.set_keywords(game.c_name.split())
     search.set_language('en')
 
     try:
