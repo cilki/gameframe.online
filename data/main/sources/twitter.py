@@ -7,7 +7,7 @@ from orm import Game, Tweet
 from sources.util import condition_heavy, dict_delete, generic_gather, keywordize
 from datetime import datetime
 
-from TwitterSearch import TwitterSearch, TwitterSearchOrder
+from TwitterSearch import TwitterSearch, TwitterSearchOrder, TwitterSearchException
 
 from tqdm import tqdm
 
@@ -131,7 +131,7 @@ def validate_tweet(tweet_json):
 
 def relevant_tweet(game, tweet_json):
     """
-    Determine the relevence of a tweet to a game
+    Determine the relevance of a tweet to a game
     """
 
     # Check for name in content
@@ -143,7 +143,7 @@ def relevant_tweet(game, tweet_json):
 
 def gather_tweets():
     """
-    Download tweets from Twitter by game
+    Search for tweets related to games and download them to the cache
     """
     load_working_set()
     load_registry('Tweet', 'game_id')
