@@ -7,14 +7,11 @@ import os
 from datetime import datetime
 
 import requests
-from ratelimit import rate_limited
-from tqdm import tqdm
 
 from cache import WS, KeyCache, load_working_set
 from common import TC, load_registry
 from registry import KeyGoogle, CachedVideo
-
-from .util import condition_heavy, keywordize, xappend
+from sources.util import condition_heavy, generic_gather, xappend
 
 """
 The API key cache
@@ -27,7 +24,7 @@ def rq_videos(game):
     Request video metadata according to a game using the YouTube API
     """
     rq = requests.get("https://www.googleapis.com/youtube/v3/search",
-                      params={'q': keywordize(game).replace(" ", "+"),
+                      params={'q': game.c_name.replace(" ", "+"),
                               'order': 'relevance', 'part': 'snippet',
                               'type': 'video', 'maxResults': 50, 'key': KEYS.get(),
                               'videoCategoryId': 20})
@@ -37,14 +34,12 @@ def rq_videos(game):
 
     for video_json in rq.json()['items']:
 
-        # Filter unit
+        # Unit filtering
         if not validate_video(video_json):
             continue
 
-        # Filter video relevancy
-        name = condition_heavy(game.name)
-        if name not in condition_heavy(video_json['snippet']['title']) and \
-                name not in condition_heavy(video_json['snippet']['description']):
+        # Relevancy filtering
+        if not relevant_video(game, video_json):
             continue
 
         # Finally add the video
@@ -98,24 +93,38 @@ def validate_video(video_json):
 
     try:
         # Filter title
-        if len(video_json['snippet']['title']) < 5:
+        if type(video_json['snippet']['title']) is not str:
             return False
 
         # Filter description
-        if len(video_json['snippet']['description']) < 5:
+        if type(video_json['snippet']['description']) is not str:
             return False
 
         # Filter ID
-        if not video_json['id']['videoId']:
+        if type(video_json['id']['videoId']) is not str:
             return False
 
         # Filter thumbnail
-        if len(video_json['snippet']['thumbnails']['medium']['url']) < 10:
+        if type(video_json['snippet']['thumbnails']['medium']['url']) is not str:
             return False
 
     except KeyError:
         return False
     return True
+
+
+def relevant_video(game, video_json):
+    """
+    Determine the relevance of a video to a game
+    """
+
+    # Check for name in content
+    name = condition_heavy(game.c_name)
+    if name in condition_heavy(video_json['snippet']['title']) or \
+            name in condition_heavy(video_json['snippet']['description']):
+        return True
+
+    return False
 
 
 def gather_videos():
@@ -125,6 +134,6 @@ def gather_videos():
     load_working_set()
     load_registry('Video', 'game_id')
 
-    for game in tqdm(WS.games.values(), '[YOUTUBE ] Gathering Videos'):
-        if not TC['Video.game_id'].exists(game.game_id):
-            rq_videos(game)
+    generic_gather(rq_videos, TC['Video.game_id'], '[GATHER] Downloading Videos',
+                   [game for game in WS.games.values() if not
+                    TC['Video.game_id'].exists(game.game_id)])
