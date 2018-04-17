@@ -61,6 +61,7 @@ class Developers extends React.Component {
                 fields={
                   <Fields
                     key={developer.developer_id}
+                    factor={1.5}
                     games={developer.game_count}
                     articles={developer.article_count}
                     tweets={developer.tweet_count}

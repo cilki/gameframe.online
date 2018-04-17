@@ -12,6 +12,8 @@ import InstanceDetailsStyles from '../instance-details/InstanceDetailsStyles';
 
 class Fields extends React.Component {
   static propTypes = {
+    /* Factor */
+    factor: PropTypes.number,
     /* Facts */
     price: PropTypes.number,
     players: PropTypes.number,
@@ -44,6 +46,8 @@ class Fields extends React.Component {
   };
 
   static defaultProps = {
+    /* Factor */
+    factor: 1,
     /* Facts */
     price: null,
     players: null,
@@ -78,6 +82,7 @@ class Fields extends React.Component {
   }
 
   render() {
+    const factor = this.props.factor;
     const MediaEnum = Object.freeze(
       {
         "Steam":"/static/images/icons8-steam-filled.svg",
@@ -86,10 +91,8 @@ class Fields extends React.Component {
         "Website":"/static/images/Globe_icon_4.png",
         "Source":"/static/images/icons8-black-hot-article-50.png"        
       }
-    );
-    
-    const esrb = this.props.esrb ? [this.props.esrb] : null;
-    
+    );  
+    const esrb = this.props.esrb ? [this.props.esrb] : null;  
     let fields = 0;
 
     /**
@@ -131,7 +134,7 @@ class Fields extends React.Component {
         if (message != null) {
           tooltip = (
             <Tooltip id={`${message}-tooltip`} key={`${message}-tooltip`}>
-              <div style={[Styles.smallText]}>
+              <div style={[Styles.smallText(factor)]}>
                 {message}
               </div>
             </Tooltip>
@@ -141,7 +144,7 @@ class Fields extends React.Component {
           <OverlayTrigger placement={position} overlay={tooltip}>
             <div style={[Styles.label]}>
               <div style={[Styles.flexRow]}>
-                <div style={[Styles.smallText]}>
+                <div style={[Styles.smallText(factor)]}>
                   <Glyphicon glyph={icon}>
                     &nbsp;
                     {number}
@@ -168,7 +171,7 @@ class Fields extends React.Component {
           <div style={[Styles.flexRow]}>
             <div style={[Styles.flexColumn]}>
               <div style={[Styles.flexRow]}>
-                <div style={[Styles.largeText]}>
+                <div style={[Styles.largeText(factor)]}>
                   Ratings
                 </div>
               </div>
@@ -196,7 +199,7 @@ class Fields extends React.Component {
         fields += 1;
         const tooltip = (
           <Tooltip id={`${message}-tooltip`} key={`${message}-tooltip`}>
-            <div style={[Styles.smallText]}>
+            <div style={[Styles.smallText(factor)]}>
               {message}
             </div>
           </Tooltip>
@@ -205,8 +208,8 @@ class Fields extends React.Component {
           <OverlayTrigger placement={"top"} overlay={tooltip}>
             <div style={[Styles.label]}>
               <div style={[Styles.flexRow]}>
-                <img src={icon} style={[Styles.iconImage]}/>
-                <div style={[Styles.smallText]}>
+                <img src={icon} style={[Styles.iconImage(factor)]}/>
+                <div style={[Styles.smallText(factor)]}>
                   &nbsp;
                   {number}%
                 </div>
@@ -249,7 +252,7 @@ class Fields extends React.Component {
     function getEsrb({ratingKey}) {
       return (
         <img
-          style={[Styles.esrbImage]}
+          style={[Styles.esrbImage(factor)]}
           alt={`${InstanceDetailsStyles.esrbMappings[`${ratingKey}alt`]}`}
           src={`${InstanceDetailsStyles.esrbMappings[ratingKey]}`}
           key={`${ratingKey}-esrb`}
@@ -271,7 +274,7 @@ class Fields extends React.Component {
           <div style={[Styles.flexRow]}>
             <div style={[Styles.flexColumn]}>
               <div style={[Styles.flexRow]}>
-                <div style={[Styles.largeText]}>
+                <div style={[Styles.largeText(factor)]}>
                   {title}
                 </div>
               </div>
@@ -323,7 +326,7 @@ class Fields extends React.Component {
           <div style={[Styles.flexRow]}>
             <div style={[Styles.flexColumn]}>
               <div style={[Styles.flexRow]}>
-                <div style={[Styles.largeText]}>
+                <div style={[Styles.largeText(factor)]}>
                   References
                 </div>
               </div>
@@ -356,7 +359,7 @@ class Fields extends React.Component {
           <div style={[Styles.flexRow]}>
             <div style={[Styles.flexColumn]}>
               <div style={[Styles.flexRow]}>
-                <div style={[Styles.largeText]}>
+                <div style={[Styles.largeText(factor)]}>
                   Media
                 </div>
               </div>
@@ -395,7 +398,7 @@ class Fields extends React.Component {
           <div style={[Styles.icon]}>
             <div style={[Styles.flexColumn]}>
               <OverlayTrigger placement={"top"} overlay={tooltip}>
-                <img src={iconUrl} style={[Styles.iconImage]}/>
+                <img src={iconUrl} style={[Styles.iconImage(factor)]}/>
               </OverlayTrigger>
             </div>
           </div>
@@ -428,7 +431,7 @@ class Fields extends React.Component {
       let chunkifiedUrl = chunkifyUrl(url, 24);
       for (let chunk in chunkifiedUrl) {
         formattedUrl.push(
-          <div style={[Styles.urlText]} key={`${Math.random()}-${url}-url`}>
+          <div style={[Styles.urlText(factor)]} key={`${Math.random()}-${url}-url`}>
             {chunkifiedUrl[chunk]}
           </div>
         );
@@ -458,7 +461,7 @@ class Fields extends React.Component {
       if (fields <= 0) {
         return (
           <div style={[Styles.flexRow]}>
-            <div style={[Styles.smallText]}>
+            <div style={[Styles.smallText(factor)]}>
               No Fields Available.
             </div>
           </div>

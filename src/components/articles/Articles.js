@@ -59,6 +59,7 @@ class Articles extends React.Component {
                 fields={
                   <Fields
                     key={article.article_id}
+                    factor={1.5}
                     games={article.game_count}
                     developers={article.developer_count}
                     source={article.article_link}
