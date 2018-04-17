@@ -28,7 +28,7 @@ function createLinkContainerNavItem(href, imageSrc, label, count, linkProps, nav
   if (count != null && count >= 0) {
     tooltip = (
       <Tooltip id={`${label}-tooltip`} key={`${label}-tooltip`}>
-        {count}
+        {count.toLocaleString()}
       </Tooltip>
     );
   }
