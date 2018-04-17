@@ -60,8 +60,8 @@ class Game(db.Model):
     # Compatible platforms
     platforms = db.relationship('Platform',  secondary='join_game_platform')
 
-    # A background image
-    background = db.Column(db.Text)
+    # A link to the Metacritic review page
+    metacritic_link = db.Column(db.Text)
 
     # Metacritic rating
     metacritic = db.Column(db.Integer)

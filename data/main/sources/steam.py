@@ -250,6 +250,10 @@ def build_game(game, game_json):
     if game.metacritic is None and 'metacritic' in game_json:
         game.metacritic = game_json['metacritic']['score']
 
+    # Metacritic link
+    if game.metacritic_link is None and 'metacritic' in game_json:
+        game.metacritic_link = game_json['metacritic']['url']
+
     # Cover
     if game.cover is None and CACHE_CD.exists("%d.png" % game.steam_id):
         game.cover = "%s/cover/steam/%d.png" % (CDN_URI, game.steam_id)
