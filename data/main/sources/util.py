@@ -94,7 +94,7 @@ def generic_gather(rq_func, cache, desc: str, domain):
     and TableCache. The domain is shuffled before gathering.
     """
     shuffle(domain)
-    generic_collect(rq_func, cache, domain, desc)
+    generic_collect(rq_func, cache, desc, domain)
 
 
 def keywordize(game):
@@ -134,6 +134,16 @@ def url_normalize(url: str):
         return 'http://' + url
 
     return url
+
+
+def vstrlen(string, length=1):
+    """
+    Validate a string by length
+    """
+    if type(string) is not str:
+        return False
+
+    return len(string) >= length
 
 
 def xappend(collection, item):

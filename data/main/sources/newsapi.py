@@ -12,7 +12,8 @@ from tqdm import tqdm
 from cache import WS, KeyCache, load_working_set
 from common import TC, load_registry
 from registry import KeyNewsapi, CachedArticle
-from sources.util import condition, condition_heavy, generic_gather, url_normalize, xappend
+from sources.util import (condition, condition_heavy,
+                          generic_gather, url_normalize, vstrlen, xappend)
 
 
 """
@@ -142,28 +143,28 @@ def validate_article(article_json):
         if article_json['source']['name'] not in WHITELIST:
             return False
 
+        # Filter title
+        if not vstrlen(article_json['title'], 10):
+            return False
+
         # Filter blacklist
         if BLACKLIST.search(condition(article_json['title'])) is not None:
             return False
 
-        # Filter title
-        if article_json['title'] is None:
-            return False
-
         # Filter Introduction
-        if article_json['description'] is None:
+        if not vstrlen(article_json['description'], 15):
             return False
 
         # Filter Timestamp
-        if article_json['publishedAt'] is None:
+        if not vstrlen(article_json['publishedAt']):
             return False
 
         # Filter Image
-        if article_json['urlToImage'] is None:
+        if not vstrlen(article_json['urlToImage']):
             return False
 
         # Filter Article link
-        if article_json['url'] is None:
+        if not vstrlen(article_json['url']):
             return False
 
     except KeyError:

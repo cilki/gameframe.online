@@ -11,7 +11,7 @@ import requests
 from cache import WS, KeyCache, load_working_set
 from common import TC, load_registry
 from registry import KeyGoogle, CachedVideo
-from sources.util import condition_heavy, generic_gather, xappend
+from sources.util import condition_heavy, generic_gather, vstrlen, xappend
 
 """
 The API key cache
@@ -93,19 +93,19 @@ def validate_video(video_json):
 
     try:
         # Filter title
-        if type(video_json['snippet']['title']) is not str:
+        if not vstrlen(video_json['snippet']['title'], 8):
             return False
 
         # Filter description
-        if type(video_json['snippet']['description']) is not str:
+        if not vstrlen(video_json['snippet']['description'], 15):
             return False
 
         # Filter ID
-        if type(video_json['id']['videoId']) is not str:
+        if not vstrlen(video_json['id']['videoId']):
             return False
 
         # Filter thumbnail
-        if type(video_json['snippet']['thumbnails']['medium']['url']) is not str:
+        if not vstrlen(video_json['snippet']['thumbnails']['medium']['url']):
             return False
 
     except KeyError:

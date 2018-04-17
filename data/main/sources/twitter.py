@@ -12,7 +12,7 @@ from cache import WS, KeyCache, load_working_set
 from common import TC, load_registry
 from orm import Game, Tweet
 from registry import KeyTwitter, CachedTweet
-from sources.util import condition_heavy, dict_delete, generic_gather
+from sources.util import condition_heavy, dict_delete, generic_gather, vstrlen
 
 """
 The API key cache
@@ -108,19 +108,19 @@ def validate_tweet(tweet_json):
 
     try:
         # Filter ID
-        if tweet_json['id'] is None:
+        if type(tweet_json['id']) is not int:
             return False
 
         # Filter content
-        if tweet_json['text'] is None:
+        if not vstrlen(tweet_json['text'], 8):
             return False
 
         # Filter timestamp
-        if tweet_json['created_at'] is None:
+        if not vstrlen(tweet_json['created_at']):
             return False
 
         # Filter name
-        if tweet_json['user']['name'] is None:
+        if not vstrlen(tweet_json['user']['name']):
             return False
 
     except KeyError:

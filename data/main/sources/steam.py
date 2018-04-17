@@ -20,7 +20,8 @@ from common import CDN_URI, TC, load_registry
 from orm import Game, Article, Genre, Image, Platform
 from registry import CachedGame, CachedArticle
 
-from .util import condition, condition_developer, condition_heavy, parse_steam_date, xappend
+from sources.util import (condition, condition_developer,
+                          condition_heavy, parse_steam_date, vstrlen, xappend)
 
 
 """
@@ -308,19 +309,19 @@ def validate_article(article_json):
 
     try:
         # Filter title
-        if len(article_json['title']) < 5:
+        if not vstrlen(article_json['title'], 16):
             return False
 
         # Filter contents
-        if len(article_json['contents']) < 25:
+        if not vstrlen(article_json['contents'], 30):
             return False
 
         # Filter Outlet
-        if len(article_json['feedlabel']) < 10:
+        if not vstrlen(article_json['feedlabel']):
             return False
 
         # Filter Article link
-        if len(article_json['url']) < 10:
+        if not vstrlen(article_json['url'], 10):
             return False
 
     except KeyError:
