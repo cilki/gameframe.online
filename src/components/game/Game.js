@@ -152,7 +152,7 @@ function secondaryDataCluster({
       </div>
       {vindex != undefined ? visibilityIndex(vindex) : ''}
       {metacriticScore ? metacritic(metacriticScore) : ''}
-      {steamID ? steamPlayers(_steamPlayers) : ''}
+      {steamID ? steamPlayers({_steamPlayers: _steamPlayers, steamID: steamID}) : ''}
     </div>
   );
 }
@@ -381,7 +381,7 @@ metacritic.propTypes = {
   metacriticScore: PropTypes.number,
 };
 
-function steamPlayers(playerCount) {
+function steamPlayers({playerCount, steamID}) {
   const steamPlayersTooltip = (
     <Tooltip id="steamPlayersTooltip">
       A regularly updated count of people currently playing this game on Steam
@@ -390,24 +390,30 @@ function steamPlayers(playerCount) {
 
   return (
     <OverlayTrigger placement="top" overlay={steamPlayersTooltip}>
-      <div style={[InstanceDetailsStyles.currentPlayers]}>
-        <img
-          style={{
-            height: 'calc(20px + 0.5vw)',
-            paddingTop: '2%',
-            marginRight: '4px',
-            width: 'auto'
-          }}
-          src="https://upload.wikimedia.org/wikipedia/commons/8/83/Steam_icon_logo.svg"
-        />
-        <b>{playerCount}</b>&nbsp;players
-      </div>
+      <a
+        href={`http://www.steamcharts.com/app/${steamID}`}
+        target="none"
+        style={{ textDecoration: 'inherit', color: 'inherit'}}>
+        <div style={[InstanceDetailsStyles.currentPlayers]}>
+          <img
+            style={{
+              height: 'calc(20px + 0.5vw)',
+              paddingTop: '2%',
+              marginRight: '4px',
+              width: 'auto'
+            }}
+            src="https://upload.wikimedia.org/wikipedia/commons/8/83/Steam_icon_logo.svg"
+          />
+          <b>{playerCount}</b>&nbsp;players
+        </div>
+      </a>
     </OverlayTrigger>
   );
 }
 
 steamPlayers.propTypes = {
   playerCount: PropTypes.number,
+  steamID: PropTypes.number,
 };
 
 function platformCluster({
