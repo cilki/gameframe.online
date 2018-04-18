@@ -195,3 +195,21 @@ def gather_articles():
     generic_gather(rq_articles, TC['Article.game_id'], '[GATHER] Downloading Articles',
                    [game for game in WS.games.values() if not
                     TC['Article.game_id'].exists(game.game_id)])
+
+
+def link_articles():
+    """
+    Compute Game-Article links.
+    Complexity: O(N^2)
+    """
+    load_working_set()
+
+    games = {condition_heavy(game.c_name): game for game in WS.games.values()}
+
+    for article in tqdm(WS.articles.values(), '[LINK] Linking Articles'):
+        content = condition_heavy(article.introduction)
+
+        for name in games.keys():
+            if name in content:
+                # Link the models
+                xappend(article.games, games[name])

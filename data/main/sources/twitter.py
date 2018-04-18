@@ -142,3 +142,22 @@ def gather_tweets():
     generic_gather(rq_tweets, TC['Tweet.game_id'], '[GATHER] Downloading Tweets',
                    [game for game in WS.games.values() if not
                     TC['Tweet.game_id'].exists(game.game_id)])
+
+
+def link_tweets():
+    """
+    Compute Game-Tweet links.
+    Complexity: O(N^2)
+    """
+    load_working_set()
+
+    tweets = {condition_heavy(tweet.content): tweet
+              for tweet in WS.tweets.values()}
+
+    for game in tqdm(WS.games.values(), '[LINK] Linking Tweets'):
+        name = condition_heavy(game.c_name)
+
+        for text in tweets.keys():
+            if name in text:
+                # Link the models
+                xappend(game.tweets, tweets[text])

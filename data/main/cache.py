@@ -71,7 +71,6 @@ class FolderCache ():
     """
 
     def __init__(self, location):
-        location = common.CACHE_GAMEFRAME + location
         assert os.path.isdir(location)
         self.location = location
 
@@ -85,6 +84,9 @@ class FolderCache ():
         return self.location
 
     def write(self, filename, bin):
+        """
+        Write a binary file to the cache
+        """
         with open("%s/%s" % (self.location, filename), 'wb') as h:
             h.write(bin)
 

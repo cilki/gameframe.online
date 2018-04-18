@@ -5,14 +5,16 @@
 
 import os
 import sys
+sys.path.append(os.path.abspath('app'))
 
 from time import time
 from signal import SIGINT, signal
 
 from flask import Flask
 
-sys.path.append(os.path.abspath('app'))
+import vindex
 from orm import db
+from cache import WS, load_working_set
 
 
 # Register exit signal
@@ -30,7 +32,7 @@ app.config['SQLALCHEMY_BINDS'] = {'gameframe': os.environ['SQLALCHEMY_URI'],
 print("                             __                          \n                            / _|                         \n  __ _  __ _ _ __ ___   ___| |_ _ __ __ _ _ __ ___   ___ \n / _` |/ _` | '_ ` _ \\ / _ \\  _| '__/ _` | '_ ` _ \\ / _ \\\n| (_| | (_| | | | | | |  __/ | | | | (_| | | | | | |  __/\n \\__, |\\__,_|_| |_| |_|\\___|_| |_|  \\__,_|_| |_| |_|\\___|\n  __/ |                                                  \n |___/\n\n")
 
 print("-------------------------------------------------------------------------------------")
-print("0. RESET                          Drop all tables and recreate database schema")
+print("0. RESET                          Drop all tables and create database schema")
 print("1. REBUILD                        Reset the database and rebuild from the cache")
 print("2. FLUSH                          Commit the working set to the database")
 
@@ -42,9 +44,9 @@ print("5. MERGE articles                 Integrate article cache into the workin
 print("6. MERGE videos                   Integrate video cache into working set")
 print("7. MERGE tweets                   Integrate tweet cache into working set")
 print("8. LINK developers                Compute Game-Developer links")
-print("9. LINK articles                  Compute extraneous Game-Article links")
-print("A. LINK videos                    Compute extraneous Game-Video links")
-print("B. LINK tweets                    Compute extraneous Tweet links")
+print("9. LINK articles                  Compute quadratic Game-Article links")
+print("A. LINK videos                    Compute quadratic Game-Video links")
+print("B. LINK tweets                    Compute quadratic Tweet links")
 print("C. CLEAN all                      Remove unwanted entities from the registry")
 
 print("")
@@ -75,7 +77,6 @@ print("")
 print("[VINDEX]")
 print("Y. BENCHMARK game vindex          Compute and print visibility index for a few games")
 print("Z. COMPUTE game vindex            Compute visibility index for all games")
-
 print("-------------------------------------------------------------------------------------")
 
 with app.app_context():
@@ -83,11 +84,9 @@ with app.app_context():
     # Initialize Flask
     db.init_app(app)
 
+    import registry
     from sources import igdb, newsapi, steam, google, twitter
     from util import reset, trim
-    import vindex
-    from cache import WS, load_working_set
-    import registry
 
     cmd = ""
     while True:
@@ -113,13 +112,13 @@ with app.app_context():
             igdb.link_developers()
             steam.link_developers()
 
-            # Merge/Link articles
+            # Merge articles
             registry.merge_articles()
 
-            # Merge/Link videos
+            # Merge videos
             registry.merge_videos()
 
-            # Merge/Link tweets
+            # Merge tweets
             registry.merge_tweets()
 
             trim()
@@ -143,12 +142,13 @@ with app.app_context():
             igdb.link_developers()
             steam.link_developers()
         elif action == '9':
-            pass
+            newsapi.link_articles()
         elif action == 'a':
-            pass
+            google.link_videos()
         elif action == 'b':
-            pass
+            twitter.link_tweets()
         elif action == 'c':
+            registry.clean_tweets()
             registry.clean_articles()
             registry.clean_videos()
 
@@ -189,7 +189,7 @@ with app.app_context():
             load_working_set()
             vindex.precompute(WS.games)
 
-            for game in tqdm(WS.games.values(), '[VINDEX  ] Computing game vindicies'):
+            for game in tqdm(WS.games.values(), '[VINDEX] Computing game vindicies'):
                 vindex.compute(game)
         else:
             print("Unknown Command")

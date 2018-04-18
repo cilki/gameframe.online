@@ -284,8 +284,6 @@ def merge_tweets():
                                tweet_data['user']['name'], tweet_data['text'])
         twitter.build_tweet(tweet, tweet_data)
 
-        WS.games[tweet_cached.game_id].tweets.append(tweet)
-
 
 def clean_articles():
     """

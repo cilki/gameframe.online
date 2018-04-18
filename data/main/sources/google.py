@@ -137,3 +137,22 @@ def gather_videos():
     generic_gather(rq_videos, TC['Video.game_id'], '[GATHER] Downloading Videos',
                    [game for game in WS.games.values() if not
                     TC['Video.game_id'].exists(game.game_id)])
+
+
+def link_videos():
+    """
+    Compute Game-Video links.
+    Complexity: O(N^2)
+    """
+    load_working_set()
+
+    videos = {condition_heavy(video.name + video.description): video
+              for video in WS.videos.values()}
+
+    for game in tqdm(WS.games.values(), '[LINK] Linking Videos'):
+        name = condition_heavy(game.c_name)
+
+        for text in videos.keys():
+            if name in text:
+                # Link the models
+                xappend(game.videos, videos[text])
