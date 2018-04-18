@@ -7,7 +7,7 @@ import flask
 import flask_sqlalchemy
 import flask_restless
 
-from .orm import Game, Developer, Article, Tweet, Video, Platform, Genre
+from orm import Game, Developer, Article, Tweet, Video, Platform, Genre
 
 
 def generate_api(app, db):
