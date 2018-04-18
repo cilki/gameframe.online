@@ -327,17 +327,11 @@ class WorkingSet ():
             dev.game_count = len(dev.games)
             dev.article_count = len(dev.articles)
 
-            # Write
-            self.db.session.add(dev)
-
         for article in self.articles.values():
 
             # Update link counts
             article.game_count = len(article.games)
             article.developer_count = len(article.developers)
-
-            # Write
-            self.db.session.add(article)
 
         self.db.session.commit()
         print("[FLUSH] Complete")

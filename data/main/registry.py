@@ -284,6 +284,10 @@ def merge_tweets():
                                tweet_data['user']['name'], tweet_data['text'])
         twitter.build_tweet(tweet, tweet_data)
 
+        related_game = WS.games.get(tweet_cached.game_id)
+        if related_game is not None:
+            xappend(related_game.tweets, tweet)
+
 
 def clean_articles():
     """
