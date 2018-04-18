@@ -15,7 +15,7 @@ import {
 } from 'd3-scale';
 import { axisBottom, axisLeft } from 'd3-axis';
 import { extent } from 'd3-array';
-import { line as Line } from 'd3-shape';
+import { line as Line, curveMonotoneX } from 'd3-shape';
 
 /**
  * @description - Creates and returns a LineChart created using D3
@@ -92,7 +92,8 @@ class GameChart extends React.Component {
 
     const line = Line()
       .x(d => x(d.date))
-      .y(d => y(d.number));
+      .y(d => y(d.number))
+      .curve(curveMonotoneX);
 
     this.g.append("path")
       .datum(data)
