@@ -1,5 +1,5 @@
 # --------------------------------
-# GameFrame API scraper          -
+# Common                         -
 # Copyright (C) 2018 GameFrame   -
 # --------------------------------
 
@@ -17,6 +17,10 @@ The root cache directory
 CACHE_GAMEFRAME = os.environ['CACHE_GAMEFRAME']
 assert os.path.isdir(CACHE_GAMEFRAME)
 
+"""
+The standard progress bar format
+"""
+PROGRESS_FORMAT = "{desc} |{bar}| {n_fmt}/{total_fmt} [{elapsed} elapsed]"
 
 """
 Storage for the global TableCaches
@@ -30,9 +34,18 @@ def load_registry(model, key):
     """
     Load a TableCache if not already loaded
     """
-    global TC
-
     model_key = model + '.' + key
+
     if model_key not in TC:
         import registry
         TC[model_key] = cache.TableCache(eval('registry.Cached' + model), key)
+
+
+def unload_registry(model, key):
+    """
+    Explicitly unload a TableCache
+    """
+    model_key = model + '.' + key
+
+    if model_key in TC:
+        del TC[model_key]
