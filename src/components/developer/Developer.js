@@ -175,12 +175,20 @@ class Developer extends React.Component {
             {this.props.description}
           </div>
           <div style={[InstanceDetailsStyles.bigButtonCluster]}>
-            <a href={this.props.website} style={[InstanceDetailsStyles.bigButton]} key="website">
-              Developer Website
-            </a>
-            <a href={this.props.twitter} style={[InstanceDetailsStyles.bigButton]} key="twitter">
-              Developer Twitter
-            </a>
+            {
+              this.props.website ? (
+                <a href={this.props.website} style={[InstanceDetailsStyles.bigButton]} key="website">
+                  Developer Website
+                </a>
+              ) : ''
+            }
+            {
+              this.props.twitter ? (
+                <a href={this.props.twitter} style={[InstanceDetailsStyles.bigButton]} key="twitter">
+                  Developer Twitter
+                </a>
+              ) : ''
+            }
           </div>
           <div style={[InstanceDetailsStyles.developerWidgetGroup]}>
             <div style={[InstanceDetailsStyles.developerTwitterContainer]}>
