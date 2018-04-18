@@ -4,14 +4,12 @@
 # --------------------------------
 
 import os
-import sys
-sys.path.append(os.path.abspath('data/main'))
 
 from flask import Flask
 from flask_cors import CORS
 
-from app.orm import db
-from app.api import generate_api
+from orm import db
+from api import generate_api
 
 
 # Initialize Flask
