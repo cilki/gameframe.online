@@ -92,6 +92,7 @@ const InstanceDetails = {
   gameCoverImage: {
     height: 'calc(45.6px + 9.12vw)',
     width: 'auto',
+    flexBasis: '30%',
     borderBottomRightRadius: `${cornerRadius}`,
     borderTopLeftRadius: `${cornerRadius}`,
     '@media screen and (max-width: 668px)': {
@@ -102,7 +103,8 @@ const InstanceDetails = {
   },
 
   gamePrimaryInfoCluster: {
-    flexGrow: '2',
+    flexGrow: '1',
+    flexBasis: '60%',
     display: 'flex',
     flexDirection: 'column',
     flexWrap: 'wrap',
@@ -228,6 +230,7 @@ const InstanceDetails = {
     flexBasis: '50%',
     display: 'flex',
     flexDirection: 'column',
+    justifyContent: 'space-around',
     '@media screen and (max-width: 600px)': {
       minWidth: '100%',
       width: '100%',
@@ -264,12 +267,11 @@ const InstanceDetails = {
   },
 
   esrbRatingContainer: {
-    display: 'flex',
-    justifyContent: 'space-around',
     paddingTop: '4%',
+    flexBasis: '10%',
     boxSizing: 'border-box',
-    textAlign: 'center',
-    marginLeft: '-2%',
+    marginRight: '-2%',
+    height: 'calc(45.6px + 9.12vw)',
     '@media screen and (max-width: 600px)': {
       margin: 'auto',
     },
@@ -277,7 +279,7 @@ const InstanceDetails = {
 
   esrbRatingImage: {
     borderRadius: `${cornerRadius}`,
-    maxHeight: '60%',
+    height: 'calc(45.6px + 9.12vw)',
     margin: 'auto',
   },
 

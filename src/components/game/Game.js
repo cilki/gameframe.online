@@ -104,7 +104,7 @@ genreCluster.propTypes = {
 function primaryInfoCluster({
   name,
   release,
-  genres
+  genres,
 }) {
 
   const releaseDate = dateToString(release);
@@ -463,21 +463,33 @@ ratingContainer.propTypes = {
   _rating: PropTypes.string,
 };
 
-function platformRatingContainer({
-  platforms, _rating,
+function platformVideoContainer({
+  platforms, videos,
 }) {
 
   return (
     <div style={[InstanceDetailsStyles.platformRatingContainer]}>
       {platformCluster({ platforms: platforms })}
-      {ratingContainer({ _rating: _rating })}
+      <div style={[InstanceDetailsStyles.platformIndicator]}>
+        YouTube video releases over time:
+      </div>
+      <div
+        style={{
+          display: 'flex',
+          height: '100%',
+          maxHeight: '100%',
+        }}
+      >
+        <GameChart {...{videos: videos }} />
+      </div>
+      {/*ratingContainer({ _rating: _rating })*/}
     </div>
   );
 }
 
-platformRatingContainer.propTypes = {
+platformVideoContainer.propTypes = {
   platforms: PropTypes.array.isRequired,
-  _rating: PropTypes.string,
+  videos: PropTypes.array.isRequired,
 };
 
 function googleTrendsContainer({
@@ -779,9 +791,9 @@ class Game extends React.Component {
                 name: this.props.name,
                 release: this.props.release,
                 genres: this.props.genres,
-                
               })
             }
+            {this.props.esrb ? rating({ ratingKey: this.props.esrb }) : ''}
             {
               screenshotGallery({
                 screenshots: this.props.screenshots,
@@ -802,9 +814,9 @@ class Game extends React.Component {
               })
             }
             {
-              platformRatingContainer({
+              platformVideoContainer({
                 platforms: this.props.platforms,
-                _rating: this.props.esrb,
+                videos: this.props.videos,
               })
             }
             {
@@ -830,16 +842,6 @@ class Game extends React.Component {
               right: this.props.igdb_link,
             })
           }
-          <div
-            style={{
-              display: 'flex',
-              height: '300px',
-              // minHeight: '300px',
-              maxHeight: '300px',
-            }}
-          >
-            <GameChart {...{videos: this.props.videos }} />
-          </div>
         </InstanceDetails>
       </StyleRoot>
     );

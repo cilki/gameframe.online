@@ -160,7 +160,7 @@ class GameChart extends React.Component {
             style={{
               width:'100%',
               flex: 1,
-              maxHeight: '75%',
+              maxHeight: '100%',
             }}
           >
             <svg ref={this.setSvgRef} />
