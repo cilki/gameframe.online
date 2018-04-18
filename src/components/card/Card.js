@@ -108,10 +108,9 @@ class Card extends React.Component {
                     key={`${title}-image`}
                     src={trueImageCover}
                     ref={(img) => { this.img = img; }}
-                    onAbort={
-                      () => { this.src = '../../static/images/noImage.png'; }
+                    onError={
+                      () => { this.img.src = '../../static/images/noImage.png'; }
                     }
-                    onError= {() => { this.onerror=null;this.src='../../static/images/noImage.png';}}
                   />
                 </div>
               </div>
