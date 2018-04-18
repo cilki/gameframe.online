@@ -28,7 +28,7 @@ function screenshot({ url, alt }) {
   const src = url.indexOf('http') >= 0 ? url : `https://${url}`;
   return (
     <Carousel.Item key={`${url}-carousel-item`}>
-      <a href={src} key={`${url}-a`}
+      <a href={src} key={`${url}-a`} target="none"
         style={[InstanceDetailsStyles.carouselScreenshotLink]}
       >
         <img
@@ -55,6 +55,7 @@ function rating({ ratingKey }) {
   return (
     <a href="https://www.esrb.org/ratings/ratings_guide.aspx"
       key={`${ratingKey}-anchor`}
+      target="none"
     >
       <img
         style={[InstanceDetailsStyles.esrbRatingImage]}
@@ -138,10 +139,9 @@ function secondaryDataCluster({
   metacriticLink,
   steamID,
   _steamPlayers,
+  steamPlayersUpdated,
 }) {
   const _price = price ? `${price / 100}` : null;
-
-  console.log(`WOW ${metacriticLink}`);
 
   return (
     <div style={[InstanceDetailsStyles.secondaryDataCluster]}>
@@ -155,7 +155,13 @@ function secondaryDataCluster({
       </div>
       {vindex != undefined ? visibilityIndex(vindex) : ''}
       {metacriticScore ? metacritic({metacriticScore: metacriticScore, metacriticLink: metacriticLink}) : ''}
-      {steamID ? steamPlayers({_steamPlayers: _steamPlayers, steamID: steamID}) : ''}
+      {
+        steamID ? steamPlayers({
+          _steamPlayers: _steamPlayers,
+          steamID: steamID,
+          steamPlayersUpdated: steamPlayersUpdated
+        }) : ''
+      }
     </div>
   );
 }
@@ -166,6 +172,7 @@ secondaryDataCluster.propTypes = {
   metacriticScore: PropTypes.number,
   metacriticLink: PropTypes.string,
   steamID: PropTypes.number,
+  steamPlayersUpdated: PropTypes.string,
 };
 
 function synopsisSection({
@@ -319,6 +326,7 @@ function bigButton({
     <a href={url}
       style={[InstanceDetailsStyles.bigButton]}
       key={`${buttonKey}-anchor`}
+      target="none"
     >
       {label}
     </a>
@@ -366,8 +374,6 @@ function metacritic({
     </Tooltip>
   );
 
-  console.log(`DANK ${metacriticLink}`);
-
   return (
     <OverlayTrigger placement="top" overlay={metacriticTooltip}>
       <a
@@ -398,10 +404,10 @@ metacritic.propTypes = {
   metacriticLink: PropTypes.string,
 };
 
-function steamPlayers({playerCount, steamID}) {
+function steamPlayers({playerCount, steamID, steamPlayersUpdated}) {
   const steamPlayersTooltip = (
     <Tooltip id="steamPlayersTooltip">
-      A regularly updated count of people currently playing this game on Steam
+      {`A regularly updated count of people currently playing this game on Steam (Last updated ${steamPlayersUpdated})`}
     </Tooltip>
   );
 
@@ -431,6 +437,7 @@ function steamPlayers({playerCount, steamID}) {
 steamPlayers.propTypes = {
   playerCount: PropTypes.number,
   steamID: PropTypes.number,
+  steamPlayersUpdated: PropTypes.string,
 };
 
 function platformCluster({
@@ -745,6 +752,7 @@ class Game extends React.Component {
       alt: PropTypes.string,
     })),
     steam_id: PropTypes.number,
+    steam_players_updated: PropTypes.string,
     summary: PropTypes.string,
     videos: PropTypes.arrayOf(PropTypes.shape({
       channel: PropTypes.string.isRequired,
@@ -777,6 +785,7 @@ class Game extends React.Component {
     requested: false,
     screenshots: [{ url: '', alt: '' }],
     steam_id: null,
+    steam_players_updated: 'Never',
     summary: null,
     vindex: 0,
     videos: [],
@@ -800,9 +809,6 @@ class Game extends React.Component {
   render() {
     const coverURL = this.props.cover && this.props.cover.indexOf('http') < 0 ?
                        `https://${this.props.cover}` : this.props.cover;
-
-    console.log(this.props);
-    console.log(this.props.metacritic_link);
 
     return (
       <StyleRoot>
@@ -841,6 +847,7 @@ class Game extends React.Component {
                 metacriticLink: this.props.metacritic_link,
                 steamID: this.props.steam_id,
                 _steamPlayers: this.props.steam_players,
+                steamPlayersUpdated: this.props.steam_players_updated,
               })
             }
             {
