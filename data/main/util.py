@@ -31,7 +31,7 @@ def trim():
     # Remove games without covers and screenshots, with short descriptions,
     # or no connections
     for game in tqdm(list(WS.games.values()), '[TRIM] Scanning Games'):
-        if not vstrlen(game.cover, 5) or len(game.screenshots) == 0 \
+        if not vstrlen(game.cover, 5) or game.screenshots is None \
                 or not vstrlen(game.summary, 15) or len(game.developers) == 0 \
                 or (len(game.articles) == 0 and len(game.videos) == 0):
             WS.del_game(game)

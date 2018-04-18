@@ -16,7 +16,7 @@ from aws import upload_image
 from cache import WS, FolderCache, load_working_set
 from cdgen.steam import generate
 from common import CACHE_GAMEFRAME, CDN_URI, TC, load_registry
-from orm import Game, Article, Genre, Image, Platform
+from orm import Game, Article, Genre, Platform
 from registry import CachedGame, CachedArticle
 from sources.util import (condition, condition_developer, condition_heavy,
                           parse_steam_date, generic_collect, vstrlen, xappend)
@@ -155,9 +155,10 @@ def build_game(game, game_json):
 
     # Screenshots
     for screenshot in game_json.get('screenshots', []):
-        url = screenshot['path_full'].split('?', 1)[0]
-        if next((x for x in game.screenshots if x.url == url), None) is None:
-            game.screenshots.append(Image(url=url))
+        if game.screenshots is None:
+            game.screenshots = []
+        xappend(game.screenshots, {
+                'url': screenshot['path_full'].split('?', 1)[0]})
 
     # Genres
     for genre in game_json.get('genres', []):

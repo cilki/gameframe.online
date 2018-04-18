@@ -10,7 +10,7 @@ import requests
 from tqdm import tqdm
 
 from cache import WS, KeyCache, load_working_set
-from orm import Developer, Game, Genre, Image, Platform
+from orm import Developer, Game, Genre, Platform
 from common import TC, load_registry
 from registry import KeyIgdb, CachedGame, CachedDeveloper
 from sources.util import (condition, condition_developer,
@@ -126,11 +126,12 @@ def build_game(game, game_json):
             game_json['first_release_date'] // 1000)
 
     # Screenshots
-    if game.steam_id is None or len(game.screenshots) == 0:
+    if game.steam_id is None or game.screenshots is None:
         for screenshot in game_json.get('screenshots', []):
-            url = screenshot['url'][2:].replace("t_thumb", "t_original")
-            if next((x for x in game.screenshots if x.url == url), None) is None:
-                game.screenshots.append(Image(url=url))
+            if game.screenshots is None:
+                game.screenshots = []
+            xappend(game.screenshots, {
+                    'url': screenshot['url'][2:].replace("t_thumb", "t_original")})
 
     # Cover
     if game.cover is None and 'cover' in game_json:

@@ -46,7 +46,7 @@ class Game(db.Model):
     cover = db.Column(db.Text)
 
     # Screenshots
-    screenshots = db.relationship('Image', cascade='all, delete-orphan')
+    screenshots = db.Column(db.JSON)
 
     # A summary written by Steam or IGDB
     summary = db.Column(db.Text)
@@ -268,15 +268,6 @@ class Genre(db.Model):
 
     # The user-friendly genre name
     name = db.Column(db.Text)
-
-
-class Image(db.Model):
-    __bind_key__ = 'gameframe'
-    image_id = db.Column(db.Integer, primary_key=True)
-    game_id = db.Column(db.Integer, db.ForeignKey('game.game_id'))
-
-    # The image's URL
-    url = db.Column(db.Text)
 
 
 class Platform(db.Model):
