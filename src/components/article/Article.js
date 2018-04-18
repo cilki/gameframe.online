@@ -6,6 +6,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Radium, { StyleRoot } from 'radium';
 import ReactHTMLParser from 'react-html-parser';
+import { Helmet } from 'react-helmet';
+
 import InstanceDetails from '../instance-details/InstanceDetails';
 import InstanceDetailsStyles from '../instance-details/InstanceDetailsStyles';
 import Minigrid from '../minigrid/Minigrid';
@@ -93,6 +95,9 @@ class Article extends React.Component {
     const published = this.props.timestamp ? (new Date(this.props.timestamp)).toLocaleString() : null;
     return (
       <StyleRoot>
+        <Helmet>
+          <title>{`${this.props.title} - GameFrame.online`}</title>
+        </Helmet>
         <InstanceDetails imageURL={coverURL}>
           <div style={[InstanceDetailsStyles.articlePrimaryDataCluster]}>
             <div style={[InstanceDetailsStyles.articleCover]}>

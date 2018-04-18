@@ -33,6 +33,8 @@ import AboutPage, { reducer as AboutReducer } from './about';
 
 import ScrollStart from './ScrollStart';
 
+import { Helmet } from 'react-helmet';
+
 const store = createStore(
   combineReducers({
     navbar: NavbarReducer,
@@ -65,6 +67,9 @@ function App() {
             { flexDirection: 'column' },
         ]}
         >
+          <Helmet>
+            <title>GameFrame.online</title>
+          </Helmet>
           <Route path="/" exact component={Banner} />
           <Route path="/about" exact component={Banner} />
           <Navbar />

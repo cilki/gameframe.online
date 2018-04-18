@@ -7,6 +7,7 @@ import PropTypes from 'prop-types';
 import { GenericGrid } from '../generic-grid';
 import Card from '../card';
 import Fields from '../fields';
+import { Helmet } from 'react-helmet';
 
 class Developers extends React.Component {
   static propTypes = {
@@ -47,6 +48,9 @@ class Developers extends React.Component {
         prefix="developers"
         {...rest}
       >
+        <Helmet>
+          <title>Developers - GameFrame.online</title>
+        </Helmet>
         {
           models.map((developer) => {
             return (

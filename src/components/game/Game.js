@@ -7,6 +7,7 @@ import PropTypes from 'prop-types';
 import Radium, { StyleRoot } from 'radium';
 import { Carousel, Label, Tooltip, OverlayTrigger } from 'react-bootstrap';
 import ReactHTMLParser from 'react-html-parser';
+import { Helmet } from 'react-helmet';
 
 import InstanceDetails from '../instance-details/InstanceDetails';
 import InstanceDetailsStyles from '../instance-details/InstanceDetailsStyles';
@@ -775,6 +776,9 @@ class Game extends React.Component {
     // });
     return (
       <StyleRoot>
+        <Helmet>
+          <title>{`${this.props.name} - GameFrame.online`}</title>
+        </Helmet>
         <InstanceDetails imageURL={coverURL}>
           <div style={[InstanceDetailsStyles.gamePrimaryDataCluster]}>
             <div style={[InstanceDetailsStyles.gameCover]}>

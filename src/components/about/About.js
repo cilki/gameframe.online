@@ -10,6 +10,7 @@ import Styles from './AboutStyles';
 import CommonAssets from '../../inline-styles/CommonAssets';
 import GroupMember from '../group-member';
 import ReactHTMLParser from 'react-html-parser';
+import { Helmet } from 'react-helmet';
 
 class AboutPage extends React.Component {
   static propTypes = {
@@ -103,6 +104,9 @@ class AboutPage extends React.Component {
     const container = Styles.container;
     return (
       <div style={[Styles.main]}>
+        <Helmet>
+          <title>About Us - GameFrame.online</title>
+        </Helmet>
         <div style={[CommonAssets.fillBackground, CommonAssets.horizontalGradient]} />
         <div style={[CommonAssets.stripeOverlay, CommonAssets.fillBackground]} />
         <div style={[Styles.pad]}>

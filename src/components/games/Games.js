@@ -7,6 +7,7 @@ import PropTypes from 'prop-types';
 import { GenericGrid } from '../generic-grid';
 import Card from '../card';
 import Fields from '../fields';
+import { Helmet } from 'react-helmet';
 
 /**
  * @description - Obtain Steam url from id.
@@ -75,6 +76,9 @@ class Games extends React.Component {
         prefix="games"
         {...rest}
       >
+        <Helmet>
+          <title>Games - GameFrame.online</title>
+        </Helmet>
         {
           models.map((game) => {
             return (
