@@ -11,6 +11,7 @@ const cardBorderColor = '#dddddd';
 
 const Card = {
   main: aspectRatio => ({
+    transform: 'translate3d(0, 0, 0)',
     padding: '10px',
     margin: 'auto',
     flexBasis: `calc(20vw * ${aspectRatio})`,
@@ -39,19 +40,23 @@ const Card = {
     overflow: 'hidden',
     borderRadius: `${cornerRadius}`,
     backgroundColor: `${cardBorderColor}`,
+    transform: 'translate3d(0, 0, 0)',
     transition: 'transform 0.2s, filter 0.3s ease',
-    transform: 'scale(1.0)',
-    WebkitTransform: 'translate3d(0, 0, 0)',
     ':hover': {
-      transition: 'transform 0.2s, filter 0.5s ease',
       transform: 'scale(0.98)',
-      filter: 'hue-rotate(360deg)',
+      transition: 'transform 0.2s, filter 0.5s ease',
+//      filter: 'hue-rotate(360deg)',
     },
   },
 
   imageContainerContainer: aspectRatio => ({
     maxHeight: `${cardHeight}`,
     height: '20vw',
+    ':hover': {
+      transform: 'scale(0.98)',
+      transition: 'transform 0.2s, filter 10.5s ease',
+      filter: 'hue-rotate(360deg)',
+    },
     '@media screen and (max-width: 599px)': {
       height: `calc(${cardHeight} / ${aspectRatio})`,
       maxHeight: `calc(${cardHeight} / ${aspectRatio})`,
@@ -62,8 +67,8 @@ const Card = {
   imageContainer: () => ({
     overflow: 'hidden',
     borderRadius: `${cornerRadius}`,
+    transform: 'translate3d(0, 0, 0) scale(0.995)',
     transition: 'transform 0.2s',
-    transform: 'scale(0.995)',
     objectFit: 'fill',
     margin: 'auto',
     display: 'flex',
@@ -71,9 +76,9 @@ const Card = {
     height: '100%',
     backgroundPosition: 'center',
     backgroundSize: '100% 100%',
-    ':hover': {
-      transform: 'scale(1.0)',
-    },
+    //':hover': {
+    //  transform: 'scale(1.0)',
+    //},
   }),
 
   backgroundImageContainer: {
@@ -104,15 +109,15 @@ const Card = {
   image: {
     maxWidth: '100%',
     borderRadius: '0px',
-    transition: 'transform 0.2s, filter 0.2s',
-    transform: 'scale(1.0)',
+    transform: 'translate3d(0, 0, 0)',
+    //transition: 'transform 0.2s, filter 0.2s',
     margin: 'auto',
     verticalAlign: 'middle',
     zIndex: '2',
-    ':hover': {
-      transition: 'transform 1.0s, filter 1.0s',
-      transform: 'scale(1.05)',
-    },
+    //':hover': {
+    //  transition: 'transform 1.0s, filter 1.0s',
+    //  transform: 'scale(1.05)',
+    //},
   },
 
   fields: {
@@ -125,12 +130,13 @@ const Card = {
     opacity: '0',
     backgroundColor: 'black',
     justifyContent: 'center',
+    transform: 'translate3d(0, 0, 0)',
     ':hover': {
       zIndex: '100',
       opacity: '1.0',
-      color: 'white',
+      //color: 'white',
       transition: 'opacity 0.125s ease-in',
-      textShadow: '-1px -1px 0 black, 1px -1px 0 black, -1px 1px 0 black, 1px 1px 0 black, -1px 0 0 black, 1px 0 0 black, 0 1px 0 black, 0 -1px 0 black, 0 0 2px black',
+      //textShadow: '-1px -1px 0 black, 1px -1px 0 black, -1px 1px 0 black, 1px 1px 0 black, -1px 0 0 black, 1px 0 0 black, 0 1px 0 black, 0 -1px 0 black, 0 0 2px black',
     },
   },
 
@@ -144,7 +150,7 @@ const Card = {
     margin: 'auto',
     top: '50%',
     left: '50%',
-    transform: 'scale3d(50, 50, 1)',
+    transform: 'translate3d(0, 0, 0) scale3d(50, 50, 1)',
     zIndex: '-5',
     //height: '0',
     //':hover': {

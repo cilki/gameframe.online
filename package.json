@@ -58,6 +58,7 @@
     "webpack-bundle-analyzer": "^2.11.1"
   },
   "dependencies": {
+    "autoprefixer": "^8.3.0",
     "d3-array": "^1.2.1",
     "d3-axis": "^1.0.8",
     "d3-scale": "^2.0.0",
@@ -69,6 +70,7 @@
     "immutable": "^3.8.2",
     "iso-3166-1": "^1.1.0",
     "normalizr": "^3.2.4",
+    "postcss-js": "^1.0.1",
     "prop-types": "^15.6.0",
     "proptypes": "^1.1.0",
     "query-string": "^6.0.0",
