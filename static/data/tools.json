@@ -1,5 +1,11 @@
 [
   {
+    "cover": "https://camo.githubusercontent.com/f265315f74ed08b94e473cd7f6f04c291e59a8e2/687474703a2f2f706f73746373732e6769746875622e696f2f6175746f70726566697865722f6c6f676f2e737667",
+    "name": "Autoprefixer",
+    "url": "https://github.com/postcss/autoprefixer",
+    "usage": "Autoprefixer helps add vendor-specific prefixes for CSS."
+  },
+  {
     "cover": "https://a0.awsstatic.com/main/images/logos/aws_logo_smile_1200x630.png",
     "name": "AWS",
     "url": "https://aws.amazon.com/",
@@ -28,6 +34,12 @@
     "name": "Docker",
     "url": "https://www.docker.com/",
     "usage": "The frontend and backend HTTP servers are run in Dockerized containers which allows them to be deployed to any machine for easy testing."
+  },
+  {
+    "cover": "https://raw.githubusercontent.com/d3/d3-logo/master/d3.png",
+    "name": "D3",
+    "url": "https://d3js.org/",
+    "usage": "Data-Driven Documents (D3) is a resource library for visualizing web databases."
   },
   {
     "cover": "http://airbnb.io/img/projects/enzyme.png",
@@ -172,6 +184,18 @@
     "name": "SQLAlchemy",
     "url": "https://www.sqlalchemy.org/",
     "usage": "SQLAlchemy is a Python Object-Relational Mapper which manages the GameFrame database."
+  },
+  {
+    "cover": "https://upload.wikimedia.org/wikipedia/commons/9/92/Cog_font_awesome.svg",
+    "name": "TwitterSearch",
+    "url": "https://github.com/ckoepp/TwitterSearch",
+    "usage": "TwitterSearch simplifies Twitter API scraping."
+  },
+  {
+    "cover": "https://raw.githubusercontent.com/tqdm/tqdm/master/images/logo.gif",
+    "name": "tqdm",
+    "url": "https://github.com/tqdm/tqdm",
+    "usage": "tqdm is a Python written progress bar used for the API scripts."
   },
   {
     "cover": "https://upload.wikimedia.org/wikipedia/commons/0/0d/Imagemagick-logo.png",
