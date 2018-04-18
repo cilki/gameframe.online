@@ -69,7 +69,6 @@ const Card = {
     borderRadius: `${cornerRadius}`,
     transform: 'translate3d(0, 0, 0) scale(0.995)',
     transition: 'transform 0.2s',
-    objectFit: 'fill',
     margin: 'auto',
     display: 'flex',
     verticalAlign: 'middle',
@@ -113,6 +112,7 @@ const Card = {
     //transition: 'transform 0.2s, filter 0.2s',
     margin: 'auto',
     verticalAlign: 'middle',
+    objectFit: 'fill',
     zIndex: '2',
     //':hover': {
     //  transition: 'transform 1.0s, filter 1.0s',
