@@ -135,10 +135,13 @@ function secondaryDataCluster({
   price,
   vindex,
   metacriticScore,
+  metacriticLink,
   steamID,
   _steamPlayers,
 }) {
   const _price = price ? `${price / 100}` : null;
+
+  console.log(`WOW ${metacriticLink}`);
 
   return (
     <div style={[InstanceDetailsStyles.secondaryDataCluster]}>
@@ -151,7 +154,7 @@ function secondaryDataCluster({
         </div>
       </div>
       {vindex != undefined ? visibilityIndex(vindex) : ''}
-      {metacriticScore ? metacritic(metacriticScore) : ''}
+      {metacriticScore ? metacritic({metacriticScore: metacriticScore, metacriticLink: metacriticLink}) : ''}
       {steamID ? steamPlayers({_steamPlayers: _steamPlayers, steamID: steamID}) : ''}
     </div>
   );
@@ -161,6 +164,7 @@ secondaryDataCluster.propTypes = {
   price: PropTypes.number,
   vindex: PropTypes.number,
   metacriticScore: PropTypes.number,
+  metacriticLink: PropTypes.string,
   steamID: PropTypes.number,
 };
 
@@ -352,33 +356,46 @@ visibilityIndex.propTypes = {
   vindex: PropTypes.number,
 };
 
-function metacritic(metacriticScore) {
+function metacritic({
+  metacriticScore: metacriticScore,
+  metacriticLink: metacriticLink
+}) {
   const metacriticTooltip = (
     <Tooltip id="metacriticTooltip">
       The game's rating according to Metacritic, on a scale of 0 to 100
     </Tooltip>
   );
 
+  console.log(`DANK ${metacriticLink}`);
+
   return (
     <OverlayTrigger placement="top" overlay={metacriticTooltip}>
-      <div style={[InstanceDetailsStyles.metacriticCluster]}>
-        <a href="http://www.metacritic.com">
-          <img
-            src="https://upload.wikimedia.org/wikipedia/commons/2/20/Metacritic.svg"
-            style={[InstanceDetailsStyles.metacriticIndicator]}
-            alt="Metacritic Score:"
-          />
-        </a>
-        <div style={[InstanceDetailsStyles.metacriticScore(metacriticScore)]}>
-          {metacriticScore}
+      <a
+        href={metacriticLink}
+        target="none"
+        style={{
+          textDecoration: 'inherit',
+          color: 'inherit',
+        }}
+      >
+        <div style={[InstanceDetailsStyles.metacriticCluster]}>
+            <img
+              src="https://upload.wikimedia.org/wikipedia/commons/2/20/Metacritic.svg"
+              style={[InstanceDetailsStyles.metacriticIndicator]}
+              alt="Metacritic Score:"
+            />
+          <div style={[InstanceDetailsStyles.metacriticScore(metacriticScore)]}>
+            {metacriticScore}
+          </div>
         </div>
-      </div>
+      </a>
     </OverlayTrigger>
   );
 }
 
 metacritic.propTypes = {
   metacriticScore: PropTypes.number,
+  metacriticLink: PropTypes.string,
 };
 
 function steamPlayers({playerCount, steamID}) {
@@ -713,6 +730,7 @@ class Game extends React.Component {
     genres: PropTypes.arrayOf(PropTypes.string),
     igdb_link: PropTypes.string,
     metacritic: PropTypes.number,
+    metacritic_link: PropTypes.string,
     name: PropTypes.string,
     platforms: PropTypes.arrayOf(PropTypes.shape({
       platform_id: PropTypes.number.isRequired,
@@ -751,6 +769,7 @@ class Game extends React.Component {
     genres: [],
     igdb_link: null,
     metacritic: 0,
+    metacritic_link: null,
     name: '',
     platforms: [],
     price: 662.6070040,
@@ -781,9 +800,10 @@ class Game extends React.Component {
   render() {
     const coverURL = this.props.cover && this.props.cover.indexOf('http') < 0 ?
                        `https://${this.props.cover}` : this.props.cover;
-    // this.userStats.GetNumberOfCurrentPlayers('3600').done(function(result){
-    //  console.log(result);
-    // });
+
+    console.log(this.props);
+    console.log(this.props.metacritic_link);
+
     return (
       <StyleRoot>
         <Helmet>
@@ -818,6 +838,7 @@ class Game extends React.Component {
                 price: this.props.price,
                 vindex: this.props.vindex,
                 metacriticScore: this.props.metacritic,
+                metacriticLink: this.props.metacritic_link,
                 steamID: this.props.steam_id,
                 _steamPlayers: this.props.steam_players,
               })
