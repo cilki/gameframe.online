@@ -24,6 +24,12 @@
     "usage": "Boto3 is a Python AWS S3 client which was used to upload game covers to the GameFrame CDN."
   },
   {
+    "cover": "https://raw.githubusercontent.com/browserify/browserify/HEAD/assets/logo.png",
+    "name": "Browserify",
+    "url": "http://browserify.org/",
+    "usage": "Browserify allows dependency requirements for browsers."
+  },
+  {
     "cover": "https://camo.githubusercontent.com/431283cc1643d02167aac31067137897507c60fc/687474703a2f2f636861696a732e636f6d2f696d672f636861692d6c6f676f2e706e67",
     "name": "Chai",
     "url": "http://www.chaijs.com/",
@@ -126,6 +132,12 @@
     "usage": "React-Bootstrap is a resource library for ReactJS that allowed us to mock up this website with features like the carousel and navbar."
   },
   {
+    "cover": "https://camo.githubusercontent.com/42fa4f7d967f1693a28c3b15db6bdfeeab7509eb/687474703a2f2f7374617469632e6e666c2e636f6d2f7374617469632f636f6e74656e742f7075626c69632f7374617469632f696d672f6c6f676f732f72656163742d68656c6d65742e6a7067",
+    "name": "React-Helmet",
+    "url": "https://github.com/nfl/react-helmet",
+    "usage": "React-Helmet manages document headers."
+  },
+  {
     "cover": "https://cloud.githubusercontent.com/assets/29597/11913937/0d2dcd78-a629-11e5-83e7-6a17b6d765a5.png",
     "name": "React-Highlight-Words",
     "url": "https://bvaughn.github.io/react-highlight-words/",
@@ -208,5 +220,11 @@
     "name": "Webpack",
     "url": "https://webpack.js.org/",
     "usage": "Webpack manages JS files into one package."
+  },
+  {
+    "cover": "https://upload.wikimedia.org/wikipedia/commons/9/92/Cog_font_awesome.svg",
+    "name": "Widget-Google-Trends",
+    "url": "https://www.npmjs.com/package/widget-google-trends",
+    "usage": "Widget-Google-Trends is a graph used to show popularity."
   }
 ]
