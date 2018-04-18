@@ -1,5 +1,5 @@
 # --------------------------------
-# IGDB.com API scraper           -
+# IGDB API scraper               -
 # Copyright (C) 2018 GameFrame   -
 # --------------------------------
 
@@ -12,20 +12,19 @@ from tqdm import tqdm
 from cache import WS, KeyCache, load_working_set
 from orm import Developer, Game, Genre, Image, Platform
 from common import TC, load_registry
-from registry import KeyIgdb
-
-from .util import condition, condition_developer, url_normalize, xappend
+from registry import KeyIgdb, CachedGame, CachedDeveloper
+from sources.util import (condition, condition_developer,
+                          generic_collect, url_normalize, vstrlen, xappend)
 
 """
 The API key cache
 """
 KEYS = KeyCache(KeyIgdb)
 
-
 """
 The range of game IDs to track
 """
-GAME_RANGE = range(2124, 100001)
+GAME_RANGE = range(2124, 110001)
 assert len(GAME_RANGE) > 0
 
 """
@@ -40,30 +39,48 @@ The number of entities to request at a time
 API_STRIDE = 100
 
 
-def rq_game_block(igdb_id):
+def rq_games(igdb_id):
     """
     Request a block of games starting at the given id using IGDB's API.
     """
 
     rq = requests.get("https://api-endpoint.igdb.com/games/%s"
                       % str(list(range(igdb_id, igdb_id + API_STRIDE)))[1:-1]
-                      .replace(" ", ""), headers={'user-key': API_KEY})
+                      .replace(" ", ""), headers={'user-key': KEYS.get()})
+
+    if rq.status_code == requests.codes.too_many_requests:
+        KEYS.advance()
+        return
 
     assert rq.status_code == requests.codes.ok
-    return rq.json()
+
+    for game_json in rq.json():
+        TC['Game.igdb_id'].add(
+            CachedGame(igdb_id=game_json['id'],
+                       igdb_data=game_json
+                       if validate_game(game_json) else None))
 
 
-def rq_developer_block(igdb_id):
+def rq_developers(igdb_id):
     """
     Request a block of developers starting at the given id using IGDB's API.
     """
 
     rq = requests.get("https://api-endpoint.igdb.com/companies/%s"
                       % str(list(range(igdb_id, igdb_id + API_STRIDE)))[1:-1]
-                      .replace(" ", ""), headers={'user-key': API_KEY})
+                      .replace(" ", ""), headers={'user-key': KEYS.get()})
+
+    if rq.status_code == requests.codes.too_many_requests:
+        KEYS.advance()
+        return
 
     assert rq.status_code == requests.codes.ok
-    return rq.json()
+
+    for dev_json in rq.json():
+        TC['Developer.igdb_id'].add(
+            CachedDeveloper(igdb_id=dev_json['id'],
+                            igdb_data=dev_json
+                            if validate_developer(dev_json) else None))
 
 
 def build_game(game, game_json):
@@ -163,11 +180,46 @@ def build_developer(dev, dev_json):
 
     # Logo
     if dev.logo is None and 'logo' in dev_json:
-        dev.logo = dev_json['logo']['url'][2:].replace("t_thumb", "t_original")
+        dev.logo = url_normalize(
+            dev_json['logo']['url'].replace("t_thumb", "t_original"))
 
     # Foundation Date
     if dev.foundation is None and 'start_date' in dev_json:
         dev.foundation = date.fromtimestamp(dev_json['start_date'] // 1000)
+
+
+def validate_game(game_json):
+    """
+    Validate the content of a raw game
+    """
+    if game_json is None:
+        return False
+
+    try:
+        # Filter title
+        if not vstrlen(game_json['name']):
+            return False
+
+    except KeyError:
+        return False
+    return True
+
+
+def validate_developer(dev_json):
+    """
+    Validate the content of a raw developer
+    """
+    if dev_json is None:
+        return False
+
+    try:
+        # Filter name
+        if not vstrlen(dev_json['name']):
+            return False
+
+    except KeyError:
+        return False
+    return True
 
 
 def collect_games():
@@ -176,9 +228,9 @@ def collect_games():
     """
     load_registry('Game', 'igdb_id')
 
-    for igdb_id in tqdm(GAME_RANGE, '[IGDB   ] Collecting Games'):
-        if not TC['Game.igdb_id'].exists(igdb_id):
-            load_game_json(igdb_id)
+    generic_collect(rq_games, TC['Game.igdb_id'], '[COLLECT] Downloading Games',
+                    [igdb_id for igdb_id in GAME_RANGE if not
+                     TC['Game.igdb_id'].exists(igdb_id)])
 
 
 def collect_developers():
@@ -187,9 +239,9 @@ def collect_developers():
     """
     load_registry('Developer', 'igdb_id')
 
-    for igdb_id in tqdm(DEV_RANGE, '[IGDB   ] Collecting Developers'):
-        if not TC['Developer.igdb_id'].exists(igdb_id):
-            load_dev_json(igdb_id)
+    generic_collect(rq_developers, TC['Developer.igdb_id'], '[COLLECT] Downloading Developers',
+                    [igdb_id for igdb_id in DEV_RANGE if not
+                     TC['Developer.igdb_id'].exists(igdb_id)])
 
 
 def link_developers():
@@ -199,7 +251,7 @@ def link_developers():
     load_working_set()
     load_registry('Developer', 'igdb_id')
 
-    for developer in tqdm(WS.developers.values(), '[IGDB    ] Linking Developers'):
+    for developer in tqdm(WS.developers.values(), '[LINK] Linking Developers'):
         dev_json = TC['Developer.igdb_id'].get(developer.igdb_id).igdb_data
 
         for igdb_id in chain(dev_json.get('published', []), dev_json.get('developed', [])):
