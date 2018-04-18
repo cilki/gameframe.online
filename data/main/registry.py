@@ -6,7 +6,7 @@
 from tqdm import tqdm
 
 from orm import db
-from common import TC, load_registry
+from common import TC, load_registry, unload_registry
 from sources.util import condition, condition_developer, xappend
 
 
@@ -177,7 +177,7 @@ class KeyGoogle(db.Model):
     api_key = db.Column(db.Text)
 
 
-import sources
+from sources import steam, igdb, newsapi, google, twitter
 from cache import WS, load_working_set
 
 
@@ -188,7 +188,7 @@ def merge_games():
     load_working_set()
     load_registry('Game', 'game_id')
 
-    for game_cached in tqdm(TC['Game.game_id'], '[REGISTRY] Merging Games'):
+    for game_cached in tqdm(TC['Game.game_id'], '[MERGE] Merging Games'):
         if game_cached.steam_data is None and game_cached.igdb_data is None:
             continue
         steam_data = game_cached.steam_data
@@ -209,7 +209,7 @@ def merge_developers():
     load_working_set()
     load_registry('Developer', 'igdb_id')
 
-    for developer_cached in tqdm(TC['Developer.igdb_id'], '[REGISTRY] Merging Developers'):
+    for developer_cached in tqdm(TC['Developer.igdb_id'], '[MERGE] Merging Developers'):
         if developer_cached.igdb_data is None:
             continue
         igdb_data = developer_cached.igdb_data
@@ -227,7 +227,7 @@ def merge_articles():
     load_working_set()
     load_registry('Article', 'article_id')
 
-    for article_cached in tqdm(TC['Article.article_id'], '[REGISTRY] Merging Articles'):
+    for article_cached in tqdm(TC['Article.article_id'], '[MERGE] Merging Articles'):
         if article_cached.steam_data is None and article_cached.newsapi_data is None:
             continue
         steam_data = article_cached.steam_data
@@ -254,7 +254,7 @@ def merge_videos():
     load_working_set()
     load_registry('Video', 'video_id')
 
-    for video_cached in tqdm(TC['Video.video_id'], '[REGISTRY] Merging Videos'):
+    for video_cached in tqdm(TC['Video.video_id'], '[MERGE] Merging Videos'):
         if video_cached.youtube_data is None:
             continue
         youtube_data = video_cached.youtube_data
@@ -275,7 +275,7 @@ def merge_tweets():
     load_working_set()
     load_registry('Tweet', 'tweet_id')
 
-    for tweet_cached in tqdm(TC['Tweet.tweet_id'], '[REGISTRY] Merging Tweets'):
+    for tweet_cached in tqdm(TC['Tweet.tweet_id'], '[MERGE] Merging Tweets'):
         if tweet_cached.twitter_data is None:
             continue
         tweet_data = tweet_cached.twitter_data
@@ -294,7 +294,7 @@ def clean_articles():
     load_registry('Article', 'article_id')
 
     removals = []
-    for article_cached in tqdm(TC['Article.article_id'], '[REGISTRY] Cleaning Article Cache'):
+    for article_cached in tqdm(TC['Article.article_id'], '[CLEAN] Scanning Articles'):
         if not newsapi.validate_article(article_cached.newsapi_data) and not \
                 steam.validate_article(article_cached.steam_data):
             removals.append(article_cached)
@@ -311,10 +311,29 @@ def clean_videos():
     load_registry('Video', 'video_id')
 
     removals = []
-    for video_cached in tqdm(TC['Video.video_id'], '[REGISTRY] Cleaning Video Cache'):
+    for video_cached in tqdm(TC['Video.video_id'], '[CLEAN] Scanning Videos'):
         if not google.validate_video(video_cached.youtube_data):
             removals.append(video_cached)
     if input("Delete %d low quality videos? " % len(removals)) == 'y':
         for video_cached in removals:
             db.session.delete(video_cached)
+        db.session.commit()
+
+
+def clean_tweets():
+    """
+    Remove unwanted tweets from the registry
+    """
+    load_working_set()
+    load_registry('Tweet', 'tweet_id')
+
+    removals = []
+    for tweet_cached in tqdm(TC['Tweet.tweet_id'], '[CLEAN] Scanning Tweets'):
+        game = WS.games.get(tweet_cached.game_id)
+        if not twitter.validate_tweet(tweet_cached.twitter_data) or not \
+                twitter.relevant_tweet(game, tweet_cached.twitter_data):
+            removals.append(tweet_cached)
+    if input("Delete %d low quality tweets? " % len(removals)) == 'y':
+        for tweet_cached in removals:
+            db.session.delete(tweet_cached)
         db.session.commit()
