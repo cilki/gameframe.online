@@ -18,33 +18,30 @@ const fetchArticlesCountRequest = createAction('FETCH_ARTICLES_COUNT_REQUEST');
 const fetchArticlesCountResponse = createAction('FETCH_ARTICLES_COUNT_RESPONSE');
 
 /**
- * @descriptin - 
+ * @descriptin - Determine if the count of games should be fetched.
  * @param {Object} state
  * @returns {Boolean}
  */
 function shouldFetchGamesCount(state) {
-  // TODO: Implement this function so it's "smart"
-  return true;
+  return getGamesCount(state) == 0;
 }
 
 /**
- * @descriptin - 
+ * @descriptin - Determine if the count of developers should be fetched.
  * @param {Object} state
  * @returns {Boolean}
  */
 function shouldFetchDevelopersCount(state) {
-  // TODO: Implement this function so it's "smart"
-  return true;
+  return getDevelopersCount(state) == 0;
 }
 
 /**
- * @descriptin - 
+ * @descriptin - Determine if the count of articles should be fetched.
  * @param {Object} state
  * @returns {Boolean}
  */
 function shouldFetchArticlesCount(state) {
-  // TODO: Implement this function so it's "smart"
-  return true;
+  return getArticlesCount(state) == 0;
 }
 
 /**
@@ -56,7 +53,7 @@ function fetchGamesCount() {
     if (shouldFetchGamesCount(getState())) {
       dispatch(fetchGamesCountRequest());
       fetch(
-        `http://cilk.io:2500/v1/stat/game/count`,
+        `${process.env.API_HOST}/v1/stat/game/count`,
         { method: 'GET' },
       )
         .then(response => response.json())
@@ -75,7 +72,7 @@ function fetchDevelopersCount() {
     if (shouldFetchDevelopersCount(getState())) {
       dispatch(fetchDevelopersCountRequest());
       fetch(
-        `http://cilk.io:2500/v1/stat/developer/count`,
+        `${process.env.API_HOST}/v1/stat/developer/count`,
         { method: 'GET' },
       )
         .then(response => response.json())
@@ -94,7 +91,7 @@ function fetchArticlesCount() {
     if (shouldFetchArticlesCount(getState())) {
       dispatch(fetchArticlesCountRequest());
       fetch(
-        `http://cilk.io:2500/v1/stat/article/count`,
+        `${process.env.API_HOST}/v1/stat/article/count`,
         { method: 'GET' },
       )
         .then(response => response.json())
