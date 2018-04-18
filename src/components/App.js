@@ -31,6 +31,8 @@ import SearchResults from './SearchResults';
 
 import AboutPage, { reducer as AboutReducer } from './about';
 
+import ScrollStart from './ScrollStart';
+
 const store = createStore(
   combineReducers({
     navbar: NavbarReducer,
@@ -56,6 +58,7 @@ function App() {
   return (
     <Provider store={store}>
       <Router>
+      <ScrollStart>
         <div style={[
             { display: 'flex' },
             { minHeight: '100%' },
@@ -90,6 +93,7 @@ function App() {
 
           <Footer />
         </div>
+      </ScrollStart>
       </Router>
     </Provider>
   );
