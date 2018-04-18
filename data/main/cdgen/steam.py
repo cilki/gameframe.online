@@ -16,12 +16,13 @@ from wand.drawing import Drawing
 
 
 """
-The path to the CDGEN directory
+The path to the CDGEN source directory
 """
 PATH = os.environ['STEAM_CDGEN']
 assert os.path.isdir(PATH)
 
 """
+The dimensions of a Steam header in pixels
 """
 HEADER_SIZE = (460, 215)
 
@@ -64,10 +65,10 @@ def color_average(image):
     colors = sorted(color_frequency.items(), key=itemgetter(1))
 
     # If the most common color accounts for more than 25% of the width, return that color
-    if colors[0][1] * 4 > image.width:
+    if colors[0][1] * 4 > (image.width - TRUNC):
         return colors[0][0]
 
-    # Otherwise, average the top 50%
+    # Otherwise, average the top 25%
     ave = [0, 0, 0]
     processed = 0
     for color in colors:
@@ -75,7 +76,7 @@ def color_average(image):
         ave[1] += color[0][1] * color[1]
         ave[2] += color[0][2] * color[1]
         processed += color[1]
-        if processed > image.width / 2:
+        if processed > (image.width - TRUNC) / 4:
             break
 
     return (ave[0] // processed, ave[1] // processed, ave[2] // processed)
@@ -83,7 +84,8 @@ def color_average(image):
 
 def generate(file_in, file_out, lin, win, mac):
     """
-    Generate a Steam CD
+    Generate a Steam CD. This function calls a shell script to do the circular
+    crop. TODO: implement circular cropping with Wand for platform independence.
     """
 
     platform = "%s/platform-%s.png" % (PATH, ('l' if lin else '') +
@@ -146,5 +148,5 @@ def generate(file_in, file_out, lin, win, mac):
                            width=hole.width, height=hole.height, image=hole)
             draw(cd)
 
-        # Write image
+        # Write final image
         cd.save(filename=file_out)
