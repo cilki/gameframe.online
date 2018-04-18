@@ -76,6 +76,7 @@ class Card extends React.Component {
     const { title } = this.props;
     const imageCover = this.props.cover !== null && this.props.cover.search('http') < 0 ?
       `https://${this.props.cover}` : this.props.cover;
+    const trueImageCover = imageCover ? imageCover : '../../static/images/noImage.png';
 
     const me = this;
     let prefixer = postcssJs.sync([ autoprefixer ]);
@@ -90,11 +91,11 @@ class Card extends React.Component {
           <div>
             <div style={[CardStyles.card]} key={title}>
               <div style={[prefixer(CardStyles.imageContainerContainer(this.props.aspectRatio))]} key={`${title}-container`}>
-                <div style={[prefixer(CardStyles.imageContainer(imageCover))]} key={`${title}-image-container`}>
+                <div style={[prefixer(CardStyles.imageContainer(trueImageCover))]} key={`${title}-image-container`}>
                   <div style={[prefixer(CardStyles.backgroundImageContainer)]}>
                     <img
                       style={[prefixer(CardStyles.backgroundImage)]}
-                      src={imageCover}
+                      src={trueImageCover}
                       key={`${title}-backgroundImageReal`}
                       alt=""
                       onError={
@@ -105,7 +106,7 @@ class Card extends React.Component {
                   <img
                     style={[prefixer(CardStyles.image)]}
                     key={`${title}-image`}
-                    src={imageCover}
+                    src={trueImageCover}
                     ref={(img) => { this.img = img; }}
                     onAbort={
                       () => { this.src = '../../static/images/noImage.png'; }
@@ -119,7 +120,7 @@ class Card extends React.Component {
                 <div style={{height: '0'}}>
                   <img
                     style={[prefixer(CardStyles.fieldsBackgroundImage)]}
-                    src={imageCover}
+                    src={trueImageCover}
                     ref={(img) => { this.img = img; }}
                     alt=""
                     onError={
