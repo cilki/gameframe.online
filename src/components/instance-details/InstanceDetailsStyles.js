@@ -445,6 +445,7 @@ const InstanceDetails = {
     flexDirection: 'row',
     flexWrap: 'wrap',
     justifyContent: 'space-around',
+    maxWidth: '100%',
   },
 
   developerLogo: {
@@ -467,6 +468,7 @@ const InstanceDetails = {
   developerLogoImage: {
     height: 'calc(45.6px + 9.12vw)',
     width: 'auto',
+    maxWidth: '90%',
     borderBottomRightRadius: `${cornerRadius}`,
     borderTopLeftRadius: `${cornerRadius}`,
   },
