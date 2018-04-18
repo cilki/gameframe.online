@@ -215,11 +215,11 @@ const InstanceDetails = {
     width: '100%',
   },
 
-  synoposisIndicator: {
+  synopsisIndicator: {
     fontSize: 'calc(16px + 0.75vw)',
   },
 
-  synoposisHTMLContainer: {
+  synopsisHTMLContainer: {
     overflow: 'hidden',
   },
 

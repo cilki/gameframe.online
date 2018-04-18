@@ -177,7 +177,14 @@ class Developer extends React.Component {
             </div>
           </div>
           <div>
-            {this.props.description}
+            <hr style={[InstanceDetailsStyles.horizontalRule]} />
+              <div style={[InstanceDetailsStyles.synopsisIndicator]}>
+                Description:
+              </div>
+              <div style={[InstanceDetailsStyles.synopsisHTMLContainer]}>
+                {this.props.description}
+              </div>
+            <hr style={[InstanceDetailsStyles.horizontalRule]} />
           </div>
           <div style={[InstanceDetailsStyles.bigButtonCluster]}>
             {
