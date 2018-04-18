@@ -102,7 +102,7 @@ def precompute(games):
         videos = []
         tweets = []
 
-        print('[MAIN ] Computing link statistics and references')
+        print('[VINDEX] Computing link statistics and references')
 
         # Collect link information
         for game in games:
@@ -115,7 +115,7 @@ def precompute(games):
         video_max = max(videos)
         tweet_max = max(tweets)
 
-        print("[MAIN ]     ARTICLE_MAX: %d VIDEO_MAX: %d TWEET_MAX: %d" %
+        print("[VINDEX]     ARTICLE_MAX: %d VIDEO_MAX: %d TWEET_MAX: %d" %
               (article_max, video_max, tweet_max))
 
         # Compute averages
@@ -123,13 +123,13 @@ def precompute(games):
         video_average = sum(videos) / len(videos)
         tweet_average = sum(tweets) / len(tweets)
 
-        print("[MAIN ]     ARTICLE_AVE: %d VIDEO_AVE: %d TWEET_AVE: %d" %
+        print("[VINDEX]     ARTICLE_AVE: %d VIDEO_AVE: %d TWEET_AVE: %d" %
               (article_average, video_average, tweet_average))
 
         # Set the references to 85% of the maximum
-        REFERENCES['article'] = int(round(0.85 * article_max))
-        REFERENCES['video'] = int(round(0.85 * video_max))
-        REFERENCES['tweet'] = int(round(0.85 * tweet_max))
+        REFERENCES['article'] = max(int(round(0.85 * article_max)), 1)
+        REFERENCES['video'] = max(int(round(0.85 * video_max)), 1)
+        REFERENCES['tweet'] = max(int(round(0.85 * tweet_max)), 1)
 
 
 def rq_player_count(appid):
