@@ -4,7 +4,8 @@
 # --------------------------------
 
 from codecs import open
-import json
+from queue import Queue
+import time
 import os
 
 from multi_key_dict import multi_key_dict
@@ -24,11 +25,18 @@ class KeyCache():
 
     def __init__(self, Model):
         """
-        Initialize the KeyCache
+        Initialize the KeyCache with the list of keys from the database
         """
+        self.key_timeout = Model.timeout
 
-        self.key_iter = iter(Model.query.all())
-        self.key = next(self.key_iter).api_key
+        self.keys = Queue()
+        for k in Model.query:
+            # Store a tuple containing the API key and the timestamp of when it
+            # will be ready for use
+            self.keys.put((time.time(), k.api_key))
+
+        # Manually initialize the first key
+        self.key = self.keys.get()[1]
 
     def get(self):
         """
@@ -38,10 +46,23 @@ class KeyCache():
 
     def advance(self):
         """
-        Advance to the next API key or raise a StopIteration exception
+        Advance to the next API key, possibly waiting until it becomes valid
         """
-        self.key = next(self.key_iter).api_key
-        return self.get()
+
+        # Add the current key to the end of the queue with a 20 second
+        # additional timeout
+        self.keys.put((time.time() + self.key_timeout + 20, self.key))
+        self.key = None
+
+        # Get the head of the queue which will always be ready first
+        timestamp, key = self.keys.get()
+
+        # Wait for the key to become valid
+        time.sleep(max(0, timestamp - time.time()))
+
+        # Setup the new key
+        self.key = key
+        return self.key
 
 
 class FolderCache ():
@@ -80,13 +101,12 @@ class TableCache ():
     """
 
     def __init__(self, Model, key_col):
-        """
-        """
         self.key_col = key_col
         self.models = {}
         query = Model.query.filter(
             getattr(Model, key_col) != None).yield_per(1000)
-        for m in tqdm(query, total=query.count(), desc='Loading Cache Table', leave=False):
+        for m in tqdm(query, total=query.count(), desc='[CACHE] Loading Table',
+                      leave=False, bar_format=common.PROGRESS_FORMAT):
             self.models[getattr(m, key_col)] = m
 
     def __iter__(self):
@@ -103,23 +123,28 @@ class TableCache ():
 
     def add(self, model):
         """
-        Add a row to the table and flush the database
+        Add a row to the table without flushing the database
         """
         self.models[getattr(model, self.key_col)] = model
         db.session.add(model)
-        db.session.commit()
 
     def get(self, key):
         """
-        Get a row in the database by the key of type specified during initialization
+        Get a row from the database
         """
         return self.models.get(key)
 
     def exists(self, key):
         """
-        Returns True if the given entry exists in the cache, False otherwise.
+        Returns True if the given entry exists in the cache
         """
         return key in self.models
+
+    def flush(self):
+        """
+        Flush the database connection
+        """
+        db.session.commit()
 
 
 class WorkingSet ():
@@ -134,7 +159,7 @@ class WorkingSet ():
         """
         self.db = db
 
-        print("[MAIN    ] Loading working set")
+        print("[MAIN] Loading working set")
 
         # [game_id, name, c_name] => Game
         self.games = multi_key_dict()
@@ -180,7 +205,7 @@ class WorkingSet ():
 
         count = len(self.games) + len(self.developers) + \
             len(self.articles) + len(self.genres) + len(self.platforms)
-        print("[MAIN    ] Loaded %d entities" % count)
+        print("[MAIN] Loaded %d entities" % count)
 
         self.initialized = True
 
@@ -282,7 +307,7 @@ class WorkingSet ():
 
     def flush(self):
         print("")
-        print("[MAIN ] Flushing working set")
+        print("[FLUSH] Flushing working set")
         for game in self.games.values():
 
             # Update link counts
@@ -313,7 +338,7 @@ class WorkingSet ():
             self.db.session.add(article)
 
         self.db.session.commit()
-        print("[MAIN ] Flush complete")
+        print("[FLUSH] Complete")
 
     def build_game(self, game_id, steam_id, igdb_id, name, c_name):
         """
