@@ -54,17 +54,9 @@ def rq_tweets(game):
                 continue
 
             # Remove unwanted information
-            dict_delete(tweet_json, 'source')
-            dict_delete(tweet_json, 'place')
-            dict_delete(tweet_json, 'retweeted_status')
-
-            user_json = tweet_json['user']
-            dict_delete(user_json, 'entities')
-            dict_delete(user_json, 'profile_image_url')
-            dict_delete(user_json, 'profile_image_url_https')
-            dict_delete(user_json, 'profile_banner_url')
-            dict_delete(user_json, 'profile_background_image_url')
-            dict_delete(user_json, 'profile_background_image_url_https')
+            tweet_json = {'id': tweet_json['id'], 'text': tweet_json['text'],
+                          'user': {'name': tweet_json['user']['name']},
+                          'created_at': tweet_json['created_at']}
 
             # Finally add the tweet
             TC['Tweet.game_id'].add(CachedTweet(game_id=game.game_id,
