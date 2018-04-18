@@ -6,7 +6,7 @@ import InstanceDetailsStyles from './instance-details/InstanceDetailsStyles';
 import Minigrid from './minigrid/Minigrid';
 import Minicard from './minicard/Minicard';
 import ExternalMinicard from './minicard/ExternalMinicard';
-import CommonAssets from '../inline-styles/CommonAssets';
+import CommonAssets from './CommonAssets';
 import InstanceDetails from './instance-details/InstanceDetails';
 
 /**

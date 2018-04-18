@@ -4,7 +4,7 @@ import Radium from 'radium';
 import { Jumbotron } from 'react-bootstrap';
 
 import InstanceDetailsStyles from './InstanceDetailsStyles';
-import CommonAssets from '../../inline-styles/CommonAssets';
+import CommonAssets from '../CommonAssets';
 
 class InstanceDetails extends React.Component {
   static propTypes = {

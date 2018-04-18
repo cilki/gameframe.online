@@ -5,7 +5,7 @@
 import React from 'react';
 import Radium from 'radium';
 import { Carousel } from 'react-bootstrap';
-import CommonAssets from '../inline-styles/CommonAssets';
+import CommonAssets from './CommonAssets';
 
 class SplashPage extends React.Component {
   constructor() {

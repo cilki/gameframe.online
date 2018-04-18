@@ -7,7 +7,7 @@ import PropTypes from 'prop-types';
 import { Grid, Row, Col, Jumbotron } from 'react-bootstrap';
 import Radium from 'radium';
 import Styles from './AboutStyles';
-import CommonAssets from '../../inline-styles/CommonAssets';
+import CommonAssets from '../CommonAssets';
 import GroupMember from '../group-member';
 import ReactHTMLParser from 'react-html-parser';
 import { Helmet } from 'react-helmet';

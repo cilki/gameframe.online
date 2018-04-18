@@ -7,7 +7,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Radium, { StyleRoot } from 'radium';
 
-import CommonAssets from '../../inline-styles';
+import CommonAssets from '../CommonAssets';
 import Grid from '../grid';
 
 class GenericGrid extends React.Component {
