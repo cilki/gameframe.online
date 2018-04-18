@@ -140,6 +140,7 @@ class Developer extends React.Component {
 
   render() {
     const logoURL = this.props.logo && this.props.logo.indexOf('http') < 0 ? `https://${this.props.logo}` : this.props.logo;
+    const trueLogoURL = this.props.logo  == null ? '../../static/images/noImage.png' : logoURL;
     const established = this.props.foundation ? dateToString(this.props.foundation) : 'Unknown';
     const countryNumber = `${this.props.country}`;
     const country = this.iso.whereNumeric(countryNumber);
@@ -153,13 +154,13 @@ class Developer extends React.Component {
         <Helmet>
           <title>{`${this.props.name} - GameFrame.online`}</title>
         </Helmet>
-        <InstanceDetails imageURL={logoURL}>
+        <InstanceDetails imageURL={trueLogoURL}>
           <div style={[InstanceDetailsStyles.developerPrimaryDataCluster]}>
             <div style={[InstanceDetailsStyles.developerLogo]}>
               <div style={[InstanceDetailsStyles.developerLogoImageBoundingBox]}>
                 <img
                   style={[InstanceDetailsStyles.developerLogoImage]}
-                  src={logoURL}
+                  src={trueLogoURL}
                   alt={`${this.props.name} logo`}
                 />
               </div>
