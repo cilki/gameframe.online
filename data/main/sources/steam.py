@@ -15,7 +15,7 @@ from tqdm import tqdm
 from aws import upload_image
 from cache import WS, FolderCache, load_working_set
 from cdgen.steam import generate
-from common import CACHE_GAMEFRAME, CDN_URI, TC, load_registry
+from common import CACHE_GAMEFRAME, CDN_URI, PROGRESS_FORMAT, TC, load_registry
 from orm import Game, Article, Genre, Platform
 from registry import CachedGame, CachedArticle
 from sources.util import (condition, condition_developer, condition_heavy,
@@ -182,6 +182,10 @@ def build_game(game, game_json):
     if game.cover is None and CACHE_CD.exists("%d.png" % game.steam_id):
         game.cover = "%s/cover/steam/%d.png" % (CDN_URI, game.steam_id)
 
+    # Steam Header
+    if game.steam_header is None and 'header_image' in game_json:
+        game.steam_header = game_json['header_image']
+
 
 def build_article(article, article_json):
     """
@@ -311,16 +315,14 @@ def collect_headers():
     Download missing game headers from Steam
     """
     load_working_set()
-    load_registry('Game', 'steam_id')
 
-    for appid, game in tqdm(WS.games_steam.items(), '[COLLECT] Downloading headers'):
+    for game in tqdm(WS.games_steam.values(), '[COLLECT] Downloading headers',
+                     bar_format=PROGRESS_FORMAT):
+        appid = game.steam_id
         if not CACHE_HEADER.exists(appid):
-            game_json = TC['Game.steam_id'].get(appid).steam_data
-            if game_json is not None and 'header_image' in game_json:
-                rq = requests.get(game_json['header_image'])
+            rq = requests.get(game.steam_header)
 
-                assert rq.status_code == requests.codes.ok
-
+            if rq.status_code == requests.codes.ok:
                 # Write the header to cache
                 CACHE_HEADER.write(appid, rq.content)
 
@@ -335,7 +337,9 @@ def generate_covers():
     WIN = WS.platforms[6]
     MAC = WS.platforms[14]
 
-    for appid, game in tqdm(WS.games_steam.items(), '[GENERATE] Generating covers'):
+    for game in tqdm(WS.games_steam.values(), '[GENERATE] Generating covers',
+                     bar_format=PROGRESS_FORMAT):
+        appid = game.steam_id
         if not CACHE_CD.exists(str(appid) + '.png') and CACHE_HEADER.exists(appid):
             generate("%s/%d" % (CACHE_HEADER, appid), "%s/%s" %
                      (CACHE_CD, str(appid) + '.png'),
@@ -362,7 +366,8 @@ def link_developers():
     load_working_set()
     load_registry('Game', 'steam_id')
 
-    for game in tqdm(WS.games_steam.values(), '[LINK] Linking Steam developers'):
+    for game in tqdm(WS.games_steam.values(), '[LINK] Linking Steam developers',
+                     bar_format=PROGRESS_FORMAT):
         game_json = TC['Game.steam_id'].get(game.steam_id).steam_data
         if game_json is None:
             continue

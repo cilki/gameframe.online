@@ -53,8 +53,9 @@ print("")
 print("[STEAM]")
 print("F. COLLECT games                  Download missing games and headers from Steam")
 print("G. GATHER articles                Download articles from Steam")
-print("H. GENERATE covers                Generate game covers")
-print("I. UPLOAD covers                  Upload game covers to S3")
+print("H. COLLECT covers                 Download game headers")
+print("I. GENERATE covers                Generate game covers")
+print("J. UPLOAD covers                  Upload game covers to S3")
 
 print("")
 print("[IGDB]")
@@ -157,8 +158,10 @@ with app.app_context():
         elif action == 'g':
             steam.gather_articles()
         elif action == 'h':
-            steam.generate_covers()
+            steam.collect_headers()
         elif action == 'i':
+            steam.generate_covers()
+        elif action == 'j':
             steam.upload_covers()
 
         elif action == 'l':

@@ -45,6 +45,9 @@ class Game(db.Model):
     # The game's cover image
     cover = db.Column(db.Text)
 
+    # The game's steam image
+    steam_header = db.Column(db.Text)
+
     # Screenshots
     screenshots = db.Column(db.JSON)
 
