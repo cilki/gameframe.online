@@ -74,6 +74,9 @@ class SearchResults extends React.Component {
     this.updateVideoItems();
   }
 
+  /**
+   * @description - Lifecycle method invoked immediately after updating occurs. Updates models.
+   */
   componentDidUpdate() {
     const newString = escape(decodeURI(window.location.href.substring(window.location.href.lastIndexOf('?q=') + 3))).split('%20').join(' ');//eslint-disable-line
     if (newString !== this.state.query_string) {
@@ -85,6 +88,10 @@ class SearchResults extends React.Component {
     }
   }
 
+  /**
+   * @description - Fetches games similar in name, summary, website, genre(s), platform(s),
+   * or developer(s) to the query from the API.
+   */
   updateGameItems() {
     fetch(//eslint-disable-line
       encodeURI(`${process.env.API_HOST}/v1/grid/game?q={"filters":[{"or":[{"name":"c_name","op":"like","val":"%${this.state.query_string}%"},`
@@ -99,6 +106,10 @@ class SearchResults extends React.Component {
       });
   }
 
+  /**
+   * @description - Fetches developers similar in name, website, twitter, or game(s) to the query
+   * from the API.
+   */
   updateDeveloperItems() {
     fetch(//eslint-disable-line
       encodeURI(`${process.env.API_HOST}/v1/grid/developer?q={"filters":[{"or":[{"name":"name","op":"like","val":"%${this.state.query_string}%"},`
@@ -112,6 +123,10 @@ class SearchResults extends React.Component {
       });
   }
 
+  /**
+   * @description - Fetches articles similar in title, introduction, outlet, author, game(s), or
+   * developer(s) to the query from the API.
+   */
   updateArticleItems() {
     fetch(//eslint-disable-line
       encodeURI(`${process.env.API_HOST}/v1/grid/article?q={"filters":[{"or":[{"name":"title","op":"like","val":"%${this.state.query_string}%"},`
@@ -126,6 +141,9 @@ class SearchResults extends React.Component {
       });
   }
 
+  /**
+   * @description - Fetches videos similar in name to the query string from the API.
+   */
   updateVideoItems() {
     fetch(//eslint-disable-line
       encodeURI(`${process.env.API_HOST}/v1/video?q={"filters":[{"name":"name","op":"like","val":"%${this.state.query_string}%"}],"order_by":[{"field":"name","direction":"asc"}]}&results_per_page=100`),
