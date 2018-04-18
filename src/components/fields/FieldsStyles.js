@@ -32,6 +32,7 @@ export default {
     borderRadius: '6px',
     whiteSpace: 'nowrap',
     fontSize: 'calc(3px + 0.6vw)',
+    textShadow: '-1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000',
     textAlign: 'center',
     '@media screen and (max-width: 599px)': {
       fontSize: 'calc(3px + 1.6vw)',
@@ -62,7 +63,7 @@ export default {
     '@media screen and (max-width: 599px)': {
       width: `calc((4px + 3.6vw) * ${factor})`,
       height: `calc((4px + 3.6vw) * ${factor})`,
-    },    
+    },
   }),
   esrbImage: factor => ({
     minHeight: '4px',
@@ -71,18 +72,21 @@ export default {
     borderRadius: '6px',
     '@media screen and (max-width: 599px)': {
       height: `calc((4px + 3.6vw) * ${factor})`,
-    },    
+    },
   }),
   largeText: factor => ({
     fontSize: `calc((6px + 0.6vw) * ${factor})`,
     padding: '4% 0% 0% 0%',
     fontWeight: 'bold',
+    textShadow: '-1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000',
     '@media screen and (max-width: 599px)': {
       fontSize: `calc((6px + 1.6vw) * ${factor})`,
     },
   }),
   smallText: factor => ({
     fontSize: `calc((3px + 0.6vw) * ${factor})`,
+    fontWeight: 'lighter',
+    textShadow: '-1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000',
     '@media screen and (max-width: 599px)': {
       fontSize: `calc((3px + 1.6vw) * ${factor})`,
     },
@@ -90,6 +94,7 @@ export default {
   urlText: factor => ({
     fontSize: `calc((1px + 0.6vw) * ${factor})`,
     textAlign: 'left',
+    textShadow: '-1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000',
     '@media screen and (max-width: 599px)': {
       fontSize: `calc((1px + 1.6vw) * ${factor})`,
     },
