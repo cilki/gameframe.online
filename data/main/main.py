@@ -53,7 +53,7 @@ print("")
 print("[STEAM]")
 print("F. COLLECT games                  Download missing games and headers from Steam")
 print("G. GATHER articles                Download articles from Steam")
-print("H. COLLECT covers                 Download game headers")
+print("H. COLLECT headers                Download game headers")
 print("I. GENERATE covers                Generate game covers")
 print("J. UPLOAD covers                  Upload game covers to S3")
 
@@ -179,20 +179,8 @@ with app.app_context():
             twitter.gather_tweets()
 
         elif action == 'y':
-            load_working_set()
-            vindex.precompute(WS.games)
-
-            # Compute benchmark games
-            for appid in [578080, 570, 359550, 271590, 552520, 477160, 50300]:
-                game = WS.games_steam[appid]
-                vindex.compute(game)
-                print("Computed VINDEX: %d for game: %s" %
-                      (game.vindex, game.name))
+            vindex.benchmark()
         elif action == 'z':
-            load_working_set()
-            vindex.precompute(WS.games)
-
-            for game in tqdm(WS.games.values(), '[VINDEX] Computing game vindicies'):
-                vindex.compute(game)
+            vindex.compute_all()
         else:
             print("Unknown Command")

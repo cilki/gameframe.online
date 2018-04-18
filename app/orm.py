@@ -81,6 +81,9 @@ class Game(db.Model):
     # The number of current Steam players
     steam_players = db.Column(db.Integer)
 
+    # The last update timestamp of Steam players
+    steam_players_updated = db.Column(db.DateTime)
+
     # Number of tweets
     tweet_count = db.Column(db.Integer)
 
