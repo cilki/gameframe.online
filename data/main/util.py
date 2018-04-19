@@ -1,5 +1,5 @@
 # --------------------------------
-# GameFrame utils                -
+# Main utilities                 -
 # Copyright (C) 2018 GameFrame   -
 # --------------------------------
 
@@ -10,6 +10,7 @@ from tqdm import tqdm
 
 from aws import upload_image
 from cache import WS, reload_working_set
+from common import PROGRESS_FORMAT
 from orm import Genre, Platform
 from sources import igdb, newsapi, steam
 from sources.util import vstrlen
@@ -22,7 +23,8 @@ def trim():
 
     # Remove developers without logos, with short descriptions, or a low number
     # of primary connections
-    for dev in tqdm(list(WS.developers.values()), '[TRIM] Scanning Developers'):
+    for dev in tqdm(list(WS.developers.values()), '[TRIM] Scanning Developers',
+                    bar_format=PROGRESS_FORMAT):
         if not vstrlen(dev.logo, 10) or not vstrlen(dev.logo, 10) \
                 or len(dev.games) == 0:
             WS.del_developer(dev)
@@ -30,7 +32,8 @@ def trim():
 
     # Remove games without covers and screenshots, with short descriptions,
     # or no connections
-    for game in tqdm(list(WS.games.values()), '[TRIM] Scanning Games'):
+    for game in tqdm(list(WS.games.values()), '[TRIM] Scanning Games',
+                     bar_format=PROGRESS_FORMAT):
         if not vstrlen(game.cover, 5) or game.screenshots is None \
                 or not vstrlen(game.summary, 15) or len(game.developers) == 0 \
                 or (len(game.articles) == 0 and len(game.videos) == 0):
