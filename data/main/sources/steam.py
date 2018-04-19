@@ -319,7 +319,7 @@ def collect_headers():
     for game in tqdm(WS.games_steam.values(), '[COLLECT] Downloading headers',
                      bar_format=PROGRESS_FORMAT):
         appid = game.steam_id
-        if not CACHE_HEADER.exists(appid):
+        if game.steam_header is not None and not CACHE_HEADER.exists(appid):
             rq = requests.get(game.steam_header)
 
             if rq.status_code == requests.codes.ok:
