@@ -9,7 +9,10 @@ from math import isclose
 
 import requests
 
+from tqdm import tqdm
+
 from cache import WS, load_working_set
+from common import PROGRESS_FORMAT
 
 
 """
@@ -155,7 +158,8 @@ def compute_all():
     load_working_set()
     precompute(WS.games.values())
 
-    for game in tqdm(WS.games.values(), '[VINDEX] Computing game vindicies'):
+    for game in tqdm(WS.games.values(), '[VINDEX] Computing game vindicies',
+                     bar_format=PROGRESS_FORMAT):
         compute(game)
 
 
