@@ -33,8 +33,9 @@ function Footer() {
       >
         <p>
           {
-            'Copyright © 2018 GameFrame LLC, All rights reserved. Any and all third-party trademarks, ' +
-              'logos, screenshots, and content herein are property of their respective owners.'
+            'Copyright © 2018 GameFrame. All third-party trademarks, logos, ' +
+              'screenshots, and other content herein are property of their ' +
+                'respective owners.'
           }
         </p>
       </Panel.Footer>

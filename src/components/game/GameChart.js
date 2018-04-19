@@ -11,11 +11,13 @@ import { select } from 'd3-selection';
 import {
   scaleTime,
   scaleLinear,
-  rangeRound,
 } from 'd3-scale';
 import { axisBottom, axisLeft } from 'd3-axis';
 import { extent } from 'd3-array';
 import { line as Line, curveMonotoneX } from 'd3-shape';
+import { legendColor } from 'd3-svg-legend';
+
+import * as d3 from 'd3-transition'; //eslint-disable-line
 
 /**
  * @description - Creates and returns a LineChart created using D3
@@ -42,86 +44,55 @@ class GameChart extends React.Component {
     };
   }
 
-  setSvgRef = (svg) => {
-    this.svgRef = svg;
-  };
-
   componentDidUpdate() {
     this.renderD3();
   }
 
-  renderD3() {
-    if (this.svgRef) {
-      const { width, height } = this.state;
+  setSvgRef = (svg) => {
+    this.svgRef = svg;
+  };
 
-      this.graphWidth = width - this.margin.left - this.margin.right;
-      this.graphHeight = height - this.margin.top - this.margin.bottom;
+  createLegend() {
+    const linear = scaleLinear()
+      .domain([0, 1])
+      .range(['rgb(46, 73, 123)', 'rgb(71, 187, 94)']);
 
-      select(this.svgRef)
-        .attr('width', Math.round(width))
-        .attr('height', Math.round(height));
+    const legend = legendColor()
+      .shapeWidth(30)
+      .cells(2)
+      .labels(['Videos', 'Articles'])
+      .orient('vertical')
+      .scale(linear);
+
+    if (this.legend) {
+      this.legend.remove();
     }
 
-    // we want the time to be from now until a month ago
-    const now = new Date();
-    const past = new Date();
-    past.setTime(now.getTime() - 2592 * 1000000);
-
-    const x = scaleTime()
-      .domain([past, now])
-      .rangeRound([0, this.graphWidth]);
-    const y = scaleLinear()
-      .rangeRound([this.graphHeight, 0]);
-
-    if (this.g) {
-      this.g.remove();
-    }
-
-    const data = this.parseData();
-    y.domain(extent(data, d => d.number));
-
-    this.g = select(this.svgRef).append('g')
-      .attr('transform', `translate(${this.margin.left},${this.margin.top})`);
-
-    this.g.append('g')
-      .attr('transform', `translate(0,${this.graphHeight})`)
-      .call(axisBottom(x));
-
-    this.g.append('g')
-      .call(axisLeft(y));
-
-    const line = Line()
-      .x(d => x(d.date))
-      .y(d => y(d.number))
-      .curve(curveMonotoneX);
-
-    this.g.append('path')
-      .datum(data)
-      .attr('fill', 'none')
-      .attr('stroke', 'steelblue')
-      .attr('stroke-linejoin', 'round')
-      .attr('stroke-linecap', 'round')
-      .attr('stroke-width', 1.5)
-      .attr('d', line);
+    this.legend = select(this.svgRef)
+      .append('g')
+      .attr('class', 'legend')
+      .attr('transform', 'translate(60,20)')
+      .call(legend);
   }
 
   /**
-   * @description - Returns data that D3 can parse out and make into a shape.
-   * @TODO: This should probably be in a memoized selector, so that we don't
-   * calculate this multiple times
+   * @description - Parses the data contained in `this.props` under the
+   * given key
+   * @param {String} dataKey
+   * @return {Array}
    */
-  parseData() {
+  parseData(dataKey) {
     const stats = [];
-    const { videos } = this.props;
-    if (!videos || !videos.length) {
+    const data = this.props[dataKey];
+    if (!data || !data.length) {
       return stats;
     }
     const now = new Date();
-    videos.forEach((video) => {
-      const date = new Date(video.timestamp);
+    data.forEach((item) => {
+      const date = new Date(item.timestamp);
 
-      // make sure we're not collecting videos more than a month
-      if (now.getTime() - date.getTime() > 2592 * 1000000) {
+      // make sure we're not collecting data more than a month
+      if (now.getTime() - date.getTime() > 7884 * 1000000) {
         return;
       }
 
@@ -139,8 +110,86 @@ class GameChart extends React.Component {
 
     return stats
       .sort((first, next) => {
-        return Number(first.date.getTime() > next.date.getTime()) - Number(first.date.getTime() < next.date.getTime());
+        return Number(first.date.getTime() > next.date.getTime()) -
+          Number(first.date.getTime() < next.date.getTime());
       });
+  }
+
+  /**
+   * @description - Renders the entire D3 graph
+   */
+  renderD3() {
+    if (this.svgRef) {
+      const { width, height } = this.state;
+
+      this.graphWidth = width - this.margin.left - this.margin.right;
+      this.graphHeight = height - this.margin.top - this.margin.bottom;
+
+      select(this.svgRef)
+        .attr('width', Math.round(width))
+        .attr('height', Math.round(height));
+    }
+
+    // we want the time to be from now until a month ago
+    const now = new Date();
+    const past = new Date();
+    const threeMonths = 7884 * 1000000;
+
+    past.setTime(now.getTime() - threeMonths);
+
+    const x = scaleTime()
+      .domain([past, now])
+      .rangeRound([0, this.graphWidth]);
+    const y = scaleLinear()
+      .rangeRound([this.graphHeight, 0]);
+
+    if (this.g) {
+      this.g.remove();
+    }
+
+    const videoData = this.parseData('videos');
+    const articleData = this.parseData('articles');
+
+    const [videoMin, videoMax] = extent(videoData, d => d.number);
+    const [articleMin, articleMax] = extent(articleData, d => d.number);
+    y.domain([Math.min(videoMin, articleMin), Math.max(videoMax, articleMax)]);
+
+    this.g = select(this.svgRef).append('g')
+      .attr('transform', `translate(${this.margin.left},${this.margin.top})`);
+
+    this.g.append('g')
+      .attr('transform', `translate(0,${this.graphHeight})`)
+      .call(axisBottom(x));
+
+    this.g.append('g')
+      .call(axisLeft(y));
+
+    const line = Line()
+      .x(d => x(d.date))
+      .y(d => y(d.number))
+      .curve(curveMonotoneX);
+
+    // line for videos
+    this.g.append('path')
+      .datum(videoData)
+      .attr('fill', 'none')
+      .attr('stroke', 'rgb(46, 73, 123)')
+      .attr('stroke-linejoin', 'round')
+      .attr('stroke-linecap', 'round')
+      .attr('stroke-width', 1.5)
+      .attr('d', line);
+
+    // line for articles
+    this.g.append('path')
+      .datum(articleData)
+      .attr('fill', 'none')
+      .attr('stroke', 'rgb(71, 187, 94)')
+      .attr('stroke-linejoin', 'round')
+      .attr('stroke-linecap', 'round')
+      .attr('stroke-width', 1.5)
+      .attr('d', line);
+
+    this.createLegend();
   }
 
   render() {
@@ -154,8 +203,8 @@ class GameChart extends React.Component {
           });
         }}
       >
-        {({ measureRef }) =>
-          (<div
+        {({ measureRef }) => (
+          <div
             ref={measureRef}
             style={{
               width: '100%',
@@ -164,17 +213,19 @@ class GameChart extends React.Component {
             }}
           >
             <svg ref={this.setSvgRef} />
-           </div>)
-        }
+          </div>
+        )}
       </Measure>
     );
   }
 }
 
 GameChart.propTypes = {
-  videos: PropTypes.arrayOf(PropTypes.shape({
-    // This should be a date
-    timestamp: PropTypes.string.isRequired,
+  articles: PropTypes.arrayOf(PropTypes.shape({ //eslint-disable-line
+    timestamp: PropTypes.string.isRequired, //eslint-disable-line
+  })),
+  videos: PropTypes.arrayOf(PropTypes.shape({ //eslint-disable-line
+    timestamp: PropTypes.string.isRequired, //eslint-disable-line
   })),
 };
 
