@@ -352,7 +352,8 @@ def upload_covers():
     """
     load_working_set()
 
-    for appid, game in tqdm(WS.games_steam.items(), '[UPLOAD] Uploading covers'):
+    for game in tqdm(WS.games_steam.values(), '[UPLOAD] Uploading covers'):
+        appid = game.steam_id
         if CACHE_CD.exists(str(appid) + '.png'):
             # Upload cover
             upload_image("%s/%d.png" % (CACHE_CD, appid),
