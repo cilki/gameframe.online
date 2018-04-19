@@ -11,7 +11,7 @@ from tqdm import tqdm
 
 from cache import WS, KeyCache, load_working_set
 from orm import Developer, Game, Genre, Platform
-from common import TC, load_registry
+from common import PROGRESS_FORMAT, TC, load_registry
 from registry import KeyIgdb, CachedGame, CachedDeveloper
 from sources.util import (condition, condition_developer,
                           generic_collect, url_normalize, vstrlen, xappend)
@@ -252,7 +252,8 @@ def link_developers():
     load_working_set()
     load_registry('Developer', 'igdb_id')
 
-    for developer in tqdm(WS.developers.values(), '[LINK] Linking Developers'):
+    for developer in tqdm(WS.developers.values(), '[LINK] Linking Developers',
+                          bar_format=PROGRESS_FORMAT):
         dev_json = TC['Developer.igdb_id'].get(developer.igdb_id).igdb_data
 
         for igdb_id in chain(dev_json.get('published', []), dev_json.get('developed', [])):

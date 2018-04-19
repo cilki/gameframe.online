@@ -6,7 +6,7 @@
 from tqdm import tqdm
 
 from orm import db
-from common import TC, load_registry, unload_registry
+from common import PROGRESS_FORMAT, TC, load_registry, unload_registry
 from sources.util import condition, condition_developer, xappend
 
 
@@ -185,7 +185,8 @@ def merge_games():
     load_working_set()
     load_registry('Game', 'game_id')
 
-    for game_cached in tqdm(TC['Game.game_id'], '[MERGE] Merging Games'):
+    for game_cached in tqdm(TC['Game.game_id'], '[MERGE] Merging Games',
+                            bar_format=PROGRESS_FORMAT):
         if game_cached.steam_data is None and game_cached.igdb_data is None:
             continue
         steam_data = game_cached.steam_data
@@ -206,7 +207,8 @@ def merge_developers():
     load_working_set()
     load_registry('Developer', 'igdb_id')
 
-    for developer_cached in tqdm(TC['Developer.igdb_id'], '[MERGE] Merging Developers'):
+    for developer_cached in tqdm(TC['Developer.igdb_id'], '[MERGE] Merging Developers',
+                                 bar_format=PROGRESS_FORMAT):
         if developer_cached.igdb_data is None:
             continue
         igdb_data = developer_cached.igdb_data
@@ -224,7 +226,8 @@ def merge_articles():
     load_working_set()
     load_registry('Article', 'article_id')
 
-    for article_cached in tqdm(TC['Article.article_id'], '[MERGE] Merging Articles'):
+    for article_cached in tqdm(TC['Article.article_id'], '[MERGE] Merging Articles',
+                               bar_format=PROGRESS_FORMAT):
         if article_cached.steam_data is None and article_cached.newsapi_data is None:
             continue
         steam_data = article_cached.steam_data
@@ -251,7 +254,8 @@ def merge_videos():
     load_working_set()
     load_registry('Video', 'video_id')
 
-    for video_cached in tqdm(TC['Video.video_id'], '[MERGE] Merging Videos'):
+    for video_cached in tqdm(TC['Video.video_id'], '[MERGE] Merging Videos',
+                             bar_format=PROGRESS_FORMAT):
         if video_cached.youtube_data is None:
             continue
         youtube_data = video_cached.youtube_data
@@ -264,6 +268,8 @@ def merge_videos():
         if related_game is not None:
             xappend(related_game.videos, video)
 
+    unload_registry('Video', 'video_id')
+
 
 def merge_tweets():
     """
@@ -272,7 +278,8 @@ def merge_tweets():
     load_working_set()
     load_registry('Tweet', 'tweet_id')
 
-    for tweet_cached in tqdm(TC['Tweet.tweet_id'], '[MERGE] Merging Tweets'):
+    for tweet_cached in tqdm(TC['Tweet.tweet_id'], '[MERGE] Merging Tweets',
+                             bar_format=PROGRESS_FORMAT):
         if tweet_cached.twitter_data is None:
             continue
         tweet_data = tweet_cached.twitter_data
@@ -285,6 +292,8 @@ def merge_tweets():
         if related_game is not None:
             xappend(related_game.tweets, tweet)
 
+    unload_registry('Tweet', 'tweet_id')
+
 
 def clean_articles():
     """
@@ -293,7 +302,8 @@ def clean_articles():
     load_registry('Article', 'article_id')
 
     removals = []
-    for article_cached in tqdm(TC['Article.article_id'], '[CLEAN] Scanning Articles'):
+    for article_cached in tqdm(TC['Article.article_id'], '[CLEAN] Scanning Articles',
+                               bar_format=PROGRESS_FORMAT):
         if not newsapi.validate_article(article_cached.newsapi_data) and not \
                 steam.validate_article(article_cached.steam_data):
             removals.append(article_cached)
@@ -310,7 +320,8 @@ def clean_videos():
     load_registry('Video', 'video_id')
 
     removals = []
-    for video_cached in tqdm(TC['Video.video_id'], '[CLEAN] Scanning Videos'):
+    for video_cached in tqdm(TC['Video.video_id'], '[CLEAN] Scanning Videos',
+                             bar_format=PROGRESS_FORMAT):
         if not google.validate_video(video_cached.youtube_data):
             removals.append(video_cached)
     if input("Delete %d low quality videos? " % len(removals)) == 'y':
@@ -327,7 +338,8 @@ def clean_tweets():
     load_registry('Tweet', 'tweet_id')
 
     removals = []
-    for tweet_cached in tqdm(TC['Tweet.tweet_id'], '[CLEAN] Scanning Tweets'):
+    for tweet_cached in tqdm(TC['Tweet.tweet_id'], '[CLEAN] Scanning Tweets',
+                             bar_format=PROGRESS_FORMAT):
         game = WS.games.get(tweet_cached.game_id)
         if not twitter.validate_tweet(tweet_cached.twitter_data) or not \
                 twitter.relevant_tweet(game, tweet_cached.twitter_data):
