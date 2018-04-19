@@ -181,7 +181,7 @@ class WorkingSet ():
         # [video_id, name] => Video
         self.videos = multi_key_dict()
 
-        # [tweet_id, username + content] => Tweet
+        # [tweet_id] => Tweet
         self.tweets = multi_key_dict()
 
         # [genre_id, name] => Genre
@@ -293,7 +293,7 @@ class WorkingSet ():
         """
         Add a tweet to the working set
         """
-        self.tweets[tweet.tweet_id, tweet.user + tweet.content] = tweet
+        self.tweets[tweet.tweet_id] = tweet
 
     def add_genre(self, genre):
         """
@@ -424,7 +424,7 @@ class WorkingSet ():
             tweet = self.tweets.get(user + content)
 
         if tweet is None:
-            tweet = Tweet(tweet_id=tweet_id, user=user, content=content)
+            tweet = Tweet(tweet_id=tweet_id)
             self.add_tweet(tweet)
 
         return tweet
