@@ -200,8 +200,8 @@ class Developer(db.Model):
     article_count = db.Column(db.Integer)
 
     # Articles
-    articles = db.relationship(
-        'Article', secondary='join_article_developer', back_populates="developers")
+    articles = db.relationship('Article', secondary='join_article_developer',
+                               back_populates="developers")
 
     # Number of tweets
     tweet_count = db.Column(db.Integer)
@@ -213,8 +213,8 @@ class Developer(db.Model):
     game_count = db.Column(db.Integer)
 
     # Games
-    games = db.relationship(
-        'Game', secondary='join_game_developer', back_populates="developers")
+    games = db.relationship('Game', secondary='join_game_developer',
+                            back_populates="developers")
 
 
 class Tweet(db.Model):
@@ -228,12 +228,6 @@ class Tweet(db.Model):
 
     # The tweet's Twitter ID
     twitter_id = db.Column(db.BigInteger)
-
-    # The tweet content
-    content = db.Column(db.Text)
-
-    # The tweeter's username
-    user = db.Column(db.Text)
 
     # The tweet's post timestamp
     timestamp = db.Column(db.DateTime)
@@ -254,9 +248,6 @@ class Video(db.Model):
 
     # The video's description
     description = db.Column(db.Text)
-
-    # The uploader's YouTube channel name
-    channel = db.Column(db.Text)
 
     # The video's publishing timestamp
     timestamp = db.Column(db.DateTime)
@@ -298,40 +289,47 @@ join_game_platform = db.Table('join_game_platform',
                               db.Column('game_id', db.Integer,
                                         db.ForeignKey('game.game_id')),
                               db.Column('platform_id', db.Integer,
-                                        db.ForeignKey('platform.platform_id')), info={'bind_key': 'gameframe'})
+                                        db.ForeignKey('platform.platform_id')),
+                              info={'bind_key': 'gameframe'})
 
 join_game_article = db.Table('join_game_article',
                              db.Column('game_id', db.Integer,
                                        db.ForeignKey('game.game_id')),
                              db.Column('article_id', db.Integer,
-                                       db.ForeignKey('article.article_id')), info={'bind_key': 'gameframe'})
+                                       db.ForeignKey('article.article_id')),
+                             info={'bind_key': 'gameframe'})
 
 join_game_tweet = db.Table('join_game_tweet',
                            db.Column('game_id', db.Integer,
                                      db.ForeignKey('game.game_id')),
                            db.Column('tweet_id', db.Integer,
-                                     db.ForeignKey('tweet.tweet_id')), info={'bind_key': 'gameframe'})
+                                     db.ForeignKey('tweet.tweet_id')),
+                           info={'bind_key': 'gameframe'})
 
 join_developer_tweet = db.Table('join_developer_tweet',
                                 db.Column('developer_id', db.Integer,
                                           db.ForeignKey('developer.developer_id')),
                                 db.Column('tweet_id', db.Integer,
-                                          db.ForeignKey('tweet.tweet_id')), info={'bind_key': 'gameframe'})
+                                          db.ForeignKey('tweet.tweet_id')),
+                                info={'bind_key': 'gameframe'})
 
 join_game_video = db.Table('join_game_video',
                            db.Column('game_id', db.Integer,
                                      db.ForeignKey('game.game_id')),
                            db.Column('video_id', db.Integer,
-                                     db.ForeignKey('video.video_id')), info={'bind_key': 'gameframe'})
+                                     db.ForeignKey('video.video_id')),
+                           info={'bind_key': 'gameframe'})
 
 join_game_developer = db.Table('join_game_developer',
                                db.Column('game_id', db.Integer,
                                          db.ForeignKey('game.game_id')),
                                db.Column('developer_id', db.Integer,
-                                         db.ForeignKey('developer.developer_id')), info={'bind_key': 'gameframe'})
+                                         db.ForeignKey('developer.developer_id')),
+                               info={'bind_key': 'gameframe'})
 
 join_article_developer = db.Table('join_article_developer',
                                   db.Column('article_id', db.Integer,
                                             db.ForeignKey('article.article_id')),
                                   db.Column('developer_id', db.Integer,
-                                            db.ForeignKey('developer.developer_id')), info={'bind_key': 'gameframe'})
+                                            db.ForeignKey('developer.developer_id')),
+                                  info={'bind_key': 'gameframe'})

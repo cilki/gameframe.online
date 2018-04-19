@@ -75,10 +75,6 @@ def build_video(video, video_json):
         video.timestamp = datetime.strptime(video_json['snippet']['publishedAt'],
                                             '%Y-%m-%dT%H:%M:%S.000Z')
 
-    # Channel
-    if video.channel is None:
-        video.channel = video_json['snippet']['channelTitle']
-
     # Video Link
     if video.video_link is None:
         video.video_link = "https://www.youtube.com/watch?v=" + video.youtube_id

@@ -77,14 +77,6 @@ def build_tweet(tweet, tweet_json):
     if tweet.twitter_id is None:
         tweet.twitter_id = tweet_json['id']
 
-    # Content
-    if tweet.content is None:
-        tweet.content = tweet_json['text']
-
-    # User
-    if tweet.user is None:
-        tweet.user = tweet_json['user']['name']
-
     # Timestamp
     if tweet.timestamp is None:
         tweet.timestamp = datetime.strptime(tweet_json['created_at'],
@@ -109,10 +101,6 @@ def validate_tweet(tweet_json):
 
         # Filter timestamp
         if not vstrlen(tweet_json['created_at']):
-            return False
-
-        # Filter name
-        if not vstrlen(tweet_json['user']['name']):
             return False
 
     except KeyError:

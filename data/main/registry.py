@@ -82,9 +82,6 @@ class CachedTweet(db.Model):
     # The game that tweet was collected on
     game_id = db.Column(db.Integer)
 
-    # The developer that tweet was collected on
-    developer_id = db.Column(db.Integer)
-
     # The tweet's Twitter data
     twitter_data = db.Column(db.JSON)
 
