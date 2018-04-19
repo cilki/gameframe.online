@@ -16,6 +16,9 @@ import {
 import { axisBottom, axisLeft } from 'd3-axis';
 import { extent } from 'd3-array';
 import { line as Line, curveMonotoneX } from 'd3-shape';
+import { legendColor } from 'd3-svg-legend';
+
+import * as d3 from 'd3-transition';
 
 /**
  * @description - Creates and returns a LineChart created using D3
@@ -77,7 +80,7 @@ class GameChart extends React.Component {
       this.g.remove();
     }
 
-    const data = this.parseData();
+    const data = this.parseVideoData();
     y.domain(extent(data, d => d.number));
 
     this.g = select(this.svgRef).append('g')
@@ -98,11 +101,13 @@ class GameChart extends React.Component {
     this.g.append('path')
       .datum(data)
       .attr('fill', 'none')
-      .attr('stroke', 'steelblue')
+      .attr('stroke', 'rgb(46, 73, 123)')
       .attr('stroke-linejoin', 'round')
       .attr('stroke-linecap', 'round')
       .attr('stroke-width', 1.5)
       .attr('d', line);
+
+    this.createLegend();
   }
 
   /**
@@ -110,7 +115,7 @@ class GameChart extends React.Component {
    * @TODO: This should probably be in a memoized selector, so that we don't
    * calculate this multiple times
    */
-  parseData() {
+  parseVideoData() {
     const stats = [];
     const { videos } = this.props;
     if (!videos || !videos.length) {
@@ -141,6 +146,29 @@ class GameChart extends React.Component {
       .sort((first, next) => {
         return Number(first.date.getTime() > next.date.getTime()) - Number(first.date.getTime() < next.date.getTime());
       });
+  }
+
+  createLegend() {
+    const linear = scaleLinear()
+      .domain([0, 1])
+      .range(['rgb(46, 73, 123)', 'rgb(71, 187, 94)']);
+
+    const legend = legendColor()
+      .shapeWidth(30)
+      .cells(2)
+      .labels(['Videos', 'Articles'])
+      .orient('vertical')
+      .scale(linear);
+
+    if (this.legend) {
+      this.legend.remove();
+    }
+
+    this.legend = select(this.svgRef)
+      .append('g')
+      .attr('class', 'legend')
+      .attr('transform', 'translate(60,20)')
+      .call(legend);
   }
 
   render() {
