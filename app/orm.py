@@ -206,9 +206,6 @@ class Developer(db.Model):
     # Number of tweets
     tweet_count = db.Column(db.Integer)
 
-    # Tweets
-    tweets = db.relationship('Tweet', secondary='join_developer_tweet')
-
     # Number of games
     game_count = db.Column(db.Integer)
 
@@ -305,13 +302,6 @@ join_game_tweet = db.Table('join_game_tweet',
                            db.Column('tweet_id', db.Integer,
                                      db.ForeignKey('tweet.tweet_id')),
                            info={'bind_key': 'gameframe'})
-
-join_developer_tweet = db.Table('join_developer_tweet',
-                                db.Column('developer_id', db.Integer,
-                                          db.ForeignKey('developer.developer_id')),
-                                db.Column('tweet_id', db.Integer,
-                                          db.ForeignKey('tweet.tweet_id')),
-                                info={'bind_key': 'gameframe'})
 
 join_game_video = db.Table('join_game_video',
                            db.Column('game_id', db.Integer,
