@@ -1,13 +1,12 @@
-
 /**
- * Selectors for the state tree for About.js
+ * Selectors for the state tree for About.js.
  */
 
 import { createSelector } from 'reselect';
 
 /**
  * @description - Input selector for the contributors
- * 'requested' state
+ * 'requested' state.
  * @param {Map} state
  * @returns {Boolean}
  */
@@ -18,7 +17,7 @@ function getContributorsRequested(state) {
 
 /**
  * @description - Input selector for the contributors
- * for the about page
+ * for the about page.
  * @param {Map} state
  * @returns {List}
  */
@@ -28,7 +27,7 @@ function getAllContributors(state) {
 
 /**
  * @description - Trivial selector for finding the
- * error state of the contributors
+ * error state of the contributors.
  * @param {Map} state
  * @returns {String|null}
  */
@@ -37,7 +36,7 @@ function getContributorsError(state) {
 }
 
 /**
- * @description - Memoized selector for the contributor's logins
+ * @description - Memoized selector for the contributor's logins.
  */
 const getContributors = createSelector(
   [getAllContributors],
@@ -53,7 +52,7 @@ const getContributors = createSelector(
 
 /**
  * @description - Input selector for the issues
- * 'requested' state
+ * 'requested' state.
  * @param {Map} state
  * @returns {Boolean}
  */
@@ -62,7 +61,7 @@ function getIssuesRequested(state) {
 }
 
 /**
- * @description - Input selector for the issues
+ * @description - Input selector for the issues.
  * @param {Map} state
  * @returns {List}
  */
@@ -72,7 +71,7 @@ function getIssues(state) {
 
 /**
  * @description - Trivial selector for finding the
- * error state of the issues
+ * error state of the issues.
  * @param {Map} state
  * @returns {String|null}
  */
@@ -82,7 +81,7 @@ function getIssuesError(state) {
 
 /**
  * @description - Input selector for the description
- * 'requested' state
+ * 'requested' state.
  * @param {Map} state
  * @returns {Boolean}
  */
@@ -92,7 +91,7 @@ function getDescriptionRequested(state) {
 
 
 /**
- * @description - Input selector for the description
+ * @description - Input selector for the description.
  * @param {Map} state
  * @returns {String|null}
  */
@@ -102,7 +101,7 @@ function getDescription(state) {
 
 /**
  * @description - Trivial selector for finding the
- * error state of the description
+ * error state of the description.
  * @param {Map} state
  * @returns {String|null}
  */
@@ -112,7 +111,7 @@ function getDescriptionError(state) {
 
 /**
  * @description - Input selector for the tools
- * 'requested' state
+ * 'requested' state.
  * @param {Map} state
  * @returns {Boolean}
  */
@@ -122,7 +121,7 @@ function getToolsRequested(state) {
 
 
 /**
- * @description - Input selector for the tools
+ * @description - Input selector for the tools.
  * @param {Map} state
  * @returns {String|null}
  */
@@ -132,7 +131,7 @@ function getTools(state) {
 
 /**
  * @description - Trivial selector for finding the
- * error state of the tools
+ * error state of the tools.
  * @param {Map} state
  * @returns {String|null}
  */
@@ -142,7 +141,7 @@ function getToolsError(state) {
 
 /**
  * @description - Returns the total number of issues
- * in Github
+ * in Github.
  * @returns {Function}
  */
 const getTotalIssues = createSelector(
@@ -154,7 +153,7 @@ const getTotalIssues = createSelector(
 
 /**
  * @description - Returns the total number of commits
- * in Github
+ * in Github.
  * @returns {Function}
  */
 const getTotalCommits = createSelector(
@@ -171,7 +170,7 @@ const getTotalCommits = createSelector(
 );
 
 /**
- * @description - Returns the total number of unit tests
+ * @description - Returns the total number of unit tests.
  * @returns {Function}
  */
 const getTotalUnitTests = createSelector(

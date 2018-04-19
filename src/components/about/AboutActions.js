@@ -1,12 +1,10 @@
-
 /**
- * Defines the actions for the About page
+ * Defines the actions for the About page.
  */
 
 import { createAction, handleActions } from 'redux-actions';
 import { List, Map } from 'immutable';
 import { combineReducers } from 'redux';
-
 import {
   getAllContributors,
   getIssues,
@@ -20,22 +18,19 @@ import {
 
 const fetchContributorsRequest = createAction('FETCH_CONTRIBUTORS_REQUEST');
 const fetchContributorsResponse = createAction('FETCH_CONTRIBUTORS_RESPONSE');
-
 const fetchIssuesRequest = createAction('FETCH_ISSUES_REQUEST');
 const fetchIssuesResponse = createAction('FETCH_ISSUES_RESPONSE');
-
 const fetchDescriptionRequest = createAction('FETCH_DESCRIPTION_REQUEST');
 const fetchDescriptionResponse = createAction('FETCH_DESCRIPTION_RESPONSE');
-
 const fetchToolsRequest = createAction('FETCH_TOOLS_REQUEST');
 const fetchToolsResponse = createAction('FETCH_TOOLS_RESPONSE');
 
 /**
- * @description - Creator of a thunk creator for fetching from the Github repo
+ * @description - Thunk creator for fetching data from the Github repository.
  * @param {String} url
- * @param {Function} predicate - function that determines if the fetch is necessary.
+ * @param {Function} predicate - Function that determines if the fetch is necessary.
  * This is required because many components will fetch on mount, and if the component
- * is mounted several times then this predicate will keep them from doing multiple fetches
+ * is mounted several times then this predicate will keep them from doing multiple fetches.
  * @param {Function} requestAction
  * @param {Function} responseAction
  */
@@ -52,10 +47,10 @@ function fetchFromGithub(url, predicate, requestAction, responseAction) {
 }
 
 /**
- * @description - Creator of a thunk creator for fetching a text file
- * from the Flask webserver
+ * @description - Thunk creator for fetching a text file
+ * from the Flask webserver.
  * @param {String} url
- * @param {Function} predicate - used to determine if the fetch is necessary
+ * @param {Function} predicate - Used to determine if the fetch is necessary.
  * @param {Function} requestAction
  * @param {Function} responseAction
  */
@@ -78,7 +73,7 @@ function fetchFile(
 }
 
 /**
- * @description - Determines if the description needs to be fetched
+ * @description - Determines if the description needs to be fetched.
  * @param {Map} state
  * @returns {Boolean}
  */
@@ -88,8 +83,8 @@ function shouldFetchDescription(state) {
 
 /**
  * @description - Determines if the contributors have already been fetched, thus
- * won't re-fetch them
- * @param {Map} state - the state returned from `getState()`
+ * won't re-fetch them.
+ * @param {Map} state - The state returned from `getState()`.
  * @returns {Boolean}
  */
 function shouldFetchContributors(state) {
@@ -98,8 +93,8 @@ function shouldFetchContributors(state) {
 
 /**
  * @description - Determines if the issues have already been fetched, thus
- * won't refetch them
- * @param {Map} state - the state returned from `getState()`
+ * won't refetch them.
+ * @param {Map} state - The state returned from `getState()`.
  * @returns {Boolean}
  */
 function shouldFetchIssues(state) {
@@ -108,8 +103,8 @@ function shouldFetchIssues(state) {
 
 /**
  * @description - Determines if the tools have already been fetched, thus
- * won't refetch them
- * @param {Map} state - the state returned from `getState()`
+ * won't refetch them.
+ * @param {Map} state - The state returned from `getState()`.
  * @returns {Boolean}
  */
 function shouldFetchTools(state) {
@@ -119,7 +114,7 @@ function shouldFetchTools(state) {
 /**
  * @description - Thunk creator, dispatches actions in order
  * to make an asyncronous action to retrieve the contributors
- * from the Github
+ * from Github.
  * @returns {Function}
  */
 function fetchContributors() {
@@ -134,7 +129,7 @@ function fetchContributors() {
 /**
  * @description - Thunk creator, dispatches actions in order
  * to make an asyncronous action to retrieve the issues
- * from the Github
+ * from Github.
  * @returns {Function}
  */
 function fetchIssues() {
@@ -148,7 +143,7 @@ function fetchIssues() {
 
 /**
  * @description - Thunk creator, dispatches actions in order
- * to retrieve the description from Flask
+ * to retrieve the description from the Flask webserver.
  * @returns {Function}
  */
 function fetchDescription() {
@@ -162,7 +157,7 @@ function fetchDescription() {
 
 /**
  * @description - Thunk creator, dispatches actions in order
- * to retrieve the tools from Flask
+ * to retrieve the tools from the Flask webserver.
  * @returns {Function}
  */
 function fetchTools() {
@@ -181,7 +176,7 @@ function fetchTools() {
 
 /**
  * @description - Reducer for the 'requested' state
- * for the description
+ * for the description.
  */
 const descriptionRequested = handleActions({
   [fetchDescriptionRequest]() {
@@ -194,7 +189,7 @@ const descriptionRequested = handleActions({
 
 /**
  * @description - Reducer for the 'error' state
- * for the description
+ * for the description.
  */
 const descriptionError = handleActions({
   [fetchDescriptionResponse]: {
@@ -208,7 +203,7 @@ const descriptionError = handleActions({
 }, null);
 
 /**
- * @description - Reducer for the description of the website
+ * @description - Reducer for the description of the website.
  */
 const description = handleActions({
   [fetchDescriptionResponse]: {
@@ -223,7 +218,7 @@ const description = handleActions({
 
 /**
  * @description - Reducer for the 'requested' state for
- * the contributor's from Github
+ * the contributors from Github.
  */
 const contributorsRequested = handleActions({
   [fetchContributorsRequest]() {
@@ -232,12 +227,12 @@ const contributorsRequested = handleActions({
   [fetchContributorsResponse]() {
     return false;
   },
-// default to false
+// Default to false.
 }, false);
 
 /**
  * @description - Reducer for the error state for
- * the fetching the contributors from Github
+ * fetching the contributors from Github.
  */
 const contributorsError = handleActions({
   [fetchContributorsResponse]: {
@@ -251,12 +246,12 @@ const contributorsError = handleActions({
 }, null);
 
 /**
- * @description - Reducer for the GIthub contributors
+ * @description - Reducer for the Github contributors.
  */
 const contributors = handleActions({
   [fetchContributorsResponse]: {
     next(state, { payload }) {
-      // load all of the contributors into an immutable list
+      // Load all of the contributors into an immutable list.
       return List(payload.map((user) => {
         return Map({
           login: user.login,
@@ -309,7 +304,7 @@ const contributors = handleActions({
 
 /**
  * @description - Reducer for the 'requested' state for
- * the contributor's from Github
+ * the contributors from Github.
  */
 const issuesRequested = handleActions({
   [fetchIssuesRequest]() {
@@ -318,12 +313,12 @@ const issuesRequested = handleActions({
   [fetchIssuesResponse]() {
     return false;
   },
-// default to false
+// Default to false.
 }, false);
 
 /**
  * @description - Reducer for the error state for
- * the fetching the Issues from Github
+ * fetching the Issues from Github.
  */
 const issuesError = handleActions({
   [fetchIssuesResponse]: {
@@ -337,12 +332,12 @@ const issuesError = handleActions({
 }, null);
 
 /**
- * @description - Reducer for the Github issues
+ * @description - Reducer for the Github issues.
  */
 const issues = handleActions({
   [fetchIssuesResponse]: {
     next(state, { payload }) {
-      // load all the issues into an immutable list
+      // Load all the issues into an immutable list.
       return List(payload.map((issue) => {
         return Map({
           id: issue.id,
@@ -358,7 +353,7 @@ const issues = handleActions({
 
 /**
  * @description - Reducer for the 'requested' state for
- * tools
+ * tools.
  */
 const toolsRequested = handleActions({
   [fetchToolsRequest]() {
@@ -367,12 +362,12 @@ const toolsRequested = handleActions({
   [fetchToolsResponse]() {
     return false;
   },
-// default to false
+// Default to false.
 }, false);
 
 /**
  * @description - Reducer for the error state for
- * the fetching of tools
+ * fetching tools.
  */
 const toolsError = handleActions({
   [fetchToolsResponse]: {
@@ -386,7 +381,7 @@ const toolsError = handleActions({
 }, null);
 
 /**
- * @description - Reducer for the tools
+ * @description - Reducer for the tools.
  */
 const tools = handleActions({
   [fetchToolsResponse]: {
@@ -403,7 +398,7 @@ const tools = handleActions({
 
 /**
  * @description - Combine our reducers into one, so that all of this
- * data can fall under a single state object within the hierarchy
+ * data can fall under a single state object within the hierarchy.
  */
 const aboutReducer = combineReducers({
   contributorsRequested,

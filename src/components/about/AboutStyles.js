@@ -1,5 +1,5 @@
 /**
- * Styles for the about page
+ * Styles for the about page.
  */
 
 export default {

@@ -1,20 +1,19 @@
-
 /**
- * Unit test script for About
+ * Unit test script for About.
  */
 
 const proxyquire = require('proxyquire').noPreserveCache().noCallThru();
-const { shallow } = require('enzyme');
 const React = require('react');
 const sinon = require('sinon');
+const { shallow } = require('enzyme');
 const { assert } = require('chai');
 const { List, Map } = require('immutable');
 
 describe('about', function() {
   describe('<About />', function() {
     /**
-     * @description - Uses proxyquire to retrieve the react component while mocking
-     * the relevant dependencies
+     * @description - Uses proxyquire to retrieve the react 
+     * component while mocking the relevant dependencies.
      * @returns {React.Component}
      */
     function getAbout() {
@@ -24,7 +23,7 @@ describe('about', function() {
     }
 
     /**
-     * This generates three tests for `<About />`'s prop functions
+     * This generates three tests for `<About />`'s prop functions.
      */
     const propFunctions = [
       'fetchDescription',
@@ -36,7 +35,7 @@ describe('about', function() {
       it('Calls `' + fun + '()` when it mounts', function() {
         let requiredProps = {},
           propStub = null;
-        // all of the functions are required, so they all must be defined
+        // All of the functions are required, so they all must be defined.
         for (let requiredProp of propFunctions) {
           if (requiredProp !== fun) {
             requiredProps[requiredProp] = () => {};
@@ -56,7 +55,7 @@ describe('about', function() {
   describe('AboutActions.js', function() {
     /**
      * @description - Convenience method for retrieving the About module
-     * with a clean slate using proxyquire
+     * with a clean slate using proxyquire.
      * @param {Object=} [{}] overrides
      * @returns {Object}
      */
@@ -418,31 +417,10 @@ describe('about', function() {
     });
   });
 
-  /**
-   * Unless there becomes a real need to utilize this suite, leave it 
-   * commented out */
-  // describe('AboutContainer.js', function() {
-  //   /**
-  //    * @description - Convenience function that uses proxyquire
-  //    * to retrieve the module
-  //    * @param {Object=} [{}] overrides
-  //    * @returns {Object}
-  //    */
-  //   function getAboutSeletors(overrides = {}) {
-  //     return proxyquire('./AboutSelectors.js', overrides);
-  //   }
-
-  //   describe('`mapStateToProps()`', function() {
-  //   });
-
-  //   describe('`mapDispatchToProps()`', function() {
-  //   });
-  // });
-
   describe('AboutSelectors.js', function() {
     /**
      * @description - Convenience function that uses proxyquire
-     * to retrieve the module
+     * to retrieve the module.
      * @returns {Object}
      */
     function getAboutSeletors() {
@@ -504,12 +482,14 @@ describe('about', function() {
           },
         };
 
-        /* this function is run in the selecting 'algorithm', 
-         * thus we'll use it to determine if the memoization occurs */
+        /**
+         * This function is ran in the selecting 'algorithm', 
+         * thus we'll use it to determine if the memoization occurs.
+         */
         const mapStub = sinon.spy(state.about.contributors, 'map');
         let result = getContributors(state);
 
-        // sanity check
+        // Sanity check.
         assert(mapStub.calledOnce, '`contributors.map()` was never called');
         result = getContributors(state);
         assert(mapStub.calledOnce, '`getContributors()` didn\'t memoize');
@@ -605,11 +585,11 @@ describe('about', function() {
           },
         };
 
-        // we'll use this to determine if the selector algorithm ran or not
+        // We'll use this to determine if the selector algorithm ran or not.
         const forEachStub = sinon.stub(state.about.contributors, 'forEach');
         let result = getTotalCommits(state);
         
-        //sanity check
+        // Sanity check.
         assert(forEachStub.calledOnce, '`contributors.forEach()` was never run');
 
         result = getTotalCommits(state);
