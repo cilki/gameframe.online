@@ -228,16 +228,16 @@ class WorkingSet ():
         dict_delete(self.games, game.name)
         dict_delete(self.games_steam, game.steam_id)
         dict_delete(self.games_igdb, game.igdb_id)
+
+        # Remove links
+        del game.developers[:]
+        del game.articles[:]
+        del game.tweets[:]
+
         try:
             self.db.session.delete(game)
         except InvalidRequestError:
             pass
-
-        # Remove links
-        for dev in game.developers:
-            dev.games.remove(game)
-        for article in game.articles:
-            article.games.remove(game)
 
     def add_developer(self, dev):
         """
@@ -250,16 +250,15 @@ class WorkingSet ():
         Remove a developer
         """
         dict_delete(self.developers, dev.igdb_id)
+
+        # Remove links
+        del dev.games[:]
+        del dev.articles[:]
+
         try:
             self.db.session.delete(dev)
         except InvalidRequestError:
             pass
-
-        # Remove links
-        for game in dev.games:
-            game.developers.remove(dev)
-        for article in dev.articles:
-            article.developers.remove(dev)
 
     def add_article(self, article):
         """
@@ -272,16 +271,15 @@ class WorkingSet ():
         Remove an article
         """
         dict_delete(self.articles, article.article_id)
+
+        # Remove links
+        del article.games[:]
+        del article.developers[:]
+
         try:
             self.db.session.delete(article)
         except InvalidRequestError:
             pass
-
-        # Remove links
-        for game in article.games:
-            game.articles.remove(article)
-        for dev in article.developers:
-            dev.articles.remove(article)
 
     def add_video(self, video):
         """

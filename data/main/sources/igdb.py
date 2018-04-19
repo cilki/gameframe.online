@@ -135,9 +135,8 @@ def build_game(game, game_json):
 
     # Cover
     if game.cover is None and 'cover' in game_json:
-        cover = game_json['cover']
-        if cover['width'] <= cover['height']:
-            game.cover = cover['url'][2:].replace("t_thumb", "t_original")
+        game.cover = game_json['cover']['url'][2:].replace(
+            "t_thumb", "t_original")
 
     # ESRB rating
     if game.esrb is None and 'esrb' in game_json:
