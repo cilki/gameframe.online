@@ -125,10 +125,10 @@ class Article extends React.Component {
           </div>
           <hr style={[InstanceDetailsStyles.horizontalRule]} />
           <div>
-            <div style={[InstanceDetailsStyles.synoposisIndicator]}>
+            <div style={[InstanceDetailsStyles.synopsisIndicator]}>
               Introduction:
             </div>
-            <div style={[InstanceDetailsStyles.synoposisHTMLContainer]}>
+            <div style={[InstanceDetailsStyles.synopsisHTMLContainer]}>
               {ReactHTMLParser(this.props.introduction)}
             </div>
           </div>

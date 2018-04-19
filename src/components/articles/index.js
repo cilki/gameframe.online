@@ -1,6 +1,8 @@
+/**
+ * Index.js file for the articles folder.
+ */
 
 import { createAction } from 'redux-actions';
-
 import Presenter from './Articles';
 import { createContainer, createReducer } from '../generic-grid';
 import { articles as articlesSchema } from '../Schemas';
@@ -17,7 +19,6 @@ import { articleFilters as defaultFilterOptions } from '../FilterOptions';
 const articlesResponse = { objects: [articlesSchema] };
 const setPageAction = createAction('SET_ARTICLE_PAGE');
 const setTotalPagesAction = createAction('SET_ARTICLES_TOTAL_PAGES');
-
 const Articles = createContainer(
   Presenter,
   articlesResponse,
