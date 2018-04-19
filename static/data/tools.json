@@ -9,13 +9,13 @@
     "cover": "https://a0.awsstatic.com/main/images/logos/aws_logo_smile_1200x630.png",
     "name": "AWS",
     "url": "https://aws.amazon.com/",
-    "usage": "Amazon Web Services (AWS) hosts this website on two EC2 micro compute instances, one RDS micro database instance, and one CloudFront CDN."
+    "usage": "Amazon Web Services (AWS) hosts this website on two EC2 micro compute instances; one RDS micro database instance and one CloudFront CDN."
   },
   {
     "cover": "https://d33wubrfki0l68.cloudfront.net/f35d49d959deb5bfd7deb80c2668128367e2917c/eb35e/images/logo.svg",
     "name": "Babel",
     "url": "https://babeljs.io/",
-    "usage": "Babel was used to convert JSX into browser compatible JS."
+    "usage": "Babel converts JSX into browser compatible JS."
   },
   {
     "cover": "../../../../static/images/tools/aws_s3.svg",
@@ -39,13 +39,13 @@
     "cover": "../../../../static/images/tools/docker_vertical.svg",
     "name": "Docker",
     "url": "https://www.docker.com/",
-    "usage": "The frontend and backend HTTP servers are run in Dockerized containers which allows them to be deployed to any machine for easy testing."
+    "usage": "The frontend and backend HTTP servers are ran in Dockerized containers which allows them to be deployed to any machine for easy testing."
   },
   {
     "cover": "https://raw.githubusercontent.com/d3/d3-logo/master/d3.png",
     "name": "D3",
     "url": "https://d3js.org/",
-    "usage": "Data-Driven Documents (D3) is a resource library for visualizing web databases."
+    "usage": "Data-Driven Documents (D3) is a resource library for creating graphs or visualizing web databases."
   },
   {
     "cover": "http://airbnb.io/img/projects/enzyme.png",
@@ -111,7 +111,7 @@
     "cover": "https://www.getpostman.com/img/v2/homepage/logo-ring.svg",
     "name": "Postman",
     "url": "https://www.getpostman.com/",
-    "usage": "Postman was used to document, develop, and test the RESTful API."
+    "usage": "Postman is used to document, develop, and test the RESTful API."
   },
   {
     "cover": "https://www.python.org/static/community_logos/python-logo-inkscape.svg",
@@ -159,7 +159,7 @@
     "cover": "https://camo.githubusercontent.com/f63754b8412368e820601967af6dea84312b925b/68747470733a2f2f7265616374747261696e696e672e636f6d2f72656163742d726f757465722f616e64726f69642d6368726f6d652d313434783134342e706e67",
     "name": "React Router",
     "url": "https://reacttraining.com/",
-    "usage": "React Router is a resource library for ReactJS that allowed us to seamlessly load pages within our website."
+    "usage": "React Router is a resource library for ReactJS that allows us to seamlessly load pages within our website."
   },
   {
     "cover": "https://upload.wikimedia.org/wikipedia/commons/9/92/Cog_font_awesome.svg",
@@ -171,7 +171,7 @@
     "cover": "https://www.seleniumhq.org/images/big-logo.png",
     "name": "Selenium",
     "url": "https://www.seleniumhq.org/",
-    "usage": "Selenium was used to test the website's user interface on many different browsers automatically."
+    "usage": "Selenium is used to test the website's user interface on many different browsers."
   },
   {
     "cover": "https://cdn-images-1.medium.com/max/1600/0*HERF9Ii9f_M3OzQQ.",
@@ -213,7 +213,7 @@
     "cover": "https://upload.wikimedia.org/wikipedia/commons/0/0d/Imagemagick-logo.png",
     "name": "Wand",
     "url": "http://docs.wand-py.org/en/0.4.4/",
-    "usage": "Wand is a Python binding for ImageMagick which was used to generate CD covers for some games. Each rectangular game cover was circularly cropped and composited onto a premade CD image with Wand. Then each cover was uploaded to the GameFrame CDN using boto3."
+    "usage": "Wand is a Python binding for ImageMagick which was used to generate CD covers for some games."
   },
   {
     "cover": "https://tse4.mm.bing.net/th?id=OIP.gFZhldMJQCiCQylrx6oU2AHaFG&w=222&h=160&c=7&o=5&dpr=1.1&pid=1.7",

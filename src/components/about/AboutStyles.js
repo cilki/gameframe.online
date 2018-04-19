@@ -69,7 +69,7 @@ export default {
   },
   cardInfo: {
     minHeight: '150px',
-    maxHeight: '300px',
+    maxHeight: '350px',
     height: 'calc(150px + 10vw)',
     overflow: 'hidden',
     backgroundColor: '#ffffff',

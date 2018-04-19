@@ -128,7 +128,7 @@ class AboutPage extends React.Component {
         <div style={[CommonAssets.stripeOverlay, CommonAssets.fillBackground]} />
         <div style={[Styles.pad]}>
           <Jumbotron style={container}>
-            <h2 style={[Styles.title]}><strong>`What's this Database?`</strong></h2> {/*eslint-disable-line*/}
+            <h2 style={[Styles.title]}><strong>{`What's this Database?`}</strong></h2> {/*eslint-disable-line*/}
             <p style={[Styles.paragraph]}>{ReactHTMLParser(this.props.description)}</p>
 
             <div style={{ padding: '0% 2% 0% 2%' }}>
