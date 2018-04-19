@@ -9,6 +9,8 @@ from math import isclose
 
 import requests
 
+from cache import WS, load_working_set
+
 
 """
 This module contains the visibility approximation (vindex) logic.

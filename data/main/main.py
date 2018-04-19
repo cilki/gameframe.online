@@ -14,7 +14,7 @@ from flask import Flask
 
 import vindex
 from orm import db
-from cache import WS, load_working_set
+from cache import WS
 
 
 # Register exit signal
