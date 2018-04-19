@@ -1,6 +1,5 @@
-
 /**
- * Simple actions for a Article's instance page
+ * Simple actions for a Article's instance page.
  */
 
 import { normalize } from 'normalizr';
@@ -16,7 +15,7 @@ import { articles as articleSchema } from '../Schemas';
 
 /**
  * @description - Predicate function to determine if the given
- * article id should be fetched
+ * article id should be fetched.
  * @param {Object} state
  * @param {Number} articleId
  * @returns {Boolean}
@@ -29,7 +28,7 @@ function shouldFetchArticle(state, articleId) { //eslint-disable-line
 
 /**
  * @description - Requests from the API the article we want depending on the
- * returned value from the predicate. In redux jargon, a thunk creator
+ * returned value from the predicate. In redux jargon, a thunk creator.
  * @param {Number} articleId
  * @returns {Function}
  */

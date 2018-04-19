@@ -7,14 +7,13 @@ import PropTypes from 'prop-types';
 import Radium, { StyleRoot } from 'radium';
 import ReactHTMLParser from 'react-html-parser';
 import { Helmet } from 'react-helmet';
-
 import InstanceDetails from '../instance-details/InstanceDetails';
 import InstanceDetailsStyles from '../instance-details/InstanceDetailsStyles';
 import Minigrid from '../minigrid/Minigrid';
 import Minicard from '../minicard/Minicard';
 
 /**
- * @description - Helper method for rendering a link to a game, developer, or article
+ * @description - Helper method for rendering a link to a game, developer, or article.
  * @param {Object} props
  * @param {String} props.label
  * @param {String} props.url
@@ -29,7 +28,7 @@ function link({
 }
 
 link.propTypes = {
-  label: PropTypes.object.isRequired,//eslint-disable-line
+  label: PropTypes.object.isRequired, //eslint-disable-line
   url: PropTypes.string.isRequired,
   cover: PropTypes.string.isRequired,
   key: PropTypes.oneOf([PropTypes.string, PropTypes.number]).isRequired,
@@ -37,7 +36,7 @@ link.propTypes = {
 
 /**
  * @description - Returns the main component to render a article's own
- * page
+ * page.
  * @param {Object} props
  * @returns {React.Component}
  */
@@ -62,15 +61,15 @@ class Article extends React.Component {
   };
 
   static defaultProps = {
+    article_link: '',
     author: '',
-    cover: null,
     developers: [],
     games: [],
+    cover: null,
     introduction: '',
     outlet: '',
     timestamp: '',
     title: '',
-    article_link: '',
   };
 
   /**
@@ -92,7 +91,8 @@ class Article extends React.Component {
       `http://${this.props.outlet}` : this.props.outlet;
     const articleURL = this.props.article_link && this.props.article_link.indexOf('http') < 0 ?
       `http://${this.props.article_link}` : this.props.article_link;
-    const published = this.props.timestamp ? (new Date(this.props.timestamp)).toLocaleString() : null;
+    const published = this.props.timestamp ?
+      (new Date(this.props.timestamp)).toLocaleString() : null;
     return (
       <StyleRoot>
         <Helmet>
@@ -129,7 +129,6 @@ class Article extends React.Component {
               Introduction:
             </div>
             <div style={[InstanceDetailsStyles.synoposisHTMLContainer]}>
-              {/* TODO: We can do better than this. There are existing libraries to put in HTML */}
               {ReactHTMLParser(this.props.introduction)}
             </div>
           </div>
