@@ -2,7 +2,7 @@
  * ScrollStart is a basic class method that helps force the native
  * scrollbar to start at the beginning on every page, on every load.
  */
- 
+
 import React from 'react';
 import { withRouter } from 'react-router';
 

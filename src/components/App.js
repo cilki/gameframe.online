@@ -60,52 +60,52 @@ function App() {
   return (
     <Provider store={store}>
       <Router>
-      <ScrollStart>
-        <div style={[
+        <ScrollStart>
+          <div style={[
             { display: 'flex' },
             { minHeight: '100%' },
             { flexDirection: 'column' },
         ]}
-        >
-          <Helmet>
-            <title>GameFrame.online</title>
-            <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png" />
-            <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png" />
-            <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png" />
-            <link rel="manifest" href="site.webmanifest" />
-            <link rel="mask-icon" href="safari-pinned-tab.svg" color="#0f0f0f" />
-            <meta name="msapplication-TileColor" content="#292929" />
-            <meta name="theme-color" content="#ffffff" />
-          </Helmet>
-          <Route path="/" exact component={Banner} />
-          <Route path="/about" exact component={Banner} />
-          <Navbar />
+          >
+            <Helmet>
+              <title>GameFrame.online</title>
+              <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png" />
+              <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png" />
+              <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png" />
+              <link rel="manifest" href="site.webmanifest" />
+              <link rel="mask-icon" href="safari-pinned-tab.svg" color="#0f0f0f" />
+              <meta name="msapplication-TileColor" content="#292929" />
+              <meta name="theme-color" content="#ffffff" />
+            </Helmet>
+            <Route path="/" exact component={Banner} />
+            <Route path="/about" exact component={Banner} />
+            <Navbar />
 
-          <div style={{
+            <div style={{
             flex: '1',
             verticalAlign: 'top',
             minHeight: '100%',
           }}
-          >
-            <Route path="/" exact component={Splash} />
-            <Route path="/about" component={AboutPage} />
+            >
+              <Route path="/" exact component={Splash} />
+              <Route path="/about" component={AboutPage} />
 
-            <Route path="/games/:gameId" component={Game} />
-            <Route path="/games" exact component={Games} />
+              <Route path="/games/:gameId" component={Game} />
+              <Route path="/games" exact component={Games} />
 
-            <Route path="/developers/:developerId" exact component={Developer} />
-            <Route path="/developers" exact component={Developers} />
+              <Route path="/developers/:developerId" exact component={Developer} />
+              <Route path="/developers" exact component={Developers} />
 
-            <Route path="/articles/:articleId" component={Article} />
-            <Route path="/articles" exact component={Articles} />
+              <Route path="/articles/:articleId" component={Article} />
+              <Route path="/articles" exact component={Articles} />
 
-            <Route path="/search" component={SearchResults} />
+              <Route path="/search" component={SearchResults} />
 
+            </div>
+
+            <Footer />
           </div>
-
-          <Footer />
-        </div>
-      </ScrollStart>
+        </ScrollStart>
       </Router>
     </Provider>
   );

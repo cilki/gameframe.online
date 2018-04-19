@@ -59,10 +59,11 @@ class GridSelect extends React.Component {
       self.setState({
         isLoading: false,
       });
-      optionsCallback(err,
+      optionsCallback(
+        err,
         {
           options,
-        }
+        },
       );
     };
 

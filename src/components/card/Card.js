@@ -13,7 +13,7 @@ import CardStyles from './CardStyles';
 import postcssJs from 'postcss-js';
 import autoprefixer from 'autoprefixer';
 
-/** 
+/**
  * @description - obtain the country from an iso-3166-1 standard.
  * @param {String} country
  * @return {String}
@@ -26,7 +26,7 @@ function showCountry(country) {
     countryName = countryIso ? countryIso.country : 'Country Unknown';
   }
   return countryName;
-} 
+}
 
 /**
  * A single card instance within the InstanceGrid
@@ -59,16 +59,16 @@ class Card extends React.Component {
    */
   constructor(props) {
     super(props);
-    this.state = {hovered: false};
+    this.state = { hovered: false };
   }
 
   hoverHandlerOn() {
-    this.setState({hovered: false});//!this.state.hovered});
+    this.setState({ hovered: false });//! this.state.hovered});
     console.log(this.state.hovered);
   }
 
   hoverHandlerOff() {
-    this.setState({hovered: true});
+    this.setState({ hovered: true });
     console.log(this.state.hovered);
   }
 
@@ -76,14 +76,16 @@ class Card extends React.Component {
     const { title } = this.props;
     const imageCover = this.props.cover !== null && this.props.cover.search('http') < 0 ?
       `https://${this.props.cover}` : this.props.cover;
-    const trueImageCover = imageCover ? imageCover : '../../static/images/noImage.png';
+    const trueImageCover = imageCover || '../../static/images/noImage.png';
 
     const me = this;
-    let prefixer = postcssJs.sync([ autoprefixer ]);
+    const prefixer = postcssJs.sync([autoprefixer]);
 
     return (
-      <div style={[prefixer(CardStyles.main(this.props.aspectRatio))]} key={`${title}-cardMain`}
-        >
+      <div
+        style={[prefixer(CardStyles.main(this.props.aspectRatio))]}
+        key={`${title}-cardMain`}
+      >
         <p style={[prefixer(CardStyles.titleText)]}>
           {this.props.title}
         </p>
@@ -116,7 +118,7 @@ class Card extends React.Component {
               </div>
               <div style={[prefixer(CardStyles.fields)]} key={`${title}-fields`}>
                 {this.props.fields}
-                <div style={{height: '0'}}>
+                <div style={{ height: '0' }}>
                   <img
                     style={[prefixer(CardStyles.fieldsBackgroundImage)]}
                     src={trueImageCover}

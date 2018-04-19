@@ -83,16 +83,14 @@ class Fields extends React.Component {
 
   render() {
     const factor = this.props.factor;
-    const MediaEnum = Object.freeze(
-      {
-        "Steam":"/static/images/icons8-steam-filled.svg",
-        "IGDB":"/static/images/igdb.jpg",
-        "Twitter":"/static/images/icons8-twitter.svg",
-        "Website":"/static/images/Globe_icon_4.png",
-        "Source":"/static/images/icons8-black-hot-article-50.png"        
-      }
-    );  
-    const esrb = this.props.esrb ? [this.props.esrb] : null;  
+    const MediaEnum = Object.freeze({
+      Steam: '/static/images/icons8-steam-filled.svg',
+      IGDB: '/static/images/igdb.jpg',
+      Twitter: '/static/images/icons8-twitter.svg',
+      Website: '/static/images/Globe_icon_4.png',
+      Source: '/static/images/icons8-black-hot-article-50.png',
+    });
+    const esrb = this.props.esrb ? [this.props.esrb] : null;
     let fields = 0;
 
     /**
@@ -105,14 +103,14 @@ class Fields extends React.Component {
       if (price != null || players != null) {
         return (
           <div style={[Styles.flexRow]}>
-            {showStat(price, true, "usd", "bottom", "USD")}
-            {showStat(players, false, "user", "bottom", "Players")}
+            {showStat(price, true, 'usd', 'bottom', 'USD')}
+            {showStat(players, false, 'user', 'bottom', 'Players')}
           </div>
         );
       }
       return null;
     }
-    
+
     /**
      * @description - Conditionally render a formatted stat with an icon and tooltip.
      * @param {Number|null} number - Stat.
@@ -176,8 +174,8 @@ class Fields extends React.Component {
                 </div>
               </div>
               <div style={[Styles.flexRow]}>
-                {showRating(vindex, "https://upload.wikimedia.org/wikipedia/commons/b/bd/Checkmark_green.svg", "Vindex Scoring")}
-                {showRating(metacritic, "https://upload.wikimedia.org/wikipedia/commons/2/20/Metacritic.svg", "Metacritic Scoring")}
+                {showRating(vindex, 'https://upload.wikimedia.org/wikipedia/commons/b/bd/Checkmark_green.svg', 'Vindex Scoring')}
+                {showRating(metacritic, 'https://upload.wikimedia.org/wikipedia/commons/2/20/Metacritic.svg', 'Metacritic Scoring')}
                 {showEsrb(esrb)}
               </div>
             </div>
@@ -205,10 +203,10 @@ class Fields extends React.Component {
           </Tooltip>
         );
         return (
-          <OverlayTrigger placement={"top"} overlay={tooltip}>
+          <OverlayTrigger placement="top" overlay={tooltip}>
             <div style={[Styles.label]}>
               <div style={[Styles.flexRow]}>
-                <img src={icon} style={[Styles.iconImage(factor)]}/>
+                <img src={icon} style={[Styles.iconImage(factor)]} />
                 <div style={[Styles.smallText(factor)]}>
                   &nbsp;
                   {number}%
@@ -220,7 +218,7 @@ class Fields extends React.Component {
       }
       return null;
     }
-    
+
     /**
      * @description - Conditionally render the esrb rating of a game.
      * @param {Number|null} esrb
@@ -234,22 +232,22 @@ class Fields extends React.Component {
             {
               esrb.map(esrbRating => getEsrb({
                 ratingKey: esrbRating,
-                key: `esrbRating-${esrbRating}`,                
+                key: `esrbRating-${esrbRating}`,
               }))
             }
           </div>
         );
       }
-      return null;      
+      return null;
     }
-    
+
     /**
      * @description - This is a helper method to showEsrb().
      * This method maps a rating key to a list and then returns an image.
      * @param {Number|null} ratingKey
      * @returns {React.Component}
      */
-    function getEsrb({ratingKey}) {
+    function getEsrb({ ratingKey }) {
       return (
         <img
           style={[Styles.esrbImage(factor)]}
@@ -301,13 +299,11 @@ class Fields extends React.Component {
     function getItems(id, items) {
       const subItems = [];
       for (let i = 0; i < items.length; i++) {
-        subItems.push(
-          <Carousel.Item key={`${id}-${items[i].name}-item-${i}`}>
-            <div style={[Styles.item]}>
-              {items[i].name}
-            </div>
-          </Carousel.Item>
-        );
+        subItems.push(<Carousel.Item key={`${id}-${items[i].name}-item-${i}`}>
+          <div style={[Styles.item]}>
+            {items[i].name}
+          </div>
+                      </Carousel.Item>);
       }
       return subItems;
     }
@@ -331,11 +327,11 @@ class Fields extends React.Component {
                 </div>
               </div>
               <div style={[Styles.flexRow]}>
-                {showStat(games, false, "tower", "top", "Games")}
-                {showStat(developers, false, "cog", "top", "Developers")}
-                {showStat(articles, false, "file", "top", "Articles")}
-                {showStat(videos, false, "film", "top", "Videos")}
-                {showStat(tweets, false, "pencil", "top", "Tweets")}
+                {showStat(games, false, 'tower', 'top', 'Games')}
+                {showStat(developers, false, 'cog', 'top', 'Developers')}
+                {showStat(articles, false, 'file', 'top', 'Articles')}
+                {showStat(videos, false, 'film', 'top', 'Videos')}
+                {showStat(tweets, false, 'pencil', 'top', 'Tweets')}
               </div>
             </div>
           </div>
@@ -364,11 +360,11 @@ class Fields extends React.Component {
                 </div>
               </div>
               <div style={[Styles.flexRow]}>
-                {showMedia(steam, "Steam")}
-                {showMedia(igdb, "IGDB")}
-                {showMedia(twitter, "Twitter")}
-                {showMedia(website, "Website")}
-                {showMedia(source, "Source")}
+                {showMedia(steam, 'Steam')}
+                {showMedia(igdb, 'IGDB')}
+                {showMedia(twitter, 'Twitter')}
+                {showMedia(website, 'Website')}
+                {showMedia(source, 'Source')}
               </div>
             </div>
           </div>
@@ -392,13 +388,13 @@ class Fields extends React.Component {
             </div>
           </Tooltip>
         );
-        let iconUrl = getIconUrl(title);
+        const iconUrl = getIconUrl(title);
         fields += 1;
         return (
           <div style={[Styles.icon]}>
             <div style={[Styles.flexColumn]}>
-              <OverlayTrigger placement={"top"} overlay={tooltip}>
-                <img src={iconUrl} style={[Styles.iconImage(factor)]}/>
+              <OverlayTrigger placement="top" overlay={tooltip}>
+                <img src={iconUrl} style={[Styles.iconImage(factor)]} />
               </OverlayTrigger>
             </div>
           </div>
@@ -406,39 +402,37 @@ class Fields extends React.Component {
       }
       return null;
     }
-    
+
     /**
      * @description - Given a title (key), get the url (value) associated.
      * @param {String} title
      * @return {String}
      */
     function getIconUrl(title) {
-      let iconUrl = "";
+      let iconUrl = '';
       if (MediaEnum.hasOwnProperty(title)) {
         iconUrl = MediaEnum[title];
       }
-      return iconUrl;      
+      return iconUrl;
     }
-    
+
     /**
-     * @description - Format the url into chunks of stylized 
+     * @description - Format the url into chunks of stylized
      * strings, so that it fits into the tooltip.
      * @param {String} url
      * @return {Array}
      */
     function getFormattedUrl(url) {
       const formattedUrl = [];
-      let chunkifiedUrl = chunkifyUrl(url, 24);
-      for (let chunk in chunkifiedUrl) {
-        formattedUrl.push(
-          <div style={[Styles.urlText(factor)]} key={`${Math.random()}-${url}-url`}>
-            {chunkifiedUrl[chunk]}
-          </div>
-        );
+      const chunkifiedUrl = chunkifyUrl(url, 24);
+      for (const chunk in chunkifiedUrl) {
+        formattedUrl.push(<div style={[Styles.urlText(factor)]} key={`${Math.random()}-${url}-url`}>
+          {chunkifiedUrl[chunk]}
+                          </div>);
       }
-      return formattedUrl;      
+      return formattedUrl;
     }
-    
+
     /**
      * @description - Break up the url (str) into length sized chunks.
      * @param {String} str
@@ -446,7 +440,7 @@ class Fields extends React.Component {
      * @return {Array}
      */
     function chunkifyUrl(str, length) {
-      return str.match(new RegExp('.{1,' + length + '}', 'g'));
+      return str.match(new RegExp(`.{1,${length}}`, 'g'));
     }
 
     /**
@@ -474,8 +468,8 @@ class Fields extends React.Component {
       <div style={[Styles.flexColumn]}>
         {showFacts(this.props.price, this.props.players)}
         {showRatings(this.props.vindex, this.props.metacritic, esrb)}
-        {showItems("Genres", this.props.game, this.props.genres)}
-        {showItems("Platforms", this.props.game, this.props.platforms)}
+        {showItems('Genres', this.props.game, this.props.genres)}
+        {showItems('Platforms', this.props.game, this.props.platforms)}
 
         {showReferences(this.props.games, this.props.developers, this.props.articles, this.props.videos, this.props.tweets)}
         {showMedias(this.props.steam, this.props.igdb, this.props.twitter, this.props.website, this.props.source)}

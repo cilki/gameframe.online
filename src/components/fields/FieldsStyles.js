@@ -98,5 +98,5 @@ export default {
     '@media screen and (max-width: 599px)': {
       fontSize: `calc((1px + 1.6vw) * ${factor})`,
     },
-  })
+  }),
 };

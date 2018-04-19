@@ -140,7 +140,7 @@ class Developer extends React.Component {
 
   render() {
     const logoURL = this.props.logo && this.props.logo.indexOf('http') < 0 ? `https://${this.props.logo}` : this.props.logo;
-    const trueLogoURL = this.props.logo  == null ? '../../static/images/noImage.png' : logoURL;
+    const trueLogoURL = this.props.logo == null ? '../../static/images/noImage.png' : logoURL;
     const established = this.props.foundation ? dateToString(this.props.foundation) : 'Unknown';
     const countryNumber = `${this.props.country}`;
     const country = this.iso.whereNumeric(countryNumber);
@@ -179,12 +179,12 @@ class Developer extends React.Component {
           </div>
           <div>
             <hr style={[InstanceDetailsStyles.horizontalRule]} />
-              <div style={[InstanceDetailsStyles.synopsisIndicator]}>
+            <div style={[InstanceDetailsStyles.synopsisIndicator]}>
                 Description:
-              </div>
-              <div style={[InstanceDetailsStyles.synopsisHTMLContainer]}>
-                {this.props.description}
-              </div>
+            </div>
+            <div style={[InstanceDetailsStyles.synopsisHTMLContainer]}>
+              {this.props.description}
+            </div>
             <hr style={[InstanceDetailsStyles.horizontalRule]} />
           </div>
           <div style={[InstanceDetailsStyles.bigButtonCluster]}>

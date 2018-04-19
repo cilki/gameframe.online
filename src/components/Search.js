@@ -24,11 +24,12 @@ class Search extends React.Component {
     return (
       <div style={{
         filter: 'hue-rotate(170deg) invert(90%) saturate(300%) brightness(90%) grayscale(25%)',
-      }}>
+      }}
+      >
         <form onSubmit={this.handleSubmit}>
           <FormGroup controlId="formBasicText">
-            <FormControl type="text" value={this.state.input} placeholder="Search" onChange={this.handleChange} style={{borderTopRightRadius: '0px', borderBottomRightRadius: '0px'}}/>
-            <Button onClick={this.handleSubmit} style={{borderTopLeftRadius: '0px', borderBottomLeftRadius: '0px', borderLeft: 'none'}}>
+            <FormControl type="text" value={this.state.input} placeholder="Search" onChange={this.handleChange} style={{ borderTopRightRadius: '0px', borderBottomRightRadius: '0px' }} />
+            <Button onClick={this.handleSubmit} style={{ borderTopLeftRadius: '0px', borderBottomLeftRadius: '0px', borderLeft: 'none' }}>
               Search
             </Button>
             <FormControl.Feedback />

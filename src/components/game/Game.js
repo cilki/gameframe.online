@@ -28,7 +28,10 @@ function screenshot({ url, alt }) {
   const src = url.indexOf('http') >= 0 ? url : `https://${url}`;
   return (
     <Carousel.Item key={`${url}-carousel-item`}>
-      <a href={src} key={`${url}-a`} target="none"
+      <a
+        href={src}
+        key={`${url}-a`}
+        target="none"
         style={[InstanceDetailsStyles.carouselScreenshotLink]}
       >
         <img
@@ -53,7 +56,8 @@ screenshot.defaultProps = {
 
 function rating({ ratingKey }) {
   return (
-    <a href="https://www.esrb.org/ratings/ratings_guide.aspx"
+    <a
+      href="https://www.esrb.org/ratings/ratings_guide.aspx"
       key={`${ratingKey}-anchor`}
       target="none"
     >
@@ -108,10 +112,9 @@ function primaryInfoCluster({
   release,
   genres,
 }) {
-
   const releaseDate = dateToString(release);
   const releasePrefix = Date.parse(release) < new Date() ? 'Released ' :
-                                                           'Coming ';
+    'Coming ';
 
   return (
     <div style={[InstanceDetailsStyles.gamePrimaryInfoCluster]}>
@@ -154,12 +157,12 @@ function secondaryDataCluster({
         </div>
       </div>
       {vindex != undefined ? visibilityIndex(vindex) : ''}
-      {metacriticScore ? metacritic({metacriticScore: metacriticScore, metacriticLink: metacriticLink}) : ''}
+      {metacriticScore ? metacritic({ metacriticScore, metacriticLink }) : ''}
       {
         steamID ? steamPlayers({
-          _steamPlayers: _steamPlayers,
-          steamID: steamID,
-          steamPlayersUpdated: steamPlayersUpdated
+          _steamPlayers,
+          steamID,
+          steamPlayersUpdated,
         }) : ''
       }
     </div>
@@ -181,14 +184,14 @@ function synopsisSection({
   return (
     <div>
       <hr style={[InstanceDetailsStyles.horizontalRule]} />
-        <div>
-          <div style={[InstanceDetailsStyles.synopsisIndicator]}>
+      <div>
+        <div style={[InstanceDetailsStyles.synopsisIndicator]}>
             Synopsis:
-          </div>
-          <div style={[InstanceDetailsStyles.synopsisHTMLContainer]}>
-            {ReactHTMLParser(synopsis)}
-          </div>
         </div>
+        <div style={[InstanceDetailsStyles.synopsisHTMLContainer]}>
+          {ReactHTMLParser(synopsis)}
+        </div>
+      </div>
       <hr style={[InstanceDetailsStyles.horizontalRule]} />
     </div>
   );
@@ -199,10 +202,9 @@ synopsisSection.propTypes = {
 };
 
 function screenshotGallery({
-  screenshots
+  screenshots,
 }) {
-
-  const _screenshots = screenshots ? screenshots : [];
+  const _screenshots = screenshots || [];
 
   return (
     <Carousel style={InstanceDetailsStyles.carousel}>
@@ -282,17 +284,17 @@ externalLink.propTypes = {
 function dateToString(date) {
   const dateType = new Date(Date.parse(date));
   const months = ['January',
-                  'February',
-                  'March',
-                  'April',
-                  'May',
-                  'June',
-                  'July',
-                  'August',
-                  'September',
-                  'October',
-                  'November',
-                  'December'];
+    'February',
+    'March',
+    'April',
+    'May',
+    'June',
+    'July',
+    'August',
+    'September',
+    'October',
+    'November',
+    'December'];
   let sup = '';
   const day = dateType.getDate();
   if (day === 1 || day === 21 || day === 31) {
@@ -320,10 +322,11 @@ dateToString.propTypes = {
 function bigButton({
   url,
   label,
-  buttonKey
+  buttonKey,
 }) {
   return (
-    <a href={url}
+    <a
+      href={url}
       style={[InstanceDetailsStyles.bigButton]}
       key={`${buttonKey}-anchor`}
       target="none"
@@ -349,11 +352,11 @@ function visibilityIndex(vindex) {
   return (
     <OverlayTrigger placement="top" overlay={visibilityIndexTooltip}>
       <div style={[InstanceDetailsStyles.currentPlayers]}>
-          <img
-            src="../../static/images/minilogo.svg"
-            style={[InstanceDetailsStyles.metacriticIndicator]}
-            alt="Metacritic Score:"
-          />
+        <img
+          src="../../static/images/minilogo.svg"
+          style={[InstanceDetailsStyles.metacriticIndicator]}
+          alt="Metacritic Score:"
+        />
         <b>{vindex}</b>
       </div>
     </OverlayTrigger>
@@ -365,8 +368,8 @@ visibilityIndex.propTypes = {
 };
 
 function metacritic({
-  metacriticScore: metacriticScore,
-  metacriticLink: metacriticLink
+  metacriticScore,
+  metacriticLink,
 }) {
   const metacriticTooltip = (
     <Tooltip id="metacriticTooltip">
@@ -385,11 +388,11 @@ function metacritic({
         }}
       >
         <div style={[InstanceDetailsStyles.metacriticCluster]}>
-            <img
-              src="https://upload.wikimedia.org/wikipedia/commons/2/20/Metacritic.svg"
-              style={[InstanceDetailsStyles.metacriticIndicator]}
-              alt="Metacritic Score:"
-            />
+          <img
+            src="https://upload.wikimedia.org/wikipedia/commons/2/20/Metacritic.svg"
+            style={[InstanceDetailsStyles.metacriticIndicator]}
+            alt="Metacritic Score:"
+          />
           <div style={[InstanceDetailsStyles.metacriticScore(metacriticScore)]}>
             {metacriticScore}
           </div>
@@ -404,7 +407,7 @@ metacritic.propTypes = {
   metacriticLink: PropTypes.string,
 };
 
-function steamPlayers({playerCount, steamID, steamPlayersUpdated}) {
+function steamPlayers({ playerCount, steamID, steamPlayersUpdated }) {
   const steamPlayersTooltip = (
     <Tooltip id="steamPlayersTooltip">
       {`A regularly updated count of people currently playing this game on Steam (Last updated ${steamPlayersUpdated})`}
@@ -416,14 +419,15 @@ function steamPlayers({playerCount, steamID, steamPlayersUpdated}) {
       <a
         href={`http://www.steamcharts.com/app/${steamID}`}
         target="none"
-        style={{ textDecoration: 'inherit', color: 'inherit'}}>
+        style={{ textDecoration: 'inherit', color: 'inherit' }}
+      >
         <div style={[InstanceDetailsStyles.currentPlayers]}>
           <img
             style={{
               height: 'calc(20px + 0.5vw)',
               paddingTop: '2%',
               marginRight: '4px',
-              width: 'auto'
+              width: 'auto',
             }}
             src="https://upload.wikimedia.org/wikipedia/commons/8/83/Steam_icon_logo.svg"
           />
@@ -443,7 +447,7 @@ steamPlayers.propTypes = {
 function platformCluster({
   platforms,
 }) {
-  const _platforms = platforms ? platforms : [];
+  const _platforms = platforms || [];
 
   return (
     <div style={[InstanceDetailsStyles.platformCluster]}>
@@ -474,7 +478,7 @@ function platformCluster({
 }
 
 platformCluster.propTypes = {
-  platforms:  PropTypes.array.isRequired,
+  platforms: PropTypes.array.isRequired,
 };
 
 function ratingContainer({
@@ -501,10 +505,9 @@ ratingContainer.propTypes = {
 function platformVideoContainer({
   platforms, videos,
 }) {
-
   return (
     <div style={[InstanceDetailsStyles.platformRatingContainer]}>
-      {platformCluster({ platforms: platforms })}
+      {platformCluster({ platforms })}
       <div style={[InstanceDetailsStyles.platformIndicator]}>
         YouTube video releases over time:
       </div>
@@ -515,9 +518,9 @@ function platformVideoContainer({
           maxHeight: '100%',
         }}
       >
-        <GameChart {...{videos: videos }} />
+        <GameChart {...{ videos }} />
       </div>
-      {/*ratingContainer({ _rating: _rating })*/}
+      {/* ratingContainer({ _rating: _rating }) */}
     </div>
   );
 }
@@ -611,8 +614,8 @@ function modelGridClusters({
 }) {
   return (
     <div style={[InstanceDetailsStyles.externalGridCluster]}>
-      {developerGridCluster({ developers: developers })}
-      {articleGridCluster({ articles: articles })}
+      {developerGridCluster({ developers })}
+      {articleGridCluster({ articles })}
     </div>
   );
 }
@@ -648,7 +651,7 @@ function videoGridCluster({
 }
 
 videoGridCluster.propTypes = {
-  videos: PropTypes.array.isRequired,  
+  videos: PropTypes.array.isRequired,
 };
 
 function steamBigButton({
@@ -699,7 +702,7 @@ function bigButtonCluster({
   left,
   right,
 }) {
-  return (    
+  return (
     <div style={[InstanceDetailsStyles.bigButtonCluster]}>
       {steamBigButton({ steamID: left })}
       {igdbBigButton({ igdbLink: right })}
@@ -808,7 +811,7 @@ class Game extends React.Component {
 
   render() {
     const coverURL = this.props.cover && this.props.cover.indexOf('http') < 0 ?
-                       `https://${this.props.cover}` : this.props.cover;
+      `https://${this.props.cover}` : this.props.cover;
 
     return (
       <StyleRoot>

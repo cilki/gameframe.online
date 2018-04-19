@@ -35,7 +35,7 @@ function createLinkContainerNavItem(href, imageSrc, label, count, linkProps, nav
   return (
     <LinkContainer to={href} {...linkProps}>
       <NavItem {...navProps}>
-        <OverlayTrigger placement={"bottom"} overlay={tooltip}>
+        <OverlayTrigger placement="bottom" overlay={tooltip}>
           <div style={[NavbarStyles.itemMain]} key={`${href}`}>
             <img
               style={NavbarStyles.navImage}
@@ -51,7 +51,7 @@ function createLinkContainerNavItem(href, imageSrc, label, count, linkProps, nav
   );
 }
 
-class NavBar extends React.Component {   
+class NavBar extends React.Component {
   static propTypes = {
     gamesCount: PropTypes.number,
     developersCount: PropTypes.number,
@@ -85,10 +85,10 @@ class NavBar extends React.Component {
    * @constructor
    */
   constructor(props) {
-   super(props);
-   this.state = {};
+    super(props);
+    this.state = {};
   }
-  
+
   /**
    * @description - React lifecycle method used to fetch data.
    */
@@ -97,32 +97,32 @@ class NavBar extends React.Component {
     this.props.fetchDevelopersCount();
     this.props.fetchArticlesCount();
   }
-  
+
   render() {
     const pages = [
       {
         href: '/games',
         label: 'Games',
         imageSrc: '../../static/images/ic_videogame_asset_black_48px.svg',
-        count: this.props.gamesCount
+        count: this.props.gamesCount,
       },
       {
         href: '/developers',
         label: 'Developers',
         imageSrc: '../../static/images/ic_business_center_black_48px.svg',
-        count: this.props.developersCount
+        count: this.props.developersCount,
       },
       {
         href: '/articles',
         label: 'Articles',
         imageSrc: '../../static/images/ic_library_books_black_48px.svg',
-        count: this.props.articlesCount
+        count: this.props.articlesCount,
       },
       {
         href: '/about',
         label: 'About',
         imageSrc: '../../static/images/ic_info_black_48px.svg',
-        count: null
+        count: null,
       },
     ];
 

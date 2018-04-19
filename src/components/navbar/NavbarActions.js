@@ -192,7 +192,7 @@ const articlesCountError = handleActions({
 }, null);
 
 /**
- * gamesCount state field. A number for the amount of 
+ * gamesCount state field. A number for the amount of
  * games in database as a state.
  */
 const gamesCount = handleActions({
@@ -207,7 +207,7 @@ const gamesCount = handleActions({
 }, 0);
 
 /**
- * developersCount state field. A number for the amount of 
+ * developersCount state field. A number for the amount of
  * developers in database as a state.
  */
 const developersCount = handleActions({
@@ -222,7 +222,7 @@ const developersCount = handleActions({
 }, 0);
 
 /**
- * articlesCount state field. A number for the amount of 
+ * articlesCount state field. A number for the amount of
  * articles in database as a state.
  */
 const articlesCount = handleActions({

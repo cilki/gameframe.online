@@ -20,8 +20,8 @@ const Card = {
     margin: '0',
     '@media screen and (max-width: 599px)': {
       maxWidth: '45vw',
-      minWidth: {cardWidth},
-      flexBasis: {cardWidth},
+      minWidth: { cardWidth },
+      flexBasis: { cardWidth },
       margin: 'auto',
     },
   }),
@@ -45,7 +45,7 @@ const Card = {
     ':hover': {
       transform: 'scale(0.98)',
       transition: 'transform 0.2s, filter 0.5s ease',
-//      filter: 'hue-rotate(360deg)',
+      //      filter: 'hue-rotate(360deg)',
     },
   },
 
@@ -75,9 +75,9 @@ const Card = {
     height: '100%',
     backgroundPosition: 'center',
     backgroundSize: '100% 100%',
-    //':hover': {
+    // ':hover': {
     //  transform: 'scale(1.0)',
-    //},
+    // },
   }),
 
   backgroundImageContainer: {
@@ -109,15 +109,15 @@ const Card = {
     maxWidth: '100%',
     borderRadius: '0px',
     transform: 'translate3d(0, 0, 0)',
-    //transition: 'transform 0.2s, filter 0.2s',
+    // transition: 'transform 0.2s, filter 0.2s',
     margin: 'auto',
     verticalAlign: 'middle',
     objectFit: 'fill',
     zIndex: '2',
-    //':hover': {
+    // ':hover': {
     //  transition: 'transform 1.0s, filter 1.0s',
     //  transform: 'scale(1.05)',
-    //},
+    // },
   },
 
   fields: {
@@ -134,9 +134,9 @@ const Card = {
     ':hover': {
       zIndex: '100',
       opacity: '1.0',
-      //color: 'white',
+      // color: 'white',
       transition: 'opacity 0.125s ease-in',
-      //textShadow: '-1px -1px 0 black, 1px -1px 0 black, -1px 1px 0 black, 1px 1px 0 black, -1px 0 0 black, 1px 0 0 black, 0 1px 0 black, 0 -1px 0 black, 0 0 2px black',
+      // textShadow: '-1px -1px 0 black, 1px -1px 0 black, -1px 1px 0 black, 1px 1px 0 black, -1px 0 0 black, 1px 0 0 black, 0 1px 0 black, 0 -1px 0 black, 0 0 2px black',
     },
   },
 
@@ -152,10 +152,10 @@ const Card = {
     left: '50%',
     transform: 'translate3d(0, 0, 0) scale3d(50, 50, 1)',
     zIndex: '-5',
-    //height: '0',
-    //':hover': {
+    // height: '0',
+    // ':hover': {
     //    height: 'revert',
-    //}
+    // }
   },
 
   captionContainer: {

@@ -38,11 +38,11 @@ class GameChart extends React.Component {
       top: 20,
       right: 20,
       bottom: 30,
-      left: 50, 
+      left: 50,
     };
   }
 
-  setSvgRef = svg => {
+  setSvgRef = (svg) => {
     this.svgRef = svg;
   };
 
@@ -95,14 +95,14 @@ class GameChart extends React.Component {
       .y(d => y(d.number))
       .curve(curveMonotoneX);
 
-    this.g.append("path")
+    this.g.append('path')
       .datum(data)
-      .attr("fill", "none")
-      .attr("stroke", "steelblue")
-      .attr("stroke-linejoin", "round")
-      .attr("stroke-linecap", "round")
-      .attr("stroke-width", 1.5)
-      .attr("d", line);
+      .attr('fill', 'none')
+      .attr('stroke', 'steelblue')
+      .attr('stroke-linejoin', 'round')
+      .attr('stroke-linecap', 'round')
+      .attr('stroke-width', 1.5)
+      .attr('d', line);
   }
 
   /**
@@ -129,8 +129,7 @@ class GameChart extends React.Component {
         stat.date.getMonth() === date.getMonth() && stat.date.getDate() === date.getDate());
       if (value) {
         value.number += 1;
-      }
-      else {
+      } else {
         stats.push({
           date,
           number: 1,
@@ -145,27 +144,27 @@ class GameChart extends React.Component {
   }
 
   render() {
-    return(
+    return (
       <Measure
         bounds
         onResize={(contentRect) => {
           this.setState({
             width: contentRect.bounds.width,
             height: contentRect.bounds.height,
-          })
+          });
         }}
       >
         {({ measureRef }) =>
-          <div
+          (<div
             ref={measureRef}
             style={{
-              width:'100%',
+              width: '100%',
               flex: 1,
               maxHeight: '100%',
             }}
           >
             <svg ref={this.setSvgRef} />
-          </div>
+           </div>)
         }
       </Measure>
     );
