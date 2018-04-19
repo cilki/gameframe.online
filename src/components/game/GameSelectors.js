@@ -92,6 +92,7 @@ function makeGetGameArticles(_gameSelector = null) {
               id: articleId,
               title: articles[articleId] ? articles[articleId].title : null,
               cover: articles[articleId] ? articles[articleId].cover : null,
+              timestamp: articles[articleId] ? articles[articleId].timestamp : null,
             });
           }
         });
