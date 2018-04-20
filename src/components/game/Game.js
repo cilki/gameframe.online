@@ -17,8 +17,7 @@ import ExternalMinicard from '../minicard/ExternalMinicard';
 import GameChart from './GameChart';
 
 /**
- * @description - Helper method for generating a component
- * to hold a screenshot
+ * @description - Helper method for generating a component to hold a screenshot
  * @param {Object} props
  * @param {String} props.url
  * @param {String} props.alt
@@ -54,6 +53,13 @@ screenshot.defaultProps = {
   alt: '',
 };
 
+/**
+ * @description - Helper method for generating a component to hold an ESRB
+ *                rating.
+ * @param {Object} props
+ * @param {Number} props.ratingKey
+ * @returns {React.Component}
+ */
 function rating({ ratingKey }) {
   return (
     <a
@@ -75,6 +81,13 @@ rating.propTypes = {
   ratingKey: PropTypes.number.isRequired,
 };
 
+/**
+ * @description - Helper method for generating a component to hold a collection
+ *                of genre labels.
+ * @param {Object} props
+ * @param {Array} props.genres
+ * @returns {React.Component}
+ */
 function genreCluster({
   genres,
 }) {
@@ -107,6 +120,15 @@ genreCluster.propTypes = {
   genres: PropTypes.array.isRequired,
 };
 
+/**
+ * @description - Helper method for generating a component to hold primary
+ *                information about a game.
+ * @param {Object} props
+ * @param {String} props.name
+ * @param {String} props.release
+ * @param {String}  props.genres
+ * @returns {React.Component}
+ */
 function primaryInfoCluster({
   name,
   release,
@@ -135,6 +157,19 @@ primaryInfoCluster.propTypes = {
   genres: PropTypes.string.isRequired,
 };
 
+/**
+ * @description - Helper method for generating a component to hold secondary,
+ *                less prominent information about a game.
+ * @param {Object} props
+ * @param {Number} props.price
+ * @param {Number} props.vindex
+ * @param {Number} props.metacriticScore
+ * @param {String} props.metacriticLink
+ * @param {Number} props.steamID
+ * @param {Number} props._steamPlayers
+ * @param {String} props.steamPlayersUpdated
+ * @returns {React.Component}
+ */
 function secondaryDataCluster({
   price,
   vindex,
@@ -175,9 +210,17 @@ secondaryDataCluster.propTypes = {
   metacriticScore: PropTypes.number,
   metacriticLink: PropTypes.string,
   steamID: PropTypes.number,
+  _steamPlayers: PropTypes.number,
   steamPlayersUpdated: PropTypes.string,
 };
 
+/**
+ * @description - Helper method for generating a component to hold the synopsis
+ *                of a game.
+ * @param {Object} props
+ * @param {String} props.synopsis
+ * @returns {React.Component}
+ */
 function synopsisSection({
   synopsis,
 }) {
@@ -201,6 +244,13 @@ synopsisSection.propTypes = {
   synopsis: PropTypes.string,
 };
 
+/**
+ * @description - Helper method for generating a component to hold a screenshot
+ *                carousel/gallery component.
+ * @param {Object} props
+ * @param {Array} props.screenshots
+ * @returns {React.Component}
+ */
 function screenshotGallery({
   screenshots,
 }) {
@@ -220,10 +270,12 @@ screenshotGallery.propTypes = {
 };
 
 /**
- * @description - Helper method for rendering a link to a developer or article
+ * @description - Helper method for rendering a link to a developer or article.
  * @param {Object} props
  * @param {String} props.label
  * @param {String} props.url
+ * @param {String} props.cover
+ * @param {String} props.key
  * @returns {React.Component}
  */
 function link({
@@ -251,10 +303,12 @@ link.propTypes = {
 };
 
 /**
- * @description - Helper method for rendering a link to an external location
+ * @description - Helper method for rendering a link to an external location.
  * @param {Object} props
  * @param {String} props.label
  * @param {String} props.url
+ * @param {String} props.cover
+ * @param {String} props.key
  * @returns {React.Component}
  */
 function externalLink({
@@ -281,6 +335,13 @@ externalLink.propTypes = {
   key: PropTypes.oneOf([PropTypes.string, PropTypes.number]).isRequired,
 };
 
+/**
+ * @description - Helper method for converting an ISO 8601 formatted date
+ *                string to a natural language string.
+ * @param {Object} props
+ * @param {String} props.date
+ * @returns {String}
+ */
 function dateToString(date) {
   const dateType = new Date(Date.parse(date));
   const months = ['January',
@@ -319,6 +380,14 @@ dateToString.propTypes = {
   date: PropTypes.string.isRequired,
 };
 
+/**
+ * @description - Helper method for generating a clickable button element.
+ * @param {Object} props
+ * @param {String} props.url
+ * @param {String} props.label
+ * @param {String} props.buttonKey
+ * @returns {React.Component}
+ */
 function bigButton({
   url,
   label,
@@ -342,6 +411,13 @@ bigButton.propTypes = {
   buttonKey: PropTypes.string.isRequired,
 };
 
+/**
+ * @description - Helper method for generating a component to hold the
+ *                visibility index for a game.
+ * @param {Object} props
+ * @param {Number} props.vindex
+ * @returns {React.Component}
+ */
 function visibilityIndex(vindex) {
   const visibilityIndexTooltip = (
     <Tooltip id="visibilityIndexTooltip">
@@ -367,6 +443,14 @@ visibilityIndex.propTypes = {
   vindex: PropTypes.number,
 };
 
+/**
+ * @description - Helper method for generating a component to hold a Metacritic
+ *                score for a game.
+ * @param {Object} props
+ * @param {Number} props.metacriticScore
+ * @param {String} props.metacriticLink
+ * @returns {React.Component}
+ */
 function metacritic({
   metacriticScore,
   metacriticLink,
@@ -407,6 +491,15 @@ metacritic.propTypes = {
   metacriticLink: PropTypes.string,
 };
 
+/**
+ * @description - Helper method for generating a component to hold the number
+ *                of people playing a game on Steam, if applicable.
+ * @param {Object} props
+ * @param {Number} props.playerCount
+ * @param {Number} props.steamID
+ * @param {String} props.steamPlayersUpdated
+ * @returns {React.Component}
+ */
 function steamPlayers({ playerCount, steamID, steamPlayersUpdated }) {
   const steamPlayersTooltip = (
     <Tooltip id="steamPlayersTooltip">
@@ -444,6 +537,13 @@ steamPlayers.propTypes = {
   steamPlayersUpdated: PropTypes.string,
 };
 
+/**
+ * @description - Helper method for generating a component to hold a collection
+ *                of platform labels.
+ * @param {Object} props
+ * @param {Array}  props.platforms
+ * @returns {React.Component}
+ */
 function platformCluster({
   platforms,
 }) {
@@ -481,6 +581,13 @@ platformCluster.propTypes = {
   platforms: PropTypes.array.isRequired,
 };
 
+/**
+ * @description - Helper method for generating a component to hold a rating for
+ *                a game.
+ * @param {Object} props
+ * @param {String} props._rating
+ * @returns {React.Component}
+ */
 function ratingContainer({
   _rating,
 }) {
@@ -502,6 +609,17 @@ ratingContainer.propTypes = {
   _rating: PropTypes.string,
 };
 
+/**
+ * @description - Helper method for generating a component to hold other
+ *                components that are intended to share the same section of a
+ *                page.
+ * @param {Object} props
+ * @param {Array} props.platforms
+ * @param {Array} props.videos
+ * @param {Array} props.articles
+ * @param {Array} props.tweets
+ * @returns {React.Component}
+ */
 function platformVideoContainer({
   platforms, videos, articles, tweets,
 }) {
@@ -532,6 +650,13 @@ platformVideoContainer.propTypes = {
   tweets: PropTypes.array.isRequired,
 };
 
+/**
+ * @description - Helper method for generating a component to hold a Google
+ *                Trends chart for a given keyword.
+ * @param {Object} props
+ * @param {String} props.keyWord
+ * @returns {React.Component}
+ */
 function googleTrendsContainer({
   keyWord,
 }) {
@@ -557,6 +682,13 @@ googleTrendsContainer.propTypes = {
   keyWord: PropTypes.string,
 };
 
+/**
+ * @description - Helper method for generating a component to hold a minigrid
+ *                within a portion of the page intended to display developers.
+ * @param {Object} props
+ * @param {Array} props.developers
+ * @returns {React.Component}
+ */
 function developerGridCluster({
   developers,
 }) {
@@ -584,6 +716,13 @@ developerGridCluster.propTypes = {
   developers: PropTypes.array.isRequired,
 };
 
+/**
+ * @description - Helper method for generating a component to hold a minigrid
+ *                within a portion of the page intended to display articles.
+ * @param {Object} props
+ * @param {Array} props.articles
+ * @returns {React.Component}
+ */
 function articleGridCluster({
   articles,
 }) {
@@ -610,6 +749,14 @@ articleGridCluster.propTypes = {
   articles: PropTypes.array.isRequired,
 };
 
+/**
+ * @description - Helper method for generating a component to hold both the
+ *                developer and article model minigrids.
+ * @param {Object} props
+ * @param {Array} props.developers
+ * @param {Array} props.articles
+ * @returns {React.Component}
+ */
 function modelGridClusters({
   developers,
   articles,
@@ -627,6 +774,13 @@ modelGridClusters.propTypes = {
   articles: PropTypes.array.isRequired,
 };
 
+/**
+ * @description - Helper method for generating a component to contain a
+ *                minigrid of videos.
+ * @param {Object} props
+ * @param {Array} props.videos
+ * @returns {React.Component}
+ */
 function videoGridCluster({
   videos,
 }) {
@@ -656,6 +810,13 @@ videoGridCluster.propTypes = {
   videos: PropTypes.array.isRequired,
 };
 
+/**
+ * @description - Helper method for generating a clickable button linking to a
+ *                game's Steam page, if applicable.
+ * @param {Object} props
+ * @param {Number} props.steamID
+ * @returns {React.Component}
+ */
 function steamBigButton({
   steamID,
 }) {
@@ -678,6 +839,13 @@ steamBigButton.propTypes = {
   steamID: PropTypes.number,
 };
 
+/**
+ * @description - Helper method for generating a clickable button linking to a
+ *                game's IGDB page, if applicable.
+ * @param {Object} props
+ * @param {String} props.igdbLink
+ * @returns {React.Component}
+ */
 function igdbBigButton({
   igdbLink,
 }) {
@@ -700,6 +868,14 @@ igdbBigButton.propTypes = {
   igdbLink: PropTypes.string,
 };
 
+/**
+ * @description - Helper method for generating a component to hold up to two
+ *                large clickable buttons.
+ * @param {Object} props
+ * @param {Object} props.left
+ * @param {Object} props.right
+ * @returns {React.Component}
+ */
 function bigButtonCluster({
   left,
   right,

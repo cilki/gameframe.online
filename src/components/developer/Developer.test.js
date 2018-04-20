@@ -1,6 +1,5 @@
-
 /**
- * Unit test script for Developer
+ * Unit test script for Developer.
  */
 
 const proxyquire = require('proxyquire').noPreserveCache().noCallThru();
@@ -14,7 +13,7 @@ describe('developer', function() {
   describe('<Developer />', function() {
     /**
      * @description - Uses proxyquire to retrieve the react component while mocking
-     * the relevant dependencies
+     * the relevant dependencies.
      * @returns {React.Component}
      */
     function getDeveloper() {
@@ -24,7 +23,7 @@ describe('developer', function() {
     }
 
     /**
-     * This generates three tests for `<Developer />`'s prop functions
+     * This generates three tests for `<Developer />`'s prop functions.
      */
     const propFunctions = [
       'fetchDeveloper',
@@ -33,7 +32,7 @@ describe('developer', function() {
       it('Calls `' + fun + '()` when it mounts', function() {
         let requiredProps = {},
           propStub = null;
-        // all of the functions are required, so they all must be defined
+        // All of the functions are required, so they all must be defined.
         for (let requiredProp of propFunctions) {
           if (requiredProp !== fun) {
             requiredProps[requiredProp] = () => {};
@@ -53,7 +52,7 @@ describe('developer', function() {
   describe('DeveloperActions.js', function() {
     /**
      * @description - Convenience method for retrieving the Developer module
-     * with a clean slate using proxyquire
+     * with a clean slate using proxyquire.
      * @param {Object=} [{}] overrides
      * @returns {Object}
      */
@@ -78,7 +77,7 @@ describe('developer', function() {
   describe('DeveloperSelectors.js', function() {
     /**
      * @description - Convenience method for retrieving the Developer module
-     * with a clean slate using proxyquire
+     * with a clean slate using proxyquire.
      * @param {Object=} [{}] overrides
      * @returns {Object}
      */

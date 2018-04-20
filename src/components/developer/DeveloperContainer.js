@@ -1,7 +1,6 @@
-
 /**
  * Container for a single Game component, that represents a single
- * instance of a model
+ * instance of a model.
  */
 
 import { connect } from 'react-redux';
@@ -16,7 +15,7 @@ import DeveloperPresenter from './Developer';
 
 /**
  * @description - Maps the relevant data from the state container to the
- * relevant props in the React component
+ * relevant props in the React component.
  * @returns {Function}
  */
 function mapStateToProps() {
@@ -24,7 +23,7 @@ function mapStateToProps() {
   const articleSelector = makeGetDeveloperArticles(developerSelector);
   const gameSelector = makeGetDeveloperGames(developerSelector);
   return (state, { match: { params } }) => {
-    // this is retrieving the ID from the URL
+    // This is retrieving the ID from the URL.
     const id = Number(params.developerId);
     if (isNaN(id)) { //eslint-disable-line
       return {};
@@ -49,7 +48,7 @@ function mapStateToProps() {
 /**
  * @description - Matches the dispatch function to
  * relevant functions to allow the presenter component
- * to dispatch actions
+ * to dispatch actions.
  * @param {Function} dispatch
  * @param {Object} props
  * @returns {Object}
