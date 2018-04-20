@@ -18,6 +18,8 @@ import Minicard from '../minicard/Minicard';
  * @param {Object} props
  * @param {String} props.label
  * @param {String} props.url
+ * @param {String} props.cover
+ * @param {String} props.key
  * @returns {React.Component}
  */
 function link({
@@ -35,6 +37,13 @@ link.propTypes = {
   key: PropTypes.oneOf([PropTypes.string, PropTypes.number]).isRequired,
 };
 
+/**
+ * @description - Helper method for generating a component to hold a Twitter
+ *                stream for a given Twitter account name.
+ * @param {Object} props
+ * @param {String} props.twitterUsername
+ * @returns {React.Component}
+ */
 function twitterWidget({ twitterUsername }) {
   return (
     <Timeline
@@ -55,6 +64,13 @@ twitterWidget.propTypes = {
   twitterUsername: PropTypes.string.isRequired,
 };
 
+/**
+ * @description - Helper method for converting an ISO 8601 formatted date
+ *                string into a natural language string.
+ * @param {Object} props
+ * @param {String} props.date
+ * @returns {React.Component}
+ */
 function dateToString(date) {
   const dateType = new Date(Date.parse(date));
   const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
@@ -76,7 +92,15 @@ function dateToString(date) {
   );
 }
 
-
+/**
+ * @description - Helper method for generating a component to hold primary
+ *                information about a developer.
+ * @param {Object} props
+ * @param {String} props.name
+ * @param {String} props.foundation
+ * @param {String} props.country
+ * @returns {React.Component}
+ */
 function primaryInfoCluster({
   name,
   foundation,
@@ -111,6 +135,13 @@ primaryInfoCluster.propTypes = {
   country: PropTypes.string,
 };
 
+/**
+ * @description - Helper method for generating a component to hold the
+ *                description of a developer.
+ * @param {Object} props
+ * @param {String} props.description
+ * @returns {React.Component}
+ */
 function descriptionSection({
   description,
 }) {
@@ -133,6 +164,13 @@ descriptionSection.propTypes = {
   description: PropTypes.string,
 };
 
+/**
+ * @description - Helper method for generating a clickable button linking to a
+ *                website belonging to a developer.
+ * @param {Object} props
+ * @param {String} props.website
+ * @returns {React.Component}
+ */
 function websiteButton({
   website,
 }) {
@@ -151,6 +189,13 @@ websiteButton.propTypes = {
   website: PropTypes.string,
 };
 
+/**
+ * @description - Helper method for generating a clickable button linking to
+ *                the Twitter feed for a developer.
+ * @param {Object} props
+ * @param {String} props.twitter
+ * @returns {React.Component}
+ */
 function twitterButton({
   twitter,
 }) {
@@ -169,6 +214,14 @@ twitterButton.propTypes = {
   twitter: PropTypes.string,
 };
 
+/**
+ * @description - Helper method for generating a component to hold up to two
+ *                large clickable buttons.
+ * @param {Object} props
+ * @param {Object} props.left
+ * @param {Object} props.right
+ * @returns {React.Component}
+ */
 function bigButtonCluster({
   left,
   right,
@@ -187,6 +240,14 @@ bigButtonCluster.propTypes = {
   right: PropTypes.object,
 };
 
+/**
+ * @description - Helper method for generating a component to hold one or more
+ *                widgets in a single section of the page.
+ * @param {Object} props
+ * @param {String} props.twitter
+ * @param {String} props.name
+ * @returns {React.Component}
+ */
 function developerWidgetGroup({
   twitter,
   name,
@@ -226,6 +287,13 @@ developerWidgetGroup.propTypes = {
   name: PropTypes.string,
 };
 
+/**
+ * @description - Helper method for generating a component to hold a minigrid
+ *                within a portion of the page intended to display games.
+ * @param {Object} props
+ * @param {Array} props.games
+ * @returns {React.Component}
+ */
 function gameGridCluster({
   games,
 }) {
@@ -253,6 +321,13 @@ gameGridCluster.propTypes = {
   games: PropTypes.array,
 };
 
+/**
+ * @description - Helper method for generating a component to hold a minigrid
+ *                within a portion of the page intended to display articles.
+ * @param {Object} props
+ * @param {Array} props.articles
+ * @returns {React.Component}
+ */
 function articleGridCluster({
   articles,
 }) {
@@ -279,6 +354,14 @@ articleGridCluster.propTypes = {
   articles: PropTypes.array,
 };
 
+/**
+ * @description - Helper method for generating a component to hold both the
+ *                game and article model minigrids.
+ * @param {Object} props
+ * @param {Array} props.games
+ * @param {Array} props.articles
+ * @returns {React.Component}
+ */
 function modelGridClusters({
   games,
   articles,
