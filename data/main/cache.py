@@ -229,11 +229,6 @@ class WorkingSet ():
         dict_delete(self.games_steam, game.steam_id)
         dict_delete(self.games_igdb, game.igdb_id)
 
-        # Remove links
-        del game.developers[:]
-        del game.articles[:]
-        del game.tweets[:]
-
         try:
             self.db.session.delete(game)
         except InvalidRequestError:
@@ -251,10 +246,6 @@ class WorkingSet ():
         """
         dict_delete(self.developers, dev.igdb_id)
 
-        # Remove links
-        del dev.games[:]
-        del dev.articles[:]
-
         try:
             self.db.session.delete(dev)
         except InvalidRequestError:
@@ -271,10 +262,6 @@ class WorkingSet ():
         Remove an article
         """
         dict_delete(self.articles, article.article_id)
-
-        # Remove links
-        del article.games[:]
-        del article.developers[:]
 
         try:
             self.db.session.delete(article)
