@@ -39,7 +39,6 @@ function primaryInfoCluster({
   author,
   timestamp,
 }) {
-
   const published = timestamp ?
     (new Date(timestamp)).toLocaleString() : null;
 
@@ -62,7 +61,13 @@ primaryInfoCluster.propTypes = {
   title: PropTypes.string,
   author: PropTypes.string,
   timestamp: PropTypes.string,
-}
+};
+
+primaryInfoCluster.defaultProps = {
+  title: null,
+  author: null,
+  timestamp: new Date().toString(),
+};
 
 function introductionSection({
   introduction,
@@ -70,14 +75,14 @@ function introductionSection({
   return (
     <div>
       <hr style={[InstanceDetailsStyles.horizontalRule]} />
-        <div>
-          <div style={[InstanceDetailsStyles.synopsisIndicator]}>
-            Introduction:
-          </div>
-          <div style={[InstanceDetailsStyles.synopsisHTMLContainer]}>
-            {ReactHTMLParser(introduction)}
-          </div>
+      <div>
+        <div style={[InstanceDetailsStyles.synopsisIndicator]}>
+          Introduction:
         </div>
+        <div style={[InstanceDetailsStyles.synopsisHTMLContainer]}>
+          {ReactHTMLParser(introduction)}
+        </div>
+      </div>
       <hr style={[InstanceDetailsStyles.horizontalRule]} />
     </div>
   );
@@ -87,10 +92,13 @@ introductionSection.propTypes = {
   introduction: PropTypes.string,
 };
 
+introductionSection.defaultProps = {
+  introduction: null,
+};
+
 function articleButton({
   articleLink,
 }) {
-
   const articleURL = articleLink && articleLink.indexOf('http') < 0 ?
     `http://${articleLink}` : articleLink;
 
@@ -101,14 +109,17 @@ function articleButton({
   );
 }
 
-articleButton.PropTypes = {
+articleButton.propTypes = {
   articleLink: PropTypes.string,
+};
+
+articleButton.defaultProps = {
+  articleLink: null,
 };
 
 function outletButton({
   outlet,
 }) {
-
   const outletURL = outlet && outlet.indexOf('http') < 0 ?
     `http://${outlet}` : outlet;
 
@@ -123,11 +134,14 @@ outletButton.propTypes = {
   outlet: PropTypes.string,
 };
 
+outletButton.defaultProps = {
+  outlet: null,
+};
+
 function bigButtonCluster({
   left,
   right,
 }) {
-
   return (
     <div style={[InstanceDetailsStyles.bigButtonCluster]}>
       {articleButton({ articleLink: left })}
@@ -137,14 +151,18 @@ function bigButtonCluster({
 }
 
 bigButtonCluster.propTypes = {
- left: PropTypes.object,
- right: PropTypes.object,
+ left: PropTypes.object, // eslint-disable-line
+ right: PropTypes.object, // eslint-disable-line
+};
+
+bigButtonCluster.defaultProps = {
+  left: null,
+  right: null,
 };
 
 function developerGridCluster({
   developers,
 }) {
-
   return (
     <div style={[InstanceDetailsStyles.developerGridCluster('30%')]}>
       <div style={[InstanceDetailsStyles.developerIndicator]}>
@@ -165,13 +183,16 @@ function developerGridCluster({
 }
 
 developerGridCluster.propTypes = {
-  developers: PropTypes.array,
+  developers: PropTypes.array, // eslint-disable-line
+};
+
+developerGridCluster.defaultProps = {
+  developers: [],
 };
 
 function gameGridCluster({
   games,
 }) {
-
   return (
     <div style={[InstanceDetailsStyles.gameGridCluster('60%')]}>
       <div style={[InstanceDetailsStyles.gameIndicator]}>
@@ -192,25 +213,33 @@ function gameGridCluster({
 }
 
 gameGridCluster.propTypes = {
-  games: PropTypes.array,
+  games: PropTypes.array, // eslint-disable-line
+};
+
+gameGridCluster.defaultProps = {
+  games: [],
 };
 
 function modelGridClusters({
   developers,
   games,
 }) {
-
   return (
     <div style={[InstanceDetailsStyles.externalGridCluster]}>
-      {developerGridCluster({ developers, })}
-      {gameGridCluster({ games, })}
+      {developerGridCluster({ developers })}
+      {gameGridCluster({ games })}
     </div>
   );
 }
 
 modelGridClusters.propTypes = {
-  developers: PropTypes.array,
-  games: PropTypes.array,
+  developers: PropTypes.array, // eslint-disable-line
+  games: PropTypes.array, // eslint-disable-line
+};
+
+modelGridClusters.defaultProps = {
+  developers: [],
+  games: [],
 };
 
 /**
