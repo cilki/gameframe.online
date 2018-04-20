@@ -106,13 +106,12 @@ function primaryInfoCluster({
   foundation,
   country,
 }) {
-
   let iso = require('iso-3166-1'); //eslint-disable-line
 
   const established = foundation ? dateToString(foundation) : 'Unknown';
   const countryNumber = `${country}`;
-  const _country = iso.whereNumeric(countryNumber);
-  const countryName = _country ? _country.country : 'Unknown';
+  const trueCountry = iso.whereNumeric(countryNumber);
+  const countryName = trueCountry ? trueCountry.country : 'Unknown';
 
   return (
     <div style={[InstanceDetailsStyles.developerPrimaryInfoCluster]}>
@@ -135,6 +134,12 @@ primaryInfoCluster.propTypes = {
   country: PropTypes.string,
 };
 
+primaryInfoCluster.defaultProps = {
+  name: '',
+  foundation: '',
+  country: '',
+};
+
 /**
  * @description - Helper method for generating a component to hold the
  *                description of a developer.
@@ -145,7 +150,6 @@ primaryInfoCluster.propTypes = {
 function descriptionSection({
   description,
 }) {
-
   return (
     <div>
       <hr style={[InstanceDetailsStyles.horizontalRule]} />
@@ -164,6 +168,10 @@ descriptionSection.propTypes = {
   description: PropTypes.string,
 };
 
+descriptionSection.defaultProps = {
+  description: '',
+};
+
 /**
  * @description - Helper method for generating a clickable button linking to a
  *                website belonging to a developer.
@@ -174,7 +182,6 @@ descriptionSection.propTypes = {
 function websiteButton({
   website,
 }) {
-
   if (website) {
     return (
       <a href={website} style={[InstanceDetailsStyles.bigButton]} key="website">
@@ -199,7 +206,6 @@ websiteButton.propTypes = {
 function twitterButton({
   twitter,
 }) {
-
   if (twitter) {
     return (
       <a href={twitter} style={[InstanceDetailsStyles.bigButton]} key="twitter">
@@ -226,7 +232,6 @@ function bigButtonCluster({
   left,
   right,
 }) {
-
   return (
     <div style={[InstanceDetailsStyles.bigButtonCluster]}>
       {websiteButton({ website: left })}
@@ -236,8 +241,13 @@ function bigButtonCluster({
 }
 
 bigButtonCluster.propTypes = {
-  left: PropTypes.object,
-  right: PropTypes.object,
+  left: PropTypes.object, // eslint-disable-line
+  right: PropTypes.object, // eslint-disable-line
+};
+
+bigButtonCluster.defaultProps = {
+  left: '',
+  right: '',
 };
 
 /**
@@ -252,7 +262,6 @@ function developerWidgetGroup({
   twitter,
   name,
 }) {
-
   const twitterHandle = typeof twitter === 'string' ? `${twitter}`.replace('https://twitter.com/', '') : '';
   const twitterDummy = twitterHandle !== '' ? [twitter] : [];
   const trendName = encodeURI(name);
@@ -287,6 +296,11 @@ developerWidgetGroup.propTypes = {
   name: PropTypes.string,
 };
 
+developerWidgetGroup.defaultProps = {
+  twitter: '',
+  name: '',
+};
+
 /**
  * @description - Helper method for generating a component to hold a minigrid
  *                within a portion of the page intended to display games.
@@ -318,7 +332,11 @@ function gameGridCluster({
 }
 
 gameGridCluster.propTypes = {
-  games: PropTypes.array,
+  games: PropTypes.array, // eslint-disable-line
+};
+
+gameGridCluster.defaultProps = {
+  games: [],
 };
 
 /**
@@ -351,7 +369,11 @@ function articleGridCluster({
 }
 
 articleGridCluster.propTypes = {
-  articles: PropTypes.array,
+  articles: PropTypes.array, // eslint-disable-line
+};
+
+articleGridCluster.defaultProps = {
+  articles: [],
 };
 
 /**
@@ -366,18 +388,22 @@ function modelGridClusters({
   games,
   articles,
 }) {
-
   return (
     <div style={[InstanceDetailsStyles.externalGridCluster]}>
-      {gameGridCluster({ games: games, })}
-      {articleGridCluster({ articles: articles })}
+      {gameGridCluster({ games })}
+      {articleGridCluster({ articles })}
     </div>
   );
 }
 
 modelGridClusters.propTypes = {
-  games: PropTypes.array,
-  articles: PropTypes.array,
+  games: PropTypes.array, // eslint-disable-line
+  articles: PropTypes.array, // eslint-disable-line
+};
+
+modelGridClusters.defaultProps = {
+  games: [],
+  articles: [],
 };
 
 /**
@@ -466,7 +492,7 @@ class Developer extends React.Component {
                 name: this.props.name,
                 foundation: this.props.foundation,
                 country: this.props.country,
-              })  
+              })
             }
           </div>
           {
