@@ -289,7 +289,7 @@ def merge_tweets():
         twitter.build_tweet(tweet, tweet_data)
 
         related_game = WS.games.get(tweet_cached.game_id)
-        if related_game is not None:
+        if related_game is not None and len(related_game.tweets) < 75:
             xappend(related_game.tweets, tweet)
 
     unload_registry('Tweet', 'tweet_id')

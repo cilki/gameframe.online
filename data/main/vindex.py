@@ -38,8 +38,8 @@ with game visibility.
 Experimentally chosen weights for each score. They must sum to 1 for the convex
 combination (weighted average) calculation to be correct.
 """
-WEIGHTS = {'esrb': 0.05, 'website': 0.05, 'metacritic': 0.05, 'steam_igdb': 0.05,
-           'players': 0.15, 'articles': 0.25, 'videos': 0.20, 'tweets': 0.20}
+WEIGHTS = {'esrb': 0.05, 'website': 0.10, 'metacritic': 0.05, 'steam_igdb': 0.10,
+           'players': 0.15, 'articles': 0.25, 'videos': 0.20, 'tweets': 0.10}
 assert isclose(sum(WEIGHTS.values()), 1)
 
 """
@@ -84,6 +84,8 @@ def compute(game):
     steam_igdb = 0
     if game.steam_id is not None and game.igdb_id is not None:
         steam_igdb = 100
+    else:
+        steam_igdb = 50
 
     # Metacritic score
     metacritic_score = 0
