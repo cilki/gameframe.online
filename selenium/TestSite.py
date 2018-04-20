@@ -1,14 +1,19 @@
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.by import By
+from selenium.webdriver.support import ui
+from selenium.webdriver.support import expected_conditions as EC
 import unittest, time
 
 class TestPartOfSite(unittest.TestCase):
+    """
+    Structure for every following test
+    """
 
-    #Some tests require extra time for the page to load
-    time_to_sleep = 4
+    # Maximum time to wait on a page or element to be available
+    timeout = 10
 
-    #Which environment to test
+    # Which environment to test
     environment = "http://gameframe.online"
     # environment = "http://localhost"
      
@@ -16,9 +21,9 @@ class TestPartOfSite(unittest.TestCase):
         self.driver = webdriver.Chrome()
         self.do_part()
 
-    # def test_edge(self):
-    #     self.driver = webdriver.Edge()
-    #     self.do_part()
+    def test_edge(self):
+        self.driver = webdriver.Edge()
+        self.do_part()
     
     def test_firefox(self):
         self.driver = webdriver.Firefox()
@@ -28,6 +33,9 @@ class TestPartOfSite(unittest.TestCase):
         pass
 
     def do_part(self):
+        """
+        Wrapper for part function for graceful failures as errors do not close the browser which causes the rest of those tests to fail.
+        """
         try:
             self.part()
         except Exception as e:
@@ -38,6 +46,9 @@ class TestPartOfSite(unittest.TestCase):
 class TestHomepage(TestPartOfSite):
     
     def part(self):
+        """
+        Trivial test to ensure the URL and homepage title are what we expect
+        """
         self.driver.get(self.environment)
         self.assertEqual(self.environment + "/", self.driver.current_url)
         self.assertEqual("GameFrame.online", self.driver.title)
@@ -45,6 +56,9 @@ class TestHomepage(TestPartOfSite):
 class TestNavbar(TestPartOfSite):
 
     def part(self):
+        """
+        Makes sure each link on the Navbar takes the user to the appropriate page
+        """
         driver = self.driver
         environment = self.environment
         driver.get(environment)
@@ -61,30 +75,27 @@ class TestNavbar(TestPartOfSite):
     
 class TestPagination(TestPartOfSite):
 
+    # Name of grid page to test
     grid_name = ""
 
-    def click_page(self, driver, environment, grid_name, index, number):
-        driver.find_element(By.CLASS_NAME, "pagination").find_elements(By.TAG_NAME, "a")[index].click()
-        self.assertEqual(environment + "/" + grid_name + "?page=" + number, driver.current_url)
+    def click_page(self, index, number):
+        """
+        Clicks the pagination button indicated by 'index' and checks that the URL ends in 'number'
+        """
+        self.driver.find_element(By.CLASS_NAME, "pagination").find_elements(By.TAG_NAME, "a")[index].click()
+        self.assertEqual(self.environment + "/" + self.grid_name + "?page=" + number, self.driver.current_url)
 
     def part(self):
-        driver = self.driver
-        environment = self.environment
-        grid_name = self.grid_name
-        time_to_sleep = self.time_to_sleep
-        driver.get(environment + "/" + grid_name + "")
-        time.sleep(time_to_sleep)
-        #Click a page number
-        self.click_page(driver, environment, grid_name, 1, "3")
-        #Click max value
-        driver.find_element(By.CLASS_NAME, "pagination").find_elements(By.TAG_NAME, "a")[-1].click()
-        self.assertNotEqual(environment + "/" + grid_name + "?page=3", driver.current_url)
-        #Click first page
-        self.click_page(driver, environment, grid_name, 0, "1")
-        #Click next page
-        self.click_page(driver, environment, grid_name, -2, "2")
-        #Click previous page
-        self.click_page(driver, environment, grid_name, 1, "1")
+        """
+        Click intermediate, last, first, next, and previous page links
+        """
+        self.driver.get(self.environment + "/" + self.grid_name + "")
+        ui.WebDriverWait(self.driver, self.timeout).until(EC.element_to_be_clickable((By.CLASS_NAME, "pagination")))
+        self.click_page(1, "3") # Click a page number
+        self.click_page(-1, self.driver.find_element(By.CLASS_NAME, "pagination").find_elements(By.TAG_NAME, "a")[-3].text) # Click last page
+        self.click_page(0, "1") # Click first page
+        self.click_page(-2, "2") # Click next page
+        self.click_page(1, "1") # Click previous page
     
 class TestGamesPagination(TestPagination):
 
@@ -100,139 +111,102 @@ class TestArticlesPagination(TestPagination):
 
 class TestSort(TestPartOfSite):
 
+    # Name of grid page to test
     grid_name = ""
 
-    def sort(self, attr, lo_id, hi_id):
-        box = self.driver.find_element(By.TAG_NAME, "input")
-        box.click()
-        box.send_keys(Keys.TAB, Keys.TAB, attr, Keys.ENTER)
-        box.send_keys(Keys.TAB, Keys.TAB, Keys.TAB, "Ascending", Keys.ENTER)
-        time.sleep(self.time_to_sleep)
-        self.assertTrue(self.driver.find_element(By.XPATH, "//a[@href='/" + self.grid_name + "/" + str(lo_id) + "']").is_displayed())
-        box.send_keys(Keys.TAB, Keys.TAB, Keys.TAB, "Descending", Keys.ENTER)
-        time.sleep(self.time_to_sleep)
-        self.assertTrue(self.driver.find_element(By.XPATH, "//a[@href='/" + self.grid_name + "/" + str(hi_id) + "']").is_displayed())
-        self.driver.find_elements(By.CLASS_NAME, "Select-clear")[1].click()
-        self.driver.find_element(By.CLASS_NAME, "Select-clear").click()
+    def part(self):
+        """
+        Sort on every attribute/direction combination
+        """
+        self.driver.get(self.environment + "/" + self.grid_name)
+        ui.WebDriverWait(self.driver, self.timeout).until(EC.element_to_be_clickable((By.CLASS_NAME, "Select"))).click()
+        for i in range(len(self.driver.find_elements(By.CLASS_NAME, "Select-option"))): # sort on attributes
+            self.driver.find_elements(By.CLASS_NAME, "Select-option")[i].click()
+            self.driver.find_elements(By.CLASS_NAME, "Select")[1].click()
+            for j in range(2): # sort by ASC/DESC
+                self.driver.find_elements(By.CLASS_NAME, "Select-option")[j].click()
+                self.driver.find_elements(By.CLASS_NAME, "Select")[1].click()
+            self.driver.find_element(By.CLASS_NAME, "Select").click()
     
 class TestGamesSort(TestSort):
 
     grid_name = "games"
-
-    def part(self):
-        self.driver.get(self.environment + "/games")
-        time.sleep(self.time_to_sleep)
-        self.sort("Name", 1388, 2147)
-        self.sort("Price", 768, 2572)
-        self.sort("Release", 4358, 39)
-        self.sort("Metacritic", 256, 879)
     
 class TestDevelopersSort(TestSort):
 
     grid_name = "developers"
-
-    def part(self):
-        self.driver.get(self.environment + "/developers")
-        time.sleep(self.time_to_sleep)
-        self.sort("Established", 256, 147)
-        self.sort("Games made", 256, 3)
     
 class TestArticlesSort(TestSort):
 
     grid_name = "articles"
 
-    def part(self):
-        self.driver.get(self.environment + "/articles")
-        time.sleep(self.time_to_sleep)
-        self.sort("Developers Referenced", 1536, 32366)
-        self.sort("Games Referenced", 1536, 256)
-        self.sort("Published", 198, 674)
-
 class TestRelations(TestPartOfSite):
-
-    game_id = 12426
-    dev_id = 2982
-    article_id = 19799
-
-    def find_game(self):
-        time.sleep(self.time_to_sleep)
-        self.driver.find_element(By.XPATH, "//a[@href='/games/" + str(self.game_id) + "']").click()
-        self.assertEqual(self.environment + "/games/" + str(self.game_id), self.driver.current_url)
-    
-    def find_developer(self):
-        time.sleep(self.time_to_sleep)
-        self.driver.find_element(By.XPATH, "//a[@href='/developers/" + str(self.dev_id) +"']").click()
-        self.assertEqual(self.environment + "/developers/" + str(self.dev_id), self.driver.current_url)
-    
-    def find_article(self):
-        time.sleep(self.time_to_sleep)
-        self.driver.find_element(By.XPATH, "//a[@href='/articles/" + str(self.article_id) +"']").click()
-        self.assertEqual(self.environment + "/articles/" + str(self.article_id), self.driver.current_url)
+    """
+    Provides functions to test if links exist between instances
+    """
 
     def game_exists(self):
-        self.assertTrue(self.driver.find_element(By.XPATH, "//a[@href='/games/" + str(self.game_id) + "']").is_displayed())
+        self.assertTrue(self.driver.find_element(By.XPATH, "//a[contains(@href, 'games')]").is_displayed())
     
     def developer_exists(self):
-        self.assertTrue(self.driver.find_element(By.XPATH, "//a[@href='/developers/" + str(self.dev_id) + "']").is_displayed())
+        self.assertTrue(self.driver.find_element(By.XPATH, "//a[contains(@href, 'developers')]").is_displayed())
     
     def article_exists(self):
-        self.assertTrue(self.driver.find_element(By.XPATH, "//a[@href='/articles/" + str(self.article_id) + "']").is_displayed())
+        self.assertTrue(self.driver.find_element(By.XPATH, "//a[contains(@href, 'articles')]").is_displayed())
+    
+    def get_first_elem_from_grid(self, grid_name):
+        self.driver.get(self.environment + "/" + grid_name + "/")
+        ui.WebDriverWait(self.driver, self.timeout).until(EC.element_to_be_clickable((By.XPATH, "//a[contains(@href, '" + grid_name + "/')]/div"))).click()
 
 class TestGameRelations(TestRelations):
 
-    time_to_sleep = 8
-
     def part(self):
-        self.driver.get(self.environment + "/games/" + str(self.game_id))
-        self.find_developer()
-        self.driver.back()
-        self.find_article()
+        self.get_first_elem_from_grid("games")
+        self.developer_exists()
+        self.article_exists()
     
 class TestDeveloperRelations(TestRelations):
 
     def part(self):
-        self.driver.get(self.environment + "/developers/" + str(self.dev_id))
-        self.find_game()
-        self.driver.back()
-        time.sleep(3)
-        self.find_article()
+        self.get_first_elem_from_grid("developers")
+        self.game_exists()
+        self.article_exists()
     
 class TestArticleRelations(TestRelations):
 
     def part(self):
-        self.driver.get(self.environment + "/articles/" + str(self.article_id))
-        self.find_game()
-        self.driver.back()
-        self.find_developer()
+        self.get_first_elem_from_grid("articles")
+        self.game_exists()
+        self.developer_exists()
 
 class TestSearch(TestRelations):
 
-    article_id = 19937
-    time_to_sleep = 5
-
     def part(self):
+        """
+        Tests that searching will return instances of all models
+        """
         self.driver.get(self.environment)
         self.driver.find_element(By.TAG_NAME, "input").send_keys("rocket league", Keys.ENTER)
         self.assertEqual(self.environment + "/search?q=rocket%20league", self.driver.current_url)
-        time.sleep(self.time_to_sleep)
+        ui.WebDriverWait(self.driver, self.timeout).until(EC.element_to_be_clickable((By.XPATH, "//a[contains(@href, 'games/')]")))
         self.game_exists()
         self.developer_exists()
         self.article_exists()
 
 if __name__ == '__main__':
-    classes = [\
+    classes = [ \
         TestHomepage, \
         TestNavbar, \
         TestGamesPagination, \
         TestDevelopersPagination, \
         TestArticlesPagination, \
-        # TestGamesSort, \
-        # TestDevelopersSort, \
-        # TestArticlesSort, \
-        # TestGameRelations, \
-        # TestDeveloperRelations, \
-        # TestArticleRelations, \
-        TestSearch\
+        TestGamesSort, \
+        TestDevelopersSort, \
+        TestArticlesSort, \
+        TestGameRelations, \
+        TestDeveloperRelations, \
+        TestArticleRelations, \
+        TestSearch \
     ]
     loader = unittest.TestLoader()
     tests = []

@@ -14,7 +14,7 @@ import thunkMiddleware from 'redux-thunk';
 import { Provider } from 'react-redux';
 
 import Banner from './Banner';
-import Navbar from './Navbar';
+import Navbar, { reducer as NavbarReducer } from './navbar';
 import Splash from './Splash';
 import Footer from './Footer';
 
@@ -31,8 +31,13 @@ import SearchResults from './SearchResults';
 
 import AboutPage, { reducer as AboutReducer } from './about';
 
+import ScrollStart from './ScrollStart';
+
+import { Helmet } from 'react-helmet';
+
 const store = createStore(
   combineReducers({
+    navbar: NavbarReducer,
     about: AboutReducer,
     games: GamesReducer,
     developers: DevelopersReducer,
@@ -55,40 +60,52 @@ function App() {
   return (
     <Provider store={store}>
       <Router>
-        <div style={[
+        <ScrollStart>
+          <div style={[
             { display: 'flex' },
             { minHeight: '100%' },
             { flexDirection: 'column' },
         ]}
-        >
-          <Route path="/" exact component={Banner} />
-          <Route path="/about" exact component={Banner} />
-          <Navbar />
+          >
+            <Helmet>
+              <title>GameFrame.online</title>
+              <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png" />
+              <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png" />
+              <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png" />
+              <link rel="manifest" href="site.webmanifest" />
+              <link rel="mask-icon" href="safari-pinned-tab.svg" color="#0f0f0f" />
+              <meta name="msapplication-TileColor" content="#292929" />
+              <meta name="theme-color" content="#ffffff" />
+            </Helmet>
+            <Route path="/" exact component={Banner} />
+            <Route path="/about" exact component={Banner} />
+            <Navbar />
 
-          <div style={{
+            <div style={{
             flex: '1',
             verticalAlign: 'top',
             minHeight: '100%',
           }}
-          >
-            <Route path="/" exact component={Splash} />
-            <Route path="/about" component={AboutPage} />
+            >
+              <Route path="/" exact component={Splash} />
+              <Route path="/about" component={AboutPage} />
 
-            <Route path="/games/:gameId" component={Game} />
-            <Route path="/games" exact component={Games} />
+              <Route path="/games/:gameId" component={Game} />
+              <Route path="/games" exact component={Games} />
 
-            <Route path="/developers/:developerId" exact component={Developer} />
-            <Route path="/developers" exact component={Developers} />
+              <Route path="/developers/:developerId" exact component={Developer} />
+              <Route path="/developers" exact component={Developers} />
 
-            <Route path="/articles/:articleId" component={Article} />
-            <Route path="/articles" exact component={Articles} />
+              <Route path="/articles/:articleId" component={Article} />
+              <Route path="/articles" exact component={Articles} />
 
-            <Route path="/search" component={SearchResults} />
+              <Route path="/search" component={SearchResults} />
 
+            </div>
+
+            <Footer />
           </div>
-
-          <Footer />
-        </div>
+        </ScrollStart>
       </Router>
     </Provider>
   );

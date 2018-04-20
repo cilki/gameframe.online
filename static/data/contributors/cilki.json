@@ -7,22 +7,22 @@
   "favGames": [
     {
       "name": "PLAYERUNKNOWN'S BATTLEGROUNDS",
-      "id": 2779,
+      "id": 36374,
       "cover": "http://cdn.gameframe.online/cover/steam/578080.png"
     },
     {
-      "name": "DARK SOULS™ III",
-      "id": 6346,
-      "cover": "http://cdn.gameframe.online/cover/steam/374320.png"
+      "name": "DARK SOULS™ II",
+      "id": 38756,
+      "cover": "http://cdn.gameframe.online/cover/steam/236430.png"
     },
     {
       "name": "Supreme Commander: Forged Alliance",
-      "id": 3370,
+      "id": 28615,
       "cover": "http://cdn.gameframe.online/cover/steam/9420.png"
     },
     {
       "name": "SimCity™ 4 Deluxe Edition",
-      "id": 168,
+      "id": 9658,
       "cover": "http://cdn.gameframe.online/cover/steam/24780.png"
     }
   ]

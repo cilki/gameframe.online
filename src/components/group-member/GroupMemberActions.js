@@ -1,6 +1,5 @@
-
 /**
- * Defines the actions for an individual group member
+ * Defines the actions for an individual group member.
  */
 
 import { createAction } from 'redux-actions';
@@ -21,7 +20,7 @@ const fetchStatsResponse = createAction(
 
 /**
  * @description - Predicate to determine if we should fetch the stats
- * for a given contributor
+ * for a given contributor.
  * @param {String} login
  * @param {Object} state
  * @returns {Boolean}
@@ -32,9 +31,9 @@ function shouldFetchStats(login, state) {
 }
 
 /**
- * @description - Fetches a file from the Flask webserver
+ * @description - Fetches a file from the Flask webserver.
  * @param {String} url
- * @param {Function} predicate - used to determine if the fetch is necessary
+ * @param {Function} predicate - Used to determine if the fetch is necessary.
  * @param {Function} requestAction
  * @param {Function} responseAction
  */
@@ -52,7 +51,7 @@ function fetchJSONFile(url, predicate, requestAction, responseAction) {
 }
 
 /**
- * @description - Fetches the stats with the given Github login
+ * @description - Fetches the stats with the given Github login.
  * @param {String} login
  * @returns {Function}
  */

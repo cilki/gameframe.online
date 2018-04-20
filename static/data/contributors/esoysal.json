@@ -1,28 +1,28 @@
 {
-  "bio": "I was born in Ankara, Turkey, on October 19th, 1997. I moved to Houston, Texas in 2013, and graduated from William P. Clements High School in 2015. I enrolled into University of Texas at San Antonio after graduating from high school and transferred into University of Texas at Austin one year later, where I am currently pursuing a Bachelor of Science degree in Computer Science and a Certificate in Applied Statistical Modeling.",
+  "bio": "I am a sophomore majoring in computer science and minoring statistics, and my main interests are data management, data analysis, and machine learning.",
   "name": "Ekin Soysal",
   "responsibilities": "Backend Developer",
   "login": "esoysal",
-  "unitTests": 0,
+  "unitTests": 26,
   "favGames": [
     {
       "name": "APB Reloaded",
-      "id": 14645,
+      "id": 37995,
       "cover": "http://cdn.gameframe.online/cover/steam/113400.png"
     },
     {
       "name": "Grand Theft Auto: San Andreas",
-      "id": 2819,
+      "id": 16662,
       "cover": "http://cdn.gameframe.online/cover/steam/12120.png"
     },
     {
       "name": "The Witcher 3: Wild Hunt",
-      "id": 3689,
-      "cover": "http://cdn.gameframe.online/cover/steam/280.png"
+      "id": 35310,
+      "cover": "http://cdn.gameframe.online/cover/steam/292030.png"
     },
     {
       "name": "Assassin's Creed Revelations",
-      "id": 14033,
+      "id": 49526,
       "cover": "http://cdn.gameframe.online/cover/steam/201870.png"
     }
   ]

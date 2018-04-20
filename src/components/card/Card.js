@@ -5,14 +5,30 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Radium from 'radium';
+import postcssJs from 'postcss-js';
+import autoprefixer from 'autoprefixer';
+import iso from 'iso-3166-1';
 import { Badge, Label } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
-import iso from 'iso-3166-1';
 import CardStyles from './CardStyles';
-import Tooltip from '../tooltips/Tooltip';
 
 /**
- * A single card instance within the InstanceGrid
+ * @description - Obtain the country from an iso-3166-1 standard.
+ * @param {String} country
+ * @return {String}
+ */
+function showCountry(country) {
+  let countryName = null;
+  if (country != null) {
+    const countryNumber = `${country}`;
+    const countryIso = iso.whereNumeric(countryNumber);
+    countryName = countryIso ? countryIso.country : 'Country Unknown';
+  }
+  return countryName;
+}
+
+/**
+ * A single card instance within the Grid.
  */
 class Card extends React.Component {
   static propTypes = {
@@ -20,47 +36,21 @@ class Card extends React.Component {
     url: PropTypes.string.isRequired,
     cover: PropTypes.string,
     developer: PropTypes.string,
-    origin: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+    country: PropTypes.string,
     author: PropTypes.string,
     year: PropTypes.number,
-
-    price: PropTypes.number,
-    genres: PropTypes.arrayOf(PropTypes.shape({
-      genre_id: PropTypes.number,
-      name: PropTypes.string
-    })),
-    platforms: PropTypes.arrayOf(PropTypes.shape({
-      name: PropTypes.string,
-      platform_id: PropTypes.number
-    })),
-
-    articles: PropTypes.number,
-    developers: PropTypes.number,
-    games: PropTypes.number,
-
-    twitter: PropTypes.string,
-    website: PropTypes.string,
-    source: PropTypes.string
+    aspectRatio: PropTypes.number,
+    fields: PropTypes.node,
   };
 
   static defaultProps = {
     cover: '../../static/images/noImage.png',
     developer: null,
-    origin: null,
+    country: null,
     author: null,
     year: new Date().getFullYear(),
-
-    price: -1,
-    genres: [],
-    platforms: [],
-
-    articles: 0,
-    developers: 0,
-    games: 0,
-
-    twitter: null,
-    website: null,
-    source: null
+    aspectRatio: 1.0,
+    fields: null,
   };
 
   /**
@@ -68,30 +58,44 @@ class Card extends React.Component {
    */
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = { hovered: false };
+  }
+
+  hoverHandlerOn() {
+    this.setState({ hovered: false });
+    console.log(this.state.hovered); //eslint-disable-line
+  }
+
+  hoverHandlerOff() {
+    this.setState({ hovered: true });
+    console.log(this.state.hovered); //eslint-disable-line
   }
 
   render() {
     const { title } = this.props;
     const imageCover = this.props.cover !== null && this.props.cover.search('http') < 0 ?
       `https://${this.props.cover}` : this.props.cover;
-    const origin = this.props.origin ? iso.whereNumeric(this.props.origin) : '';
-    const country = origin ? origin.country : null;
+    const trueImageCover = imageCover || '../../static/images/noImage.png';
+    const prefixer = postcssJs.sync([autoprefixer]);
 
     return (
-      <div style={[CardStyles.main]}>
-        <p style={[CardStyles.titleText]}>
+      <div
+        style={[prefixer(CardStyles.main(this.props.aspectRatio))]}
+        key={`${title}-cardMain`}
+      >
+        <p style={[prefixer(CardStyles.titleText)]}>
           {this.props.title}
         </p>
         <Link to={this.props.url} style={{ textDecoration: 'none' }}>
           <div>
             <div style={[CardStyles.card]} key={title}>
-              <div style={[CardStyles.imageContainerContainer]} key={`${title}-container`}>
-                <div style={[CardStyles.imageContainer(imageCover)]} key={`${title}-image-container`}>
-                  <div style={[CardStyles.backgroundImageContainer]}>
+              <div style={[prefixer(CardStyles.imageContainerContainer(this.props.aspectRatio))]} key={`${title}-container`}>
+                <div style={[prefixer(CardStyles.imageContainer(trueImageCover))]} key={`${title}-image-container`}>
+                  <div style={[prefixer(CardStyles.backgroundImageContainer)]}>
                     <img
-                      style={[CardStyles.backgroundImage]}
-                      src={imageCover}
+                      style={[prefixer(CardStyles.backgroundImage)]}
+                      src={trueImageCover}
+                      key={`${title}-backgroundImageReal`}
                       alt=""
                       onError={
                         () => { this.img.src = '../../static/images/noImage.png'; }
@@ -99,9 +103,23 @@ class Card extends React.Component {
                     />
                   </div>
                   <img
-                    style={[CardStyles.image]}
+                    style={[prefixer(CardStyles.image)]}
                     key={`${title}-image`}
-                    src={imageCover}
+                    src={trueImageCover}
+                    alt=""
+                    ref={(img) => { this.img = img; }}
+                    onError={
+                      () => { this.img.src = '../../static/images/noImage.png'; }
+                    }
+                  />
+                </div>
+              </div>
+              <div style={[prefixer(CardStyles.fields)]} key={`${title}-fields`}>
+                {this.props.fields}
+                <div style={{ height: '0' }}>
+                  <img
+                    style={[prefixer(CardStyles.fieldsBackgroundImage)]}
+                    src={trueImageCover}
                     ref={(img) => { this.img = img; }}
                     alt=""
                     onError={
@@ -110,37 +128,10 @@ class Card extends React.Component {
                   />
                 </div>
               </div>
-              <div style={[CardStyles.tooltip]} key={`${title}-tooltip`}>
-                <img
-                  style={[CardStyles.tooltipBackgroundImage]}
-                  src={imageCover}
-                  ref={(img) => { this.img = img; }}
-                  alt=""
-                  onError={
-                    () => { this.img.src = '../../static/images/noImage.png'; }
-                  }
-                />
-
-                <div>
-                  <Tooltip
-                    price={this.props.price}
-                    genres={this.props.genres}
-                    platforms={this.props.platforms}
-
-                    games={this.props.games}
-                    developers={this.props.developers}
-                    articles={this.props.articles}
-
-                    twitter={this.props.twitter}
-                    website={this.props.website}
-                    source={this.props.source}
-                  />
-                </div>
-              </div>
-              <div style={[CardStyles.captionContainer]} key={`${title}-caption`}>
-                <div style={[CardStyles.caption]}>
+              <div style={[prefixer(CardStyles.captionContainer)]} key={`${title}-caption`}>
+                <div style={[prefixer(CardStyles.caption)]}>
                   <Label>
-                    {country}
+                    {showCountry(this.props.country)}
                   </Label>
                   <Label>
                     {this.props.developer}
@@ -149,7 +140,7 @@ class Card extends React.Component {
                     {this.props.author}
                   </Label>
                 </div>
-                <div style={[CardStyles.badgeContainer]}>
+                <div style={[prefixer(CardStyles.badgeContainer)]}>
                   <Badge>
                     {this.props.year}
                   </Badge>

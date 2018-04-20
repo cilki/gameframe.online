@@ -1,6 +1,5 @@
-
 /**
- * Selectors for a single article instance
+ * Selectors for a single article instance.
  */
 
 import { createSelector } from 'reselect';
@@ -13,7 +12,7 @@ import {
 
 /**
  * @description - Input selector for returning a single article
- * given the id prop
+ * given the id prop.
  * @param {Object} state
  * @param {Object} props
  * @param {Number} props.id
@@ -26,7 +25,7 @@ function getArticle(state, { id }) {
 }
 
 /**
- * @description - Memoized selector for a article
+ * @description - Memoized selector for a article.
  * @returns {Function}
  */
 function makeGetArticle() {
@@ -37,7 +36,7 @@ function makeGetArticle() {
 }
 
 /**
- * @description - Memoized selector for returning an article's developers
+ * @description - Memoized selector for returning an article's developers.
  */
 function makeGetArticleDevelopers(_articleSelector = null) {
   const articleSelector = _articleSelector === null ? makeGetArticle() : _articleSelector;
@@ -63,7 +62,7 @@ function makeGetArticleDevelopers(_articleSelector = null) {
 }
 
 /**
- * @description - Memoized selector for returning an article's game
+ * @description - Memoized selector for returning an article's game.
  */
 function makeGetArticleGames(_articleSelector = null) {
   const articleSelector = _articleSelector === null ? makeGetArticle() : _articleSelector;

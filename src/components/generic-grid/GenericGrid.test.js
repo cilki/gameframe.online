@@ -26,7 +26,7 @@ describe('generic-grid', function() {
 
   describe('GenericGridActions.js', function() {
     const getActionsModule = getModule.bind({}, './GenericGridActions.js');
-    describe('shouldModelsUpdate()`', function() {
+    describe('`shouldModelsUpdate()`', function() {
       const functionName = '`shouldModelsUpdate()`';
       const getCreatePredicate = () => getActionsModule().createPredicate;
 
@@ -128,6 +128,7 @@ describe('generic-grid', function() {
         assert.doesNotThrow(fetchFunction(
           undefined,
           undefined,
+          undefined,
           {},
         ).bind({}, sinon.stub(), sinon.stub()), undefined, undefined, '`fetch()` was called');
 
@@ -154,6 +155,7 @@ describe('generic-grid', function() {
         stubFetch(() => Promise.resolve({ json: () => { return {}; } }));
         const thunk = fetchFunction(
           0,
+          undefined,
           undefined,
           {},
         );
@@ -192,6 +194,7 @@ describe('generic-grid', function() {
         stubFetch(() => Promise.resolve({ json: () => {} }));
         const thunk = fetchFunction(
           0,
+          undefined,
           undefined,
           {},
         );
@@ -246,6 +249,7 @@ describe('generic-grid', function() {
         const thunk = fetchFunction(
           0,
           undefined,
+          undefined,
           {},
         );
         thunk(sinon.stub(), sinon.stub())
@@ -297,6 +301,7 @@ describe('generic-grid', function() {
         const thunk = fetchFunction(
           0,
           undefined,
+          undefined,
           {},
         );
         thunk(sinon.stub(), sinon.stub())
@@ -341,6 +346,7 @@ describe('generic-grid', function() {
         stubFetch(() => Promise.resolve({ json: () => {} }));
         const thunk = fetchFunction(
           0,
+          undefined,
           undefined,
           {},
         );

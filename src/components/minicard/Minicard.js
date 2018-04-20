@@ -27,11 +27,13 @@ class Minicard extends React.Component {
   render() {
     const label = this.props.label;
     const url = this.props.url;
-    const cover = this.props.cover;
+    const cover = this.props.cover !== null && this.props.cover.search('http') < 0 ?
+      `https://${this.props.cover}` : this.props.cover;
+    const trueCover = this.props.cover == null ? '../../static/images/noImage.png' : cover;
     const cardKey = this.props.cardKey;
     return (
       <Link key={cardKey} to={url} style={MinicardStyles.link}>
-        <div key={`${cardKey}-minicard`} style={[MinicardStyles.minicard(cover)]}>
+        <div key={`${cardKey}-minicard`} style={[MinicardStyles.minicard(trueCover)]}>
           <div style={[MinicardStyles.textArea]}>
             <p style={[MinicardStyles.paragraph]}>
               {label}

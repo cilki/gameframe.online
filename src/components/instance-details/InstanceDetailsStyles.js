@@ -92,6 +92,7 @@ const InstanceDetails = {
   gameCoverImage: {
     height: 'calc(45.6px + 9.12vw)',
     width: 'auto',
+    flexBasis: '30%',
     borderBottomRightRadius: `${cornerRadius}`,
     borderTopLeftRadius: `${cornerRadius}`,
     '@media screen and (max-width: 668px)': {
@@ -102,7 +103,8 @@ const InstanceDetails = {
   },
 
   gamePrimaryInfoCluster: {
-    flexGrow: '2',
+    flexGrow: '1',
+    flexBasis: '60%',
     display: 'flex',
     flexDirection: 'column',
     flexWrap: 'wrap',
@@ -202,6 +204,8 @@ const InstanceDetails = {
   }),
 
   currentPlayers: {
+    display: 'flex',
+    flexDirection: 'row',
     fontSize: 'calc(14px + 0.5vw)',
   },
 
@@ -211,11 +215,11 @@ const InstanceDetails = {
     width: '100%',
   },
 
-  synoposisIndicator: {
+  synopsisIndicator: {
     fontSize: 'calc(16px + 0.75vw)',
   },
 
-  synoposisHTMLContainer: {
+  synopsisHTMLContainer: {
     overflow: 'hidden',
   },
 
@@ -226,6 +230,7 @@ const InstanceDetails = {
     flexBasis: '50%',
     display: 'flex',
     flexDirection: 'column',
+    justifyContent: 'space-around',
     '@media screen and (max-width: 600px)': {
       minWidth: '100%',
       width: '100%',
@@ -262,12 +267,11 @@ const InstanceDetails = {
   },
 
   esrbRatingContainer: {
-    display: 'flex',
-    justifyContent: 'space-around',
     paddingTop: '4%',
+    flexBasis: '10%',
     boxSizing: 'border-box',
-    textAlign: 'center',
-    marginLeft: '-2%',
+    marginRight: '-2%',
+    height: 'calc(45.6px + 9.12vw)',
     '@media screen and (max-width: 600px)': {
       margin: 'auto',
     },
@@ -275,7 +279,7 @@ const InstanceDetails = {
 
   esrbRatingImage: {
     borderRadius: `${cornerRadius}`,
-    maxHeight: '60%',
+    height: 'calc(45.6px + 9.12vw)',
     margin: 'auto',
   },
 
@@ -441,6 +445,7 @@ const InstanceDetails = {
     flexDirection: 'row',
     flexWrap: 'wrap',
     justifyContent: 'space-around',
+    maxWidth: '100%',
   },
 
   developerLogo: {
@@ -463,6 +468,7 @@ const InstanceDetails = {
   developerLogoImage: {
     height: 'calc(45.6px + 9.12vw)',
     width: 'auto',
+    maxWidth: '90%',
     borderBottomRightRadius: `${cornerRadius}`,
     borderTopLeftRadius: `${cornerRadius}`,
   },

@@ -43,6 +43,7 @@ const fetchArticlesResponse = createAction('FETCH_ARTICLES_RESPONSE');
 const fetchArticleRequest = createAction('FETCH_ARTICLE_REQUEST');
 const fetchArticleResponse = createAction('FETCH_ARTICLE_RESPONSE', payloadCreator);
 
+const setToggleState = createAction('SET_TOGGLE_STATE', (model, value) => { return { model, value }; });
 
 export {
   fetchDevelopersRequest,
@@ -62,4 +63,6 @@ export {
 
   fetchArticleRequest,
   fetchArticleResponse,
+
+  setToggleState,
 };

@@ -8,6 +8,7 @@ import { connect } from 'react-redux';
 
 import { createFetchModels, createPredicate, resetPage } from './GenericGridActions';
 import createSelectors from './GenericGridSelectors';
+import { setToggleState } from '../Actions';
 
 /**
  * @description - Returns a connected component of a generic grid
@@ -34,6 +35,7 @@ function createContainer(
     getFilters,
     getSortType,
     getSortAttribute,
+    getToggleState,
   } = createSelectors(modelName);
 
   function mapStateToProps(state, props) {
@@ -46,6 +48,7 @@ function createContainer(
       filters: getFilters(state),
       sortType: getSortType(state),
       sortAttribute: getSortAttribute(state),
+      toggleState: getToggleState(state),
     };
   }
 
@@ -65,11 +68,12 @@ function createContainer(
   );
   function mapDispatchToProps(dispatch, props) {
     return {
-      fetchModels: (page, filters, sort, override) => dispatch(fetchFunction(page, filters, sort, override)),
+      fetchModels: (page, filters, toggleState, sort, override) => dispatch(fetchFunction(page, filters, toggleState, sort, override)),
       resetPage: (totalPages, push, filters, sort) => {
         const page = resetPage(window.location ? window.location.search : null, totalPages, push);
         if (page) dispatch(fetchFunction(page, filters, sort, true));
       },
+      onToggle: currentState => dispatch(setToggleState(modelName, !currentState)),
     };
   }
 

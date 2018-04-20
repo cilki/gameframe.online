@@ -17,8 +17,9 @@ const Minicard = {
     borderRadius: `${cornerRadius}`,
     backgroundImage: `url(${cover})`,
     backgroundColor: 'rgba(0, 0, 0, 0.7)',
-    backgroundSize: 'cover',
+    backgroundSize: 'auto 100%',
     backgroundPosition: 'center',
+    backgroundRepeat: 'no-repeat',
     transition: 'all 0.2s',
     ':hover': {
       filter: 'brightness(150%)',
@@ -49,7 +50,10 @@ const Minicard = {
       whiteSpace: 'initial',
       height: 'initial',
       textOverflow: 'initial',
-      overflow: 'scroll',
+      paddingRight: '17px',
+      paddingBottom: '17px',
+      boxSizing: 'content-box',
+      overflow: 'auto',
     },
   },
 

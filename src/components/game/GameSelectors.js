@@ -66,7 +66,7 @@ function makeGetGameDevelopers(_gameSelector = null) {
             gameDevelopers.push({
               id: developerId,
               name: developers[developerId] ? developers[developerId].name : null,
-              logo: developers[developerId] ? developers[developerId].logo : null
+              logo: developers[developerId] ? developers[developerId].logo : null,
             });
           }
         });
@@ -91,12 +91,29 @@ function makeGetGameArticles(_gameSelector = null) {
             gameArticles.push({
               id: articleId,
               title: articles[articleId] ? articles[articleId].title : null,
-              cover: articles[articleId] ? articles[articleId].cover : null
+              cover: articles[articleId] ? articles[articleId].cover : null,
+              timestamp: articles[articleId] ? articles[articleId].timestamp : null,
             });
           }
         });
       }
       return gameArticles;
+    },
+  );
+}
+
+/**
+ * @description - Memoized selector for a game's videos. Introduced for an extra
+ * layer of memoization and perhaps less renderings
+ * @param {Function=} [null] _gameSelector
+ * @returns {Function=}
+ */
+function makeGetVideos(_gameSelector = null) {
+  const gameSelector = _gameSelector === null ? makeGetGame() : _gameSelector;
+  return createSelector(
+    [gameSelector],
+    (game) => {
+      return game.videos;
     },
   );
 }

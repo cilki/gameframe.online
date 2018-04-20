@@ -12,7 +12,7 @@ import QueryString from 'query-string';
 import { PAGE_SIZE } from '../Constants';
 import { setGridFilterAction, setGridFilterOptions } from '../grid-select';
 import { setGridSortCurrentAttribute, setGridSortType } from '../grid-sort';
-
+import { setToggleState } from '../Actions';
 
 /**
  * @description - Creates the predicate function to use
@@ -28,42 +28,28 @@ function createPredicate(selector) {
 }
 
 /**
- * @description - Collects the filters within a format that's more useful
- * for passing them to Flask Restless
- * @param {Array} filters
- * @returns {Object}
- */
-// function collectFilters(filters) {
-//   const filterObject = {};
-//   filters.forEach((filter) => {
-//     const subfilterList = filterObject[filter.value]
-//   });
-//   return 
-// }
-
-/**
  * @description - Formats the filters into a string for Flask Restless
  * @param {Array} filters
+ * @param {Boolean} toggleState
  * @returns {Object}
  */
-function formatFilters(filters) {
+function formatFilters(filters, toggleState) {
+  const concatenation = toggleState ? 'and' : 'or';
   return [{
-    and: filters.map((filter) => {
+    [concatenation]: filters.map((filter) => {
       if (filter.type === 'array') {
         return {
           name: `${filter.value}__${filter.subfilterId}`,
           op: 'any',
           val: filter.subfilter,
         };
-      }
-      else if (filter.type === 'number') {
+      } else if (filter.type === 'number') {
         return {
           name: filter.value,
           op: filter.op,
           val: filter.subfilter,
-        }
-      }
-      else if (filter.type === 'date') {
+        };
+      } else if (filter.type === 'date') {
         const date = new Date();
         date.setFullYear(date.getFullYear() - filter.subfilter);
         return {
@@ -111,10 +97,10 @@ function createFetchModels(
    * @param {Boolean} override
    * @returns {Function}
    */
-  return (pageNumber = 1, filters = [], { sortType, sortAttribute, }, override = false) => {
+  return (pageNumber = 1, filters = [], toggleState = true, { sortType, sortAttribute }, override = false) => {
     const queryObject = {};
     if (filters.length > 0) {
-      queryObject.filters = formatFilters(filters);
+      queryObject.filters = formatFilters(filters, toggleState);
     }
     if (sortAttribute !== null && sortAttribute !== undefined && sortType !== null && sortAttribute !== undefined) {
       queryObject.order_by = [{
@@ -128,8 +114,7 @@ function createFetchModels(
     let uri;
     if (Object.keys(queryObject) > 0) {
       uri = `${process.env.API_HOST}/v1/grid/${pathname}?page=${pageNumber}&results_per_page=${PAGE_SIZE}`;
-    }
-    else {
+    } else {
       uri = `${process.env.API_HOST}/v1/grid/${pathname}?q=${JSON.stringify(queryObject)}&page=${pageNumber}&results_per_page=${PAGE_SIZE}`;
     }
     /**
@@ -148,12 +133,11 @@ function createFetchModels(
             return fetch( //eslint-disable-line
               encodeURI(uri),
               { method: 'GET' },
-            )
+            );
           })
           .then(response => response.json())
           .then(json => normalize(json, schema))
           .then((data) => {
-            console.log('data', data);
             if (data.result && data.result.total_pages !== undefined) {
               dispatch(setTotalPageAction(data.result.total_pages));
             }
@@ -182,8 +166,7 @@ function createFetchModels(
                 pageNumber: page,
                 indices: Object.values(data.result.objects),
               }));
-            }
-            else {
+            } else {
               dispatch(setPageAction({
                 pageNumber: page,
                 indices: [],
@@ -332,28 +315,28 @@ function createReducer(
   const filters = handleActions({
     [setGridFilterAction](state, { payload }) {
       const { model, value } = payload;
-      
+
       // ignore it if it wasn't meant for this model
       if (model !== modelNamePlural) {
         return state;
       }
       return value;
-    }
+    },
   }, []);
 
   const filterOptions = handleActions({
     [setGridFilterOptions](state, { payload }) {
       const { model, value } = payload;
 
-      //ignore it if it wasn't meant for this model
+      // ignore it if it wasn't meant for this model
       if (model !== modelNamePlural) {
         return state;
       }
       return value;
-    }
+    },
   }, defaultFilterOptions);
 
-  
+
   const currentSortAttribute = handleActions({
     [setGridSortCurrentAttribute](state, { payload }) {
       const { model, value } = payload;
@@ -363,7 +346,7 @@ function createReducer(
       }
 
       return value;
-    }
+    },
   }, defaultSortAttribute);
 
   const sortType = handleActions({
@@ -375,8 +358,20 @@ function createReducer(
       }
 
       return value;
-    }
-  }, { label: 'Descending', value: 'desc', });
+    },
+  }, { label: 'Descending', value: 'desc' });
+
+  const toggleState = handleActions({
+    [setToggleState](state, { payload }) {
+      const { model, value } = payload;
+
+      if (model !== modelNamePlural) {
+        return state;
+      }
+
+      return value;
+    },
+  }, true);
 
   return combineReducers({
     models,
@@ -388,12 +383,13 @@ function createReducer(
     filterOptions,
     currentSortAttribute,
     sortType,
+    toggleState,
   });
 }
 
 /**
  * @description - Used to reset the page whenever the user
- * is currently on a page that doesn't exist in the current filter's 
+ * is currently on a page that doesn't exist in the current filter's
  * he/she's applied
  * @param {String} search - search string, retrieved from window.location.search
  * @param {Number} totalPages - the total pages that the latest request retrieved
@@ -408,7 +404,7 @@ function resetPage(search, totalPages, push) {
   const parsed = QueryString.parse(search);
   if (parsed.page > totalPages) {
     // minimum is 1
-    parsed.page = totalPages ? totalPages : 1;
+    parsed.page = totalPages || 1;
     push(`${window.location.pathname}?${QueryString.stringify(parsed)}`);
     return isNaN(Number(parsed.page)) ? null : Number(parsed.page);
   }

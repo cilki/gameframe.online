@@ -1,6 +1,5 @@
-
 /**
- * Testing script for the About component and subcomponents
+ * Testing script for the About component and subcomponents.
  */
 
 const proxyquire = require('proxyquire').noPreserveCache().noCallThru();
@@ -8,15 +7,13 @@ const sinon = require('sinon');
 const { assert } = require('chai');
 const { shallow } = require('enzyme');
 const React = require('react');
-
 const { Map, List } = require('immutable');
 
 describe('group-member', function() {
-
   describe('<GroupMember />', function() {
     /**
      * @description - Uses proxyquire to retrieve the React component
-     * while mocking relevant dependencies
+     * while mocking relevant dependencies.
      * @returns {Component}
      */
     function getGroupMemberComponent() {
@@ -38,7 +35,7 @@ describe('group-member', function() {
   describe('GroupMemberContainer.js', function() {
     /**
      * @description - Convenience function that uses proxyquire to retrieve
-     * the GroupMemberContainer module
+     * the GroupMemberContainer module.
      * @param {Function=} [() => {}] makeGetContributorStub
      * @param {Function=} [() => {}] fetchGroupMemberStatsStub
      * @returns {Object}
@@ -101,7 +98,7 @@ describe('group-member', function() {
 
     /**
      * @description - Uses proxyquire to retrieve the actions
-     * file while mocking relevant dependencies
+     * file while mocking relevant dependencies.
      * @param {Function=} [() => {}] getContributorStub
      * @returns {Object}
      */
@@ -117,7 +114,7 @@ describe('group-member', function() {
      * @description - Mocks the `fetch()` function. This
      * has to be done in a semi-hacky fashion as the fetch
      * function isn't defined in a NodeJS environment, but
-     * should succeed if it's being run in a browser environment
+     * should succeed if it's being run in a browser environment.
      */
     function stubFetch() {
       try {
@@ -132,7 +129,7 @@ describe('group-member', function() {
     /**
      * @description - Restores the `fetch()` function to its
      * original state. This is necessary so that we get a "clean slate"
-     * after each test as well as if any other tests want to mock fetch
+     * after each test as well as if any other tests want to mock fetch.
      */
     function restoreFetch() {
       try {
@@ -209,7 +206,7 @@ describe('group-member', function() {
         const predicateStub = sinon.stub().returns(true);
         const responseActionStub = sinon.stub();
         
-        // have to create the variable because we need to reference it later
+        // Have to create the variable because we need to reference it later.
         const data = {};
         fetchStub = fetchStub.returns(Promise.resolve({
           json: () => data
@@ -230,7 +227,7 @@ describe('group-member', function() {
         const predicateStub = sinon.stub().returns(true);
         const responseActionStub = sinon.stub();
         
-        // have to create the variable because we need to reference it later
+        // Have to create the variable because we need to reference it later.
         const error = new Error();
         fetchStub = fetchStub.returns(Promise.resolve({
           json: () => {
@@ -254,9 +251,11 @@ describe('group-member', function() {
         const state = {};
         const { fetchGroupMemberStats } = getGroupMemberActions(getContributorStub);
 
-        /* since we're just testing the binding, we WANT the predicate (`shouldFetchStats()`) to 
+        /**
+         * Since we're just testing the binding, we WANT the predicate (`shouldFetchStats()`) to 
          * return FALSE. Otherwise we'd have to mock up `fetch()` no more for something not
-         * relevant to this test */
+         * relevant to this test.
+         */
         const fun = fetchGroupMemberStats('GithubLogin');
         fun(() => {}, () => state);
 
@@ -305,7 +304,7 @@ describe('group-member', function() {
         const fun = fetchGroupMemberStats('GithubLogin');
         fun(dispatchStub, () => {})
           .then(() => {
-            // sanity checks
+            // Sanity checks.
             assert(fetchStub.called, '`fetch()` was never called');
             assert(dispatchStub.called, '`dispatch()` was never called');
 
@@ -335,7 +334,7 @@ describe('group-member', function() {
         const fun = fetchGroupMemberStats('GithubLogin');
         fun(dispatchStub, () => {})
           .then(() => {
-            // sanity checks
+            // Sanity checks.
             assert(fetchStub.called, '`fetch()` was never called');
             assert(dispatchStub.calledTwice, '`dispatch()` wasn\'t enough times');
 
@@ -373,7 +372,7 @@ describe('group-member', function() {
         const fun = fetchGroupMemberStats('GithubLogin');
         fun(dispatchStub, () => {})
           .then(() => {
-            // sanity checks
+            // Sanity checks.
             assert(fetchStub.called, '`fetch()` was never called');
             assert(dispatchStub.calledTwice, '`dispatch()` wasn\'t enough times');
 
@@ -400,7 +399,7 @@ describe('group-member', function() {
   describe('GroupMemberSelectors.js', function() {
     /**
      * @description - Uses proxyquire to mock dependencies and
-     * retrieve the module
+     * retrieve the module.
      * @param {Function=} [() => {}] getAllContributorsStub
      * @param {Function=} [() => {}] getIssuesStub
      */
@@ -418,7 +417,7 @@ describe('group-member', function() {
 
     /**
      * @description - Convencience function for retrieving the module
-     * for testing the `getContributor()` function
+     * for testing the `getContributor()` function.
      * @param {Map} state
      */
     function getGroupMemberSelectorsWithState(state) {
@@ -507,11 +506,11 @@ describe('group-member', function() {
 
         let getContributorSelector = makeGetContributor(),
           contributor = getContributorSelector(state, { login: 'GithubLogin' });
-        // don't need `get('issues')` here, as this returns a plain JS object
+        // Don't need `get('issues')` here, as this returns a plain JS object.
         assert.equal(contributor.issues, 2, '\'issues\' isn\'t equal to 2');
         assert.equal(contributor.login, 'GithubLogin', '\'login\' was lost from the selector');
 
-        // in order to correctly memoize, we need to create another selector
+        // In order to correctly memoize, we need to create another selector.
         getContributorSelector = makeGetContributor();
         contributor = getContributorSelector(state, { login: 'AnotherGithubLogin' });
         assert.equal(contributor.issues, 1, '\'issues\' isn\'t equal to 1');
@@ -523,8 +522,9 @@ describe('group-member', function() {
           login: 'GithubLogin'
         });
 
-        /* The way to tell if the selector's function was ran again
-         * is to spy and see if our user's `set()` function was used
+        /**
+         * The way to tell if the selector's function was ran again
+         * is to spy and see if our user's `set()` function was used.
          */
         sinon.spy(user, 'set');
 
@@ -540,12 +540,12 @@ describe('group-member', function() {
         const getContributorSelector = makeGetContributor();
         getContributorSelector(state, { login: 'GithubLogin' });
 
-        // sanity-check
+        // Sanity-check.
         assert(user.set.called, '`user.set()` was never called');
 
         for (let i = 0; i < 3; ++i) {
           getContributorSelector(state, { login: 'GithubLogin' });
-          // despite repeated attempts at the selector, we aren't running the computing function
+          // Despite repeated attempts at the selector, we aren't running the computing function.
           assert(user.set.calledOnce, '`user.set()` was called more than once');
         }
       });

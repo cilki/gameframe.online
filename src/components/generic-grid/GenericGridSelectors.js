@@ -14,6 +14,15 @@ import { createSelector } from 'reselect';
  */
 function createSelectors(modelName) {
   /**
+   * @description - Input selector for the state of the toggle
+   * @param {Object} state
+   * @returns {Boolean}
+   */
+  const getToggleState = (state) => {
+    return state[modelName].toggleState;
+  };
+
+  /**
    * @description - Input selector for the state
    * of the request of the models
    * @param {Object} state
@@ -152,6 +161,7 @@ function createSelectors(modelName) {
     getFilters,
     getSortType,
     getSortAttribute,
+    getToggleState,
   };
 }
 

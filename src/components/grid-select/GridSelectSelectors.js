@@ -4,7 +4,7 @@
  */
 
 /**
- * @description - input selector for retrieving the value of 
+ * @description - input selector for retrieving the value of
   * the filter for the given Grid
  * @param {Object} state
  * @param {Object} props

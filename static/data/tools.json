@@ -1,212 +1,230 @@
 [
   {
+    "cover": "https://camo.githubusercontent.com/f265315f74ed08b94e473cd7f6f04c291e59a8e2/687474703a2f2f706f73746373732e6769746875622e696f2f6175746f70726566697865722f6c6f676f2e737667",
+    "name": "Autoprefixer",
+    "url": "https://github.com/postcss/autoprefixer",
+    "usage": "Autoprefixer helps add vendor-specific prefixes for CSS."
+  },
+  {
     "cover": "https://a0.awsstatic.com/main/images/logos/aws_logo_smile_1200x630.png",
     "name": "AWS",
-    "phase": 1,
-    "usage": "Amazon Web Services (AWS) hosts our website.",
-    "tool_id": 1
+    "url": "https://aws.amazon.com/",
+    "usage": "Amazon Web Services (AWS) hosts this website on two EC2 micro compute instances; one RDS micro database instance and one CloudFront CDN."
   },
   {
     "cover": "https://d33wubrfki0l68.cloudfront.net/f35d49d959deb5bfd7deb80c2668128367e2917c/eb35e/images/logo.svg",
     "name": "Babel",
-    "phase": 1,
-    "usage": "Babel converts our JSX into browser compatible JS.",
-    "tool_id": 2    
+    "url": "https://babeljs.io/",
+    "usage": "Babel converts JSX into browser compatible JS."
   },
   {
-    "cover": "https://i1.wp.com/blog.docker.com/wp-content/uploads/2013/06/Docker-logo-011.png?ssl=1",
-    "name": "Docker",
-    "phase": 1,
-    "usage": "Docker runs the development and production HTTP servers.",
-    "tool_id": 3    
+    "cover": "../../../../static/images/tools/aws_s3.svg",
+    "name": "Boto3",
+    "url": "https://boto3.readthedocs.io/en/latest/",
+    "usage": "Boto3 is a Python AWS S3 client which was used to upload game covers to the GameFrame CDN."
   },
   {
-    "cover": "https://i.lensdump.com/i/TDYNA.png",
-    "name": "Flask",
-    "phase": 1,
-    "usage": "Flask supports our backend web framework, which is written in Python.",
-    "tool_id": 4    
-  },
-  {
-    "cover": "http://cdn.gbraad.nl/images/portfolio/gitbook-logo.png",
-    "name": "GitBook",
-    "phase": 1,
-    "usage": "All material regarding the development of our website is extensively documented with GitBook.",
-    "tool_id": 5   
-  },
-  {
-    "cover": "https://i.lensdump.com/i/TD3gC.md.png",
-    "name": "GitHub",
-    "phase": 1,
-    "usage": "GitHub hosts the GameFrame source repository.",
-    "tool_id": 6   
-  },
-  {
-    "cover": "https://upload.wikimedia.org/wikipedia/commons/9/99/Unofficial_JavaScript_logo_2.svg",
-    "name": "JavaScript",
-    "phase": 1,
-    "usage": "Most of the front-end is written in JavaScript.",
-    "tool_id": 7 
-  },
-  {
-    "cover": "https://i.lensdump.com/i/TD7WT.md.png",
-    "name": "NameCheap",
-    "phase": 1,
-    "usage": "Namecheap allowed us this cool domain name, gameframe.online.",
-    "tool_id": 8   
-  },
-  {
-    "cover": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/db/Npm-logo.svg/640px-Npm-logo.svg.png",
-    "name": "npm",
-    "phase": 1,
-    "usage": "npm is our JS node package manager.",
-    "tool_id": 9  
-  },
-  {
-    "cover": "https://www.getpostman.com/img/v2/homepage/logo-ring.svg",
-    "name": "Postman",
-    "phase": 1,
-    "usage": "We use Postman to document, develop, and test our API.",
-    "tool_id": 10
-  },
-  {
-    "cover": "https://www.python.org/static/community_logos/python-logo-inkscape.svg",
-    "name": "Python",
-    "phase": 1,
-    "usage": "Most of the backend is written in Python.",
-    "tool_id": 11 
-  },
-  {
-    "cover": "https://tse1.mm.bing.net/th?id=OIP.PhCTTNKigiR-TKmKdXCSUAHaHB&w=136&h=129&c=7&o=5&dpr=1.1&pid=1.7",
-    "name": "React-Bootstrap",
-    "phase": 1,
-    "usage": "React-Bootstrap is a resource library for ReactJS that allowed us to mock up this website with features like the carousel and navbar.",
-    "tool_id": 12  
-  },
-  {
-    "cover": "https://i.lensdump.com/i/TDeH3.md.png",
-    "name": "ReactJS",
-    "phase": 1,
-    "usage": "ReactJS supports our front-end web-framework, which is written in JavaScript.",
-    "tool_id": 13
-  },
-  {
-    "cover": "https://camo.githubusercontent.com/f63754b8412368e820601967af6dea84312b925b/68747470733a2f2f7265616374747261696e696e672e636f6d2f72656163742d726f757465722f616e64726f69642d6368726f6d652d313434783134342e706e67",
-    "name": "React Router",
-    "phase": 1,
-    "usage": "React Router is a resource library for ReactJS that allowed us to seamlessly load pages within our website.",
-    "tool_id": 14 
-  },
-  {
-    "cover": "",
-    "name": "React-Twitter-Embed",
-    "phase": 1,
-    "usage": "React-Twitter-Embed is a resource library for Twitter plug-ins.",
-    "tool_id": 15
-  },
-  {
-    "cover": "https://i.lensdump.com/i/TDLgD.md.png",
-    "name": "Slack",
-    "phase": 1,
-    "usage": "Slack is where we communicate with each other.",
-    "tool_id": 16 
-  },
-  {
-    "cover": "https://wcs.smartdraw.com/common/img/smardraw-logo.png?bn=1510011106",
-    "name": "SmartDraw",
-    "phase": 1,
-    "usage": "SmartDraw is a tool we used to create a UML diagram.",
-    "tool_id": 17
-  },
-  {
-    "cover": "https://tse4.mm.bing.net/th?id=OIP.gFZhldMJQCiCQylrx6oU2AHaFG&w=222&h=160&c=7&o=5&dpr=1.1&pid=1.7",
-    "name": "Webpack",
-    "phase": 1,
-    "usage": "Webpack manages our JS files into one package.",
-    "tool_id": 18 
+    "cover": "https://raw.githubusercontent.com/browserify/browserify/HEAD/assets/logo.png",
+    "name": "Browserify",
+    "url": "http://browserify.org/",
+    "usage": "Browserify allows dependency requirements for browsers."
   },
   {
     "cover": "https://camo.githubusercontent.com/431283cc1643d02167aac31067137897507c60fc/687474703a2f2f636861696a732e636f6d2f696d672f636861692d6c6f676f2e706e67",
     "name": "Chai",
-    "phase": 2,
-    "usage": "Chai makes assertions easier when testing our JavaScript code with Mocha.",
-    "tool_id": 19
+    "url": "http://www.chaijs.com/",
+    "usage": "Chai makes assertions easier when testing JavaScript code with Mocha."
+  },
+  {
+    "cover": "../../../../static/images/tools/docker_vertical.svg",
+    "name": "Docker",
+    "url": "https://www.docker.com/",
+    "usage": "The frontend and backend HTTP servers are running in Dockerized containers which allows them to be deployed to any machine for easy testing."
+  },
+  {
+    "cover": "https://raw.githubusercontent.com/d3/d3-logo/master/d3.png",
+    "name": "D3",
+    "url": "https://d3js.org/",
+    "usage": "Data-Driven Documents (D3) is a resource library for creating graphs or visualizing web databases."
   },
   {
     "cover": "http://airbnb.io/img/projects/enzyme.png",
     "name": "Enzyme",
-    "phase": 2,
-    "usage": "Enzyme makes testing our JavaScript code with Mocha easier.",
-    "tool_id": 20
+    "url": "https://github.com/airbnb/enzyme",
+    "usage": "Enzyme makes testing JavaScript code with Mocha easier."
   },
   {
     "cover": "https://camo.githubusercontent.com/e69fbfc8dc529fda880b1890f43fa0aec6ab5cb6/687474703a2f2f65736c696e742e6f72672f696d672f6c6f676f2e737667",
     "name": "Eslint",
-    "phase": 2,
-    "usage": "Eslint helps maintain our JavaScript code in a specific error-free format.",
-    "tool_id": 21
+    "url": "https://eslint.org/",
+    "usage": "Eslint helps maintain JavaScript code in a specific error-free format."
   },
   {
-    "cover": "",
-    "name": "iso-3166-1",
-    "phase": 2,
-    "usage": "Country codes within website are parsed by iso-3166-1.",
-    "tool_id": 22
+    "cover": "https://i.lensdump.com/i/TDYNA.png",
+    "name": "Flask",
+    "url": "http://flask.pocoo.org/",
+    "usage": "Flask supports the backend web framework, which is written in Python."
+  },
+  {
+    "cover": "http://cdn.gbraad.nl/images/portfolio/gitbook-logo.png",
+    "name": "GitBook",
+    "url": "https://www.gitbook.com/",
+    "usage": "All material regarding the development of this website is extensively documented with GitBook."
+  },
+  {
+    "cover": "https://i.lensdump.com/i/TD3gC.md.png",
+    "name": "GitHub",
+    "url": "https://github.com/",
+    "usage": "GitHub hosts the GameFrame source repository."
+  },
+  {
+    "cover": "https://upload.wikimedia.org/wikipedia/commons/9/99/Unofficial_JavaScript_logo_2.svg",
+    "name": "JavaScript",
+    "url": "https://www.javascript.com/",
+    "usage": "Most of the frontend is written in JavaScript."
   },
   {
     "cover": "https://camo.githubusercontent.com/af4bf83ab2ca125346740f9961345a24ec43b3a9/68747470733a2f2f636c6475702e636f6d2f78465646784f696f41552e737667",
     "name": "Mocha",
-    "phase": 2,
-    "usage": "Mocha tests our JavaScript code.",
-    "tool_id": 23
+    "url": "https://mochajs.org/",
+    "usage": "Mocha tests JavaScript code."
   },
   {
     "cover": "https://upload.wikimedia.org/wikipedia/en/6/62/MySQL.svg",
     "name": "MySQL",
-    "phase": 2,
-    "usage": "MySQL manages our database.",
-    "tool_id": 24
+    "url": "https://www.mysql.com/",
+    "usage": "MySQL manages the GameFrame database."
   },
   {
-    "cover": "/static/images/tools/radium_logo.svg",
+    "cover": "https://i.lensdump.com/i/TD7WT.md.png",
+    "name": "NameCheap",
+    "url": "https://www.namecheap.com/",
+    "usage": "Namecheap hosts the DNS server for GameFrame."
+  },
+  {
+    "cover": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/db/Npm-logo.svg/640px-Npm-logo.svg.png",
+    "name": "npm",
+    "url": "https://www.npmjs.com/",
+    "usage": "npm is a JS node package manager."
+  },
+  {
+    "cover": "https://www.getpostman.com/img/v2/homepage/logo-ring.svg",
+    "name": "Postman",
+    "url": "https://www.getpostman.com/",
+    "usage": "Postman is used to document, develop, and test the RESTful API."
+  },
+  {
+    "cover": "https://www.python.org/static/community_logos/python-logo-inkscape.svg",
+    "name": "Python",
+    "url": "https://www.python.org/",
+    "usage": "The website backend and data scraper were both written in Python."
+  },
+  {
+    "cover": "../../../../static/images/tools/radium_logo.svg",
     "name": "Radium",
-    "phase": 2,
-    "usage": "Radium manages our inline styles and states on React elements.",
-    "tool_id": 25 
+    "url": "https://formidable.com/open-source/radium/",
+    "usage": "Radium manages inline styles and states on React elements."
+  },
+  {
+    "cover": "https://tse1.mm.bing.net/th?id=OIP.PhCTTNKigiR-TKmKdXCSUAHaHB&w=136&h=129&c=7&o=5&dpr=1.1&pid=1.7",
+    "name": "React-Bootstrap",
+    "url": "https://react-bootstrap.github.io/",
+    "usage": "React-Bootstrap is a resource library for ReactJS that allowed us to mock up this website with features like the carousel and navbar."
+  },
+  {
+    "cover": "https://camo.githubusercontent.com/42fa4f7d967f1693a28c3b15db6bdfeeab7509eb/687474703a2f2f7374617469632e6e666c2e636f6d2f7374617469632f636f6e74656e742f7075626c69632f7374617469632f696d672f6c6f676f732f72656163742d68656c6d65742e6a7067",
+    "name": "React-Helmet",
+    "url": "https://github.com/nfl/react-helmet",
+    "usage": "React-Helmet manages document headers."
+  },
+  {
+    "cover": "https://cloud.githubusercontent.com/assets/29597/11913937/0d2dcd78-a629-11e5-83e7-6a17b6d765a5.png",
+    "name": "React-Highlight-Words",
+    "url": "https://bvaughn.github.io/react-highlight-words/",
+    "usage": "React-Highlight-Words allows us to highlight the searched terms in the results of the search page."
+  },
+  {
+    "cover": "https://i.lensdump.com/i/TDeH3.md.png",
+    "name": "ReactJS",
+    "url": "https://reactjs.org/",
+    "usage": "ReactJS supports the front-end web-framework, which is written in JavaScript."
   },
   {
     "cover": "https://raw.githubusercontent.com/reactjs/redux/master/logo/logo.png",
     "name": "React-Redux",
-    "phase": 2,
-    "usage": "React-Redux manages our state of data throughout the website.",
-    "tool_id": 26
+    "url": "https://redux.js.org/",
+    "usage": "React-Redux manages the state of data throughout the website."
+  },
+  {
+    "cover": "https://camo.githubusercontent.com/f63754b8412368e820601967af6dea84312b925b/68747470733a2f2f7265616374747261696e696e672e636f6d2f72656163742d726f757465722f616e64726f69642d6368726f6d652d313434783134342e706e67",
+    "name": "React Router",
+    "url": "https://reacttraining.com/",
+    "usage": "React Router is a resource library for ReactJS that allows us to seamlessly load pages within our website."
+  },
+  {
+    "cover": "https://upload.wikimedia.org/wikipedia/commons/9/92/Cog_font_awesome.svg",
+    "name": "React-Twitter-Widgets",
+    "url": "https://www.npmjs.com/package/react-twitter-widgets",
+    "usage": "React-Twitter-Widgets is a resource library for Twitter plug-ins."
   },
   {
     "cover": "https://www.seleniumhq.org/images/big-logo.png",
     "name": "Selenium",
-    "phase": 2,
-    "usage": "Selenium tests our graphical user interface.",
-    "tool_id": 27 
+    "url": "https://www.seleniumhq.org/",
+    "usage": "Selenium is used to test the website's user interface on many different browsers."
   },
   {
     "cover": "https://cdn-images-1.medium.com/max/1600/0*HERF9Ii9f_M3OzQQ.",
     "name": "Sinon",
-    "phase": 2,
-    "usage": "Sinon helps mock up data for testing our JavaScript code with Mocha.",
-    "tool_id": 28
+    "url": "http://sinonjs.org/",
+    "usage": "Sinon helps mock up data for testing JavaScript code with Mocha."
+  },
+  {
+    "cover": "../../../../static/images/tools/slack_mark.svg",
+    "name": "Slack",
+    "url": "https://slack.com/",
+    "usage": "Slack was used extensively for communication and planning during development."
+  },
+  {
+    "cover": "../../../../static/images/tools/smartdraw_logo.svg",
+    "name": "SmartDraw",
+    "url": "https://www.smartdraw.com/",
+    "usage": "SmartDraw was used to generate UML diagrams at various stages of development."
   },
   {
     "cover": "https://pbs.twimg.com/profile_images/476392134489014273/q5uAkmy7_400x400.png",
     "name": "SQLAlchemy",
-    "phase": 2,
-    "usage": "SQLAlchemy is our Python SQL toolkit and Object Relational Mapper.",
-    "tool_id": 29
+    "url": "https://www.sqlalchemy.org/",
+    "usage": "SQLAlchemy is a Python Object-Relational Mapper which manages the GameFrame database."
   },
   {
-    "cover": "https://cloud.githubusercontent.com/assets/29597/11913937/0d2dcd78-a629-11e5-83e7-6a17b6d765a5.png",
-    "name": "react-highlight-words",
-    "phase": 3,
-    "usage": "React-hihglight-words allows us to highlight the searched terms in the results of the search page.",
-    "tool_id": 30
+    "cover": "https://upload.wikimedia.org/wikipedia/commons/9/92/Cog_font_awesome.svg",
+    "name": "TwitterSearch",
+    "url": "https://github.com/ckoepp/TwitterSearch",
+    "usage": "TwitterSearch simplifies Twitter API scraping."
+  },
+  {
+    "cover": "https://raw.githubusercontent.com/tqdm/tqdm/master/images/logo.gif",
+    "name": "tqdm",
+    "url": "https://github.com/tqdm/tqdm",
+    "usage": "tqdm is a Python written progress bar used for the API scripts."
+  },
+  {
+    "cover": "https://upload.wikimedia.org/wikipedia/commons/0/0d/Imagemagick-logo.png",
+    "name": "Wand",
+    "url": "http://docs.wand-py.org/en/0.4.4/",
+    "usage": "Wand is a Python binding for ImageMagick which was used to generate CD covers for some games."
+  },
+  {
+    "cover": "https://tse4.mm.bing.net/th?id=OIP.gFZhldMJQCiCQylrx6oU2AHaFG&w=222&h=160&c=7&o=5&dpr=1.1&pid=1.7",
+    "name": "Webpack",
+    "url": "https://webpack.js.org/",
+    "usage": "Webpack manages JS files into one package."
+  },
+  {
+    "cover": "https://upload.wikimedia.org/wikipedia/commons/9/92/Cog_font_awesome.svg",
+    "name": "Widget-Google-Trends",
+    "url": "https://www.npmjs.com/package/widget-google-trends",
+    "usage": "Widget-Google-Trends is a graph used to show popularity."
   }
 ]

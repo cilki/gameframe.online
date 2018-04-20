@@ -1,6 +1,5 @@
-
 /**
- * Actions file for a single developer
+ * Actions file for a single developer.
  */
 
 import { normalize } from 'normalizr';
@@ -17,7 +16,7 @@ import { developers as developerSchema } from '../Schemas';
 
 /**
  * @description - Predicate function that determines if we've already fetched the
- * developer given by their ID or not
+ * developer given by their ID or not.
  * @param {Object} state
  * @param {Number} id
  * @returns {Boolean}
@@ -29,7 +28,7 @@ function shouldFetchDeveloper(state, id) { //eslint-disable-line
 
 /**
  * @description - Thunk creator that dispatches a thunk to make an asynchronous call
- * to our own API in order to retrieve the developer given by their id
+ * to our own API in order to retrieve the developer given by their id.
  * @param {Number} id
  * @returns {Function}
  */

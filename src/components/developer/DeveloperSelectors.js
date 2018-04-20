@@ -1,6 +1,5 @@
-
 /**
- * Selectors for a single Developer component
+ * Selectors for a single Developer component.
  */
 
 import { createSelector } from 'reselect';
@@ -13,7 +12,7 @@ import {
 
 /**
  * @description - Input selector for returning a single developer
- * given the id prop
+ * given the id prop.
  * @param {Object} state
  * @param {Object} props
  * @param {Number} props.id
@@ -27,7 +26,7 @@ function getDeveloper(state, { id }) {
 }
 
 /**
- * @description - Memoized selector for a developer
+ * @description - Memoized selector for a developer.
  * @returns {Function}
  */
 function makeGetDeveloper() {
@@ -38,7 +37,7 @@ function makeGetDeveloper() {
 }
 
 /**
- * @description - Memoized selector for returning a developer's games
+ * @description - Memoized selector for returning a developer's games.
  */
 function makeGetDeveloperGames(_developerSelector = null) {
   const developerSelector = _developerSelector === null ? makeGetDeveloper() : _developerSelector;
@@ -52,7 +51,7 @@ function makeGetDeveloperGames(_developerSelector = null) {
             developerGames.push({
               id: gameId,
               name: games[gameId] ? games[gameId].name : null,
-              cover: games[gameId] ? games[gameId].cover : null
+              cover: games[gameId] ? games[gameId].cover : null,
             });
           }
         });
@@ -74,7 +73,7 @@ function makeGetDeveloperArticles(_developerSelector = null) {
             developerArticles.push({
               id: articleId,
               title: articles[articleId] ? articles[articleId].title : null,
-              cover: articles[articleId] ? articles[articleId].cover : null
+              cover: articles[articleId] ? articles[articleId].cover : null,
             });
           }
         });

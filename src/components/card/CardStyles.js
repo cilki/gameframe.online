@@ -1,28 +1,29 @@
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
- * CardStyles.js                                                             *
- * This file contains CSS style properties intended for use with elements in *
- * the Card.js file. Below are some parameters that may be used to quickly   *
- * change the general appearance of the cards.                               *
- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+/* *
+ * This file contains CSS style properties intended for use with elements in
+ * the Card.js file. Below are some parameters that may be used to quickly
+ * change the general appearance of the cards.
+ */
+
 const cornerRadius = '6px';
 const cardWidth = '256px';
 const cardHeight = '256px';
 const cardBorderColor = '#dddddd';
 
 const Card = {
-  main: {
+  main: aspectRatio => ({
+    transform: 'translate3d(0, 0, 0)',
     padding: '10px',
     margin: 'auto',
-    flexBasis: '20vw',
+    flexBasis: `calc(20vw * ${aspectRatio})`,
     minWidth: '10vw',
-    maxWidth: `${cardWidth}`,
-    margin: '0',
-    '@media screen and (max-width: 512px)': {
+    maxWidth: `calc(${cardWidth} * ${aspectRatio}`,
+    '@media screen and (max-width: 599px)': {
+      maxWidth: '45vw',
+      minWidth: { cardWidth },
+      flexBasis: { cardWidth },
       margin: 'auto',
-      minWidth: '45vw',
-    }
-  },
-
+    },
+  }),
   titleText: {
     color: '#e9e9e9',
     maxWidth: '100%',
@@ -30,48 +31,44 @@ const Card = {
     overflow: 'hidden',
     textOverflow: 'ellipsis',
   },
-
   card: {
     width: '100%',
     height: '100%',
     overflow: 'hidden',
     borderRadius: `${cornerRadius}`,
     backgroundColor: `${cardBorderColor}`,
+    transform: 'translate3d(0, 0, 0)',
     transition: 'transform 0.2s, filter 0.3s ease',
-    transform: 'scale(1.0)',
-    WebkitTransform: 'translate3d(0, 0, 0)',
     ':hover': {
-      transition: 'transform 0.2s, filter 0.5s ease',
       transform: 'scale(0.98)',
-      filter: 'hue-rotate(360deg)',
+      transition: 'transform 0.2s, filter 0.5s ease',
     },
   },
-
-  imageContainerContainer: {
+  imageContainerContainer: aspectRatio => ({
     maxHeight: `${cardHeight}`,
     height: '20vw',
-    '@media screen and (max-width: 512px)': {
-        height: '45vw'
-    }
-  },
-
+    ':hover': {
+      transform: 'scale(0.98)',
+      transition: 'transform 0.2s, filter 10.5s ease',
+      filter: 'hue-rotate(360deg)',
+    },
+    '@media screen and (max-width: 599px)': {
+      height: `calc(${cardHeight} / ${aspectRatio})`,
+      maxHeight: `calc(${cardHeight} / ${aspectRatio})`,
+    },
+  }),
   imageContainer: () => ({
     overflow: 'hidden',
     borderRadius: `${cornerRadius}`,
+    transform: 'translate3d(0, 0, 0) scale(0.995)',
     transition: 'transform 0.2s',
-    transform: 'scale(0.995)',
-    objectFit: 'fill',
     margin: 'auto',
     display: 'flex',
     verticalAlign: 'middle',
     height: '100%',
     backgroundPosition: 'center',
     backgroundSize: '100% 100%',
-    ':hover': {
-      transform: 'scale(1.0)',
-    },
   }),
-
   backgroundImageContainer: {
     overflow: 'hidden',
     width: '100%',
@@ -81,59 +78,47 @@ const Card = {
     left: '0',
     borderRadius: `${cornerRadius}`,
   },
-
   backgroundImage: {
     willChange: 'transform',
     backgroundColor: 'white',
     width: '10%',
     height: '10%',
-    top: '-50%',
-    left: '-50%',
+    position: 'absolute',
+    top: '0',
+    left: '0',
     imageRendering: 'pixelated',
     filter: 'blur(2px)',
     margin: 'auto',
-    transform: 'perspective(800px) translate3d(0, 0, 760px) scale(2)',
+    transform: 'perspective(800px) translate3d(33%, 33%, 790px)',
     zIndex: '-5',
   },
-
   image: {
     maxWidth: '100%',
     borderRadius: '0px',
-    transition: 'transform 0.2s, filter 0.2s',
-    transform: 'scale(1.0)',
+    transform: 'translate3d(0, 0, 0)',
     margin: 'auto',
     verticalAlign: 'middle',
+    objectFit: 'fill',
     zIndex: '2',
-    ':hover': {
-      transition: 'transform 1.0s, filter 1.0s',
-      transform: 'scale(1.05)',
-    },
   },
-
-  tooltip: {
-    display: 'flex',
-    position: 'absolute',
-    backgroundColor: 'black',
-    width: '100%',
+  fields: {
     height: '100%',
-    top: '0',
+    width: '100%',
     overflow: 'hidden',
-    left: '0',
-    padding: '5% 5% 0px 5%',
-    borderRadius: `${cornerRadius}`,
-    transition: 'opacity 0.25s ease-out',
-    opacity: '0.0',
+    position: 'absolute',
+    top: '0',
+    display: 'flex',
+    opacity: '0',
+    backgroundColor: 'black',
+    justifyContent: 'center',
+    transform: 'translate3d(0, 0, 0)',
     ':hover': {
       zIndex: '100',
-      height: '100%',
       opacity: '1.0',
-      color: 'white',
       transition: 'opacity 0.125s ease-in',
-      textShadow: '-1px -1px 0 black, 1px -1px 0 black, -1px 1px 0 black, 1px 1px 0 black, -1px 0 0 black, 1px 0 0 black, 0 1px 0 black, 0 -1px 0 black, 0 0 2px black',
     },
   },
-
-  tooltipBackgroundImage: {
+  fieldsBackgroundImage: {
     width: '10%',
     height: '10%',
     imageRendering: 'pixelated',
@@ -143,10 +128,9 @@ const Card = {
     margin: 'auto',
     top: '50%',
     left: '50%',
-    transform: 'scale3d(50, 50, 1)',
+    transform: 'translate3d(0, 0, 0) scale3d(50, 50, 1)',
     zIndex: '-5',
   },
-
   captionContainer: {
     display: 'flex',
     flexDirection: 'row',
@@ -155,7 +139,6 @@ const Card = {
     transition: 'height 0.2s',
     zIndex: '1',
   },
-
   caption: {
     maxWidth: '65%',
     postion: 'relative',
@@ -163,7 +146,6 @@ const Card = {
     overflow: 'hidden',
     textOverflow: 'ellipsis',
   },
-
   badgeContainer: {
     maxWidth: '35%',
   },
