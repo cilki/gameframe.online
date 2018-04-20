@@ -3,17 +3,12 @@
 # Copyright (C) 2018 GameFrame   -
 # --------------------------------
 
-import sys
-sys.path.insert(0, 'data/main')
-sys.path.insert(0, 'app')
-from pathlib import Path
-
 import datetime
 from orm import Game, Developer, Video, Article
 
-from pathlib import Path
 from unittest import main, TestCase
-from sources.util import parse_steam_date, condition, condition_heavy, condition_developer, keywordize, xappend, url_normalize, dict_delete
+from main.sources.util import parse_steam_date, condition, condition_heavy, condition_developer, keywordize, xappend, url_normalize, dict_delete
+
 
 class TestUtil (TestCase):
 
@@ -35,16 +30,16 @@ class TestUtil (TestCase):
         """
 
         self.assertEqual("great title: edition", condition(
-            "Great® ®Title™: <sup>edition"))
+            u"Great® ®Title™: <sup>edition"))
         self.assertEqual("no special chars 89", condition(
             "No special chars 89"))
 
     def test_condition_heavy(self):
 
         self.assertEqual("visualizethemovie", condition_heavy(
-            "vi|sua@li!z<e; +the€ mO\v/vie"))
+            u"vi|sua@li!z<e; +the€ mO\v/vie"))
         self.assertEqual("ringring", condition_heavy(
-            "®Ri NG®;./  <sup><r!@ing?>"))
+            u"®Ri NG®;./  <sup><r!@ing?>"))
         self.assertEqual("_underscores_", condition_heavy(
             ";-; (: ¯\_(underscores)_/¯"))
         self.assertEqual("hello", condition_heavy(
@@ -59,7 +54,7 @@ class TestUtil (TestCase):
         self.assertEqual("double:dot arts", condition_developer(
             "Double:Dot Arts Inc."))
         self.assertEqual("warlord coorp", condition_developer(
-            "Warlord Coorp®"))
+            u"Warlord Coorp®"))
         self.assertEqual("technology", condition_developer(
             "Technology™ Studios"))
 
@@ -79,7 +74,7 @@ class TestUtil (TestCase):
             "the adventure: greatest game of all time!!", keywordize(game2))
 
         dev2 = Developer()
-        dev2.name = "Trademark™ Arts®"
+        dev2.name = u"Trademark™ Arts®"
         self.assertEqual("trademark arts", keywordize(dev2))
 
     def test_xappend(self):
@@ -125,6 +120,7 @@ class TestUtil (TestCase):
                          "https://github.com/"))
         self.assertEqual("http://www.youtube.com/", url_normalize(
                          "http://www.youtube.com/"))
+
 
 if __name__ == '__main__':
     main()

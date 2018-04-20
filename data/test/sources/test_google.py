@@ -3,14 +3,11 @@
 # Copyright (C) 2018 GameFrame   -
 # --------------------------------
 
-import sys
-sys.path.insert(0, 'data/main')
-sys.path.insert(0, 'app')
-from pathlib import Path
-
 from unittest import main, TestCase
-import sources.google
 from orm import Game
+
+import main.sources.google
+
 
 class TestGoogle (TestCase):
 
@@ -20,10 +17,11 @@ class TestGoogle (TestCase):
         """
 
         game = Game()
-        game.name = "APB Reloaded"		
+        game.name = "APB Reloaded"
         video_rq = sources.google.rq_videos(game)
 
         self.assertFalse(video_rq is None)
+
 
 if __name__ == '__main__':
     main()

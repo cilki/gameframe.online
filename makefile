@@ -19,7 +19,7 @@ frontend:
 	@npm run test
 
 backend:
-	@python -m unittest discover data/test
+	@python -m unittest discover data
 
 postman:
 	@newman run postman/Postman.json -e postman/Postman.environment

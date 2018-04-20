@@ -3,16 +3,11 @@
 # Copyright (C) 2018 GameFrame   -
 # --------------------------------
 
-import sys
-sys.path.insert(0, 'data/main')
-sys.path.insert(0, 'app')
-from pathlib import Path
-
 from unittest import main, TestCase
 from wand.image import Image
 from wand.color import Color
 
-from cdgen.steam import color_average
+from main.cdgen.steam import color_average
 
 
 class TestSteam (TestCase):
