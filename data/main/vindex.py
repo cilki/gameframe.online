@@ -9,10 +9,11 @@ from math import isclose
 
 import requests
 
-from tqdm import tqdm
+if __name__ != "__main__":
+    from tqdm import tqdm
 
-from cache import WS, load_working_set
-from common import PROGRESS_FORMAT
+    from cache import WS, load_working_set
+    from common import PROGRESS_FORMAT
 
 
 """
