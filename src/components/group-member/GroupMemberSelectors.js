@@ -1,6 +1,5 @@
-
 /**
- * Selectors for the GroupMember container
+ * Selectors for the GroupMember container.
  */
 
 import { createSelector } from 'reselect';
@@ -9,9 +8,9 @@ import { getAllContributors, getIssues } from '../about/AboutSelectors';
 
 /**
  * @description - Helper function for retrieving a single contributor's
- * data from within the store
- * @param {Map} state - the current state tree
- * @param {Object} props - the component's passed down props
+ * data from within the store.
+ * @param {Map} state - The current state tree.
+ * @param {Object} props - The component's passed down props.
  * @returns {Map}
  */
 function getContributor(state, props) {
@@ -28,7 +27,7 @@ function getContributor(state, props) {
 
 /**
  * @description - Function that memoizes all of a contributor's relevant
- * attributes that can't be directly picked out from the store
+ * attributes that can't be directly picked out from the store.
  * @returns {Function}
  */
 function makeGetContributor() {
@@ -39,7 +38,7 @@ function makeGetContributor() {
         return null;
       }
 
-      // This makes sure that we shove the issues in with the contributor
+      // This makes sure that we shove the issues in with the contributor.
       return contributor.set(
         'issues',
         issues.filter(issue => issue.get('user') === contributor.get('login')).size,

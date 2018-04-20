@@ -1,6 +1,5 @@
-
 /**
- * Container for the GroupMember component
+ * Container for the GroupMember component.
  */
 
 import { connect } from 'react-redux';
@@ -10,14 +9,14 @@ import { makeGetContributor } from './GroupMemberSelectors';
 import { fetchGroupMemberStats } from './GroupMemberActions';
 
 /**
- * @description - Maps the state tree to the props of the component
+ * @description - Maps the state tree to the props of the component.
  * @returns {Function}
  */
 function mapStateToProps() {
   const contributorSelector = makeGetContributor();
   /**
    * This function will be called at each instantiation of
-   * this component
+   * this component.
    */
   return (state, props) => {
     return { ...contributorSelector(state, props) };
@@ -26,7 +25,7 @@ function mapStateToProps() {
 
 /**
  * @description - Maps the dispatch function to the props of the
- * component, allowing the presenter to call actions
+ * component, allowing the presenter to call actions.
  * @param {Function} dispatch
  * @param {Object} props
  */
