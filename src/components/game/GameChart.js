@@ -59,8 +59,8 @@ class GameChart extends React.Component {
 
     const legend = legendColor()
       .shapeWidth(30)
-      .cells(2)
-      .labels(['Videos', 'Articles'])
+      .cells(3)
+      .labels(['Videos', 'Tweets', 'Articles'])
       .orient('vertical')
       .scale(linear);
 
@@ -149,10 +149,15 @@ class GameChart extends React.Component {
 
     const videoData = this.parseData('videos');
     const articleData = this.parseData('articles');
+    const tweetData = this.parseData('tweets');
 
     const [videoMin, videoMax] = extent(videoData, d => d.number);
     const [articleMin, articleMax] = extent(articleData, d => d.number);
-    y.domain([Math.min(videoMin, articleMin), Math.max(videoMax, articleMax)]);
+    const [tweetMin, tweetMax] = extent(tweetData, d => d.number);
+    y.domain([
+      Math.min(videoMin, articleMin, tweetMin),
+      Math.max(videoMax, articleMax, tweetMax),
+    ]);
 
     this.g = select(this.svgRef).append('g')
       .attr('transform', `translate(${this.margin.left},${this.margin.top})`);
@@ -184,6 +189,15 @@ class GameChart extends React.Component {
       .datum(articleData)
       .attr('fill', 'none')
       .attr('stroke', 'rgb(71, 187, 94)')
+      .attr('stroke-linejoin', 'round')
+      .attr('stroke-linecap', 'round')
+      .attr('stroke-width', 1.5)
+      .attr('d', line);
+
+    this.g.append('path')
+      .datum(tweetData)
+      .attr('fill', 'none')
+      .attr('stroke', 'rgb(82, 130, 109)')
       .attr('stroke-linejoin', 'round')
       .attr('stroke-linecap', 'round')
       .attr('stroke-width', 1.5)

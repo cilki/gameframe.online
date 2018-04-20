@@ -503,7 +503,7 @@ ratingContainer.propTypes = {
 };
 
 function platformVideoContainer({
-  platforms, videos, articles
+  platforms, videos, articles, tweets,
 }) {
   return (
     <div style={[InstanceDetailsStyles.platformRatingContainer]}>
@@ -518,7 +518,7 @@ function platformVideoContainer({
           maxHeight: '100%',
         }}
       >
-        <GameChart {...{ videos, articles }} />
+        <GameChart {...{ videos, articles, tweets }} />
       </div>
       {/* ratingContainer({ _rating: _rating }) */}
     </div>
@@ -529,6 +529,7 @@ platformVideoContainer.propTypes = {
   platforms: PropTypes.array.isRequired,
   videos: PropTypes.array.isRequired,
   articles: PropTypes.array.isRequired,
+  tweets: PropTypes.array.isRequired,
 };
 
 function googleTrendsContainer({
@@ -864,6 +865,7 @@ class Game extends React.Component {
                 platforms: this.props.platforms,
                 videos: this.props.videos,
                 articles: this.props.articles,
+                tweets: this.props.tweets,
               })
             }
             {
