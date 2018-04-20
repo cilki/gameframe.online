@@ -3,13 +3,14 @@
  */
 
 import React from 'react';
+import PropTypes from 'prop-types';
 import Radium from 'radium';
 import { Navbar, Nav, NavItem, OverlayTrigger, Tooltip } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { LinkContainer } from 'react-router-bootstrap';
+
 import NavbarStyles from './NavbarStyles';
 import Search from '../Search';
-import PropTypes from 'prop-types';
 
 /**
  * @description - Function that generates a LinkContainer for the Navbar.
@@ -80,9 +81,9 @@ class NavBar extends React.Component {
     developersCountRequested: false,
     articlesCountRequested: false,
 
-    fetchGamesCount: () => { return (0)},
-    fetchDevelopersCount: () => { return (0)},
-    fetchArticlesCount: () => { return (0) },
+    fetchGamesCount: () => { return 0; },
+    fetchDevelopersCount: () => { return 0; },
+    fetchArticlesCount: () => { return 0; },
   };
 
   /**

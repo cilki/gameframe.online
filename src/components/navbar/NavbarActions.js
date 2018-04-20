@@ -23,7 +23,7 @@ const fetchArticlesCountResponse = createAction('FETCH_ARTICLES_COUNT_RESPONSE')
  * @returns {Boolean}
  */
 function shouldFetchGamesCount(state) {
-  return getGamesCount(state) == 0;
+  return getGamesCount(state) === 0;
 }
 
 /**
@@ -32,7 +32,7 @@ function shouldFetchGamesCount(state) {
  * @returns {Boolean}
  */
 function shouldFetchDevelopersCount(state) {
-  return getDevelopersCount(state) == 0;
+  return getDevelopersCount(state) === 0;
 }
 
 /**
@@ -41,7 +41,7 @@ function shouldFetchDevelopersCount(state) {
  * @returns {Boolean}
  */
 function shouldFetchArticlesCount(state) {
-  return getArticlesCount(state) == 0;
+  return getArticlesCount(state) === 0;
 }
 
 /**
@@ -52,7 +52,7 @@ function fetchGamesCount() {
   return (dispatch, getState) => {
     if (shouldFetchGamesCount(getState())) {
       dispatch(fetchGamesCountRequest());
-      fetch(
+      fetch( // eslint-disable-line
         `${process.env.API_HOST}/v1/stat/game/count`,
         { method: 'GET' },
       )
@@ -71,7 +71,7 @@ function fetchDevelopersCount() {
   return (dispatch, getState) => {
     if (shouldFetchDevelopersCount(getState())) {
       dispatch(fetchDevelopersCountRequest());
-      fetch(
+      fetch( // eslint-disable-line
         `${process.env.API_HOST}/v1/stat/developer/count`,
         { method: 'GET' },
       )
@@ -90,7 +90,7 @@ function fetchArticlesCount() {
   return (dispatch, getState) => {
     if (shouldFetchArticlesCount(getState())) {
       dispatch(fetchArticlesCountRequest());
-      fetch(
+      fetch( // eslint-disable-line
         `${process.env.API_HOST}/v1/stat/article/count`,
         { method: 'GET' },
       )
