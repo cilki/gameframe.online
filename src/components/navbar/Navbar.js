@@ -79,6 +79,10 @@ class NavBar extends React.Component {
     gamesCountRequested: false,
     developersCountRequested: false,
     articlesCountRequested: false,
+
+    fetchGamesCount: () => { return (0)},
+    fetchDevelopersCount: () => { return (0)},
+    fetchArticlesCount: () => { return (0) },
   };
 
   /**
