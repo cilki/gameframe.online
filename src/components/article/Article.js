@@ -338,38 +338,6 @@ class Article extends React.Component {
               games: this.props.games,
             })
           }
-          <div style={[InstanceDetailsStyles.externalGridCluster]}>
-            <div style={[InstanceDetailsStyles.developerGridCluster('30%')]}>
-              <div style={[InstanceDetailsStyles.developerIndicator]}>
-                Developers:
-              </div>
-              <Minigrid>
-                {
-                  this.props.developers.map(developer => link({
-                    label: developer.name,
-                    url: `/developers/${developer.id}`,
-                    cover: (developer.logo && developer.logo.indexOf('http') < 0 ? `https://${developer.logo}` : developer.logo),
-                    key: `developer-${developer.id}`,
-                  }))
-                }
-              </Minigrid>
-            </div>
-            <div style={[InstanceDetailsStyles.gameGridCluster('60%')]}>
-              <div style={[InstanceDetailsStyles.gameIndicator]}>
-                Games:
-              </div>
-              <Minigrid>
-                {
-                  this.props.games.map(game => link({
-                    label: game.name,
-                    url: `/games/${game.id}`,
-                    cover: (game.cover && game.cover.indexOf('http') < 0 ? `https://${game.cover}` : game.cover),
-                    key: `game-${game.id}`,
-                  }))
-                }
-              </Minigrid>
-            </div>
-          </div>
         </InstanceDetails>
       </StyleRoot>
     );
