@@ -6,11 +6,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Radium from 'radium';
-import { Carousel, Badge, Glyphicon, Label, OverlayTrigger, Tooltip } from 'react-bootstrap';
+import { Carousel, Glyphicon, OverlayTrigger, Tooltip } from 'react-bootstrap';
 import Styles from './FieldsStyles';
 import InstanceDetailsStyles from '../instance-details/InstanceDetailsStyles';
 
-class Fields extends React.Component {
+class Fields extends React.Component { /* eslint-disable */
   static propTypes = {
     /* Factor */
     factor: PropTypes.number,
@@ -94,27 +94,10 @@ class Fields extends React.Component {
     let fields = 0;
 
     /**
-     * @description - Conditionally render a row of facts.
-     * @param {Number|null} price
-     * @param {Number|null} players
-     * @return {React.Component|null}
-     */
-    function showFacts(price, players) {
-      if (price != null || players != null) {
-        return (
-          <div style={[Styles.flexRow]}>
-            {showStat(price, true, 'usd', 'bottom', 'USD')}
-            {showStat(players, false, 'user', 'bottom', 'Players')}
-          </div>
-        );
-      }
-      return null;
-    }
-
-    /**
      * @description - Conditionally render a formatted stat with an icon and tooltip.
      * @param {Number|null} number - Stat.
-     * @param {Boolean} format - If true, format number to usd. Otherwise, format number with commas.
+     * @param {Boolean} format - If true, format number to usd. Otherwise,
+     * format number with commas.
      * @param {String} icon - Glyphicon type.
      * @param {String} position - Tooltip position.
      * @param {String|null} message - Tooltip's message to user.
@@ -124,9 +107,9 @@ class Fields extends React.Component {
       if (number != null && number >= 0) {
         fields += 1;
         if (format) {
-          number /= 100;
+          number /= 100; //eslint-disable-line
         } else {
-          number = number.toLocaleString();
+          number = number.toLocaleString(); //eslint-disable-line
         }
         let tooltip = (<div>null</div>);
         if (message != null) {
@@ -157,28 +140,55 @@ class Fields extends React.Component {
     }
 
     /**
-     * @description - Conditionally render a row of ratings.
-     * @param {Number|null} vindex
-     * @param {Number|null} metacritic
-     * @param {Number|null} esrb
+     * @description - Conditionally render a row of facts.
+     * @param {Number|null} price
+     * @param {Number|null} players
      * @return {React.Component|null}
      */
-    function showRatings(vindex, metacritic, esrb) {
-      if (vindex != null || metacritic != null || esrb != null) {
+    function showFacts(price, players) {
+      if (price != null || players != null) {
         return (
           <div style={[Styles.flexRow]}>
-            <div style={[Styles.flexColumn]}>
-              <div style={[Styles.flexRow]}>
-                <div style={[Styles.largeText(factor)]}>
-                  Ratings
-                </div>
-              </div>
-              <div style={[Styles.flexRow]}>
-                {showRating(vindex, 'https://upload.wikimedia.org/wikipedia/commons/b/bd/Checkmark_green.svg', 'Vindex Scoring')}
-                {showRating(metacritic, 'https://upload.wikimedia.org/wikipedia/commons/2/20/Metacritic.svg', 'Metacritic Scoring')}
-                {showEsrb(esrb)}
-              </div>
-            </div>
+            {showStat(price, true, 'usd', 'bottom', 'USD')}
+            {showStat(players, false, 'user', 'bottom', 'Players')}
+          </div>
+        );
+      }
+      return null;
+    }
+
+    /**
+     * @description - This is a helper method to showEsrb().
+     * This method maps a rating key to a list and then returns an image.
+     * @param {Number|null} ratingKey
+     * @returns {React.Component}
+     */
+    function getEsrb({ ratingKey }) {
+      return (
+        <img
+          style={[Styles.esrbImage(factor)]}
+          alt={`${InstanceDetailsStyles.esrbMappings[`${ratingKey}alt`]}`}
+          src={`${InstanceDetailsStyles.esrbMappings[ratingKey]}`}
+          key={`${ratingKey}-esrb`}
+        />
+      );
+    }
+
+    /**
+     * @description - Conditionally render the esrb rating of a game.
+     * @return {React.Component}
+     */
+    function showEsrb() {
+      if (esrb != null && esrb >= 1 && esrb <= 7) {
+        fields += 1;
+        return (
+          <div style={[Styles.flexRow]}>
+            {
+              esrb.map(esrbRating => getEsrb({
+                ratingKey: esrbRating,
+                key: `esrbRating-${esrbRating}`,
+              }))
+            }
           </div>
         );
       }
@@ -206,7 +216,7 @@ class Fields extends React.Component {
           <OverlayTrigger placement="top" overlay={tooltip}>
             <div style={[Styles.label]}>
               <div style={[Styles.flexRow]}>
-                <img src={icon} style={[Styles.iconImage(factor)]} />
+                <img src={icon} alt="" style={[Styles.iconImage(factor)]} />
                 <div style={[Styles.smallText(factor)]}>
                   &nbsp;
                   {number}%
@@ -220,21 +230,27 @@ class Fields extends React.Component {
     }
 
     /**
-     * @description - Conditionally render the esrb rating of a game.
-     * @param {Number|null} esrb
-     * @return {React.Component}
+     * @description - Conditionally render a row of ratings.
+     * @param {Number|null} vindex
+     * @param {Number|null} metacritic
+     * @return {React.Component|null}
      */
-    function showEsrb(esrb) {
-      if (esrb != null && esrb >= 1 && esrb <= 7) {
-        fields += 1;
+    function showRatings(vindex, metacritic) {
+      if (vindex != null || metacritic != null) {
         return (
           <div style={[Styles.flexRow]}>
-            {
-              esrb.map(esrbRating => getEsrb({
-                ratingKey: esrbRating,
-                key: `esrbRating-${esrbRating}`,
-              }))
-            }
+            <div style={[Styles.flexColumn]}>
+              <div style={[Styles.flexRow]}>
+                <div style={[Styles.largeText(factor)]}>
+                  Ratings
+                </div>
+              </div>
+              <div style={[Styles.flexRow]}>
+                {showRating(vindex, '../../../static/images/favicon/favicon-32x32.png', 'Vindex Scoring')}
+                {showRating(metacritic, 'https://upload.wikimedia.org/wikipedia/commons/2/20/Metacritic.svg', 'Metacritic Scoring')}
+                {showEsrb()}
+              </div>
+            </div>
           </div>
         );
       }
@@ -242,20 +258,23 @@ class Fields extends React.Component {
     }
 
     /**
-     * @description - This is a helper method to showEsrb().
-     * This method maps a rating key to a list and then returns an image.
-     * @param {Number|null} ratingKey
-     * @returns {React.Component}
+     * @description - Method to wrap items into an array of carousel item objects.
+     * @param {String} id
+     * @param {Number|null} items
+     * @return {Array}
      */
-    function getEsrb({ ratingKey }) {
-      return (
-        <img
-          style={[Styles.esrbImage(factor)]}
-          alt={`${InstanceDetailsStyles.esrbMappings[`${ratingKey}alt`]}`}
-          src={`${InstanceDetailsStyles.esrbMappings[ratingKey]}`}
-          key={`${ratingKey}-esrb`}
-        />
-      );
+    function getItems(id, items) {
+      const subItems = [];
+      for (let i = 0; i < items.length; i++) { //eslint-disable-line
+        subItems.push(
+          <Carousel.Item key={`${id}-${items[i].name}-item-${i}`}>
+            <div style={[Styles.item]}>
+              {items[i].name}
+            </div>
+          </Carousel.Item>
+        );
+      }
+      return subItems;
     }
 
     /**
@@ -291,24 +310,6 @@ class Fields extends React.Component {
     }
 
     /**
-     * @description - Method to wrap items into an array of carousel item objects.
-     * @param {String} id
-     * @param {Number|null} items
-     * @return {Array}
-     */
-    function getItems(id, items) {
-      const subItems = [];
-      for (let i = 0; i < items.length; i++) {
-        subItems.push(<Carousel.Item key={`${id}-${items[i].name}-item-${i}`}>
-          <div style={[Styles.item]}>
-            {items[i].name}
-          </div>
-                      </Carousel.Item>);
-      }
-      return subItems;
-    }
-
-    /**
      * @description - Conditionally render a row of references.
      * @param {Number|null} games
      * @param {Number|null} developers
@@ -317,7 +318,8 @@ class Fields extends React.Component {
      * @return {React.Component|null}
      */
     function showReferences(games, developers, articles, videos, tweets) {
-      if (games != null || developers != null || articles != null || videos != null || tweets != null) {
+      if (games != null || developers != null || articles != null ||
+        videos != null || tweets != null) {
         return (
           <div style={[Styles.flexRow]}>
             <div style={[Styles.flexColumn]}>
@@ -333,6 +335,78 @@ class Fields extends React.Component {
                 {showStat(videos, false, 'film', 'top', 'Videos')}
                 {showStat(tweets, false, 'pencil', 'top', 'Tweets')}
               </div>
+            </div>
+          </div>
+        );
+      }
+      return null;
+    }
+
+    /**
+     * @description - Break up the url (str) into length sized chunks.
+     * @param {String} str
+     * @param {Number} length
+     * @return {Array}
+     */
+    function chunkifyUrl(str, length) {
+      return str.match(new RegExp(`.{1,${length}}`, 'g'));
+    }
+
+    /**
+     * @description - Format the url into chunks of stylized
+     * strings, so that it fits into the tooltip.
+     * @param {String} url
+     * @return {Array}
+     */
+    function getFormattedUrl(url) {
+      const formattedUrl = [];
+      const chunkifiedUrl = chunkifyUrl(url, 24);
+      for (const chunk in chunkifiedUrl) {
+        formattedUrl.push(
+          <div style={[Styles.urlText(factor)]} key={`${Math.random()}-${url}-url`}>
+            {chunkifiedUrl[chunk]}
+          </div>
+        );
+      }
+      return formattedUrl;
+    }
+
+    /**
+     * @description - Given a title (key), get the url (value) associated.
+     * @param {String} title
+     * @return {String}
+     */
+    function getIconUrl(title) {
+      let iconUrl = '';
+      if (MediaEnum.hasOwnProperty(title)) {
+        iconUrl = MediaEnum[title];
+      }
+      return iconUrl;
+    }
+
+    /**
+     * @description - Conditionally render a media icon with tooltip overlay.
+     * @param {String|null} url
+     * @param {String} title
+     * @return {React.Component|null}
+     */
+    function showMedia(url, title) {
+      if (url != null) {
+        const tooltip = (
+          <Tooltip id={`${title}-tooltip`} key={`${title}-tooltip`}>
+            <div>
+              {getFormattedUrl(url)}
+            </div>
+          </Tooltip>
+        );
+        const iconUrl = getIconUrl(title);
+        fields += 1;
+        return (
+          <div style={[Styles.icon]}>
+            <div style={[Styles.flexColumn]}>
+              <OverlayTrigger placement="top" overlay={tooltip}>
+                <img src={iconUrl} alt="" style={[Styles.iconImage(factor)]} />
+              </OverlayTrigger>
             </div>
           </div>
         );
@@ -374,84 +448,13 @@ class Fields extends React.Component {
     }
 
     /**
-     * @description - Conditionally render a media icon with tooltip overlay.
-     * @param {String|null} url
-     * @param {String} title
-     * @return {React.Component|null}
-     */
-    function showMedia(url, title) {
-      if (url != null) {
-        const tooltip = (
-          <Tooltip id={`${title}-tooltip`} key={`${title}-tooltip`}>
-            <div>
-              {getFormattedUrl(url)}
-            </div>
-          </Tooltip>
-        );
-        const iconUrl = getIconUrl(title);
-        fields += 1;
-        return (
-          <div style={[Styles.icon]}>
-            <div style={[Styles.flexColumn]}>
-              <OverlayTrigger placement="top" overlay={tooltip}>
-                <img src={iconUrl} style={[Styles.iconImage(factor)]} />
-              </OverlayTrigger>
-            </div>
-          </div>
-        );
-      }
-      return null;
-    }
-
-    /**
-     * @description - Given a title (key), get the url (value) associated.
-     * @param {String} title
-     * @return {String}
-     */
-    function getIconUrl(title) {
-      let iconUrl = '';
-      if (MediaEnum.hasOwnProperty(title)) {
-        iconUrl = MediaEnum[title];
-      }
-      return iconUrl;
-    }
-
-    /**
-     * @description - Format the url into chunks of stylized
-     * strings, so that it fits into the tooltip.
-     * @param {String} url
-     * @return {Array}
-     */
-    function getFormattedUrl(url) {
-      const formattedUrl = [];
-      const chunkifiedUrl = chunkifyUrl(url, 24);
-      for (const chunk in chunkifiedUrl) {
-        formattedUrl.push(<div style={[Styles.urlText(factor)]} key={`${Math.random()}-${url}-url`}>
-          {chunkifiedUrl[chunk]}
-                          </div>);
-      }
-      return formattedUrl;
-    }
-
-    /**
-     * @description - Break up the url (str) into length sized chunks.
-     * @param {String} str
-     * @param {Number} length
-     * @return {Array}
-     */
-    function chunkifyUrl(str, length) {
-      return str.match(new RegExp(`.{1,${length}}`, 'g'));
-    }
-
-    /**
      * @description - Conditionally render the message:
      * "No Fields Available." to tell the user that the
      * Card contains no valuable information to search,
      * sort, or filter upon.
-     * @param {Number} number
      * @return {React.Component|null}
      */
-    function showNone(number) {
+    function showNone() {
       if (fields <= 0) {
         return (
           <div style={[Styles.flexRow]}>
@@ -470,10 +473,11 @@ class Fields extends React.Component {
         {showRatings(this.props.vindex, this.props.metacritic, esrb)}
         {showItems('Genres', this.props.game, this.props.genres)}
         {showItems('Platforms', this.props.game, this.props.platforms)}
-
-        {showReferences(this.props.games, this.props.developers, this.props.articles, this.props.videos, this.props.tweets)}
-        {showMedias(this.props.steam, this.props.igdb, this.props.twitter, this.props.website, this.props.source)}
-        {showNone(fields)}
+        {showReferences(this.props.games, this.props.developers,
+          this.props.articles, this.props.videos, this.props.tweets)}
+        {showMedias(this.props.steam, this.props.igdb,
+          this.props.twitter, this.props.website, this.props.source)}
+        {showNone()}
       </div>
     );
   }

@@ -1,5 +1,5 @@
 /**
- * Index.js file for the Fields component
+ * Index.js file for the Fields component.
  */
 
 import Fields from './Fields';
