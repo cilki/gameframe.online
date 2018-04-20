@@ -40,7 +40,7 @@ class Articles extends React.Component {
   }
 
   render() {
-    const { models, ...rest } = this.props;
+    const { models, requested, ...rest } = this.props;
     return (
       <GenericGrid
         prefix="articles"
@@ -74,7 +74,18 @@ class Articles extends React.Component {
           })
         }
         {
-          models.length === 0 ? (
+          requested ? (
+            <div style={{
+              color: '#dfdfdf',
+              textShadow: '0px 4px 3px rgba(0, 0, 0, 0.4), 0px 8px 13px rgba(0, 0, 0, 0.1), 0px 18px 23px rgba(0, 0, 0, 0.1)',
+            }}
+            >
+              <h3>Loading...</h3>
+            </div>
+          ) : ''
+        }
+        {
+          !requested && models.length === 0 ? (
             <div style={{
               color: '#dfdfdf',
               textShadow: '0px 4px 3px rgba(0, 0, 0, 0.4), 0px 8px 13px rgba(0, 0, 0, 0.1), 0px 18px 23px rgba(0, 0, 0, 0.1)',
