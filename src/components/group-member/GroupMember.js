@@ -1,18 +1,17 @@
-
 /**
- * A component for a single group member in the about page
+ * A component for a single group member in the about page.
  */
 
 import React from 'react';
 import PropTypes from 'prop-types';
 import Radium from 'radium';
-import { Col, Thumbnail } from 'react-bootstrap';
+import { Col } from 'react-bootstrap';
 import Styles from '../about/AboutStyles';
 import Minigrid from '../minigrid/Minigrid';
 import Minicard from '../minicard/Minicard';
 
 /**
- * @description - Helper method for rendering a link to a developer or article
+ * @description - Helper method for rendering a link to a developer or article.
  * @param {Object} props
  * @param {String} props.label
  * @param {String} props.url
@@ -31,6 +30,7 @@ function link({
 link.propTypes = {
   label: PropTypes.string.isRequired,
   url: PropTypes.string.isRequired,
+  cover: PropTypes.string.isRequired,
   key: PropTypes.oneOf([PropTypes.string, PropTypes.number]).isRequired,
 };
 
@@ -77,12 +77,12 @@ class GroupMember extends React.Component {
     this.props.fetchStats();
   }
 
-  render() {
+  render() { /* eslint-disable */
     return (
       <Col lg={4} md={6} sm={6}>
         <div style={[Styles.cardPad]}>
           <div style={[Styles.cardMember, Styles.cardExpand]} key={`${this.props.name}-card`}>
-            <img src={this.props.avatar} style={[Styles.cardMemberImage]} />
+            <img src={this.props.avatar} alt={this.props.name} style={[Styles.cardMemberImage]} />
             <h3 style={[Styles.title]}>
               {this.props.name}
             </h3>
@@ -117,7 +117,7 @@ class GroupMember extends React.Component {
               {this.props.bio}
             </p>
           </div>
-          <img src="../../../static/images/arrowDown.svg" style={[Styles.cardArrow]} />
+          <img src="../../../static/images/arrowDown.svg" alt="" style={[Styles.cardArrow]} />
         </div>
       </Col>
     );
