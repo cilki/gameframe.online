@@ -5,16 +5,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Radium from 'radium';
-import { Badge, Label } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
-import iso from 'iso-3166-1';
-import CardStyles from './CardStyles';
-
 import postcssJs from 'postcss-js';
 import autoprefixer from 'autoprefixer';
+import iso from 'iso-3166-1';
+import { Badge, Label } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
+import CardStyles from './CardStyles';
 
 /**
- * @description - obtain the country from an iso-3166-1 standard.
+ * @description - Obtain the country from an iso-3166-1 standard.
  * @param {String} country
  * @return {String}
  */
@@ -29,7 +28,7 @@ function showCountry(country) {
 }
 
 /**
- * A single card instance within the InstanceGrid
+ * A single card instance within the Grid.
  */
 class Card extends React.Component {
   static propTypes = {
@@ -63,13 +62,13 @@ class Card extends React.Component {
   }
 
   hoverHandlerOn() {
-    this.setState({ hovered: false });//! this.state.hovered});
-    console.log(this.state.hovered);
+    this.setState({ hovered: false });
+    console.log(this.state.hovered); //eslint-disable-line
   }
 
   hoverHandlerOff() {
     this.setState({ hovered: true });
-    console.log(this.state.hovered);
+    console.log(this.state.hovered); //eslint-disable-line
   }
 
   render() {
@@ -77,8 +76,6 @@ class Card extends React.Component {
     const imageCover = this.props.cover !== null && this.props.cover.search('http') < 0 ?
       `https://${this.props.cover}` : this.props.cover;
     const trueImageCover = imageCover || '../../static/images/noImage.png';
-
-    const me = this;
     const prefixer = postcssJs.sync([autoprefixer]);
 
     return (
@@ -109,6 +106,7 @@ class Card extends React.Component {
                     style={[prefixer(CardStyles.image)]}
                     key={`${title}-image`}
                     src={trueImageCover}
+                    alt=""
                     ref={(img) => { this.img = img; }}
                     onError={
                       () => { this.img.src = '../../static/images/noImage.png'; }
