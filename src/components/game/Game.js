@@ -117,8 +117,55 @@ function genreCluster({
 }
 
 genreCluster.propTypes = {
-  genres: PropTypes.array.isRequired,
+  genres: PropTypes.array.isRequired, //eslint-disable-line
 };
+
+
+/**
+ * @description - Helper method for converting an ISO 8601 formatted date
+ *                string to a natural language string.
+ * @param {Object} props
+ * @param {String} props.date
+ * @returns {String}
+ */
+function dateToString(date) {
+  const dateType = new Date(Date.parse(date));
+  const months = ['January',
+    'February',
+    'March',
+    'April',
+    'May',
+    'June',
+    'July',
+    'August',
+    'September',
+    'October',
+    'November',
+    'December'];
+  let sup = '';
+  const day = dateType.getDate();
+  if (day === 1 || day === 21 || day === 31) {
+    sup = 'st';
+  } else if (day === 2 || day === 22) {
+    sup = 'nd';
+  } else if (day === 3 || day === 23) {
+    sup = 'rd';
+  } else {
+    sup = 'th';
+  }
+
+  const month = dateType.getMonth();
+  const year = dateType.getFullYear();
+
+  return (
+    `${months[month]} ${day}${sup}, ${year}`
+  );
+}
+
+dateToString.propTypes = {
+  date: PropTypes.string.isRequired,
+};
+
 
 /**
  * @description - Helper method for generating a component to hold primary
@@ -157,6 +204,151 @@ primaryInfoCluster.propTypes = {
   genres: PropTypes.string.isRequired,
 };
 
+
+/**
+ * @description - Helper method for generating a component to hold a Metacritic
+ *                score for a game.
+ * @param {Object} props
+ * @param {Number} props.metacriticScore
+ * @param {String} props.metacriticLink
+ * @returns {React.Component}
+ */
+function metacritic({
+  metacriticScore,
+  metacriticLink,
+}) {
+  const metacriticTooltip = (
+    <Tooltip id="metacriticTooltip">
+      A rating computed by Metacritic ranging from 0 to 100
+    </Tooltip>
+  );
+
+  return (
+    <OverlayTrigger placement="top" overlay={metacriticTooltip}>
+      <a
+        href={metacriticLink}
+        target="none"
+        style={{
+          textDecoration: 'inherit',
+          color: 'inherit',
+        }}
+      >
+        <div style={[InstanceDetailsStyles.metacriticCluster]}>
+          <img
+            src="https://upload.wikimedia.org/wikipedia/commons/2/20/Metacritic.svg"
+            style={[InstanceDetailsStyles.metacriticIndicator]}
+            alt="Metacritic Score:"
+          />
+          <div style={[InstanceDetailsStyles.metacriticScore(metacriticScore)]}>
+            {metacriticScore}
+          </div>
+        </div>
+      </a>
+    </OverlayTrigger>
+  );
+}
+
+metacritic.propTypes = {
+  metacriticScore: PropTypes.number,
+  metacriticLink: PropTypes.string,
+};
+
+metacritic.defaultProps = {
+  metacriticScore: 0,
+  metacriticLink: null,
+};
+
+
+/**
+ * @description - Helper method for generating a component to hold the number
+ *                of people playing a game on Steam, if applicable.
+ * @param {Object} props
+ * @param {Number} props.playerCount
+ * @param {Number} props.steamID
+ * @param {String} props.steamPlayersUpdated
+ * @returns {React.Component}
+ */
+function steamPlayers({ playerCount, steamID, steamPlayersUpdated }) {
+  const steamPlayersTooltip = (
+    <Tooltip id="steamPlayersTooltip">
+      {`The number of Steam players currently playing this game (Last updated: ${steamPlayersUpdated})`}
+    </Tooltip>
+  );
+
+  return (
+    <OverlayTrigger placement="top" overlay={steamPlayersTooltip}>
+      <a
+        href={`http://www.steamcharts.com/app/${steamID}`}
+        target="none"
+        style={{ textDecoration: 'inherit', color: 'inherit' }}
+      >
+        <div style={[InstanceDetailsStyles.currentPlayers]}>
+          <img
+            style={{
+              height: 'calc(20px + 0.5vw)',
+              paddingTop: '2%',
+              marginRight: '4px',
+              width: 'auto',
+            }}
+            src="https://upload.wikimedia.org/wikipedia/commons/8/83/Steam_icon_logo.svg"
+            alt="steam logo"
+          />
+          <b>{playerCount}</b>&nbsp;players
+        </div>
+      </a>
+    </OverlayTrigger>
+  );
+}
+
+steamPlayers.propTypes = {
+  playerCount: PropTypes.number,
+  steamID: PropTypes.number,
+  steamPlayersUpdated: PropTypes.string,
+};
+
+steamPlayers.defaultProps = {
+  playerCount: 0,
+  steamID: null,
+  steamPlayersUpdated: null,
+};
+
+
+/**
+ * @description - Helper method for generating a component to hold the
+ *                visibility index for a game.
+ * @param {Object} props
+ * @param {Number} props.vindex
+ * @returns {React.Component}
+ */
+function visibilityIndex({ vindex }) {
+  const visibilityIndexTooltip = (
+    <Tooltip id="visibilityIndexTooltip">
+      A visibility metric computed by GameFrame ranging from 0 (least visible) to 100 (most visible)
+    </Tooltip>
+  );
+
+  return (
+    <OverlayTrigger placement="top" overlay={visibilityIndexTooltip}>
+      <div style={[InstanceDetailsStyles.currentPlayers]}>
+        <img
+          src="../../static/images/minilogo.svg"
+          style={[InstanceDetailsStyles.metacriticIndicator]}
+          alt="Metacritic Score:"
+        />
+        <b>{vindex}</b>
+      </div>
+    </OverlayTrigger>
+  );
+}
+
+visibilityIndex.propTypes = {
+  vindex: PropTypes.number,
+};
+
+visibilityIndex.defaultProps = {
+  vindex: 0,
+};
+
 /**
  * @description - Helper method for generating a component to hold secondary,
  *                less prominent information about a game.
@@ -179,23 +371,23 @@ function secondaryDataCluster({
   _steamPlayers,
   steamPlayersUpdated,
 }) {
-  const _price = price ? `${price / 100}` : null;
+  const fullPrice = price ? `${price / 100}` : null;
 
   return (
     <div style={[InstanceDetailsStyles.secondaryDataCluster]}>
       <div style={[InstanceDetailsStyles.priceCluster]}>
         <div style={[InstanceDetailsStyles.priceIndicator]}>
-          {_price !== null ? 'Price:' : 'Unknown Price'}&nbsp;
+          {fullPrice !== null ? 'Price:' : 'Unknown Price'}&nbsp;
         </div>
         <div style={[InstanceDetailsStyles.priceTag]}>
-          {_price !== null ? `\$${_price}` : ''}
+          {fullPrice !== null ? `$${fullPrice}` : ''}
         </div>
       </div>
-      {vindex != undefined ? visibilityIndex(vindex) : ''}
+      {vindex !== undefined ? visibilityIndex({ vindex }) : ''}
       {metacriticScore ? metacritic({ metacriticScore, metacriticLink }) : ''}
       {
         steamID ? steamPlayers({
-          _steamPlayers,
+          playerCount: _steamPlayers,
           steamID,
           steamPlayersUpdated,
         }) : ''
@@ -212,6 +404,16 @@ secondaryDataCluster.propTypes = {
   steamID: PropTypes.number,
   _steamPlayers: PropTypes.number,
   steamPlayersUpdated: PropTypes.string,
+};
+
+secondaryDataCluster.defaultProps = {
+  price: 0,
+  vindex: 0,
+  metacriticScore: 0,
+  metacriticLink: null,
+  steamID: null,
+  _steamPlayers: 0,
+  steamPlayersUpdated: null,
 };
 
 /**
@@ -244,6 +446,10 @@ synopsisSection.propTypes = {
   synopsis: PropTypes.string,
 };
 
+synopsisSection.defaultProps = {
+  synopsis: null,
+};
+
 /**
  * @description - Helper method for generating a component to hold a screenshot
  *                carousel/gallery component.
@@ -254,19 +460,23 @@ synopsisSection.propTypes = {
 function screenshotGallery({
   screenshots,
 }) {
-  const _screenshots = screenshots || [];
+  const allScreenshots = screenshots || [];
 
   return (
     <Carousel style={InstanceDetailsStyles.carousel}>
       {
-        _screenshots.map(_screenshot => screenshot(_screenshot))
+        allScreenshots.map(_screenshot => screenshot(_screenshot))
       }
     </Carousel>
   );
 }
 
 screenshotGallery.propTypes = {
-  screenshots: PropTypes.array,
+  screenshots: PropTypes.array, //eslint-disable-line
+};
+
+screenshotGallery.defaultProps = {
+  screenshots: [],
 };
 
 /**
@@ -336,51 +546,6 @@ externalLink.propTypes = {
 };
 
 /**
- * @description - Helper method for converting an ISO 8601 formatted date
- *                string to a natural language string.
- * @param {Object} props
- * @param {String} props.date
- * @returns {String}
- */
-function dateToString(date) {
-  const dateType = new Date(Date.parse(date));
-  const months = ['January',
-    'February',
-    'March',
-    'April',
-    'May',
-    'June',
-    'July',
-    'August',
-    'September',
-    'October',
-    'November',
-    'December'];
-  let sup = '';
-  const day = dateType.getDate();
-  if (day === 1 || day === 21 || day === 31) {
-    sup = 'st';
-  } else if (day === 2 || day === 22) {
-    sup = 'nd';
-  } else if (day === 3 || day === 23) {
-    sup = 'rd';
-  } else {
-    sup = 'th';
-  }
-
-  const month = dateType.getMonth();
-  const year = dateType.getFullYear();
-
-  return (
-    `${months[month]} ${day}${sup}, ${year}`
-  );
-}
-
-dateToString.propTypes = {
-  date: PropTypes.string.isRequired,
-};
-
-/**
  * @description - Helper method for generating a clickable button element.
  * @param {Object} props
  * @param {String} props.url
@@ -412,132 +577,6 @@ bigButton.propTypes = {
 };
 
 /**
- * @description - Helper method for generating a component to hold the
- *                visibility index for a game.
- * @param {Object} props
- * @param {Number} props.vindex
- * @returns {React.Component}
- */
-function visibilityIndex(vindex) {
-  const visibilityIndexTooltip = (
-    <Tooltip id="visibilityIndexTooltip">
-      A visibility metric computed by GameFrame ranging from 0 (least visible) to 100 (most visible)
-    </Tooltip>
-  );
-
-  return (
-    <OverlayTrigger placement="top" overlay={visibilityIndexTooltip}>
-      <div style={[InstanceDetailsStyles.currentPlayers]}>
-        <img
-          src="../../static/images/minilogo.svg"
-          style={[InstanceDetailsStyles.metacriticIndicator]}
-          alt="Metacritic Score:"
-        />
-        <b>{vindex}</b>
-      </div>
-    </OverlayTrigger>
-  );
-}
-
-visibilityIndex.propTypes = {
-  vindex: PropTypes.number,
-};
-
-/**
- * @description - Helper method for generating a component to hold a Metacritic
- *                score for a game.
- * @param {Object} props
- * @param {Number} props.metacriticScore
- * @param {String} props.metacriticLink
- * @returns {React.Component}
- */
-function metacritic({
-  metacriticScore,
-  metacriticLink,
-}) {
-  const metacriticTooltip = (
-    <Tooltip id="metacriticTooltip">
-      A rating computed by Metacritic ranging from 0 to 100
-    </Tooltip>
-  );
-
-  return (
-    <OverlayTrigger placement="top" overlay={metacriticTooltip}>
-      <a
-        href={metacriticLink}
-        target="none"
-        style={{
-          textDecoration: 'inherit',
-          color: 'inherit',
-        }}
-      >
-        <div style={[InstanceDetailsStyles.metacriticCluster]}>
-          <img
-            src="https://upload.wikimedia.org/wikipedia/commons/2/20/Metacritic.svg"
-            style={[InstanceDetailsStyles.metacriticIndicator]}
-            alt="Metacritic Score:"
-          />
-          <div style={[InstanceDetailsStyles.metacriticScore(metacriticScore)]}>
-            {metacriticScore}
-          </div>
-        </div>
-      </a>
-    </OverlayTrigger>
-  );
-}
-
-metacritic.propTypes = {
-  metacriticScore: PropTypes.number,
-  metacriticLink: PropTypes.string,
-};
-
-/**
- * @description - Helper method for generating a component to hold the number
- *                of people playing a game on Steam, if applicable.
- * @param {Object} props
- * @param {Number} props.playerCount
- * @param {Number} props.steamID
- * @param {String} props.steamPlayersUpdated
- * @returns {React.Component}
- */
-function steamPlayers({ playerCount, steamID, steamPlayersUpdated }) {
-  const steamPlayersTooltip = (
-    <Tooltip id="steamPlayersTooltip">
-      {`The number of Steam players currently playing this game (Last updated: ${steamPlayersUpdated})`}
-    </Tooltip>
-  );
-
-  return (
-    <OverlayTrigger placement="top" overlay={steamPlayersTooltip}>
-      <a
-        href={`http://www.steamcharts.com/app/${steamID}`}
-        target="none"
-        style={{ textDecoration: 'inherit', color: 'inherit' }}
-      >
-        <div style={[InstanceDetailsStyles.currentPlayers]}>
-          <img
-            style={{
-              height: 'calc(20px + 0.5vw)',
-              paddingTop: '2%',
-              marginRight: '4px',
-              width: 'auto',
-            }}
-            src="https://upload.wikimedia.org/wikipedia/commons/8/83/Steam_icon_logo.svg"
-          />
-          <b>{playerCount}</b>&nbsp;players
-        </div>
-      </a>
-    </OverlayTrigger>
-  );
-}
-
-steamPlayers.propTypes = {
-  playerCount: PropTypes.number,
-  steamID: PropTypes.number,
-  steamPlayersUpdated: PropTypes.string,
-};
-
-/**
  * @description - Helper method for generating a component to hold a collection
  *                of platform labels.
  * @param {Object} props
@@ -547,7 +586,7 @@ steamPlayers.propTypes = {
 function platformCluster({
   platforms,
 }) {
-  const _platforms = platforms || [];
+  const allPlatforms = platforms || [];
 
   return (
     <div style={[InstanceDetailsStyles.platformCluster]}>
@@ -556,7 +595,7 @@ function platformCluster({
       </div>
       <div style={[InstanceDetailsStyles.platformLabelGroup]}>
         {
-          _platforms.map((platform) => {
+          allPlatforms.map((platform) => {
             return (
               <span key={platform.name}>
                 <a href={`/search?q=${platform.name}`}>
@@ -570,7 +609,7 @@ function platformCluster({
           })
         }
         {
-          _platforms === [] ? 'Unknown' : ''
+          allPlatforms === [] ? 'Unknown' : ''
         }
       </div>
     </div>
@@ -578,7 +617,7 @@ function platformCluster({
 }
 
 platformCluster.propTypes = {
-  platforms: PropTypes.array.isRequired,
+  platforms: PropTypes.array.isRequired, //eslint-disable-line
 };
 
 /**
@@ -607,6 +646,10 @@ function ratingContainer({
 
 ratingContainer.propTypes = {
   _rating: PropTypes.string,
+};
+
+ratingContainer.defaultProps = {
+  _rating: null,
 };
 
 /**
@@ -644,10 +687,10 @@ function platformVideoContainer({
 }
 
 platformVideoContainer.propTypes = {
-  platforms: PropTypes.array.isRequired,
-  videos: PropTypes.array.isRequired,
-  articles: PropTypes.array.isRequired,
-  tweets: PropTypes.array.isRequired,
+  platforms: PropTypes.array.isRequired, // eslint-disable-line
+  videos: PropTypes.array.isRequired, // eslint-disable-line
+  articles: PropTypes.array.isRequired, // eslint-disable-line
+  tweets: PropTypes.array.isRequired, // eslint-disable-line
 };
 
 /**
@@ -662,6 +705,10 @@ function googleTrendsContainer({
 }) {
   const trendName = encodeURI(keyWord);
   const trendsURL = `https://trends.google.com:443/trends/embed/explore/TIMESERIES?req=%7B%22comparisonItem%22%3A%5B%7B%22keyword%22%3A%22${trendName}%22%2C%22geo%22%3A%22%22%2C%22time%22%3A%22all%22%7D%5D%2C%22category%22%3A0%2C%22property%22%3A%22%22%7D&tz=300&amp;eq=date%3Dall%26q%3D${trendName}`;
+
+  if (!keyWord) {
+    return null;
+  }
 
   return (
     <div style={[InstanceDetailsStyles.googleTrendsContainer]}>
@@ -680,6 +727,10 @@ function googleTrendsContainer({
 
 googleTrendsContainer.propTypes = {
   keyWord: PropTypes.string,
+};
+
+googleTrendsContainer.defaultProps = {
+  keyWord: null,
 };
 
 /**
@@ -713,7 +764,7 @@ function developerGridCluster({
 }
 
 developerGridCluster.propTypes = {
-  developers: PropTypes.array.isRequired,
+  developers: PropTypes.array.isRequired, // eslint-disable-line
 };
 
 /**
@@ -746,7 +797,7 @@ function articleGridCluster({
 }
 
 articleGridCluster.propTypes = {
-  articles: PropTypes.array.isRequired,
+  articles: PropTypes.array.isRequired, // eslint-disable-line
 };
 
 /**
@@ -770,8 +821,8 @@ function modelGridClusters({
 }
 
 modelGridClusters.propTypes = {
-  developers: PropTypes.array.isRequired,
-  articles: PropTypes.array.isRequired,
+  developers: PropTypes.array.isRequired, // eslint-disable-line
+  articles: PropTypes.array.isRequired, // eslint-disable-line
 };
 
 /**
@@ -807,7 +858,7 @@ function videoGridCluster({
 }
 
 videoGridCluster.propTypes = {
-  videos: PropTypes.array.isRequired,
+  videos: PropTypes.array.isRequired, // eslint-disable-line
 };
 
 /**
@@ -825,10 +876,10 @@ function steamBigButton({
   return (
     <div>
       {
-        steamIDs.map(steamID => bigButton({
-          url: `https://store.steampowered.com/app/${steamID}/`,
+        steamIDs.map(_steamID => bigButton({
+          url: `https://store.steampowered.com/app/${_steamID}/`,
           label: 'View on Steam',
-          buttonKey: `steamButton-${steamID}`,
+          buttonKey: `steamButton-${_steamID}`,
         }))
       }
     </div>
@@ -837,6 +888,10 @@ function steamBigButton({
 
 steamBigButton.propTypes = {
   steamID: PropTypes.number,
+};
+
+steamBigButton.defaultProps = {
+  steamID: null,
 };
 
 /**
@@ -854,10 +909,10 @@ function igdbBigButton({
   return (
     <div>
       {
-        igdbLinks.map(igdbLink => bigButton({
-          url: igdbLink,
+        igdbLinks.map(_igdbLink => bigButton({
+          url: _igdbLink,
           label: 'View on IGDB',
-          buttonKey: `igdbButton-${igdbLink}`,
+          buttonKey: `igdbButton-${_igdbLink}`,
         }))
       }
     </div>
@@ -866,6 +921,10 @@ function igdbBigButton({
 
 igdbBigButton.propTypes = {
   igdbLink: PropTypes.string,
+};
+
+igdbBigButton.defaultProps = {
+  igdbLink: null,
 };
 
 /**
@@ -889,8 +948,13 @@ function bigButtonCluster({
 }
 
 bigButtonCluster.propTypes = {
-  left: PropTypes.object,
-  right: PropTypes.object,
+  left: PropTypes.object, //eslint-disable-line
+  right: PropTypes.object, //eslint-disable-line
+};
+
+bigButtonCluster.defaultProps = {
+  left: null,
+  right: null,
 };
 
 /**
@@ -906,6 +970,7 @@ class Game extends React.Component {
       id: PropTypes.number.isRequired,
       title: PropTypes.string.isRequired,
     })),
+    c_name: PropTypes.string,
     cover: PropTypes.string,
     // this is derived state using selectors
     developers: PropTypes.arrayOf(PropTypes.shape({
@@ -933,10 +998,13 @@ class Game extends React.Component {
       alt: PropTypes.string,
     })),
     steam_id: PropTypes.number,
+    steam_players: PropTypes.number,
     steam_players_updated: PropTypes.string,
     summary: PropTypes.string,
+    tweets: PropTypes.arrayOf(PropTypes.shape({
+      timestamp: PropTypes.string.isRequired,
+    })),
     videos: PropTypes.arrayOf(PropTypes.shape({
-      channel: PropTypes.string.isRequired,
       description: PropTypes.string.isRequired,
       name: PropTypes.string.isRequired,
       thumbnail: PropTypes.string.isRequired,
@@ -951,6 +1019,7 @@ class Game extends React.Component {
 
   static defaultProps = {
     articles: [],
+    c_name: null,
     cover: null,
     developers: [],
     error: null,
@@ -966,8 +1035,10 @@ class Game extends React.Component {
     requested: false,
     screenshots: [{ url: '', alt: '' }],
     steam_id: null,
+    steam_players: null,
     steam_players_updated: 'Never',
     summary: null,
+    tweets: [],
     vindex: 0,
     videos: [],
   };
