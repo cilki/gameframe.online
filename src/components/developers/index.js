@@ -1,6 +1,8 @@
+/**
+ * index.js file for developers folder.
+ */
 
 import { createAction } from 'redux-actions';
-
 import Presenter from './Developers';
 import { createContainer, createReducer } from '../generic-grid';
 import { developers as developersSchema } from '../Schemas';
@@ -17,7 +19,6 @@ import { developerFilters as defaultFilterOptions } from '../FilterOptions';
 const developersResponse = { objects: [developersSchema] };
 const setPageAction = createAction('SET_DEVELOPER_PAGE');
 const setTotalPagesAction = createAction('SET_DEVELOPERS_TOTAL_PAGES');
-
 const Developers = createContainer(
   Presenter,
   developersResponse,
@@ -55,4 +56,3 @@ export const reducer = createReducer(
   defaultFilterOptions,
   { label: 'Games made', value: 'game_count' },
 );
-

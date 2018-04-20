@@ -4,10 +4,10 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Helmet } from 'react-helmet';
 import { GenericGrid } from '../generic-grid';
 import Card from '../card';
 import Fields from '../fields';
-import { Helmet } from 'react-helmet';
 
 class Developers extends React.Component {
   static propTypes = {
@@ -89,7 +89,7 @@ class Developers extends React.Component {
           ) : ''
         }
         {
-          !requested && models.length == 0 ? (
+          !requested && models.length === 0 ? (
             <div style={{
               color: '#dfdfdf',
               textShadow: '0px 4px 3px rgba(0, 0, 0, 0.4), 0px 8px 13px rgba(0, 0, 0, 0.1), 0px 18px 23px rgba(0, 0, 0, 0.1)',
