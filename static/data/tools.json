@@ -39,7 +39,7 @@
     "cover": "../../../../static/images/tools/docker_vertical.svg",
     "name": "Docker",
     "url": "https://www.docker.com/",
-    "usage": "The frontend and backend HTTP servers are ran in Dockerized containers which allows them to be deployed to any machine for easy testing."
+    "usage": "The frontend and backend HTTP servers are running in Dockerized containers which allows them to be deployed to any machine for easy testing."
   },
   {
     "cover": "https://raw.githubusercontent.com/d3/d3-logo/master/d3.png",
