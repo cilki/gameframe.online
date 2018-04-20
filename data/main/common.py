@@ -1,9 +1,10 @@
 # --------------------------------
-# GameFrame API scraper          -
+# Common                         -
 # Copyright (C) 2018 GameFrame   -
 # --------------------------------
 
 import os
+
 
 """
 The GameFrame CDN URL for images
@@ -17,14 +18,34 @@ CACHE_GAMEFRAME = os.environ['CACHE_GAMEFRAME']
 assert os.path.isdir(CACHE_GAMEFRAME)
 
 """
-Run statistics
+The standard progress bar format
 """
-METRICS = {'steam.filtered.genre': 0, 'steam.filtered.deficient': 0,
-           'steam.filtered.failed': 0, 'steam.new_downloads': 0,
+PROGRESS_FORMAT = "{desc} |{bar}| {n_fmt}/{total_fmt} [{elapsed} elapsed]"
 
-           'igdb.filtered.genre': 0, 'igdb.filtered.deficient': 0,
-           'igdb.filtered.failed': 0, 'igdb.new_downloads': 0,
+"""
+Storage for the global TableCaches
+"""
+TC = {}
 
-           'newsapi.new_downloads': 0,
+import cache
 
-           'youtube.new_downloads': 0}
+
+def load_registry(model, key):
+    """
+    Load a TableCache if not already loaded
+    """
+    model_key = model + '.' + key
+
+    if model_key not in TC:
+        import registry
+        TC[model_key] = cache.TableCache(eval('registry.Cached' + model), key)
+
+
+def unload_registry(model, key):
+    """
+    Explicitly unload a TableCache
+    """
+    model_key = model + '.' + key
+
+    if model_key in TC:
+        del TC[model_key]

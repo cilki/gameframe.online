@@ -29,24 +29,24 @@
     {
       "enabled": true,
       "key": "developer_id",
-      "value": "1",
+      "value": "2",
       "type": "text"
     },
     {
       "enabled": true,
       "key": "article_id",
-      "value": "8777",
+      "value": "335533",
       "type": "text"
     },
     {
       "enabled": true,
       "key": "video_id",
-      "value": "4745",
+      "value": "4740",
       "type": "text"
     }
   ],
-  "timestamp": 1522961572397,
+  "timestamp": 1524191730791,
   "_postman_variable_scope": "environment",
-  "_postman_exported_at": "2018-04-05T20:53:18.936Z",
+  "_postman_exported_at": "2018-04-20T02:38:34.837Z",
   "_postman_exported_using": "Postman/5.5.2"
 }

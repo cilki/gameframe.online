@@ -7,7 +7,7 @@ import flask
 import flask_sqlalchemy
 import flask_restless
 
-from .orm import Game, Developer, Article, Tweet, Video, Platform, Genre
+from orm import Game, Developer, Article, Tweet, Video, Platform, Genre
 
 
 def generate_api(app, db):
@@ -27,19 +27,17 @@ def generate_api(app, db):
 
     # Generate optimized grid endpoints
     API.create_api(Game, methods=['GET'], url_prefix='/v1/grid',
-                   include_columns=['game_id', 'name', 'price', 'cover',
-                                    'platforms', 'release', 'developer',
-                                    'genres', 'developer_count', 'article_count'])
+                   exclude_columns=['background', 'c_name', 'screenshots',
+                                    'summary', 'tweets', 'articles',
+                                    'developers', 'videos'])
 
     API.create_api(Developer, methods=['GET'], url_prefix='/v1/grid',
-                   include_columns=['developer_id', 'name', 'logo', 'website',
-                                    'twitter', 'foundation', 'game_count',
-                                    'article_count', 'country'])
+                   exclude_columns=['c_name', 'description', 'games', 'tweets',
+                                    'articles'])
 
     API.create_api(Article, methods=['GET'], url_prefix='/v1/grid',
-                   include_columns=['article_id', 'title', 'cover', 'game_count',
-                                    'article_link', 'developer_count', 'author',
-                                    'timestamp'])
+                   exclude_columns=['c_title', 'introduction', 'games',
+                                    'developers'])
 
     # Generate unpaginated list endpoints
     API.create_api(Game, methods=['GET'], url_prefix='/v1/list',
@@ -52,3 +50,24 @@ def generate_api(app, db):
                    results_per_page=-1)
     API.create_api(Genre, methods=['GET'], url_prefix='/v1/list',
                    results_per_page=-1)
+
+    # Generate stat endpoints
+    @app.route('/v1/stat/game/count')
+    def stat_game_count():
+        return str(Game.query.count())
+
+    @app.route('/v1/stat/developer/count')
+    def stat_developer_count():
+        return str(Developer.query.count())
+
+    @app.route('/v1/stat/article/count')
+    def stat_article_count():
+        return str(Article.query.count())
+
+    @app.route('/v1/stat/video/count')
+    def stat_video_count():
+        return str(Video.query.count())
+
+    @app.route('/v1/stat/tweet/count')
+    def stat_tweet_count():
+        return str(Tweet.query.count())

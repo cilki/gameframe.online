@@ -16,6 +16,7 @@ class Game(db.Model):
     """
     One of the three primary models, Game represents a video game.
     """
+    __bind_key__ = 'gameframe'
 
     # The game's GameFrame ID
     game_id = db.Column(db.Integer, primary_key=True)
@@ -44,8 +45,11 @@ class Game(db.Model):
     # The game's cover image
     cover = db.Column(db.Text)
 
+    # The game's steam image
+    steam_header = db.Column(db.Text)
+
     # Screenshots
-    screenshots = db.relationship('Image', cascade='all, delete-orphan')
+    screenshots = db.Column(db.JSON)
 
     # A summary written by Steam or IGDB
     summary = db.Column(db.Text)
@@ -59,8 +63,8 @@ class Game(db.Model):
     # Compatible platforms
     platforms = db.relationship('Platform',  secondary='join_game_platform')
 
-    # A background image
-    background = db.Column(db.Text)
+    # A link to the Metacritic review page
+    metacritic_link = db.Column(db.Text)
 
     # Metacritic rating
     metacritic = db.Column(db.Integer)
@@ -74,12 +78,17 @@ class Game(db.Model):
     # Primary developer's name
     developer = db.Column(db.Text)
 
+    # The number of current Steam players
+    steam_players = db.Column(db.Integer)
+
+    # The last update timestamp of Steam players
+    steam_players_updated = db.Column(db.DateTime)
+
     # Number of tweets
     tweet_count = db.Column(db.Integer)
 
     # Tweets
-    tweets = db.relationship(
-        'Tweet', secondary='join_game_tweet', back_populates="games")
+    tweets = db.relationship('Tweet', secondary='join_game_tweet')
 
     # Number of articles
     article_count = db.Column(db.Integer)
@@ -107,6 +116,7 @@ class Article(db.Model):
     One of the three primary models, Article represents an article related to a
     Game or Developer.
     """
+    __bind_key__ = 'gameframe'
 
     article_id = db.Column(db.Integer, primary_key=True)
 
@@ -154,6 +164,7 @@ class Developer(db.Model):
     One of the three primary models, Developer represents a developer/publisher
     of a Game.
     """
+    __bind_key__ = 'gameframe'
 
     # The developer's GameFrame ID
     developer_id = db.Column(db.Integer, primary_key=True)
@@ -189,15 +200,18 @@ class Developer(db.Model):
     article_count = db.Column(db.Integer)
 
     # Articles
-    articles = db.relationship(
-        'Article', secondary='join_article_developer', back_populates="developers")
+    articles = db.relationship('Article', secondary='join_article_developer',
+                               back_populates="developers")
+
+    # Number of tweets
+    tweet_count = db.Column(db.Integer)
 
     # Number of games
     game_count = db.Column(db.Integer)
 
     # Games
-    games = db.relationship(
-        'Game', secondary='join_game_developer', back_populates="developers")
+    games = db.relationship('Game', secondary='join_game_developer',
+                            back_populates="developers")
 
 
 class Tweet(db.Model):
@@ -205,19 +219,15 @@ class Tweet(db.Model):
     One of the supporting models, Tweet represents a tweet related to a Game or
     Developer.
     """
+    __bind_key__ = 'gameframe'
 
     tweet_id = db.Column(db.Integer, primary_key=True)
-    twitter_id = db.Column(db.Integer)
-    content = db.Column(db.Text)
-    user = db.Column(db.Text)
+
+    # The tweet's Twitter ID
+    twitter_id = db.Column(db.BigInteger)
+
+    # The tweet's post timestamp
     timestamp = db.Column(db.DateTime)
-    tweet_link = db.Column(db.Text)
-
-    games = db.relationship(
-        'Game', secondary='join_game_tweet', back_populates="tweets")
-
-    developer_id = db.Column(
-        db.Integer, db.ForeignKey('developer.developer_id'))
 
 
 class Video(db.Model):
@@ -225,6 +235,7 @@ class Video(db.Model):
     One of the supporting models, Video represents a Youtube video related to a
     Game or Developer.
     """
+    __bind_key__ = 'gameframe'
 
     video_id = db.Column(db.Integer, primary_key=True)
     youtube_id = db.Column(db.Text)
@@ -234,9 +245,6 @@ class Video(db.Model):
 
     # The video's description
     description = db.Column(db.Text)
-
-    # The uploader's YouTube channel name
-    channel = db.Column(db.Text)
 
     # The video's publishing timestamp
     timestamp = db.Column(db.DateTime)
@@ -249,21 +257,15 @@ class Video(db.Model):
 
 
 class Genre(db.Model):
+    __bind_key__ = 'gameframe'
     genre_id = db.Column(db.Integer, primary_key=True)
 
     # The user-friendly genre name
     name = db.Column(db.Text)
 
 
-class Image(db.Model):
-    image_id = db.Column(db.Integer, primary_key=True)
-    game_id = db.Column(db.Integer, db.ForeignKey('game.game_id'))
-
-    # The image's URL
-    url = db.Column(db.Text)
-
-
 class Platform(db.Model):
+    __bind_key__ = 'gameframe'
     platform_id = db.Column(db.Integer, primary_key=True)
 
     # The user-friendly platform name
@@ -277,40 +279,47 @@ join_game_genre = db.Table('join_game_genre',
                            db.Column('game_id', db.Integer,
                                      db.ForeignKey('game.game_id')),
                            db.Column('genre_id', db.Integer,
-                                     db.ForeignKey('genre.genre_id')))
+                                     db.ForeignKey('genre.genre_id')),
+                           info={'bind_key': 'gameframe'})
 
 join_game_platform = db.Table('join_game_platform',
                               db.Column('game_id', db.Integer,
                                         db.ForeignKey('game.game_id')),
                               db.Column('platform_id', db.Integer,
-                                        db.ForeignKey('platform.platform_id')))
+                                        db.ForeignKey('platform.platform_id')),
+                              info={'bind_key': 'gameframe'})
 
 join_game_article = db.Table('join_game_article',
                              db.Column('game_id', db.Integer,
                                        db.ForeignKey('game.game_id')),
                              db.Column('article_id', db.Integer,
-                                       db.ForeignKey('article.article_id')))
+                                       db.ForeignKey('article.article_id')),
+                             info={'bind_key': 'gameframe'})
 
 join_game_tweet = db.Table('join_game_tweet',
                            db.Column('game_id', db.Integer,
                                      db.ForeignKey('game.game_id')),
                            db.Column('tweet_id', db.Integer,
-                                     db.ForeignKey('tweet.tweet_id')))
+                                     db.ForeignKey('tweet.tweet_id')),
+                           info={'bind_key': 'gameframe'})
 
 join_game_video = db.Table('join_game_video',
                            db.Column('game_id', db.Integer,
                                      db.ForeignKey('game.game_id')),
                            db.Column('video_id', db.Integer,
-                                     db.ForeignKey('video.video_id')))
+                                     db.ForeignKey('video.video_id')),
+                           info={'bind_key': 'gameframe'})
 
 join_game_developer = db.Table('join_game_developer',
                                db.Column('game_id', db.Integer,
                                          db.ForeignKey('game.game_id')),
                                db.Column('developer_id', db.Integer,
-                                         db.ForeignKey('developer.developer_id')))
+                                         db.ForeignKey('developer.developer_id')),
+                               info={'bind_key': 'gameframe'})
 
 join_article_developer = db.Table('join_article_developer',
                                   db.Column('article_id', db.Integer,
                                             db.ForeignKey('article.article_id')),
                                   db.Column('developer_id', db.Integer,
-                                            db.ForeignKey('developer.developer_id')))
+                                            db.ForeignKey('developer.developer_id')),
+                                  info={'bind_key': 'gameframe'})

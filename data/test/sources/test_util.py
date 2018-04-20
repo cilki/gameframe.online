@@ -1,76 +1,13 @@
 # --------------------------------
-# Backend unit tests             -
+# Unit tests for the API scraper -
 # Copyright (C) 2018 GameFrame   -
 # --------------------------------
 
-import sys
-sys.path.insert(0, 'data/main')
-sys.path.insert(0, 'app')
-
-from pathlib import Path
 import datetime
+from orm import Game, Developer, Video, Article
 
 from unittest import main, TestCase
-from wand.image import Image
-from wand.color import Color
-
-from orm import Game, Developer, Video, Article
-from cdgen.steam import color_average
-import sources.igdb
-import sources.steam
-from sources.util import parse_steam_date, condition, condition_heavy, condition_developer, keywordize, xappend
-
-
-class TestSteamCD (TestCase):
-
-    def test_color_average(self):
-        # Test with empty image
-        with Image(width=100, height=100) as test:
-            self.assertEqual((0, 0, 0), color_average(test))
-
-        # Test with solid image
-        with Image(width=100, height=100, background=Color('rgb(12, 56, 23)')) as test:
-            self.assertEqual((12, 56, 23), color_average(test))
-
-        # TODO Test the 25% shortcut and top 50% averaging
-
-
-class TestIGDB (TestCase):
-    def test_rq_game(self):
-        """
-        Attempt to request a game
-        """
-
-        game_rq = sources.igdb.rq_game_block(9349)
-
-        self.assertFalse(game_rq is None)
-
-
-class TestSteam (TestCase):
-
-    def test_app_list(self):
-        """
-        Test the app list request
-        """
-
-        # There should be more than 50,000 apps in the request
-        apps = sources.steam.rq_app_list()
-        self.assertTrue(len(apps) > 50000)
-
-        # Every call to rq_app_list should return the same object
-        self.assertTrue(apps is sources.steam.rq_app_list())
-        self.assertTrue(sources.steam.rq_app_list()
-                        is sources.steam.rq_app_list())
-
-    def test_rq_game(self):
-        """
-        Attempt to request a game
-        """
-
-        game_rq = sources.steam.rq_game(570)
-
-        self.assertFalse(game_rq is None)
-        self.assertTrue('570' in game_rq)
+from main.sources.util import parse_steam_date, condition, condition_heavy, condition_developer, keywordize, xappend, url_normalize, dict_delete
 
 
 class TestUtil (TestCase):
@@ -78,13 +15,13 @@ class TestUtil (TestCase):
     def test_parse_steam_date(self):
         # Test value
 
-        self.assertEqual(str(datetime.datetime(2017, 3, 8)),
+        self.assertEqual(str(datetime.datetime(2017, 3, 8).date()),
                          str(parse_steam_date("Mar 8, 2017")))
-        self.assertEqual(str(datetime.datetime(2017, 3, 1)),
+        self.assertEqual(str(datetime.datetime(2017, 3, 1).date()),
                          str(parse_steam_date("Mar 2017")))
-        self.assertEqual(str(datetime.datetime(1968, 2, 28)),
+        self.assertEqual(str(datetime.datetime(1968, 2, 28).date()),
                          str(parse_steam_date("Feb 28, 1968")))
-        self.assertEqual(str(datetime.datetime(3019, 10, 1)),
+        self.assertEqual(str(datetime.datetime(3019, 10, 1).date()),
                          str(parse_steam_date("Oct 3019")))
 
     def test_condition(self):
@@ -93,16 +30,16 @@ class TestUtil (TestCase):
         """
 
         self.assertEqual("great title: edition", condition(
-            "Great® ®Title™: <sup>edition"))
+            u"Great® ®Title™: <sup>edition"))
         self.assertEqual("no special chars 89", condition(
             "No special chars 89"))
 
     def test_condition_heavy(self):
 
         self.assertEqual("visualizethemovie", condition_heavy(
-            "vi|sua@li!z<e; +the€ mO\v/vie"))
+            u"vi|sua@li!z<e; +the€ mO\v/vie"))
         self.assertEqual("ringring", condition_heavy(
-            "®Ri NG®;./  <sup><r!@ing?>"))
+            u"®Ri NG®;./  <sup><r!@ing?>"))
         self.assertEqual("_underscores_", condition_heavy(
             ";-; (: ¯\_(underscores)_/¯"))
         self.assertEqual("hello", condition_heavy(
@@ -117,7 +54,7 @@ class TestUtil (TestCase):
         self.assertEqual("double:dot arts", condition_developer(
             "Double:Dot Arts Inc."))
         self.assertEqual("warlord coorp", condition_developer(
-            "Warlord Coorp®"))
+            u"Warlord Coorp®"))
         self.assertEqual("technology", condition_developer(
             "Technology™ Studios"))
 
@@ -137,7 +74,7 @@ class TestUtil (TestCase):
             "the adventure: greatest game of all time!!", keywordize(game2))
 
         dev2 = Developer()
-        dev2.name = "Trademark™ Arts®"
+        dev2.name = u"Trademark™ Arts®"
         self.assertEqual("trademark arts", keywordize(dev2))
 
     def test_xappend(self):
@@ -160,6 +97,29 @@ class TestUtil (TestCase):
         self.assertTrue(dev in article.developers)
         self.assertEqual(len1, len(dev.articles))
         self.assertEqual(len2, len(article.developers))
+
+    def test_dict_delete(self):
+
+        a = {'A': 'x', 'B': 'y', 'C': 'z'}
+        dict_delete(a, 'C')
+        self.assertEqual(a, {'A': 'x', 'B': 'y'})
+
+        b = {'M': 'p', 'N': 'q'}
+        dict_delete(b, 'U')
+        self.assertEqual(b, {'M': 'p', 'N': 'q'})
+
+    def test_url_normalize(self):
+
+        self.assertEqual("http://gameframe.online", url_normalize(
+                         "//gameframe.online"))
+        self.assertEqual("http://www.cs.utexas.edu/", url_normalize(
+                         "www.cs.utexas.edu/"))
+        self.assertEqual("http://steamcommunity.com", url_normalize(
+                         "steamcommunity.com"))
+        self.assertEqual("https://github.com/", url_normalize(
+                         "https://github.com/"))
+        self.assertEqual("http://www.youtube.com/", url_normalize(
+                         "http://www.youtube.com/"))
 
 
 if __name__ == '__main__':

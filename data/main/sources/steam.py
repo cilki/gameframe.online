@@ -3,10 +3,7 @@
 # Copyright (C) 2018 GameFrame   -
 # --------------------------------
 
-import json
-import os
 import re
-from codecs import open
 from functools import lru_cache
 from itertools import chain
 
@@ -16,32 +13,24 @@ from datetime import datetime
 from tqdm import tqdm
 
 from aws import upload_image
-from cache import WS, Cache, load_working_set
+from cache import WS, FolderCache, load_working_set
 from cdgen.steam import generate
-from common import METRICS, CDN_URI
-from orm import Developer, Game, Article, Genre, Image, Platform
+from common import CACHE_GAMEFRAME, CDN_URI, PROGRESS_FORMAT, TC, load_registry
+from orm import Game, Article, Genre, Platform
+from registry import CachedGame, CachedArticle
+from sources.util import (condition, condition_developer, condition_heavy,
+                          parse_steam_date, generic_collect, vstrlen, xappend)
 
-from .util import condition, condition_developer, condition_heavy, parse_steam_date, xappend
-
-"""
-The game cache
-"""
-CACHE_GAME = Cache("/steam/games")
-
-"""
-The article cache
-"""
-CACHE_ARTICLE = Cache("/steam/articles")
 
 """
 The header image cache
 """
-CACHE_HEADER = Cache("/steam/headers")
+CACHE_HEADER = FolderCache(CACHE_GAMEFRAME + "/steam/headers")
 
 """
 The CD image cache
 """
-CACHE_CD = Cache("/steam/cds")
+CACHE_CD = FolderCache(CACHE_GAMEFRAME + "/steam/cds")
 
 
 """
@@ -59,7 +48,7 @@ def rq_app_list():
     """
     Request Steam's entire app list using the Steam API.
     """
-    print("[STEAM] Downloading app list... ")
+    print("[COLLECT] Downloading application directory")
 
     rq = requests.get("https://api.steampowered.com/ISteamApps/GetAppList/v2")
 
@@ -67,116 +56,75 @@ def rq_app_list():
     return rq.json()['applist']['apps']
 
 
-@rate_limited(period=35, every=60)
-def rq_game(appid):
+def rq_player_count(appid: int):
+    """
+    Request the current number of Steam players for the given game
+    """
+
+    rq = requests.get("https://api.steampowered.com/ISteamUserStats/" +
+                      "GetNumberOfCurrentPlayers/v1", {'appid': appid})
+
+    if not rq.status_code == requests.codes.ok:
+        return None
+
+    rq = rq.json()['response']
+
+    if rq['result'] == 1:
+        return rq['player_count']
+
+    return None
+
+
+@rate_limited(period=40, every=60)
+def rq_game(appid: int):
     """
     Request game metadata from Steam
     """
 
+    # Metadata request
     rq = requests.get("http://store.steampowered.com/api/appdetails",
                       {'appids': str(appid)})
 
     assert rq.status_code == requests.codes.ok
-    return rq.json()
+    game_json = rq.json()[str(appid)]
+
+    # Filter failed queries
+    TC['Game.steam_id'].add(CachedGame(steam_id=appid,
+                                       steam_data=game_json['data']
+                                       if validate_game(game_json) else None))
 
 
-@rate_limited(period=35, every=60)
-def rq_articles(appid):
+@rate_limited(period=40, every=60)
+def rq_articles(game):
     """
     Request game news from Steam
     """
+    assert game.steam_id is not None
 
     rq = requests.get("https://api.steampowered.com/ISteamNews/GetNewsForApp/v2",
-                      {'appid': appid, 'count': 500})
+                      {'appid': game.steam_id, 'count': 500})
 
     if rq.status_code == requests.codes.forbidden:
-        return []
+        return
 
     assert rq.status_code == requests.codes.ok
-    return rq.json()['appnews']['newsitems']
+    for article_json in rq.json()['appnews']['newsitems']:
+        TC['Article.game_id'].add(
+            CachedGame(game_id=game.game_id,
+                       steam_data=article_json
+                       if validate_article(article_json) else None))
 
 
-def rq_player_count(appid):
+def build_game(game, game_json):
     """
-    Request the current number of players
+    Incorperate the given Steam data into a Game object
     """
-
-    rq = requests.get("https://api.steampowered.com/ISteamUserStats/GetNumberOfCurrentPlayers/v1",
-                      {'appid': appid})
-
-    if rq.status_code == requests.codes.not_found:
-        return 0
-
-    assert rq.status_code == requests.codes.ok
-    return rq.json()['response'].get('player_count', 0)
-
-
-def load_game_json(appid):
-    """
-    Retrieve a filtered game from the cache or download it from Steam
-    """
-
-    if not CACHE_GAME.exists(appid):
-        game_json = rq_game(appid)
-        METRICS['steam.new_downloads'] += 1
-
-        # Write to the cache
-        CACHE_GAME.write_json(appid, game_json)
-    else:
-        game_json = CACHE_GAME.read_json(appid)
-
-    # Advance
-    game_json = game_json[str(appid)]
-
-    # Filter failed queries
-    if game_json['success'] == 'false':
-        METRICS['steam.filtered.failed'] += 1
-        return None
-
-    # Ensure the game has data
-    if 'data' not in game_json:
-        METRICS['steam.filtered.failed'] += 1
-        return None
-
-    # Advance
-    game_json = game_json['data']
-
-    # Filter non-games
-    if not game_json['type'] == 'game':
-        METRICS['steam.filtered.genre'] += 1
-        return None
-
-    # Filter unwanted genres
-    if any(x['description'] in UNWANTED_GENRES for x in game_json.get('genres', [])):
-        METRICS['steam.filtered.genre'] += 1
-        return None
-
-    return game_json
-
-
-def build_game(game_json):
-    """
-    Build a filtered Game object from the raw data, taking into account
-    previous Games.
-    """
-
-    # Steam ID matching
-    game = WS.game_steam.get(game_json['steam_appid'])
-
-    # Exact name matching
-    if game is None:
-        game = WS.game_name.get(condition(game_json['name']))
-
-    # Build new Game
-    if game is None:
-        game = Game()
-
-    if game.steam_id is not None and game.igdb_id is None:
-        # This game was already merged
-        return game
+    if game is None or game_json is None:
+        return
 
     # Steam ID
-    game.steam_id = game_json['steam_appid']
+    if game.steam_id is None:
+        game.steam_id = game_json['steam_appid']
 
     # Title
     if game.name is None:
@@ -193,10 +141,6 @@ def build_game(game_json):
     elif game.price is None and 'price_overview' in game_json:
         game.price = game_json['price_overview']['final']
 
-    # Background
-    if game.background is None and 'background' in game_json:
-        game.background = game_json['background']
-
     # Website
     if game.website is None and 'website' in game_json:
         game.website = game_json['website']
@@ -211,9 +155,10 @@ def build_game(game_json):
 
     # Screenshots
     for screenshot in game_json.get('screenshots', []):
-        url = screenshot['path_full'].split('?', 1)[0]
-        if next((x for x in game.screenshots if x.url == url), None) is None:
-            game.screenshots.append(Image(url=url))
+        if game.screenshots is None:
+            game.screenshots = []
+        xappend(game.screenshots, {
+                'url': screenshot['path_full'].split('?', 1)[0]})
 
     # Genres
     for genre in game_json.get('genres', []):
@@ -229,37 +174,38 @@ def build_game(game_json):
     if game.metacritic is None and 'metacritic' in game_json:
         game.metacritic = game_json['metacritic']['score']
 
+    # Metacritic link
+    if game.metacritic_link is None and 'metacritic' in game_json:
+        game.metacritic_link = game_json['metacritic']['url']
+
     # Cover
     if game.cover is None and CACHE_CD.exists("%d.png" % game.steam_id):
         game.cover = "%s/cover/steam/%d.png" % (CDN_URI, game.steam_id)
 
-    return game
+    # Steam Header
+    if game.steam_header is None and 'header_image' in game_json:
+        game.steam_header = game_json['header_image']
 
 
-def build_article(article_json):
+def build_article(article, article_json):
     """
-    Build a new Article object from the raw data
+    Incorperate the given Steam data into an Article object
     """
-
-    # Build new Article
-    article = Article()
+    if article is None or article_json is None:
+        return
 
     # Title
-    if article_json.get('title'):
+    if article.title is None and article_json.get('title'):
         article.title = article_json['title']
         article.c_title = condition(article.title)
-    else:
-        return None
 
     # Introduction
-    if article_json.get('contents'):
+    if article.introduction is None and article_json.get('contents'):
         article.introduction = article_json['contents']
-    else:
-        return None
 
     # Cover
     match = re.search(r'src="([^"]+)"', article.introduction)
-    if match is not None:
+    if article.cover is None and match is not None:
         article.cover = match[1]
 
         if article.cover.startswith('//'):
@@ -268,73 +214,117 @@ def build_article(article_json):
         # Remove the image from description because it's now the cover
         re.sub(r"<img[.+]src=\"%s\"[.*]/>" %
                article.cover, '', article.introduction)
-    else:
-        return None
 
     # Author
-    if article_json.get('author'):
+    if article.author is None and article_json.get('author'):
         article.author = article_json['author']
-    else:
-        return None
 
     # URL
-    if article_json.get('url'):
+    if article.article_link is None and article_json.get('url'):
         article.article_link = article_json['url']
-    else:
-        return None
 
     # Timestamp
-    if article_json.get('date'):
+    if article.timestamp is None and article_json.get('date'):
         article.timestamp = datetime.fromtimestamp(article_json['date'])
-    else:
-        return None
 
     # Outlet
-    if article_json.get('feedlabel'):
+    if article.outlet is None and article_json.get('feedlabel'):
         article.outlet = article_json['feedlabel']
-    else:
-        return None
 
-    return article
+
+def validate_article(article_json):
+    """
+    Validate the content of a raw article
+    """
+    if article_json is None:
+        return False
+
+    try:
+        # Filter title
+        if not vstrlen(article_json['title'], 16):
+            return False
+
+        # Filter contents
+        if not vstrlen(article_json['contents'], 30):
+            return False
+
+        # Filter Outlet
+        if not vstrlen(article_json['feedlabel']):
+            return False
+
+        # Filter Article link
+        if not vstrlen(article_json['url'], 10):
+            return False
+
+    except KeyError:
+        return False
+    return True
+
+
+def validate_game(game_json):
+    """
+    Validate the content of a raw game
+    """
+    if game_json is None:
+        return False
+
+    try:
+        # Filter success
+        if game_json['success'] == 'false':
+            return False
+
+        # Filter type
+        if not game_json['data']['type'] == 'game':
+            return False
+
+        # Filter genre
+        if any(x['description'] in UNWANTED_GENRES for x in game_json['data'].get('genres', [])):
+            return False
+
+    except KeyError:
+        return False
+    return True
 
 
 def collect_games():
     """
-    Download missing games from Steam.
+    Download missing games from Steam
     """
     apps = rq_app_list()
+    load_registry('Game', 'steam_id')
 
-    print("[STEAM] Collecting games")
+    generic_collect(rq_game, TC['Game.steam_id'], '[COLLECT] Downloading Games',
+                    [app['appid'] for app in apps if not
+                     TC['Game.steam_id'].exists(app['appid'])])
 
-    # Load games
-    for app in tqdm(apps):
-        if not CACHE_GAME.exists(app['appid']):
-            load_game_json(app['appid'])
 
-    print("[STEAM] Collection complete")
+def collect_articles():
+    """
+    Download missing articles from Steam
+    """
+    load_working_set()
+    load_registry('Article', 'game_id')
+
+    generic_collect(rq_articles, TC['Article.game_id'], '[COLLECT] Downloading Articles',
+                    [game for game in WS.games_steam.values() if not
+                     TC['Article.game_id'].exists(game.game_id)])
 
 
 def collect_headers():
     """
     Download missing game headers from Steam
     """
-    apps = rq_app_list()
+    load_working_set()
 
-    print("[STEAM] Collecting game headers")
+    for game in tqdm(WS.games_steam.values(), '[COLLECT] Downloading headers',
+                     bar_format=PROGRESS_FORMAT):
+        appid = game.steam_id
+        if game.steam_header is not None and not CACHE_HEADER.exists(appid):
+            rq = requests.get(game.steam_header)
 
-    for app in tqdm(apps):
-        appid = app['appid']
-        if not CACHE_HEADER.exists(appid):
-            game_json = load_game_json(appid)
-            if game_json is not None and 'header_image' in game_json:
-                rq = requests.get(game_json['header_image'])
-
-                assert rq.status_code == requests.codes.ok
-
+            if rq.status_code == requests.codes.ok:
                 # Write the header to cache
                 CACHE_HEADER.write(appid, rq.content)
-
-    print("[STEAM] Collection complete")
 
 
 def generate_covers():
@@ -347,14 +337,13 @@ def generate_covers():
     WIN = WS.platforms[6]
     MAC = WS.platforms[14]
 
-    print("[STEAM] Generating covers")
-    for appid, game in tqdm(WS.game_steam.items()):
+    for game in tqdm(WS.games_steam.values(), '[GENERATE] Generating covers',
+                     bar_format=PROGRESS_FORMAT):
+        appid = game.steam_id
         if not CACHE_CD.exists(str(appid) + '.png') and CACHE_HEADER.exists(appid):
             generate("%s/%d" % (CACHE_HEADER, appid), "%s/%s" %
                      (CACHE_CD, str(appid) + '.png'),
                      LIN in game.platforms, WIN in game.platforms, MAC in game.platforms)
-
-    print("[STEAM] Generation Complete")
 
 
 def upload_covers():
@@ -363,109 +352,37 @@ def upload_covers():
     """
     load_working_set()
 
-    print("[STEAM] Uploading covers")
-
-    for appid, game in tqdm(WS.game_steam.items()):
+    for game in tqdm(WS.games_steam.values(), '[UPLOAD] Uploading covers'):
+        appid = game.steam_id
         if CACHE_CD.exists(str(appid) + '.png'):
             # Upload cover
             upload_image("%s/%d.png" % (CACHE_CD, appid),
-                         "cover/steam/%d.png" % game.steam_id)
-
-    print("[STEAM] Upload complete")
-
-
-def gather_articles():
-    """
-    Search for articles related to games and download them to the cache
-    """
-    load_working_set()
-
-    print("[STEAM] Gathering articles by game")
-    for appid, game in tqdm(WS.game_steam.items()):
-        if not CACHE_ARTICLE.exists(appid):
-            # Write to the cache
-            CACHE_ARTICLE.write_json(appid, rq_articles(appid))
-
-    print("[STEAM] Gather Complete")
-
-
-def merge_games():
-    """
-    Merge cached games into the working set
-    """
-    load_working_set()
-    apps = rq_app_list()
-
-    print("[STEAM] Merging games")
-    for app in tqdm(apps):
-        game_json = load_game_json(app['appid'])
-        if game_json is None:
-            continue
-
-        game = build_game(game_json)
-
-        # Add to working set
-        WS.add_game(game)
-
-    print("[STEAM] Merge complete")
-
-
-def merge_articles():
-    """
-    Merge cached articles into the working set and link
-    """
-    load_working_set()
-
-    print("[STEAM] Merging articles")
-    for appid in tqdm(CACHE_ARTICLE.list_dir()):
-        if int(appid) not in WS.game_steam:
-            continue
-        game = WS.game_steam[int(appid)]
-        articles = CACHE_ARTICLE.read_json(appid)
-
-        for article_json in articles:
-            article = build_article(article_json)
-            if article is None:
-                continue
-
-            # Associate with game
-            xappend(game.articles, article)
-
-            # Associate with game's developers
-            for dev in game.developers:
-                xappend(dev.articles, article)
-
-            # Add to working set
-            WS.add_article(article)
-
-    print("[STEAM] Merge complete")
+                         "cover/steam/%d.png" % appid)
 
 
 def link_developers():
     """
-    Perform the developer linking for Steam games according to name
+    Compute Game-Developer links according to developer name for Steam games
     """
     load_working_set()
+    load_registry('Game', 'steam_id')
 
-    print("[STEAM] Linking developers")
-
-    for game in tqdm(WS.game_steam.values()):
-        game_json = load_game_json(game.steam_id)
+    for game in tqdm(WS.games_steam.values(), '[LINK] Linking Steam developers',
+                     bar_format=PROGRESS_FORMAT):
+        game_json = TC['Game.steam_id'].get(game.steam_id).steam_data
         if game_json is None:
             continue
 
         for name in chain(game_json.get('developers', []), game_json.get('publishers', [])):
-            dev = WS.developers.get(condition_developer(name))
-
-            # Set the primary developer to the first one
-            if dev is not None and game.developer is None:
-                game.developer = name
+            dev = WS.developers.get(name)
 
             if dev is None:
-                dev = WS.developers.get(name)
+                dev = WS.developers.get(condition_developer(name))
 
             if dev is not None:
+                # Set the primary developer to the first one
+                if game.developer is None:
+                    game.developer = name
+
                 # Link the models
                 xappend(game.developers, dev)
-
-    print("[STEAM] Link complete")

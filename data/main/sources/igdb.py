@@ -1,54 +1,37 @@
 # --------------------------------
-# IGDB.com API scraper           -
+# IGDB API scraper               -
 # Copyright (C) 2018 GameFrame   -
 # --------------------------------
 
-import json
-import os
-from codecs import open
-from datetime import datetime
-from functools import lru_cache
+from datetime import date
 from itertools import chain
 
 import requests
-from ratelimit import rate_limited
 from tqdm import tqdm
 
-from cache import WS, Cache, load_working_set
-from common import METRICS
-from orm import Developer, Game, Genre, Image, Platform
-
-from .util import condition, condition_developer, xappend
-
-"""
-The API key
-"""
-API_KEY = os.environ['KEY_IGDB']
+from cache import WS, KeyCache, load_working_set
+from orm import Developer, Game, Genre, Platform
+from common import PROGRESS_FORMAT, TC, load_registry
+from registry import KeyIgdb, CachedGame, CachedDeveloper
+from sources.util import (condition, condition_developer,
+                          generic_collect, url_normalize, vstrlen, xappend)
 
 """
-The game cache
+The API key cache
 """
-CACHE_GAME = Cache("/igdb/games")
+KEYS = KeyCache(KeyIgdb)
 
 """
-The developer cache
+The range of game IDs to track
 """
-CACHE_DEV = Cache("/igdb/developers")
+GAME_RANGE = range(2124, 110001)
+assert len(GAME_RANGE) > 0
 
 """
-The cover cache
+The range of developer IDs to track
 """
-CACHE_COVER = Cache("/igdb/covers")
-
-"""
-2124 - 89252 seems to be the range of game IDs on IGDB
-"""
-GAME_RANGE = range(2124, 89253)
-
-"""
-1 - 15092 seems to be the range of developer IDs on IGDB
-"""
-DEV_RANGE = range(1, 15093)
+DEV_RANGE = range(1, 16001)
+assert len(DEV_RANGE) > 0
 
 """
 The number of entities to request at a time
@@ -56,120 +39,60 @@ The number of entities to request at a time
 API_STRIDE = 100
 
 
-def rq_game_block(igdb_id):
+def rq_games(igdb_id):
     """
     Request a block of games starting at the given id using IGDB's API.
     """
 
     rq = requests.get("https://api-endpoint.igdb.com/games/%s"
                       % str(list(range(igdb_id, igdb_id + API_STRIDE)))[1:-1]
-                      .replace(" ", ""), headers={'user-key': API_KEY})
+                      .replace(" ", ""), headers={'user-key': KEYS.get()})
+
+    if rq.status_code == requests.codes.too_many_requests:
+        KEYS.advance()
+        return
 
     assert rq.status_code == requests.codes.ok
-    return rq.json()
+
+    for game_json in rq.json():
+        TC['Game.igdb_id'].add(
+            CachedGame(igdb_id=game_json['id'],
+                       igdb_data=game_json
+                       if validate_game(game_json) else None))
 
 
-def rq_developer_block(igdb_id):
+def rq_developers(igdb_id):
     """
     Request a block of developers starting at the given id using IGDB's API.
     """
 
     rq = requests.get("https://api-endpoint.igdb.com/companies/%s"
                       % str(list(range(igdb_id, igdb_id + API_STRIDE)))[1:-1]
-                      .replace(" ", ""), headers={'user-key': API_KEY})
+                      .replace(" ", ""), headers={'user-key': KEYS.get()})
+
+    if rq.status_code == requests.codes.too_many_requests:
+        KEYS.advance()
+        return
 
     assert rq.status_code == requests.codes.ok
-    return rq.json()
+
+    for dev_json in rq.json():
+        TC['Developer.igdb_id'].add(
+            CachedDeveloper(igdb_id=dev_json['id'],
+                            igdb_data=dev_json
+                            if validate_developer(dev_json) else None))
 
 
-def load_game_json(igdb_id):
+def build_game(game, game_json):
     """
-    Retrieve a filtered game from the cache or download it from IGDB
+    Build a Game object from the raw data
     """
+    if game is None or game_json is None:
+        return
 
-    if not CACHE_GAME.exists(igdb_id):
-        game_block = rq_game_block(igdb_id)
-        if len(game_block) == 0:
-            return None
-
-        METRICS['igdb.new_downloads'] += len(game_block)
-
-        # Write games to the cache
-        for game_json in game_block:
-            CACHE_GAME.write_json(game_json['id'], [game_json])
-
-        # Write missing games
-        for missing in set(range(igdb_id, igdb_id + API_STRIDE)) - set([g['id'] for g in game_block]):
-            if not CACHE_GAME.exists(missing):
-                CACHE_GAME.write_json(missing, [])
-
-        if game_block[0]['id'] == igdb_id:
-            return game_block[0]
-
-    else:
-        game_json = CACHE_GAME.read_json(igdb_id)
-        if len(game_json) == 1:
-            return game_json[0]
-
-    return None
-
-
-def load_dev_json(igdb_id):
-    """
-    Retrieve a filtered developer from the cache or download it from IGDB.
-    """
-
-    if not CACHE_DEV.exists(igdb_id):
-        dev_block = rq_developer_block(igdb_id)
-        if len(dev_block) == 0:
-            return None
-
-        METRICS['igdb.new_downloads'] += len(dev_block)
-
-        # Write to the cache
-        for dev_json in dev_block:
-            CACHE_DEV.write_json(dev_json['id'], [dev_json])
-
-        # Write missing developers
-        for missing in set(range(igdb_id, igdb_id + API_STRIDE)) - set([g['id'] for g in game_block]):
-            if not CACHE_DEV.exists(missing):
-                CACHE_DEV.write_json(missing, [])
-
-        if dev_block[0]['id'] == igdb_id:
-            return dev_block[0]
-    else:
-        dev_json = CACHE_DEV.read_json(igdb_id)
-        if len(dev_json) == 1:
-            return dev_json[0]
-
-    return None
-
-
-def build_game(game_json):
-    """
-    Build a Game object from the raw data, taking into account previous Games.
-    """
-
-    # Steam ID matching
-    if 'external' in game_json and 'steam' in game_json['external']:
-        game = WS.game_steam.get(int(game_json['external']['steam']))
-    else:
-        game = None
-
-    # IGDB ID matching
-    if game is None:
-        game = WS.game_igdb.get(game_json['id'])
-
-    # Exact name matching
-    if game is None:
-        game = WS.game_name.get(condition(game_json['name']))
-
-    # Build new Game
-    if game is None:
-        game = Game()
-
-    # IGDB ID (overwrite)
-    game.igdb_id = int(game_json['id'])
+    # IGDB ID
+    if game.igdb_id is None:
+        game.igdb_id = int(game_json['id'])
 
     # IGDB link
     if game.igdb_link is None and 'url' in game_json:
@@ -199,24 +122,21 @@ def build_game(game_json):
 
     # Release date
     if game.release is None and 'first_release_date' in game_json:
-        game.release = datetime.fromtimestamp(
+        game.release = date.fromtimestamp(
             game_json['first_release_date'] // 1000)
 
     # Screenshots
-    if game.steam_id is None or len(game.screenshots) == 0:
+    if game.steam_id is None or game.screenshots is None:
         for screenshot in game_json.get('screenshots', []):
-            url = screenshot['url'][2:].replace("t_thumb", "t_original")
-            if next((x for x in game.screenshots if x.url == url), None) is None:
-                game.screenshots.append(Image(url=url))
+            if game.screenshots is None:
+                game.screenshots = []
+            xappend(game.screenshots, {
+                    'url': screenshot['url'][2:].replace("t_thumb", "t_original")})
 
     # Cover
     if game.cover is None and 'cover' in game_json:
-        cover = game_json['cover']
-        if cover['width'] <= cover['height']:
-            game.cover = cover['url'][2:].replace("t_thumb", "t_original")
-        else:
-            # TODO deal with landscape covers
-            pass
+        game.cover = game_json['cover']['url'][2:].replace(
+            "t_thumb", "t_original")
 
     # ESRB rating
     if game.esrb is None and 'esrb' in game_json:
@@ -229,29 +149,13 @@ def build_game(game_json):
                 game.website = site_json['url']
                 break
 
-    return game
 
-
-def build_dev(dev_json):
+def build_developer(dev, dev_json):
     """
     Build a Developer object from the raw data, taking into account previous Developers.
     """
-
-    # Name matching
-    # This is necessary because some developers from IGDB are duplicated
-    dev = WS.developers.get(condition_developer(dev_json['name']))
-
-    # IGDB ID matching
-    if dev is None:
-        dev = WS.developers.get(dev_json['id'])
-
-    # Build new Developer
-    if dev is None:
-        dev = Developer()
-
-    # IGDB ID
-    if dev.igdb_id is None:
-        dev.igdb_id = int(dev_json['id'])
+    if dev is None or dev_json is None:
+        return
 
     # Name
     if dev.name is None:
@@ -276,135 +180,88 @@ def build_dev(dev_json):
 
     # Logo
     if dev.logo is None and 'logo' in dev_json:
-        dev.logo = dev_json['logo']['url'][2:].replace("t_thumb", "t_original")
+        dev.logo = url_normalize(
+            dev_json['logo']['url'].replace("t_thumb", "t_original"))
 
     # Foundation Date
     if dev.foundation is None and 'start_date' in dev_json:
-        dev.foundation = datetime.fromtimestamp(dev_json['start_date'] // 1000)
+        dev.foundation = date.fromtimestamp(dev_json['start_date'] // 1000)
 
-    return dev
+
+def validate_game(game_json):
+    """
+    Validate the content of a raw game
+    """
+    if game_json is None:
+        return False
+
+    try:
+        # Filter title
+        if not vstrlen(game_json['name']):
+            return False
+
+    except KeyError:
+        return False
+    return True
+
+
+def validate_developer(dev_json):
+    """
+    Validate the content of a raw developer
+    """
+    if dev_json is None:
+        return False
+
+    try:
+        # Filter name
+        if not vstrlen(dev_json['name']):
+            return False
+
+    except KeyError:
+        return False
+    return True
 
 
 def collect_games():
     """
     Download missing games from IGDB.
     """
-    assert len(GAME_RANGE) > 0
-    print("[IGDB ] Collecting games")
+    load_registry('Game', 'igdb_id')
 
-    # Load games
-    for id in tqdm(GAME_RANGE):
-        if not is_cached(CACHE_GAME, id):
-            load_game_json(id)
-
-    print("[IGDB ] Collection complete")
+    generic_collect(rq_games, TC['Game.igdb_id'], '[COLLECT] Downloading Games',
+                    [igdb_id for igdb_id in GAME_RANGE if not
+                     TC['Game.igdb_id'].exists(igdb_id)])
 
 
 def collect_developers():
     """
     Download missing developers from IGDB.
     """
-    assert len(DEV_RANGE) > 0
-    print("[IGDB ] Collecting developers")
+    load_registry('Developer', 'igdb_id')
 
-    # Load developers
-    for id in tqdm(DEV_RANGE):
-        if not is_cached(CACHE_DEV, id):
-            load_dev_json(id)
-
-    print("[IGDB ] Collection complete")
-
-
-def collect_covers():
-    """
-    Download missing game covers from IGDB.
-    """
-
-    print("[IGDB ] Collecting game covers")
-
-    for id in tqdm(GAME_RANGE):
-        if not is_cached(CACHE_COVER, id):
-            game_json = load_game_json(id)
-            if game_json is not None and 'cover' in game_json:
-                rq = requests.get("http://" + game_json['cover']['url'][2:].replace(
-                    "t_thumb", "t_original"))
-
-                if not rq.status_code == requests.codes.ok:
-                    print("[IGDB ] Failed to download cover for id: %d", id)
-                    continue
-
-                # Write the cover to cache
-                with open("%s/%d" % (CACHE_COVER, id), 'wb') as h:
-                    h.write(rq.content)
-
-    print("[IGDB ] Collection complete")
-
-
-def merge_games():
-    """
-    Merge cached games into the working set
-    """
-    load_working_set()
-
-    print("[IGDB ] Merging games")
-    for id in tqdm(GAME_RANGE):
-        game_json = load_game_json(id)
-        if game_json is None:
-            continue
-
-        game = build_game(game_json)
-        if game is None:
-            continue
-
-        # Add to working set
-        WS.add_game(game)
-
-    print("[IGDB ] Merge complete")
-
-
-def merge_developers():
-    """
-    Merge cached developers into the working set
-    """
-    load_working_set()
-
-    print("[IGDB ] Merging developers")
-    for id in tqdm(DEV_RANGE):
-        dev_json = load_dev_json(id)
-        if dev_json is None:
-            continue
-
-        dev = build_dev(dev_json)
-        if dev is None:
-            continue
-
-        # Add to working set
-        WS.add_developer(dev)
-
-    print("[IGDB ] Merge complete")
+    generic_collect(rq_developers, TC['Developer.igdb_id'], '[COLLECT] Downloading Developers',
+                    [igdb_id for igdb_id in DEV_RANGE if not
+                     TC['Developer.igdb_id'].exists(igdb_id)])
 
 
 def link_developers():
     """
-    Perform the linking for IGDB developers according to IGDB ID
+    Compute Game-Developer links according to IGDB ID for IGDB games
     """
     load_working_set()
+    load_registry('Developer', 'igdb_id')
 
-    print("[IGDB ] Linking developers")
-
-    for dev in tqdm(WS.developers.values()):
-        dev_json = load_dev_json(dev.igdb_id)
-        if dev_json is None:
-            continue
+    for developer in tqdm(WS.developers.values(), '[LINK] Linking Developers',
+                          bar_format=PROGRESS_FORMAT):
+        dev_json = TC['Developer.igdb_id'].get(developer.igdb_id).igdb_data
 
         for igdb_id in chain(dev_json.get('published', []), dev_json.get('developed', [])):
-            if igdb_id in WS.game_igdb:
-                # Link the models if not already linked
-                game = WS.game_igdb[igdb_id]
-                xappend(dev.games, game)
+            game = WS.games_igdb.get(igdb_id)
 
-                # TODO: Set primary developer more intelligently
+            if game is not None:
+                # Set the primary developer to the first one
                 if game.developer is None:
-                    game.developer = dev.name
+                    game.developer = developer.name
 
-    print("[IGDB ] Link complete")
+                # Link the models
+                xappend(developer.games, game)

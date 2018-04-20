@@ -1,5 +1,5 @@
 # --------------------------------
-# GameFrame utils                -
+# Main utilities                 -
 # Copyright (C) 2018 GameFrame   -
 # --------------------------------
 
@@ -10,8 +10,10 @@ from tqdm import tqdm
 
 from aws import upload_image
 from cache import WS, reload_working_set
+from common import PROGRESS_FORMAT
 from orm import Genre, Platform
 from sources import igdb, newsapi, steam
+from sources.util import vstrlen
 
 
 def trim():
@@ -19,41 +21,39 @@ def trim():
     Remove low quality models.
     """
 
-    print("[MAIN ] Trimming database")
-
     # Remove developers without logos, with short descriptions, or a low number
     # of primary connections
-    for dev in tqdm(list(WS.developers.values())):
-        if dev.logo is None or len(dev.logo) < 15 or len(dev.games) == 0:
-            # Remove
+    for dev in tqdm(list(WS.developers.values()), '[TRIM] Scanning Developers',
+                    bar_format=PROGRESS_FORMAT):
+        if not vstrlen(dev.logo, 10) or not vstrlen(dev.logo, 10) \
+                or len(dev.games) == 0:
             WS.del_developer(dev)
             assert dev.name not in WS.developers
 
     # Remove games without covers and screenshots, with short descriptions,
     # or no connections
-    for game in tqdm(list(WS.game_name.values())):
-        if game.cover is None or len(game.screenshots) == 0 \
-                or game.summary is None or len(game.summary) < 10 \
-                or len(game.developers) == 0 or (len(game.articles) == 0 and len(game.videos) == 0):
-            # Remove
+    for game in tqdm(list(WS.games.values()), '[TRIM] Scanning Games',
+                     bar_format=PROGRESS_FORMAT):
+        if not vstrlen(game.cover, 5) or game.screenshots is None \
+                or not vstrlen(game.summary, 15) or len(game.developers) == 0 \
+                or (len(game.articles) == 0 and len(game.videos) == 0):
             WS.del_game(game)
-            assert game.name not in WS.game_name
-
-    print("[MAIN ] Trim complete")
+            assert game.name not in WS.games
 
 
 def reset(db):
     """
     Truncate all tables and reset the database
     """
-    print("[MAIN ] Resetting database")
+    print("[RESET] Resetting database")
 
     # Delete everything
-    db.reflect()
-    db.drop_all()
+    db.reflect(bind='gameframe')
+    db.session.commit()
+    db.drop_all(bind='gameframe')
 
     # Create database schema
-    db.create_all()
+    db.create_all(bind='gameframe')
 
     # Insert static genres
     for i, n in {1: 'Action', 2: 'Point-and-click', 4: 'Fighting', 5: 'Shooter',
@@ -101,7 +101,6 @@ def reset(db):
         db.session.add(Platform(platform_id=i, name=n))
 
     db.session.commit()
-    print("[MAIN ] Reset complete")
 
     # Reset working set
     reload_working_set()
