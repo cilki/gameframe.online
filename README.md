@@ -18,6 +18,10 @@ sudo docker run -it -p 80:80 -v <repo>:/app cilki/gameframe:latest
 
 Navigate to `localhost`. The container will automatically reload the server when you make a change in the code ;).
 
+## Dependencies/Requirements
+
+Be sure to run `npm install` and `pip install -r requirements.txt`
+
 ## Building
 
 ```bash
