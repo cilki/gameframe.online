@@ -2,22 +2,6 @@
 
 <http://gameframe.online>
 
-## Docker Setup
-
-Download the development image:
-
-```bash
-sudo docker pull cilki/gameframe:latest
-```
-
-Launch the container, replacing `<repo>` with the path to the repository:
-
-```bash
-sudo docker run -it -p 80:80 -v <repo>:/app cilki/gameframe:latest
-```
-
-Navigate to `localhost`. The container will automatically reload the server when you make a change in the code ;).
-
 ## Dependencies/Requirements
 
 Be sure to run `npm install` and `pip install -r requirements.txt`
