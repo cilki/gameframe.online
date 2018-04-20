@@ -6,7 +6,7 @@
 import React from 'react';
 import { withRouter } from 'react-router';
 
-class ScrollStart extends React.Component {
+class ScrollStart extends React.Component { /* eslint-disable */
   componentDidUpdate(prevProps) {
     if (this.props.location !== prevProps.location) {
       window.scrollTo(0, 0);

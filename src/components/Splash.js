@@ -102,7 +102,7 @@ class SplashPage extends React.Component {
           }}
         >
           {
-            splashImages.map((splashImage, index) => createImage(
+            splashImages.map(splashImage => createImage(
               splashImage.href,
               splashImage.alt,
               splashImage.src,
