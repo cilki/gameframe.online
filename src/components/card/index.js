@@ -1,6 +1,5 @@
-
 /**
- * Index.js file for the Card component
+ * Index.js file for the Card component.
  */
 
 import Card from './Card';
