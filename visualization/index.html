@@ -97,7 +97,7 @@
       var projection = d3.geoAlbersUsa();
 
       var radiusScale = d3.scaleLinear()
-        .rangeRound([0.5, 2.5]);
+        .range([0.5, 2.5]);
 
       var path = d3.geoPath()
         .projection(projection);
@@ -130,7 +130,6 @@
             return {
               unemployment_in_county: city.unemployment_in_county,
               violent_crime_in__county: city.violent_crime_in_county,
-              population_in_county: city.population_in_county,
               high_school_graduation_rate_in_county: city.high_school_graduation_rate_in_county,
               county_name: city.county_name,
               city_name: cityName,
