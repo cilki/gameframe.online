@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <style>
+      .counties {
+        /*fill: blue;*/
+      }
+      .states {
+        margin-top: 20px;
+        fill: none;
+        stroke: rgb(70,130,180);
+        stroke-linejoin: round;
+      }
+
+      #container {
+        text-align: center;
+      }
+      #acknowledgement {
+        position: absolute;
+        bottom: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="container">
+      <svg width="1080" height="800"></svg>
+
+    </div>
+    <div id="acknowledgement">
+      This product uses US-Cities data from
+      <a href="https://simplemaps.com/data/us-cities">http://simplemaps.com</a>
+    </div>
+    <script src="https://d3js.org/d3.v4.min.js"></script>
+    <script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
+    <script src="https://d3js.org/d3-geo.v1.min.js"></script>
+    <script>
+      var svg = d3.select("svg")
+        .attr("transform", "translate(0,40)"),
+          width = +svg.attr("width"),
+          height = +svg.attr("height");
+
+      var unemployment = d3.map();
+
+      var path = d3.geoPath();
+
+      var x = d3.scaleLinear()
+        .domain([1, 10])
+        .rangeRound([600, 860]);
+
+      var color = d3.scaleThreshold()
+        .domain(d3.range(2, 10))
+        .range(d3.schemeBlues[9]);
+
+      var opacity = d3.scaleThreshold()
+        .domain(d3.range(0, .15))
+        .range([0, 1]);
+
+      var g = svg.append("g")
+          .attr("class", "key")
+          .attr("transform", "translate(0,10)");
+
+      g.selectAll("rect")
+        .data(color.range().map(function(d) {
+            d = color.invertExtent(d);
+            if (d[0] == null) d[0] = x.domain()[0];
+            if (d[1] == null) d[1] = x.domain()[1];
+            return d;
+          }))
+        .enter().append("rect")
+          .attr("height", 8)
+          .attr("x", function(d) { return x(d[0]); })
+          .attr("width", function(d) { return x(d[1]) - x(d[0]); })
+          .attr("fill", function(d) { return color(d[0]); });
+
+      g.append("text")
+          .attr("class", "caption")
+          .attr("x", x.range()[0])
+          .attr("y", -2)
+          .attr("fill", "#000")
+          .attr("text-anchor", "start")
+          .attr("font-weight", "bold")
+          .text("Unemployment rate");
+
+      g.call(d3.axisBottom(x)
+          .tickSize(13)
+          .tickFormat(function(x, i) { return i ? x : x + "%"; })
+          .tickValues(color.domain()))
+        .select(".domain")
+          .remove();
+
+      d3.queue()
+        .defer(d3.json, "/visualization/us-states.json")
+        .defer(d3.json, "http://api.majorpotential.me/cities")
+        .defer(d3.csv, "/visualization/uscitiesv1.4.csv")
+        .await(ready);
+
+      var projection = d3.geoAlbersUsa();
+
+      var radiusScale = d3.scaleLinear()
+        .rangeRound([0.5, 2.5]);
+
+      var path = d3.geoPath()
+        .projection(projection);
+
+      var cells = svg.append("g")
+          .attr("id", "cells");
+
+      function ready(error, states, cities, locations) {
+        if (error) throw error;
+
+        radiusScale
+          .domain(d3.extent(locations, function(location) { return location.density; }));
+
+        var data = cities.records.map(function(city) {
+          var match = city.city_name.match(/(\w+),\s*([A-Z]{2})/);
+          if (match === null) {
+            return null;
+          }
+          var cityName = match[1];
+          var stateID = match[2];
+
+          var locationRecord = locations.find(function(location) {
+            return location.city_ascii === cityName && location.state_id === stateID;
+          });
+          if (locationRecord) {
+            var coords = projection([+locationRecord.lng, +locationRecord.lat]);
+            if (!coords) {
+              return null;
+            }
+            return {
+              unemployment_in_county: city.unemployment_in_county,
+              violent_crime_in__county: city.violent_crime_in_county,
+              population_in_county: city.population_in_county,
+              high_school_graduation_rate_in_county: city.high_school_graduation_rate_in_county,
+              county_name: city.county_name,
+              city_name: cityName,
+              latitude: locationRecord.latitude,
+              longitude: locationRecord.longitude,
+              radius: locationRecord.density,
+              x: coords[0],
+              y: coords[1],
+            };
+          }
+          return null;
+        })
+          .filter(function(entry) { return entry; });
+
+        svg.append("g")
+            .attr("class", "states")
+          .selectAll("path")
+          .data(states.features)
+          .enter().append("path")
+            .attr("d", path);
+
+        var cellsG = cells.selectAll("g")
+          .data(data)
+          .enter();
+
+        // cellsG.append("svg:path")
+        //     .attr("class", "cell")
+        //     .attr("d", function(d, i) { return "M" + polygons[i].join("L") + "Z"; });
+
+        cellsG.append("circle")
+            .attr("cx", function(d) { return d.x; })
+            .attr("cy", function(d) { return d.y; })
+            .attr("fill", function(d) { return color(d.unemployment_in_county * 100); })
+            .attr("fill-opacity", function (d) { return opacity(d.unemployment_in_county); })
+            .attr("r", function(d) { return radiusScale(d.radius); });
+      }
+    </script>
+  </body>
+</html>
