@@ -7,7 +7,9 @@ import datetime
 from orm import Game, Developer, Video, Article
 
 from unittest import main, TestCase
-from main.sources.util import parse_steam_date, condition, condition_heavy, condition_developer, keywordize, xappend, url_normalize, dict_delete
+from sources.util import (parse_steam_date, condition, condition_heavy,
+                          condition_developer, keywordize, xappend,
+                          url_normalize, dict_delete)
 
 
 class TestUtil (TestCase):

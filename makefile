@@ -1,4 +1,7 @@
-.PHONY: selenium
+.PHONY: selenium postman frontend backend
+
+## Environment Variables ##
+export CACHE_GAMEFRAME=.
 
 issues:
 	@echo https://github.com/cilki/gameframe.online/issues
