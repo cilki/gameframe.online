@@ -7,8 +7,8 @@
       }
       .states {
         margin-top: 20px;
-        fill: none;
-        stroke: rgb(70,130,180);
+        fill: grey;
+        stroke: #fff;
         stroke-linejoin: round;
       }
 
@@ -20,11 +20,31 @@
         bottom: 10px;
       }
     </style>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
+
   </head>
   <body>
     <div id="container">
-      <svg width="1080" height="800"></svg>
+      <div
+        style="max-width: 80%; margin-top: 2em; margin-left: auto; margin-right: auto;"
+      >
+        <ul class="nav nav-tabs">
+          <li class="nav-item" onclick="(function() { console.log('clicked');})(); return false;">
+            <a class="nav-link active" href="#">Active</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Link</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Link</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link disabled" href="#">Disabled</a>
+          </li>
+        </ul>
+      </div>
 
+      <svg width="1080" height="800"></svg>
     </div>
     <div id="acknowledgement">
       This product uses US-Cities data from
@@ -38,10 +58,6 @@
         .attr("transform", "translate(0,40)"),
           width = +svg.attr("width"),
           height = +svg.attr("height");
-
-      var unemployment = d3.map();
-
-      var path = d3.geoPath();
 
       var x = d3.scaleLinear()
         .domain([1, 10])
@@ -102,6 +118,9 @@
       var path = d3.geoPath()
         .projection(projection);
 
+      var states = svg.append("g")
+        .attr("class", "states");
+
       var cells = svg.append("g")
           .attr("id", "cells");
 
@@ -144,8 +163,7 @@
         })
           .filter(function(entry) { return entry; });
 
-        svg.append("g")
-            .attr("class", "states")
+        states
           .selectAll("path")
           .data(states.features)
           .enter().append("path")
@@ -155,10 +173,6 @@
           .data(data)
           .enter();
 
-        // cellsG.append("svg:path")
-        //     .attr("class", "cell")
-        //     .attr("d", function(d, i) { return "M" + polygons[i].join("L") + "Z"; });
-
         cellsG.append("circle")
             .attr("cx", function(d) { return d.x; })
             .attr("cy", function(d) { return d.y; })
@@ -167,5 +181,8 @@
             .attr("r", function(d) { return radiusScale(d.radius); });
       }
     </script>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js" integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script>
   </body>
 </html>
