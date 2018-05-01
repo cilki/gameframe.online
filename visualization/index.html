@@ -7,7 +7,7 @@
       }
       .states {
         margin-top: 20px;
-        fill: grey;
+        fill: #D3D3D3;
         stroke: #fff;
         stroke-linejoin: round;
       }
@@ -19,6 +19,19 @@
         position: absolute;
         bottom: 10px;
       }
+      .progress, .loader {
+        position: absolute;
+        width: 80%;
+        margin-left: auto;
+        margin-right: auto;
+        margin-top: auto;
+        margin-bottom: auto;
+        left: 0;
+        right: 0;
+        top: 0;
+        bottom: 0;
+        z-index: 1000;
+      }
     </style>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
 
@@ -29,21 +42,23 @@
         style="max-width: 80%; margin-top: 2em; margin-left: auto; margin-right: auto;"
       >
         <ul class="nav nav-tabs">
-          <li class="nav-item" onclick="(function() { console.log('clicked');})(); return false;">
-            <a class="nav-link active" href="#">Active</a>
+          <li class="nav-item" onclick="(function() { changeTab('unemployment'); })(); return false;">
+            <a id="unemployment-link" class="nav-link" href="#">Unemployment</a>
           </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">Link</a>
+          <li class="nav-item" onclick="(function() { changeTab('universities'); })(); return false;">
+            <a id="university-link" class="nav-link" href="#">Universities</a>
           </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">Link</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link disabled" href="#">Disabled</a>
+          <li class="nav-item" onclick="(function() { changeTab('violence'); })(); return false;">
+            <a id="crime-link" class="nav-link" href="#">Violent Crime</a>
           </li>
         </ul>
       </div>
-
+      <div class="loader" id="loader-img" style="margin-top: 10em;">
+        <img src="http://thinkfuture.com/wp-content/uploads/2013/10/loading_spinner.gif">
+      </div>
+      <div class="progress" id="progress-bar" style="display: none;">
+        <div id="progress-status" class="progress-bar" role="progressbar" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+      </div>
       <svg width="1080" height="800"></svg>
     </div>
     <div id="acknowledgement">
@@ -59,13 +74,27 @@
           width = +svg.attr("width"),
           height = +svg.attr("height");
 
+      var currentTab = 'unemployment';
+
       var x = d3.scaleLinear()
         .domain([1, 10])
         .rangeRound([600, 860]);
 
-      var color = d3.scaleThreshold()
+      var blueColorScale = d3.scaleThreshold()
         .domain(d3.range(2, 10))
         .range(d3.schemeBlues[9]);
+
+      var greenColorScale = d3.scaleThreshold();
+
+      var redColorScale = d3.scaleThreshold()
+        .range(d3.schemeReds[5]);
+
+      var universityLink = document.getElementById("university-link");
+      var unemploymentLink = document.getElementById("unemployment-link");
+      var crimeLink = document.getElementById("crime-link");
+
+      var cells = svg.append("g")
+        .attr("id", "cells");
 
       var opacity = d3.scaleThreshold()
         .domain(d3.range(0, .15))
@@ -75,41 +104,6 @@
           .attr("class", "key")
           .attr("transform", "translate(0,10)");
 
-      g.selectAll("rect")
-        .data(color.range().map(function(d) {
-            d = color.invertExtent(d);
-            if (d[0] == null) d[0] = x.domain()[0];
-            if (d[1] == null) d[1] = x.domain()[1];
-            return d;
-          }))
-        .enter().append("rect")
-          .attr("height", 8)
-          .attr("x", function(d) { return x(d[0]); })
-          .attr("width", function(d) { return x(d[1]) - x(d[0]); })
-          .attr("fill", function(d) { return color(d[0]); });
-
-      g.append("text")
-          .attr("class", "caption")
-          .attr("x", x.range()[0])
-          .attr("y", -2)
-          .attr("fill", "#000")
-          .attr("text-anchor", "start")
-          .attr("font-weight", "bold")
-          .text("Unemployment rate");
-
-      g.call(d3.axisBottom(x)
-          .tickSize(13)
-          .tickFormat(function(x, i) { return i ? x : x + "%"; })
-          .tickValues(color.domain()))
-        .select(".domain")
-          .remove();
-
-      d3.queue()
-        .defer(d3.json, "/visualization/us-states.json")
-        .defer(d3.json, "http://api.majorpotential.me/cities")
-        .defer(d3.csv, "/visualization/uscitiesv1.4.csv")
-        .await(ready);
-
       var projection = d3.geoAlbersUsa();
 
       var radiusScale = d3.scaleLinear()
@@ -118,56 +112,121 @@
       var path = d3.geoPath()
         .projection(projection);
 
-      var states = svg.append("g")
-        .attr("class", "states");
+      d3.queue()
+        .defer(d3.json, "/visualization/us-states.json")
+        .defer(d3.json, "http://api.majorpotential.me/cities")
+        .defer(d3.csv, "/visualization/uscitiesv1.4.csv")
+        .await(ready);
 
-      var cells = svg.append("g")
-          .attr("id", "cells");
+      function drawStates(error, states) {
+        if (error) throw error;
 
+        svg.append("g")
+            .attr("class", "states")
+          .selectAll("path")
+          .data(states.features)
+          .enter().append("path")
+            .attr("d", path);
+      }
+
+      function drawCurrentTab(data) {
+        if (currentTab === 'unemployment') {
+          drawUnemployment(data);
+        }
+        else if (currentTab === 'universities') {
+          drawUniversities(data);
+        }
+        else if (currentTab === 'violence') {
+          drawViolence(data);
+        }
+      }
+
+      var progressBar = document.getElementById("progress-status");
+      var progressContainer = document.getElementById("progress-bar");
+
+      var loader = document.getElementById("loader-img");
+      var data = [];
       function ready(error, states, cities, locations) {
+        loader.style = "display: none;";
+        progressContainer.style = "";
         if (error) throw error;
 
         radiusScale
           .domain(d3.extent(locations, function(location) { return location.density; }));
 
-        var data = cities.records.map(function(city) {
-          var match = city.city_name.match(/(\w+),\s*([A-Z]{2})/);
-          if (match === null) {
-            return null;
-          }
-          var cityName = match[1];
-          var stateID = match[2];
+        redColorScale
+          .domain(d3.extent(cities.records, function(record) { return record.violent_crime_in_county; }));
+        greenColorScale
+          .domain(d3.extent(cities.records, function(record) { return record.universities_in_city.length; }))
+          .range(d3.schemeGreens[5]);
 
-          var locationRecord = locations.find(function(location) {
-            return location.city_ascii === cityName && location.state_id === stateID;
-          });
-          if (locationRecord) {
-            var coords = projection([+locationRecord.lng, +locationRecord.lat]);
-            if (!coords) {
+        var totalRecords = cities.records.length;
+        cities.records.forEach(function(city, index) {
+          setTimeout(function() {
+            if (index === totalRecords - 1) {
+              setTimeout(function() {
+                progressContainer.style = "display: none;";
+                drawStates(error, states);
+                drawCurrentTab.bind({}, data)();
+              }, 1500);
+            }
+
+            var width = "width: " + Math.round((index / totalRecords) * 100) + "%;";
+            var match = city.city_name.match(/(\w+),\s*([A-Z]{2})/);
+            if (match === null) {
+              progressBar.style = width;
               return null;
             }
-            return {
-              unemployment_in_county: city.unemployment_in_county,
-              violent_crime_in__county: city.violent_crime_in_county,
-              high_school_graduation_rate_in_county: city.high_school_graduation_rate_in_county,
-              county_name: city.county_name,
-              city_name: cityName,
-              latitude: locationRecord.latitude,
-              longitude: locationRecord.longitude,
-              radius: locationRecord.density,
-              x: coords[0],
-              y: coords[1],
-            };
-          }
-          return null;
-        })
-          .filter(function(entry) { return entry; });
+            var cityName = match[1];
+            var stateID = match[2];
 
-        states
-          .selectAll("path")
-          .data(states.features)
-          .enter().append("path")
-            .attr("d", path);
+            var locationRecord = locations.find(function(location) {
+              return location.city_ascii === cityName && location.state_id === stateID;
+            });
+            if (locationRecord) {
+              var coords = projection([+locationRecord.lng, +locationRecord.lat]);
+              if (!coords) {
+                progressBar.style = width;
+                return;
+              }
+              progressBar.style = width;
+              data.push({
+                universities: city.universities_in_city.length,
+                unemployment_in_county: city.unemployment_in_county,
+                violent_crime_in_county: city.violent_crime_in_county,
+                high_school_graduation_rate_in_county: city.high_school_graduation_rate_in_county,
+                county_name: city.county_name,
+                city_name: cityName,
+                latitude: locationRecord.latitude,
+                longitude: locationRecord.longitude,
+                radius: locationRecord.density,
+                x: coords[0],
+                y: coords[1],
+              });
+            }
+            progressBar.style = width;
+            return;
+          }, 10);
+        });
+      }
+
+      function changeTab(newTab) {
+        if (data.length > 0) {
+          currentTab = newTab;
+          drawCurrentTab(data);
+
+          unemploymentLink.className = "nav-link";
+          crimeLink.className = "nav-link";
+          universityLink.className = "nav-link";
+        }
+      }
+
+      function drawUnemployment(data) {
+        cells.remove();
+        opacity.domain([0, 0.15]);
+        unemploymentLink.className = "nav-link active";
+        cells = svg.append("g")
+          .attr("id", "cells");
 
         var cellsG = cells.selectAll("g")
           .data(data)
@@ -176,8 +235,47 @@
         cellsG.append("circle")
             .attr("cx", function(d) { return d.x; })
             .attr("cy", function(d) { return d.y; })
-            .attr("fill", function(d) { return color(d.unemployment_in_county * 100); })
+            .attr("fill", function(d) { return blueColorScale(d.unemployment_in_county * 100); })
             .attr("fill-opacity", function (d) { return opacity(d.unemployment_in_county); })
+            .attr("r", function(d) { return radiusScale(d.radius); });
+      }
+
+      function drawViolence(data) {
+        cells.remove();
+        opacity.domain(d3.extent(data, function(d) { return d.violent_crime_in_county; }));
+        crimeLink.className = "nav-link active";
+        cells = svg.append("g")
+          .attr("id", "cells");
+
+        var cellsG = cells.selectAll("g")
+          .data(data)
+          .enter();
+
+        cellsG.append("circle")
+            .attr("cx", function(d) { return d.x; })
+            .attr("cy", function(d) { return d.y; })
+            .attr("fill", function(d) { return redColorScale(d.violent_crime_in_county); })
+            .attr("fill-opacity", function (d) { return opacity(d.violent_crime_in_county); })
+            .attr("r", function(d) { return radiusScale(d.radius); });
+      }
+
+      function drawUniversities(data) {
+        cells.remove();
+        opacity.domain(d3.extent(data, function(d) { return d.universities; }));
+        universityLink.className = "nav-link active";
+
+        cells = svg.append("g")
+          .attr("id", "cells");
+
+        var cellsG = cells.selectAll("g")
+          .data(data)
+          .enter();
+
+        cellsG.append("circle")
+            .attr("cx", function(d) { return d.x; })
+            .attr("cy", function(d) { return d.y; })
+            .attr("fill", function(d) { return greenColorScale(d.universities * 100); })
+            .attr("fill-opacity", function (d) { return opacity(d.universities); })
             .attr("r", function(d) { return radiusScale(d.radius); });
       }
     </script>
