@@ -4,11 +4,11 @@
 # For details, visit Wiki:
 # https://github.com/gitpitch/gitpitch/wiki/Slideshow-Settings
 #
-theme : night
+#theme : night
 theme-override : assets/css/PITCHME.css
 # theme-override : assets/css/PITCHME.codemax.css
 highlight : atom-one-dark
-logo : assets/image/logo.png
-transition : none
+logo : https://raw.githubusercontent.com/cilki/gameframe.online/master/static/images/logo_black.svg
+transition : slide
 published : true
-footnote : "GitPitch [ Black ] Presentation Template"
+footnote : "GameFrame.online"

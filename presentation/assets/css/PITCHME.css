@@ -6,19 +6,19 @@
  */
 
 body {
-  background: linear-gradient(to right, black, rgba(9, 9, 9, 0.8), rgba(25, 25, 25, 0.8), rgba(25, 25, 25, 0.8), rgba(9, 9, 9, 0.8), black), linear-gradient(rgba(39, 39, 39, 0.8), rgba(39, 39, 39, 0.8) 1px, rgba(52, 51, 52, 0.8) 1px, rgba(52, 51, 52, 0.8) 2px) ;
+    background: linear-gradient(to right, black, rgba(9, 9, 9, 0.8), rgba(25, 25, 25, 0.8), rgba(25, 25, 25, 0.8), rgba(9, 9, 9, 0.8), black), linear-gradient(rgba(39, 39, 39, 0.8), rgba(39, 39, 39, 0.8) 1px, rgba(52, 51, 52, 0.8) 1px, rgba(52, 51, 52, 0.8) 2px) ;
     background-size: 100% 2px;
     background-repeat: repeat-y;
 }
 
 html:-webkit-full-screen-ancestor {
-  background: linear-gradient(to right, black, rgba(9, 9, 9, 0.8), rgba(25, 25, 25, 0.8), rgba(25, 25, 25, 0.8), rgba(9, 9, 9, 0.8), black), linear-gradient(rgba(39, 39, 39, 0.8), rgba(39, 39, 39, 0.8) 1px, rgba(52, 51, 52, 0.8) 1px, rgba(52, 51, 52, 0.8) 2px) ;
+    background: linear-gradient(to right, black, rgba(9, 9, 9, 0.8), rgba(25, 25, 25, 0.8), rgba(25, 25, 25, 0.8), rgba(9, 9, 9, 0.8), black), linear-gradient(rgba(39, 39, 39, 0.8), rgba(39, 39, 39, 0.8) 1px, rgba(52, 51, 52, 0.8) 1px, rgba(52, 51, 52, 0.8) 2px) ;
     background-size: 100% 2px;
     background-repeat: repeat-y;
 }
 
 html:-moz-full-screen-ancestor {
-  background: linear-gradient(to right, black, rgba(9, 9, 9, 0.8), rgba(25, 25, 25, 0.8), rgba(25, 25, 25, 0.8), rgba(9, 9, 9, 0.8), black), linear-gradient(rgba(39, 39, 39, 0.8), rgba(39, 39, 39, 0.8) 1px, rgba(52, 51, 52, 0.8) 1px, rgba(52, 51, 52, 0.8) 2px) ;
+    background: linear-gradient(to right, black, rgba(9, 9, 9, 0.8), rgba(25, 25, 25, 0.8), rgba(25, 25, 25, 0.8), rgba(9, 9, 9, 0.8), black), linear-gradient(rgba(39, 39, 39, 0.8), rgba(39, 39, 39, 0.8) 1px, rgba(52, 51, 52, 0.8) 1px, rgba(52, 51, 52, 0.8) 2px) ;
     background-size: 100% 2px;
     background-repeat: repeat-y;
 }
