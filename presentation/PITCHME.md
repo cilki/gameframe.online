@@ -69,6 +69,8 @@ Sam Faulkner -
 
 ## The Working Men Critique
 
+![Major Potential](https://github.com/cilki/gameframe.online/raw/presentation/presentation/assets/image/major_potential.png)
+
 +++
 
 ### What Did They Do Well
