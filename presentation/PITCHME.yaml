@@ -8,7 +8,7 @@ theme : night
 theme-override : https://raw.githubusercontent.com/cilki/gameframe.online/presentation/presentation/assets/css/PITCHME.css
 # theme-override : assets/css/PITCHME.codemax.css
 highlight : atom-one-dark
-logo : https://raw.githubusercontent.com/cilki/gameframe.online/master/static/images/logo_black.svg
+logo : https://raw.githubusercontent.com/cilki/gameframe.online/presentation/static/images/favicon/android-chrome-512x512.png
 transition : slide
 published : true
 footnote : "GameFrame.online"
