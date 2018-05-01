@@ -173,9 +173,11 @@ class AboutPage extends React.Component {
                     <div style={[Styles.cardPad]}>
                       <div style={[Styles.cardInfo]}>
                         <h2 style={[Styles.title]}><strong>Documentation</strong></h2>
+                        {renderLink('https://cilki.gitbooks.io/api/', 'label-3', 'API')}
                         {renderLink('https://github.com/cilki/gameframe.online', 'label-1', 'GitHub')}
+                        {renderLink('https://gitpitch.com/cilki/gameframe.online', 'label-9', 'GitPitch')}
                         {renderLink('https://cilki.gitbooks.io/report/', 'label-2', 'Technical Report')}
-                        {renderLink('https://cilki.gitbooks.io/api/', 'label-3', 'API Documentation')}
+                        {renderLink('http://gameframe.online/visualization', 'label-10', 'Visualization')}
                       </div>
                     </div>
                   </Col>
