@@ -41,9 +41,10 @@ Gaming database and analytics platform
 
 - Met at least once a week
 - Communicated consistently
+- Effectively distributed the workload
 - Stayed on top of GitHub issues
 - Gathered and organized a large amount of data
-- Effectively distributed the workload
+
 
 +++
 
