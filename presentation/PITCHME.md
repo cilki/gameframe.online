@@ -100,7 +100,8 @@ Sam Faulkner -
 ### What Still Puzzles Us
 
 - Do people want to know the physician-population ratio?
-- Why do the instance headers just link to the thumbnail images? (Why isn't the picture on the page?)
+- Why do the instance headers link to the thumbnail images?
+  - Why isn't the thumbnail itself on the instance page?
 - Why couldn't they fix the image scaling?
 
 ---
