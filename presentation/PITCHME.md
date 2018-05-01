@@ -6,6 +6,8 @@ Gaming database and analytics platform
 
 ## The Team
 
+![Meet the Team](assets/image/theteam.png)
+
 ---
 
 ## Demonstration
