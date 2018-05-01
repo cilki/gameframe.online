@@ -23,7 +23,9 @@ Sam Faulkner -
 
 ---
 
-## Self-Critique
+## GameFrame Critique
+
+![GameFrame](https://github.com/cilki/gameframe.online/raw/presentation/presentation/assets/image/gameframe.png)
 
 +++
 
