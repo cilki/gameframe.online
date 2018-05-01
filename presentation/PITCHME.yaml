@@ -4,7 +4,7 @@
 # For details, visit Wiki:
 # https://github.com/gitpitch/gitpitch/wiki/Slideshow-Settings
 #
-#theme : night
+theme : night
 theme-override : https://raw.githubusercontent.com/cilki/gameframe.online/presentation/presentation/assets/css/PITCHME.css
 # theme-override : assets/css/PITCHME.codemax.css
 highlight : atom-one-dark
