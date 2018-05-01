@@ -6,7 +6,7 @@ Gaming database and analytics platform
 
 ## The Team
 
-![Meet the Team](https://raw.githubusercontent.com/cilki/gameframe.online/presentation/presentation/assets/image/theteam.png)
+![Meet the Team](presentation/assets/image/theteam.png)
 
 ---
 
@@ -14,26 +14,26 @@ Gaming database and analytics platform
 
 +++
 
-![Our Backend Tests](https://raw.githubusercontent.com/cilki/gameframe.online/presentation/presentation/assets/image/tests-backend.png)
+![Our Backend Tests](presentation/assets/image/tests-backend.png)
 
 +++
 
-![Our Postman Tests](https://raw.githubusercontent.com/cilki/gameframe.online/presentation/presentation/assets/image/tests-postman.png)
+![Our Postman Tests](presentation/assets/image/tests-postman.png)
 
 +++
 
-![Our Selenium Tests](https://raw.githubusercontent.com/cilki/gameframe.online/presentation/presentation/assets/image/tests-selenium.png)
+![Our Selenium Tests](presentation/assets/image/tests-selenium.png)
 
 
 +++
 
-![Our Frontend Tests](https://raw.githubusercontent.com/cilki/gameframe.online/presentation/presentation/assets/image/tests-frontend.png)
+![Our Frontend Tests](presentation/assets/image/tests-frontend.png)
 
 ---
 
 ## GameFrame Critique
 
-![GameFrame](https://github.com/cilki/gameframe.online/raw/presentation/presentation/assets/image/gameframe.png)
+![GameFrame](presentation/assets/image/gameframe.png)
 
 +++
 
@@ -79,7 +79,7 @@ Gaming database and analytics platform
 
 ## The Working Men Critique
 
-![Major Potential](https://github.com/cilki/gameframe.online/raw/presentation/presentation/assets/image/major_potential.png)
+![Major Potential](presentation/assets/image/major_potential.png)
 
 +++
 
