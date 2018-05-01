@@ -59,7 +59,10 @@ Sam Faulkner -
 
 - Good testing practices
 - Mystery performance issues
-- Edge issues (spaces in URLs, CSS support, web driver bug)
+- Microsoft Edge issues
+  - Spaces in URLs
+  - CSS support
+  - Web driver bug
 
 ---
 
