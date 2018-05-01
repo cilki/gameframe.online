@@ -91,8 +91,8 @@ Sam Faulkner -
 ### What Can They Do Better
 
 - *Don't* commit database credentials
-- *Don't* commit 'node\_modules'
-- Add summaries for instances
+- *Don't* commit `node_modules`
+- Add instance summaries
 - Make site mobile friendly
 
 +++
