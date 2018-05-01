@@ -6,7 +6,7 @@ Gaming database and analytics platform
 
 ## The Team
 
-![Meet the Team](assets/image/theteam.png)
+![Meet the Team](https://raw.githubusercontent.com/cilki/gameframe.online/presentation/presentation/assets/image/theteam.png)
 
 ---
 
@@ -14,7 +14,20 @@ Gaming database and analytics platform
 
 +++
 
-![Our Backend Tests](assets/image/tests-backend.png)
+![Our Backend Tests](https://raw.githubusercontent.com/cilki/gameframe.online/presentation/presentation/assets/image/tests-backend.png)
+
++++
+
+![Our Postman Tests](https://raw.githubusercontent.com/cilki/gameframe.online/presentation/presentation/assets/image/tests-postman.png)
+
++++
+
+![Our Selenium Tests](https://raw.githubusercontent.com/cilki/gameframe.online/presentation/presentation/assets/image/tests-selenium.png)
+
+
++++
+
+![Our Frontend Tests](https://raw.githubusercontent.com/cilki/gameframe.online/presentation/presentation/assets/image/tests-frontend.png)
 
 ---
 
