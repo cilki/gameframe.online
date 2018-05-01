@@ -87,7 +87,8 @@ Sam Faulkner -
 
 - They found a filtering bug on our website
 - Use graphs to visualize data
-- Leverage GitHub issues even more
+- Use GitHub issues more
+ - They had over 100 closed issues
 
 +++
 
