@@ -38,7 +38,7 @@ Gaming database and analytics platform
 - Write more test-friendly code
 - Developing for multiple browsers and devices can be a challenge
 - How to connect disparate data
- - Video games, articles, tweets, YouTube videos...
+  - Video games, articles, tweets, YouTube videos...
 
 +++
 
