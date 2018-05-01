@@ -4,14 +4,7 @@ Gaming database and analytics platform
 
 ---
 
-## Meet the Team
-
-Andrew Rieder - 
-Tyler Cook - 
-Ekin Soysal - 
-Devin Drawhorn - Frontend, Selenium
-Mitchell Marshe - 
-Sam Faulkner - 
+## The Team
 
 ---
 
@@ -39,7 +32,7 @@ Sam Faulkner -
 
 +++
 
-### What Did We Learn
+### What We Learned
 
 - Using libraries makes life easier
 - Write more test-friendly code
@@ -49,7 +42,7 @@ Sam Faulkner -
 
 +++
 
-### What Can We Do Better
+### What We Could Do Better
 
 - Set up our testing framework earlier
 - Come up with an initial design plan
@@ -75,7 +68,7 @@ Sam Faulkner -
 
 +++
 
-### What Did They Do Well
+### What They Did Well
 
 - They improved their 'about' page design considerably
 - Their dataset was unique
@@ -85,7 +78,7 @@ Sam Faulkner -
 
 +++
 
-### What Did We Learn From Them
+### What We Learned From Them
 
 - They found a filtering bug on our website
 - Use graphs to visualize data
@@ -94,7 +87,7 @@ Sam Faulkner -
 
 +++
 
-### What Can They Do Better
+### What They Could Do Better
 
 - *Don't* commit database credentials
 - *Don't* commit `node_modules`
