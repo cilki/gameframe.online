@@ -5,11 +5,19 @@
  */
 
 const express = require('express');
+const fs = require('fs')
+const morgan = require('morgan')
 const url = require('url');
 const http = require('http');
 const path = require('path');
 
 const app = express();
+
+// create a write stream (in append mode)
+var accessLogStream = fs.createWriteStream('/var/log/access.log', {flags: 'a'})
+
+// setup the logger
+app.use(morgan('combined', {stream: accessLogStream}))
 
 const visualization = path.resolve(__dirname, 'visualization');
 const visualizationIndex = path.resolve(visualization, 'index.html');

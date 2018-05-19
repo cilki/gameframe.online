@@ -71,6 +71,7 @@
     "fs": "0.0.1-security",
     "immutable": "^3.8.2",
     "iso-3166-1": "^1.1.0",
+    "morgan": "^1.9.0",
     "normalizr": "^3.2.4",
     "postcss-js": "^1.0.1",
     "prop-types": "^15.6.0",
