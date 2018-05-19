@@ -1,4 +1,4 @@
-  
+
 const webpack = require('webpack');
 
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
@@ -39,7 +39,7 @@ module.exports = {
   plugins: [
     new webpack.DefinePlugin({
       'process.env.NODE_ENV': JSON.stringify('production'),
-      'process.env.API_HOST': JSON.stringify('http://api.gameframe.online'),
+      'process.env.API_HOST': JSON.stringify('http://gameframe.online:2500'),
     }),
     new CommonsChunkPlugin({
       name: 'vendor',
