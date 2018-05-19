@@ -18,47 +18,47 @@ class SplashPage extends React.Component {
       {
         href: '/games/36374',
         alt: "PLAYERUNKNOWN'S BATTLEGROUNDS",
-        src: '../../../static/images/splash/splash-1.jpg',
+        src: 'https://raw.githubusercontent.com/cilki/gameframe.online/master/static/images/splash/splash-1.jpg',
       },
       {
         href: '/games/8241',
         alt: "Sid Meier's Civilization VI",
-        src: '../../../static/images/splash/splash-2.jpg',
+        src: 'https://raw.githubusercontent.com/cilki/gameframe.online/master/static/images/splash/splash-2.jpg',
       },
       {
         href: '/games/46054',
         alt: 'Dota 2',
-        src: '../../../static/images/splash/splash-3.jpg',
+        src: 'https://raw.githubusercontent.com/cilki/gameframe.online/master/static/images/splash/splash-3.jpg',
       },
       {
         href: '/games/6228',
         alt: "Tom Clancy's Rainbow Six Siege",
-        src: '../../../static/images/splash/splash-4.jpg',
+        src: 'https://raw.githubusercontent.com/cilki/gameframe.online/master/static/images/splash/splash-4.jpg',
       },
       {
         href: '/games/26302',
         alt: 'Far Cry 5',
-        src: '../../../static/images/splash/splash-5.jpg',
+        src: 'https://raw.githubusercontent.com/cilki/gameframe.online/master/static/images/splash/splash-5.jpg',
       },
       {
         href: '/games/24501',
         alt: 'Portal 2',
-        src: '../../../static/images/splash/splash-6.jpg',
+        src: 'https://raw.githubusercontent.com/cilki/gameframe.online/master/static/images/splash/splash-6.jpg',
       },
       {
         href: '/games/1153',
         alt: 'Rocket League',
-        src: '../../../static/images/splash/splash-7.jpg',
+        src: 'https://raw.githubusercontent.com/cilki/gameframe.online/master/static/images/splash/splash-7.jpg',
       },
       {
         href: '/games/42245',
         alt: 'Dark Souls III',
-        src: '../../../static/images/splash/splash-8.jpg',
+        src: 'https://raw.githubusercontent.com/cilki/gameframe.online/master/static/images/splash/splash-8.jpg',
       },
       {
         href: '/games/10051',
         alt: 'Terraria',
-        src: '../../../static/images/splash/splash-9.jpg',
+        src: 'https://raw.githubusercontent.com/cilki/gameframe.online/master/static/images/splash/splash-9.jpg',
       },
     ];
 

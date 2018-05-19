@@ -21,7 +21,7 @@ function Banner() {
       <div style={{ maxWidth: '570px', maxHeight: '320px' }}>
         <img
           style={{ height: '100%', width: '100%', verticalAlign: 'top' }}
-          src="../../static/images/splash.jpg"
+          src="https://raw.githubusercontent.com/cilki/gameframe.online/master/static/images/splash.jpg"
           alt="Banner"
         />
       </div>
